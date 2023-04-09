@@ -9,22 +9,20 @@ const handleDuplicateFieldsDB = (err) => {
   const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
   console.log(value);
 
-  const message = `Duplicate field value: ${value}. Please use another value!`;
+  const message = `重复的field值: ${value}. 请使用其他值value!`;
   return new AppError(message, 400);
 };
 
 const handleValidationErrorDB = (err) => {
   const errors = Object.values(err.errors).map((el) => el.message);
 
-  const message = `Invalid input data. ${errors.join('. ')}`;
+  const message = `无效输入. ${errors.join('. ')}`;
   return new AppError(message, 400);
 };
 
-const handleJWTError = () =>
-  new AppError('Invalid token. Please log in again!', 401);
+const handleJWTError = () => new AppError('无效的令牌，请重新登录！', 401);
 
-const handleJWTExpiredError = () =>
-  new AppError('Your token has expired! Please log in again.', 401);
+const handleJWTExpiredError = () => new AppError('令牌超时，请重新登录！', 401);
 
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
@@ -51,7 +49,7 @@ const sendErrorProd = (err, res) => {
     // 2) Send generic message
     res.status(500).json({
       status: 'error',
-      message: 'Something went very wrong!',
+      message: '内部错误，类型：未知!',
     });
   }
 };

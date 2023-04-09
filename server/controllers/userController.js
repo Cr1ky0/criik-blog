@@ -26,16 +26,11 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) Create error if user POSTs password data
   if (req.body.password || req.body.passwordConfirm) {
-    return next(
-      new AppError(
-        'This route is not for password updates. Please use /updateMyPassword.',
-        400
-      )
-    );
+    return next(new AppError('不能在这里更新密码！', 400));
   }
 
   // 2) Filtered out unwanted fields names that are not allowed to be updated
-  const filteredBody = filterObj(req.body, 'name', 'email');
+  const filteredBody = filterObj(req.body, 'name');
 
   // 3) Update user document
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
@@ -52,7 +47,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
-  await User.findByIdAndUpdate(req.user.id, { active: false });
+  await User.findByIdAndUpdate(req.body.id, { active: false });
 
   res.status(204).json({
     status: 'success',

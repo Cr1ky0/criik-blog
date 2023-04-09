@@ -52,7 +52,6 @@ exports.signup = catchAsync(async (req, res, next) => {
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
   });
-
   createSendToken(newUser, 201, res);
 });
 
@@ -62,14 +61,14 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // 1) Check if email and password exist
   if (!email || !password) {
-    return next(new AppError('Please provide email and password!', 400));
+    return next(new AppError('请输入邮箱和密码！!', 400));
   }
   // 2) Check if user exists && password is correct
   const user = await User.findOne({ email }).select('+password'); // 带+号后原本select为false的就可以被查询过来
 
   // 调用userSchema中的方法
   if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError('Incorrect email or password', 401));
+    return next(new AppError('邮箱不可用或密码错误！', 401));
   }
 
   // 3) If everything ok, send token to client
@@ -89,9 +88,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   if (!token) {
-    return next(
-      new AppError('You are not logged in! Please log in to get access.', 401)
-    );
+    return next(new AppError('你还没有登录，请登录后操作！', 401));
   }
 
   // 2) Verification token
@@ -103,20 +100,13 @@ exports.protect = catchAsync(async (req, res, next) => {
   // 如果令牌还在用户被删除了也不让登陆
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
-    return next(
-      new AppError(
-        'The user belonging to this token does no longer exist.',
-        401
-      )
-    );
+    return next(new AppError('用户不存在!', 401));
   }
 
   // 4) Check if user changed password after the token was issued
   // 验证是否用户更改密码
   if (currentUser.changedPasswordAfter(decoded.iat)) {
-    return next(
-      new AppError('User recently changed password! Please log in again.', 401)
-    );
+    return next(new AppError('用户最近更改了密码，请再次登录！', 401));
   }
 
   // GRANT ACCESS TO PROTECTED ROUTE
@@ -128,11 +118,9 @@ exports.protect = catchAsync(async (req, res, next) => {
 exports.restrictTo =
   (...roles) =>
   (req, res, next) => {
-    // roles ['admin', 'lead-guide']. role='user'
+    console.log(roles, req.user);
     if (!roles.includes(req.user.role)) {
-      return next(
-        new AppError('You do not have permission to perform this action', 403)
-      );
+      return next(new AppError('你没有权限进行此操作！', 403));
     }
 
     next();
@@ -143,45 +131,43 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on POSTed email
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
-    return next(new AppError('There is no user with email address.', 404));
+    return next(new AppError('错误的email：用户不存在!', 404));
   }
 
   // 2) Generate the random reset token
-  const resetToken = user.createPasswordResetToken();
+  const code = user.createPasswordResetToken();
   // 上面操作只是做了更改，还需要进行save操作才能保存到数据库
   await user.save({ validateBeforeSave: false }); // 强制关闭验证器保存
 
   // 3) Send it to user's email
-  // 实际整个验证码就行
   // 邮箱接收验证码后
   // resetPassword方法内验证验证码（验证码也要加密存在数据库里）
-  // 但是这里验证码必须要有个全局位置存放（一般放在session里），不然下个方法内就没法用了
-  const resetURL = `${req.protocol}://${req.get(
-    'host'
-  )}/api/v1/users/resetPassword/${resetToken}`;
-
-  const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
+  const message = `忘记密码了?\n以下是验证码 \n${code}\n请勿将该邮件透露给其他任何人！\n如果你没有忘记密码，请忽略该邮件!`;
 
   try {
     await sendEmail({
       email: user.email,
-      subject: 'Your password reset token (valid for 10 min)',
+      subject: '验证码-重置密码 (valid for 10 min)',
       message,
     });
 
+    // 设置session和有效时间
+    req.session.code = code;
+    req.session.user_id = user.id;
+    // 设置时间后销毁session
+    setTimeout(() => {
+      if (req.session) req.session.destroy();
+    }, 60 * 60 * 1000);
+
     res.status(200).json({
       status: 'success',
-      message: 'Token sent to email!',
+      message: '验证码已经发送至邮箱!',
     });
   } catch (err) {
     user.passwordResetToken = undefined;
-    user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
 
-    return next(
-      new AppError('There was an error sending the email. Try again later!'),
-      500
-    );
+    return next(new AppError('发送邮件出现了一个未知错误！请重试！!'), 500);
   }
 });
 
@@ -189,22 +175,33 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on the token
   const hashedToken = crypto
     .createHash('sha256')
-    .update(req.params.token)
+    .update(req.body.code)
     .digest('hex');
 
-  const user = await User.findOne({
-    passwordResetToken: hashedToken,
-    passwordResetExpires: { $gt: Date.now() },
-  });
-
-  // 2) If token has not expired, and there is user, set the new password
-  if (!user) {
-    return next(new AppError('Token is invalid or has expired', 400));
+  if (!req.session.code) {
+    return next(new AppError('验证码到期，请重新发送验证码!', 400));
   }
+
+  // 这里要用user_id查找不然不同客户端的重复验证码可能会产生混乱
+  const user = await User.findOne({ _id: req.session.user_id }).select(
+    '+passwordResetToken'
+  );
+
+  // 验证码错误
+  if (hashedToken !== user.passwordResetToken) {
+    return next(new AppError('验证码错误！', 400));
+  }
+
+  // 密码相同则不修改
+  if (user.password === req.body.password)
+    return next(new AppError('不能修改为相同的密码！', 400));
+
+  // 销毁session
+  req.session.destroy();
+
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   user.passwordResetToken = undefined;
-  user.passwordResetExpires = undefined;
   await user.save();
 
   // 3) Update changedPasswordAt property for the user
@@ -214,20 +211,25 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
 // 更新密码
 exports.updatePassword = catchAsync(async (req, res, next) => {
+  console.log(req.body);
+  // 事实上前端就可以做这个校验
+  const { oldPassword, password, passwordConfirm, id } = req.body;
+  if (oldPassword === password)
+    return next(new AppError('新密码与旧密码重复！请重新输入！'));
+  // id是由前端传来的，前端登录了以后存了user state
   // 1) Get user from collection
-  const user = await User.findById(req.user.id).select('+password');
-
-  // 2) Check if POSTed current password is correct
-  if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
-    return next(new AppError('Your current password is wrong.', 401));
+  const user = await User.findById(id).select('+password');
+  // 2) Check if posted current password is correct
+  if (!(await user.correctPassword(oldPassword, user.password))) {
+    return next(new AppError('输入的密码错误，请重新输入！', 401));
   }
 
   // 3) If so, update password
-  user.password = req.body.password;
-  user.passwordConfirm = req.body.passwordConfirm;
+  user.password = password;
+  user.passwordConfirm = passwordConfirm;
   await user.save();
   // User.findByIdAndUpdate will NOT work as intended!
 
   // 4) Log user in, send JWT
-  createSendToken(user, 200, res);
+  createSendToken(id, 200, res);
 });

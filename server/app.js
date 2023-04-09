@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const session = require('express-session');
 
 // 安全相关插件
 const rateLimit = require('express-rate-limit');
@@ -11,7 +12,6 @@ const hpp = require('hpp');
 // 应用相关
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
-const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
 const app = express();
@@ -65,8 +65,17 @@ app.use(
 // Serving static files
 app.use(express.static(`${__dirname}/public`));
 
+// session
+app.use(
+  session({
+    name: 'verifacation code session',
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
 // 3) ROUTES
-app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
 // none page handle
