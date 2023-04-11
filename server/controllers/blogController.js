@@ -5,11 +5,8 @@ const APIFeatures = require('../utils/apiFeatures');
 
 exports.getAllBlogs = catchAsync(async (req, res, next) => {
   // 规则都放在query参数内了
-  const features = new APIFeatures(
-    Blog.find().populate({ path: 'blogs' }),
-    req.query
-  );
-  const blogs = await features.query;
+  const features = new APIFeatures(Blog.find(), req.query);
+  const blogs = await features.query.populate({ path: 'blogs' });
 
   res.status(200).json({
     status: 'success',

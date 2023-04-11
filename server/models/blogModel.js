@@ -35,6 +35,11 @@ const blogSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User',
     },
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -48,6 +53,12 @@ blogSchema.virtual('comments', {
   ref: 'Comment', // 关联表
   foreignField: 'belongingBlog', // 外键
   localField: '_id', // 关联属性
+});
+
+// 中间件
+blogSchema.pre(/^find/, function (next) {
+  this.find({ active: { $ne: false } }).select('-__v -belongTo');
+  next();
 });
 
 const Blog = mongoose.model('Blog', blogSchema);

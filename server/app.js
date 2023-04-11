@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const session = require('express-session');
+const cors = require('cors');
 
 // 安全相关插件
 const rateLimit = require('express-rate-limit');
@@ -16,6 +17,10 @@ const userRouter = require('./routes/userRoutes');
 const blogRouter = require('./routes/blogRoutes');
 
 const app = express();
+
+// Implement CORS
+app.use(cors());
+app.options('*', cors());
 
 // 1) GLOBAL MIDDLEWARES
 // Set security HTTP headers

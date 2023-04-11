@@ -119,7 +119,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 exports.restrictTo =
   (...roles) =>
   (req, res, next) => {
-    console.log(roles, req.user);
     if (!roles.includes(req.user.role)) {
       return next(new AppError('你没有权限进行此操作！', 403));
     }
@@ -212,7 +211,6 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
 // 更新密码
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  console.log(req.body);
   // 事实上前端就可以做这个校验
   const { oldPassword, password, passwordConfirm, id } = req.body;
   if (oldPassword === password)

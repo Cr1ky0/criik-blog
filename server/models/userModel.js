@@ -4,85 +4,95 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const generateCode = require('../utils/generateCode');
 
-const userSchema = new mongoose.Schema({
-  // 用户名
-  name: {
-    type: String,
-    required: [true, 'name不能为空!'],
-  },
-  // 邮箱
-  email: {
-    type: String,
-    required: [true, '请输入邮箱地址!'],
-    unique: true,
-    lowercase: true,
-    validate: [validator.isEmail, '请提供有效的邮箱地址!'],
-  },
-  // 密码
-  password: {
-    type: String,
-    required: [true, '请输入密码！'],
-    minlength: 6,
-    select: false,
-  },
-  // 头像文件名
-  avatarCover: String,
-  // 头像文件路径
-  avatar: String,
-  // 权限
-  role: {
-    type: String,
-    enum: ['user', 'visitor', 'admin'],
-    default: 'user',
-  },
-  // 密码确认
-  passwordConfirm: {
-    type: String,
-    required: [true, '请确认你的密码！'],
-    validate: {
-      // This only works on CREATE and SAVE!!!
-      validator: function (el) {
-        return el === this.password;
+const userSchema = new mongoose.Schema(
+  {
+    // 用户名
+    name: {
+      type: String,
+      required: [true, 'name不能为空!'],
+    },
+    // 邮箱
+    email: {
+      type: String,
+      required: [true, '请输入邮箱地址!'],
+      unique: true,
+      lowercase: true,
+      validate: [validator.isEmail, '请提供有效的邮箱地址!'],
+    },
+    // 密码
+    password: {
+      type: String,
+      required: [true, '请输入密码！'],
+      minlength: 6,
+      select: false,
+    },
+    // 头像文件名
+    avatarCover: String,
+    // 头像文件路径
+    avatar: String,
+    // 权限
+    role: {
+      type: String,
+      enum: ['user', 'visitor', 'admin'],
+      default: 'user',
+    },
+    // 密码确认
+    passwordConfirm: {
+      type: String,
+      required: [true, '请确认你的密码！'],
+      validate: {
+        // This only works on CREATE and SAVE!!!
+        validator: function (el) {
+          return el === this.password;
+        },
+        message: '两次密码不一样!',
       },
-      message: '两次密码不一样!',
     },
+    // 密码最近更新时间
+    passwordChangedAt: Date,
+    // 密码重置token
+    passwordResetToken: {
+      type: String,
+      select: false,
+    },
+    // 账户可用标志
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
+    },
+    // 关注的用户 (child ref)
+    subUsers: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
+    // 关注自己的用户 (child ref)
+    selfSubers: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
+    // 订阅的博客 (child ref)
+    subBlogs: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Blog',
+      },
+    ],
   },
-  // 密码最近更新时间
-  passwordChangedAt: Date,
-  // 密码重置token
-  passwordResetToken: {
-    type: String,
-    select: false,
-  },
-  // 账户可用标志
-  active: {
-    type: Boolean,
-    default: true,
-    select: false,
-  },
-  // 关注的用户 (child ref)
-  subUsers: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: 'User',
-    },
-  ],
-  // 关注自己的用户 (child ref)
-  selfSubers: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: 'User',
-    },
-  ],
-  // 订阅的博客 (child ref)
-  subBlogs: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Blog',
-    },
-  ],
-});
 
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
+    },
+  }
+);
 // virtual props
 // 自己的博客
 userSchema.virtual('blogs', {
@@ -126,6 +136,7 @@ userSchema.pre(/^find/, function (next) {
   this.find({
     active: { $ne: false },
   }).select('-passwordChangedAt -__v'); // select进一步筛选
+  // .populate({ path: 'blogs' });  // populate有需要再整
   next();
 });
 
