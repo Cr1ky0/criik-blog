@@ -27,7 +27,7 @@ mongoose
 // listen
 const port = process.env.PORT || 3000; // 使用config中变量
 const server = app.listen(port, () => {
-  console.log(`server is listening at port${port}`);
+  console.log(`server is listening at port ${port}`);
 });
 
 // 处理 没有处理的promise rejection错误

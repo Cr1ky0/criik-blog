@@ -8,7 +8,6 @@ const blogSchema = new mongoose.Schema(
       required: [true, '请输入标题'],
       trim: true,
       maxlength: [50, '超出最大标题限制，请修改后提交'],
-      minlength: [8, '标题字数不够，请重新输入'],
     },
     // 博客分类
     classification: {

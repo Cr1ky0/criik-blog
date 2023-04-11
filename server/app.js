@@ -13,6 +13,7 @@ const hpp = require('hpp');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
+const blogRouter = require('./routes/blogRoutes');
 
 const app = express();
 
@@ -63,7 +64,7 @@ app.use(
 );
 
 // Serving static files
-app.use(express.static(`${__dirname}/public`));
+// app.use(express.static(`${__dirname}/public`));
 
 // session
 app.use(
@@ -77,6 +78,7 @@ app.use(
 
 // 3) ROUTES
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/blogs', blogRouter);
 
 // none page handle
 app.all('*', (req, res, next) => {
