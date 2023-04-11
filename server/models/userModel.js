@@ -5,10 +5,12 @@ const bcrypt = require('bcryptjs');
 const generateCode = require('../utils/generateCode');
 
 const userSchema = new mongoose.Schema({
+  // 用户名
   name: {
     type: String,
     required: [true, 'name不能为空!'],
   },
+  // 邮箱
   email: {
     type: String,
     required: [true, '请输入邮箱地址!'],
@@ -16,18 +18,24 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, '请提供有效的邮箱地址!'],
   },
-  photo: String,
-  role: {
-    type: String,
-    enum: ['user', 'visitor', 'admin'],
-    default: 'user',
-  },
+  // 密码
   password: {
     type: String,
     required: [true, '请输入密码！'],
     minlength: 6,
     select: false,
   },
+  // 头像文件名
+  avatarCover: String,
+  // 头像文件路径
+  avatar: String,
+  // 权限
+  role: {
+    type: String,
+    enum: ['user', 'visitor', 'admin'],
+    default: 'user',
+  },
+  // 密码确认
   passwordConfirm: {
     type: String,
     required: [true, '请确认你的密码！'],
@@ -46,13 +54,51 @@ const userSchema = new mongoose.Schema({
     type: String,
     select: false,
   },
+  // 账户可用标志
   active: {
     type: Boolean,
     default: true,
     select: false,
   },
+  // 关注的用户 (child ref)
+  subUsers: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
+  ],
+  // 关注自己的用户 (child ref)
+  selfSubers: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
+  ],
+  // 订阅的博客 (child ref)
+  subBlogs: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Blog',
+    },
+  ],
 });
 
+// virtual props
+// 自己的博客
+userSchema.virtual('blogs', {
+  ref: 'Blog', // 关联表
+  foreignField: 'belongTo', // 外键
+  localField: '_id', // 关联属性
+});
+
+// 自己的评论
+userSchema.virtual('comments', {
+  ref: 'Comment', // 关联表
+  foreignField: 'belongingUser', // 外键
+  localField: '_id', // 关联属性
+});
+
+// 中间件
 userSchema.pre('save', async function (next) {
   // Only run this function if password was actually modified
   // 修改了才进行否则next()
@@ -75,6 +121,7 @@ userSchema.pre('save', function (next) {
   next();
 });
 
+// 筛掉一些不发送到前端的字段
 userSchema.pre(/^find/, function (next) {
   this.find({
     active: { $ne: false },
