@@ -20,3 +20,4 @@
         1. 错误出现时，return next(new AppError(message,status_code))
         2. 错误被catch后由next将错误进行传递
         3. 当传递到全局错误处理中间件时在定义的中间件中进行处理(errorController中暴露的回调函数)
+6. 使用config.env配置一些全局属性，例如开发环境，在不同环境下执行不同代码

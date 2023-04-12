@@ -52,7 +52,7 @@ const createSendToken = (user, statusCode, res) => {
 // 发送验证码
 const sendCode = async (req, res, user, operation, next, isLink = false) => {
   // 生成resetToken（验证码）
-  let code = user.createPasswordResetToken();
+  let code = user.createPasswordResetToken(isLink);
   // 上面操作只是做了更改，还需要进行save操作才能保存到数据库
   await user.save({ validateBeforeSave: false }); // 强制关闭验证器保存
 
@@ -67,22 +67,26 @@ const sendCode = async (req, res, user, operation, next, isLink = false) => {
   }
 
   try {
-    await sendEmail({
-      email: user.email,
-      subject: '验证码-重置密码 (valid for 10 min)',
-      message,
-    });
+    if (process.env.NODE_ENV === 'development') console.log(message);
+    else {
+      await sendEmail({
+        email: user.email,
+        subject: '验证码-重置密码 (valid for 10 min)',
+        message,
+      });
+    }
+    if (!isLink) {
+      // 设置session
+      req.session.code = code;
+      req.session.user_id = user.id;
 
-    // 设置session
-    req.session.code = code;
-    req.session.user_id = user.id;
-
-    // 如果上一个计时器存在则清除
-    if (sessionTimer) clearTimeout(sessionTimer);
-    // 设置时间后销毁session
-    sessionTimer = setTimeout(() => {
-      if (req.session) req.session.destroy();
-    }, sessionExistTime);
+      // 如果上一个计时器存在则清除
+      if (sessionTimer) clearTimeout(sessionTimer);
+      // 设置时间后销毁session
+      sessionTimer = setTimeout(() => {
+        if (req.session) req.session.destroy();
+      }, sessionExistTime);
+    }
 
     let sendMessage = '验证码已经发送至邮箱!';
     if (isLink) sendMessage = '链接已经发送至邮箱，请前往确认！';
@@ -90,6 +94,10 @@ const sendCode = async (req, res, user, operation, next, isLink = false) => {
       status: 'success',
       message: sendMessage,
     });
+    // 发送链接后销毁之前的session
+    if (isLink) {
+      req.session.destroy();
+    }
   } catch (err) {
     user.passwordResetToken = undefined;
     await user.save({ validateBeforeSave: false });
@@ -276,27 +284,24 @@ exports.sendLinkToNewEmail = catchAsync(async (req, res, next) => {
   sendCode(req, res, user, '', next, true);
 });
 
-// 重置Email
+// 重置Email（由于是在邮箱点链接，不要在这里用session验证，用数据库字段验证时效性）
 exports.resetEmail = catchAsync(async (req, res, next) => {
-  if (!req.session.code) {
-    return next(new AppError('Token已超时!', 400));
-  }
   const user = await User.findOne({
     passwordResetToken: req.params.token,
-  });
+  }).select('+emailResetTime');
 
+  console.log(user);
   if (!user) {
     return next(new AppError('无效的Token', 400));
   }
 
+  if (user.isLinkValid(sessionExistTime)) {
+    return next(new AppError('Token已超时!', 400));
+  }
+
   user.email = user.newEmail;
   user.passwordResetToken = undefined;
-  user.newEmail = undefined;
   await user.save({ validateBeforeSave: false });
-
-  // 销毁session
-  req.session.destroy();
-  clearTimeout(sessionTimer);
 
   createSendToken(user, 200, res);
 });

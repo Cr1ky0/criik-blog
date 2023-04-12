@@ -59,11 +59,12 @@ const userSchema = new mongoose.Schema(
     newEmail: {
       type: String,
       defualt: null,
-      unique: [true, 'email已被使用请重新输入'],
       lowercase: true,
     },
     // 密码最近更新时间
     passwordChangedAt: Date,
+    // 用于对邮箱链接有效时间进行验证
+    emailResetTime: Date,
     // 密码重置token
     passwordResetToken: {
       type: String,
@@ -179,8 +180,14 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   return false;
 };
 
+// 检测邮箱链接有效性
+userSchema.methods.isLinkValid = function (sessionExistTime) {
+  const changedTimestamp = this.emailResetTime.getTime();
+  return sessionExistTime < Date.now() - changedTimestamp;
+};
+
 // 重置密码的token
-userSchema.methods.createPasswordResetToken = function () {
+userSchema.methods.createPasswordResetToken = function (isLink) {
   // 生成6位验证码
   const code = generateCode(6);
 
@@ -191,7 +198,7 @@ userSchema.methods.createPasswordResetToken = function () {
     .createHash('sha256')
     .update(code)
     .digest('hex');
-
+  if (isLink) this.emailResetTime = Date.now();
   return code;
 };
 

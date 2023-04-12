@@ -4,9 +4,11 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
+// 登录注册
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 
+// 更改密码
 router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword', authController.resetPassword);
 
@@ -16,13 +18,13 @@ router.patch(
   authController.updatePassword
 );
 
+// 更换邮箱
 router.post('/updateEmail', authController.protect, authController.updateEmail);
 router.post(
   '/sendLinkToNewEmail',
   authController.protect,
   authController.sendLinkToNewEmail
 );
-
 router.get('/resetEmail/:token', authController.resetEmail);
 
 // 更新个人信息
