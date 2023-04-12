@@ -30,6 +30,12 @@ const blogSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    // 是否是私人博客
+    isPrivate: {
+      type: Boolean,
+      default: false,
+      select: false,
+    },
     // 发布时间
     publishAt: {
       type: Date,
@@ -61,7 +67,12 @@ blogSchema.virtual('comments', {
 });
 
 // 中间件
-blogSchema.pre(/^find/, function (next) {
+blogSchema.pre('save', function (next) {
+  this.find({ active: { $ne: false } }).select('-__v'); // 不能添加和其他表有关联的属性
+  next();
+});
+
+blogSchema.pre(/^(find)/, function (next) {
   this.find({ active: { $ne: false } }).select('-__v'); // 不能添加和其他表有关联的属性
   next();
 });

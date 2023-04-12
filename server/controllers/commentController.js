@@ -22,7 +22,7 @@ exports.addComment = catchAsync(async (req, res, next) => {
 
   const newComment = await Comment.create({
     contents,
-    belongingUser: req.params.userId,
+    belongingUser: req.user.id,
     belongingBlog: req.params.blogId,
   });
 

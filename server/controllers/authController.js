@@ -111,6 +111,8 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   // GRANT ACCESS TO PROTECTED ROUTE
+  // 这里将user放到req后进行后续路由
+  // 后续路由从req.user获取id来进行更新或删除，从而保障更新和删除一定是由自己操作的而不是前端发来的id
   req.user = currentUser;
   next();
 });
@@ -211,26 +213,22 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
 // 更新密码
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  // 事实上前端就可以做这个校验
-  const { oldPassword, password, passwordConfirm, id } = req.body;
-  if (oldPassword === password)
-    return next(new AppError('新密码与旧密码重复！请重新输入！'));
-  // id是由前端传来的，前端登录了以后存了user state
   // 1) Get user from collection
-  const user = await User.findById(id).select('+password');
-  // 2) Check if posted current password is correct
-  if (!(await user.correctPassword(oldPassword, user.password))) {
-    return next(new AppError('输入的密码错误，请重新输入！', 401));
+  const user = await User.findById(req.user.id).select('+password');
+
+  // 2) Check if POSTed current password is correct
+  if (!(await user.correctPassword(req.body.oldPassword, user.password))) {
+    return next(new AppError('旧密码输入错误，请重新输入！', 401));
   }
 
   // 3) If so, update password
-  user.password = password;
-  user.passwordConfirm = passwordConfirm;
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
   // User.findByIdAndUpdate will NOT work as intended!
 
   // 4) Log user in, send JWT
-  createSendToken(id, 200, res);
+  createSendToken(user, 200, res);
 });
 
 // TODO:更改邮箱

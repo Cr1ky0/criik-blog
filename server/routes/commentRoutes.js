@@ -4,13 +4,7 @@ const authController = require('../controllers/authController');
 
 const router = express.Router({ mergeParams: true });
 
-router
-  .route('/')
-  .post(
-    authController.protect,
-    authController.restrictTo('admin', 'user'),
-    commentController.addComment
-  );
+router.route('/').post(authController.protect, commentController.addComment);
 
 router.route('/:id').get(commentController.getComment);
 

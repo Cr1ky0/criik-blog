@@ -1,12 +1,8 @@
 const express = require('express');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
-const blogRoutes = require('./blogRoutes');
 
 const router = express.Router();
-
-// 该User下的一些Blogs操作
-router.use('/:userId/blogs', blogRoutes);
 
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
