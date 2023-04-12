@@ -16,6 +16,15 @@ router.patch(
   authController.updatePassword
 );
 
+router.post('/updateEmail', authController.protect, authController.updateEmail);
+router.post(
+  '/sendLinkToNewEmail',
+  authController.protect,
+  authController.sendLinkToNewEmail
+);
+
+router.get('/resetEmail/:token', authController.resetEmail);
+
 // 更新个人信息
 router.patch('/updateMe', authController.protect, userController.updateMe);
 // 删除用户

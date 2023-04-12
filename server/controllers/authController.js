@@ -7,6 +7,9 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const sendEmail = require('../utils/email');
 
+// 用于清除session计时器
+let sessionTimer;
+
 // 生成jwt
 const signToken = (id) =>
   // JWT_SECRET设置在config.env中，是一个独特的32位的
@@ -44,6 +47,59 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
+// 发送验证码
+const sendCode = async (req, res, user, operation, next, isLink = false) => {
+  // 生成resetToken（验证码）
+  let code = user.createPasswordResetToken();
+  // 上面操作只是做了更改，还需要进行save操作才能保存到数据库
+  await user.save({ validateBeforeSave: false }); // 强制关闭验证器保存
+
+  // 邮箱接收验证码后
+  // resetPassword方法内验证验证码（验证码也要加密存在数据库里）
+  let message = `${operation}\n以下是验证码 \n${code}\n请勿将该邮件透露给其他任何人！\n如果你没有忘记密码，请忽略该邮件!`;
+  // 如果是重置邮箱，给新邮箱发送链接
+  if (isLink) {
+    code = crypto.createHash('sha256').update(code).digest('hex');
+    const resetURL = `${req.protocol}://${req.get(
+      'host'
+    )}/api/v1/users/resetEmail/${code}`;
+    message = `这是你的邮箱重置链接，请点击验证:\n${resetURL}\n请妥善保管，勿将其发送给任何陌生人！`;
+  }
+
+  console.log(message);
+
+  try {
+    // await sendEmail({
+    //   email: user.email,
+    //   subject: '验证码-重置密码 (valid for 10 min)',
+    //   message,
+    // });
+
+    // 设置session和有效时间
+    req.session.code = code;
+    req.session.user_id = user.id;
+
+    // 如果上一个计时器存在则清除
+    if (sessionTimer) clearTimeout(sessionTimer);
+    // 设置时间后销毁session
+    sessionTimer = setTimeout(() => {
+      if (req.session) req.session.destroy();
+    }, 60 * 60 * 1000);
+
+    let sendMessage = '验证码已经发送至邮箱!';
+    if (isLink) sendMessage = '链接已经发送至邮箱，请前往确认！';
+    res.status(200).json({
+      status: 'success',
+      message: sendMessage,
+    });
+  } catch (err) {
+    user.passwordResetToken = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return next(new AppError('发送邮件出现了一个未知错误！请重试！!'), 500);
+  }
+};
+
 // 注册过程
 exports.signup = catchAsync(async (req, res, next) => {
   // 仅注册一般属性，避免例如权限等属性从前端获取直接创建
@@ -60,11 +116,11 @@ exports.signup = catchAsync(async (req, res, next) => {
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
-  // 1) Check if email and password exist
+  // 验证字段
   if (!email || !password) {
     return next(new AppError('请输入邮箱和密码！!', 400));
   }
-  // 2) Check if user exists && password is correct
+  // 验证用户是否存在
   const user = await User.findOne({ email }).select('+password'); // 带+号后原本select为false的就可以被查询过来
 
   // 调用userSchema中的方法
@@ -72,13 +128,11 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('邮箱不可用或密码错误！', 401));
   }
 
-  // 3) If everything ok, send token to client
   createSendToken(user, 200, res);
 });
 
 /**** 使用JWT实现路由保护（非法访问）****/
 exports.protect = catchAsync(async (req, res, next) => {
-  // 1) Getting token and check of it's there
   // 请求头中authenticaton字段携带token
   let token;
   if (
@@ -92,27 +146,23 @@ exports.protect = catchAsync(async (req, res, next) => {
     return next(new AppError('你还没有登录，请登录后操作！', 401));
   }
 
-  // 2) Verification token
   // promisify是node内置的一个方法，将方法封装成promise方法
   // decoded中存放了原来用于生成jwt token的数据，这里是id
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-  // 3) Check if user still exists
   // 如果令牌还在用户被删除了也不让登陆
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
     return next(new AppError('用户不存在!', 401));
   }
 
-  // 4) Check if user changed password after the token was issued
   // 验证是否用户更改密码
   if (currentUser.changedPasswordAfter(decoded.iat)) {
     return next(new AppError('用户最近更改了密码，请再次登录！', 401));
   }
 
-  // GRANT ACCESS TO PROTECTED ROUTE
-  // 这里将user放到req后进行后续路由
-  // 后续路由从req.user获取id来进行更新或删除，从而保障更新和删除一定是由自己操作的而不是前端发来的id
+  // 这里将user放到req后next
+  // 后续路由从req.user获取id来进行更新或删除等操作，从而保障一定是针对自己的操作而不是由前端发来的id
   req.user = currentUser;
   next();
 });
@@ -134,41 +184,8 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   if (!user) {
     return next(new AppError('错误的email：用户不存在!', 404));
   }
-
-  // 生成resetToken（验证码）
-  const code = user.createPasswordResetToken();
-  // 上面操作只是做了更改，还需要进行save操作才能保存到数据库
-  await user.save({ validateBeforeSave: false }); // 强制关闭验证器保存
-
-  // 邮箱接收验证码后
-  // resetPassword方法内验证验证码（验证码也要加密存在数据库里）
-  const message = `忘记密码了?\n以下是验证码 \n${code}\n请勿将该邮件透露给其他任何人！\n如果你没有忘记密码，请忽略该邮件!`;
-
-  try {
-    await sendEmail({
-      email: user.email,
-      subject: '验证码-重置密码 (valid for 10 min)',
-      message,
-    });
-
-    // 设置session和有效时间
-    req.session.code = code;
-    req.session.user_id = user.id;
-    // 设置时间后销毁session
-    setTimeout(() => {
-      if (req.session) req.session.destroy();
-    }, 60 * 60 * 1000);
-
-    res.status(200).json({
-      status: 'success',
-      message: '验证码已经发送至邮箱!',
-    });
-  } catch (err) {
-    user.passwordResetToken = undefined;
-    await user.save({ validateBeforeSave: false });
-
-    return next(new AppError('发送邮件出现了一个未知错误！请重试！!'), 500);
-  }
+  // 发送验证码
+  sendCode(req, res, user, '忘记密码了？', next);
 });
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
@@ -196,13 +213,13 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   if (user.password === req.body.password)
     return next(new AppError('不能修改为相同的密码！', 400));
 
-  // 销毁session
-  req.session.destroy();
-
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   user.passwordResetToken = undefined;
   await user.save();
+
+  // 销毁session
+  req.session.destroy();
 
   createSendToken(user, 200, res);
 });
@@ -224,3 +241,66 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 });
 
 // TODO:更改邮箱
+
+// 更改邮箱发送验证码可以沿用sendCode
+exports.updateEmail = catchAsync(async (req, res, next) => {
+  sendCode(req, res, req.user, '更改邮箱？', next);
+});
+
+// 重置邮箱时还需要对输入时的邮箱进行验证，发送邮件到该邮箱内进行验证
+exports.sendLinkToNewEmail = catchAsync(async (req, res, next) => {
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.body.code)
+    .digest('hex');
+
+  // session计时验证
+  if (!req.session.code) {
+    return next(new AppError('验证码无效!', 400));
+  }
+
+  const user = await User.findById(req.session.user_id).select(
+    '+passwordResetToken'
+  );
+
+  // 验证码错误
+  if (hashedToken !== user.passwordResetToken) {
+    return next(new AppError('验证码错误！', 400));
+  }
+  // email相同则不修改
+  if (user.email === req.body.newEmail) {
+    return next(new AppError('不能修改为相同的邮箱！', 400));
+  }
+
+  // 将新邮箱暂存至数据库
+  user.newEmail = req.body.newEmail;
+  await user.save({ validateBeforeSave: false });
+
+  // 发送验证链接
+  sendCode(req, res, user, '', next, true);
+});
+
+// 重置Email
+exports.resetEmail = catchAsync(async (req, res, next) => {
+  if (!req.session.code) {
+    return next(new AppError('Token已超时!', 400));
+  }
+  const user = await User.findOne({
+    passwordResetToken: req.params.token,
+  });
+
+  if (!user) {
+    return next(new AppError('无效的Token', 400));
+  }
+
+  user.email = user.newEmail;
+  user.passwordResetToken = undefined;
+  user.newEmail = undefined;
+  await user.save({ validateBeforeSave: false });
+
+  // 销毁session
+  req.session.destroy();
+  clearTimeout(sessionTimer);
+
+  createSendToken(user, 200, res);
+});

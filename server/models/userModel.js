@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, 'name不能为空!'],
+      unique: [true, '名字已被使用，请重新输入！'],
     },
     // 个人简介
     brief: {
@@ -21,7 +22,7 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: [true, '请输入邮箱地址!'],
-      unique: true,
+      unique: [true, 'email已被使用请重新输入'],
       lowercase: true,
       validate: [validator.isEmail, '请提供有效的邮箱地址!'],
     },
@@ -53,6 +54,13 @@ const userSchema = new mongoose.Schema(
         },
         message: '两次密码不一样!',
       },
+    },
+    // 修改邮箱时的缓存
+    newEmail: {
+      type: String,
+      defualt: null,
+      unique: [true, 'email已被使用请重新输入'],
+      lowercase: true,
     },
     // 密码最近更新时间
     passwordChangedAt: Date,
