@@ -9,6 +9,8 @@ const sendEmail = require('../utils/email');
 
 // 用于清除session计时器
 let sessionTimer;
+// session时限
+const sessionExistTime = 60 * 60 * 1000;
 
 // 生成jwt
 const signToken = (id) =>
@@ -54,11 +56,9 @@ const sendCode = async (req, res, user, operation, next, isLink = false) => {
   // 上面操作只是做了更改，还需要进行save操作才能保存到数据库
   await user.save({ validateBeforeSave: false }); // 强制关闭验证器保存
 
-  // 邮箱接收验证码后
-  // resetPassword方法内验证验证码（验证码也要加密存在数据库里）
   let message = `${operation}\n以下是验证码 \n${code}\n请勿将该邮件透露给其他任何人！\n如果你没有忘记密码，请忽略该邮件!`;
-  // 如果是重置邮箱，给新邮箱发送链接
   if (isLink) {
+    // 如果是重置邮箱，给新邮箱发送链接
     code = crypto.createHash('sha256').update(code).digest('hex');
     const resetURL = `${req.protocol}://${req.get(
       'host'
@@ -66,16 +66,14 @@ const sendCode = async (req, res, user, operation, next, isLink = false) => {
     message = `这是你的邮箱重置链接，请点击验证:\n${resetURL}\n请妥善保管，勿将其发送给任何陌生人！`;
   }
 
-  console.log(message);
-
   try {
-    // await sendEmail({
-    //   email: user.email,
-    //   subject: '验证码-重置密码 (valid for 10 min)',
-    //   message,
-    // });
+    await sendEmail({
+      email: user.email,
+      subject: '验证码-重置密码 (valid for 10 min)',
+      message,
+    });
 
-    // 设置session和有效时间
+    // 设置session
     req.session.code = code;
     req.session.user_id = user.id;
 
@@ -84,7 +82,7 @@ const sendCode = async (req, res, user, operation, next, isLink = false) => {
     // 设置时间后销毁session
     sessionTimer = setTimeout(() => {
       if (req.session) req.session.destroy();
-    }, 60 * 60 * 1000);
+    }, sessionExistTime);
 
     let sendMessage = '验证码已经发送至邮箱!';
     if (isLink) sendMessage = '链接已经发送至邮箱，请前往确认！';
@@ -239,8 +237,6 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   createSendToken(user, 200, res);
 });
-
-// TODO:更改邮箱
 
 // 更改邮箱发送验证码可以沿用sendCode
 exports.updateEmail = catchAsync(async (req, res, next) => {
