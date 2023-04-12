@@ -15,6 +15,7 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
 const blogRouter = require('./routes/blogRoutes');
+const commentRouter = require('./routes/commentRoutes');
 
 const app = express();
 
@@ -84,6 +85,7 @@ app.use(
 // 3) ROUTES
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/blogs', blogRouter);
+app.use('/api/v1/comments', commentRouter);
 
 // none page handle
 app.all('*', (req, res, next) => {

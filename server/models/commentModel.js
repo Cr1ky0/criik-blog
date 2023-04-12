@@ -17,6 +17,12 @@ const commentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  // 删除标志
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
+  },
   // 所属用户 (parent ref)
   belongingUser: {
     type: mongoose.Schema.ObjectId,
@@ -27,6 +33,11 @@ const commentSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Blog',
   },
+});
+
+commentSchema.pre(/^(find)|(populate)/, function (next) {
+  this.find({ active: { $ne: false } }).select('-__v');
+  next();
 });
 
 const Comment = mongoose.model('Comment', commentSchema);

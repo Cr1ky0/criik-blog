@@ -232,3 +232,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   // 4) Log user in, send JWT
   createSendToken(id, 200, res);
 });
+
+// TODO:更改邮箱

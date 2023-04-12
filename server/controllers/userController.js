@@ -30,7 +30,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   }
 
   // 2) Filtered out unwanted fields names that are not allowed to be updated
-  const filteredBody = filterObj(req.body, 'name');
+  const filteredBody = filterObj(req.body, 'name', 'brief');
 
   // 3) Update user document
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
@@ -54,6 +54,8 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
+
+// TODO:设置头像
 
 exports.getUser = async (req, res) => {
   const user = await User.findById(req.params.id);

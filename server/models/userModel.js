@@ -11,6 +11,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'name不能为空!'],
     },
+    // 个人简介
+    brief: {
+      type: String,
+      default: '这个人很懒，没有个性签名！',
+      maxlength: [50, '超过最大字符限制，求修改后再提交！'],
+    },
     // 邮箱
     email: {
       type: String,
@@ -136,7 +142,7 @@ userSchema.pre(/^find/, function (next) {
   this.find({
     active: { $ne: false },
   }).select('-passwordChangedAt -__v'); // select进一步筛选
-  // .populate({ path: 'blogs' });  // populate有需要再整
+  // .populate({ path: 'blogs' }); // populate有需要再整
   next();
 });
 

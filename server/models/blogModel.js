@@ -25,6 +25,11 @@ const blogSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    // 浏览次数
+    views: {
+      type: Number,
+      default: 0,
+    },
     // 发布时间
     publishAt: {
       type: Date,
@@ -57,7 +62,7 @@ blogSchema.virtual('comments', {
 
 // 中间件
 blogSchema.pre(/^find/, function (next) {
-  this.find({ active: { $ne: false } }).select('-__v -belongTo');
+  this.find({ active: { $ne: false } }).select('-__v'); // 不能添加和其他表有关联的属性
   next();
 });
 
