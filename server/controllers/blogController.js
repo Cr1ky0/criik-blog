@@ -64,11 +64,47 @@ exports.getBlogs = catchAsync(async (req, res, next) => {
   });
 });
 
-// TODO:修改博客
 exports.updateBlog = catchAsync(async (req, res, next) => {
-  const filteredBody = filterObj(req.body, 'contents');
-  const updatedBlog = await User.findByIdAndUpdate(req.user.id, filteredBody, {
-    new: true,
-    runValidators: true,
+  const blog = await Blog.findById(req.params.id);
+
+  // 需要验证该博客是否为当前用户的博客
+  if (blog.belongTo.toString() !== req.user.id) {
+    return next(new AppError('不属于该用户的博客无法修改！', 403));
+  }
+
+  const filteredBody = filterObj(
+    req.body,
+    'contents',
+    'classification',
+    'title'
+  );
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    req.params.id,
+    filteredBody,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      updatedBlog,
+    },
+  });
+});
+
+exports.deleteBlog = catchAsync(async (req, res, next) => {
+  const blog = await Blog.findById(req.params.id);
+
+  // 需要验证该博客是否为当前用户的博客
+  if (blog.belongTo.toString() !== req.user.id) {
+    return next(new AppError('不属于该用户的博客无法删除！', 403));
+  }
+  await Blog.findByIdAndUpdate(req.params.id, { active: false });
+  res.status(204).json({
+    status: 'success',
+    data: null,
   });
 });

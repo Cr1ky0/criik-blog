@@ -18,9 +18,12 @@ router
 
 router
   .route('/')
-  .get(authController.protect, blogController.getBlogs)
-  .post(authController.protect, blogController.addBlog);
+  .get(authController.protect, blogController.getBlogs) // 获取当前用户所有blogs
+  .post(authController.protect, blogController.addBlog); // 新建博客
 
-// 根据博客id做操作
-router.route('/:id').get(blogController.getBlog);
+router
+  .route('/:id')
+  .get(blogController.getBlog) // 获取博客，这里将评论提取出来
+  .patch(authController.protect, blogController.updateBlog) // 更新博客
+  .delete(authController.protect, blogController.deleteBlog); // 删除博客
 module.exports = router;

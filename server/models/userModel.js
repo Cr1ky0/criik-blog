@@ -116,11 +116,10 @@ userSchema.virtual('comments', {
 
 // 中间件
 userSchema.pre('save', async function (next) {
-  // Only run this function if password was actually modified
   // 修改了才进行否则next()
   if (!this.isModified('password')) return next();
 
-  // Hash the password with cost of 12
+  // 加密
   this.password = await bcrypt.hash(this.password, 12); // 异步，不阻止其他操作
 
   // 清除重复确认字段
@@ -169,7 +168,6 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
     return JWTTimestamp < changedTimestamp;
   }
 
-  // False means NOT changed
   return false;
 };
 

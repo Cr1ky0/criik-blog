@@ -17,15 +17,14 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 });
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-  // 1) Create error if user POSTs password data
+  // 阻止在这里更新密码
   if (req.body.password || req.body.passwordConfirm) {
     return next(new AppError('不能在这里更新密码！', 400));
   }
 
-  // 2) Filtered out unwanted fields names that are not allowed to be updated
+  // 过滤掉不能更新的字段
   const filteredBody = filterObj(req.body, 'name', 'brief');
 
-  // 3) Update user document
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true,

@@ -130,18 +130,16 @@ exports.restrictTo =
 
 // 对于密码重置，一般流程是发一个邮件从邮件内点击链接到更改密码的api
 exports.forgotPassword = catchAsync(async (req, res, next) => {
-  // 1) Get user based on POSTed email
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
     return next(new AppError('错误的email：用户不存在!', 404));
   }
 
-  // 2) Generate the random reset token
+  // 生成resetToken（验证码）
   const code = user.createPasswordResetToken();
   // 上面操作只是做了更改，还需要进行save操作才能保存到数据库
   await user.save({ validateBeforeSave: false }); // 强制关闭验证器保存
 
-  // 3) Send it to user's email
   // 邮箱接收验证码后
   // resetPassword方法内验证验证码（验证码也要加密存在数据库里）
   const message = `忘记密码了?\n以下是验证码 \n${code}\n请勿将该邮件透露给其他任何人！\n如果你没有忘记密码，请忽略该邮件!`;
@@ -174,7 +172,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
-  // 1) Get user based on the token
+  // 根据验证码进行加密，为了和数据的对比
   const hashedToken = crypto
     .createHash('sha256')
     .update(req.body.code)
@@ -185,7 +183,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   }
 
   // 这里要用user_id查找不然不同客户端的重复验证码可能会产生混乱
-  const user = await User.findOne({ _id: req.session.user_id }).select(
+  const user = await User.findById(req.session.user_id).select(
     '+passwordResetToken'
   );
 
@@ -206,28 +204,22 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetToken = undefined;
   await user.save();
 
-  // 3) Update changedPasswordAt property for the user
-  // 4) Log the user in, send JWT
   createSendToken(user, 200, res);
 });
 
 // 更新密码
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  // 1) Get user from collection
   const user = await User.findById(req.user.id).select('+password');
 
-  // 2) Check if POSTed current password is correct
+  // 验证旧密码是否匹配
   if (!(await user.correctPassword(req.body.oldPassword, user.password))) {
     return next(new AppError('旧密码输入错误，请重新输入！', 401));
   }
 
-  // 3) If so, update password
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
-  // User.findByIdAndUpdate will NOT work as intended!
 
-  // 4) Log user in, send JWT
   createSendToken(user, 200, res);
 });
 

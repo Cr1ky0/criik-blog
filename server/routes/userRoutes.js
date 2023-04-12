@@ -16,7 +16,9 @@ router.patch(
   authController.updatePassword
 );
 
+// 更新个人信息
 router.patch('/updateMe', authController.protect, userController.updateMe);
+// 删除用户
 router.delete('/deleteMe', authController.protect, userController.deleteMe);
 
 router
@@ -25,7 +27,7 @@ router
     authController.protect,
     authController.restrictTo('admin'),
     userController.getAllUsers
-  );
+  ); // 获取所有用户信息
 
 router
   .route('/:id')
