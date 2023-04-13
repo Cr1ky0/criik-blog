@@ -40,6 +40,7 @@
             // 其他配置
             "prettier"  // 增加项
         ],
+
         // .prettierrc
         {
             // 超过最大值换行
@@ -56,3 +57,9 @@
             "arrowParens": "avoid"
         }
     ```
+3. react项目中也可以env来配置全局变量，但不推荐，ts会报错
+```js
+    // .env
+    // 必须以REACT_APP_开头否则失效
+    REACT_APP_THEME_COLOR=
+```

@@ -1,0 +1,29 @@
+.wrapper {
+  &:hover {
+    .bar {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+
+  // 内容区
+  .content {
+    height: 20px;
+    width: 50px;
+    text-align: center;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  // 动画包裹div
+  // 用来实现过渡的两个bar
+  .bar {
+    width: 0;
+    height: 2px;
+    margin-left:50%; // 设一个margin就行，让其也随着过渡，这样就能保证从中间开始过渡
+    float: left;
+    transition-property: "width";
+    transition-duration: .3s;
+  }
+}
