@@ -1,15 +1,10 @@
 .wrapper {
-  &:hover {
-    .bar {
-      width: 100%;
-      margin-left: 0;
-    }
-  }
 
   // 内容区
   .content {
     height: 20px;
     width: 50px;
+    font-size: 12px;
     text-align: center;
     &:hover {
       cursor: pointer;
@@ -21,9 +16,22 @@
   .bar {
     width: 0;
     height: 2px;
-    margin-left:50%; // 设一个margin就行，让其也随着过渡，这样就能保证从中间开始过渡
+    margin-left: 50%; // 设一个margin就行，让其也随着过渡，这样就能保证从中间开始过渡
     float: left;
-    transition-property: "width";
-    transition-duration: .3s;
+    transition-property: 'width';
+    transition-duration: 0.2s;
+  }
+
+  &:hover {
+    .bar {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+
+  // 选中的效果
+  .chosenBar {
+    width: 100%;
+    height: 2px;
   }
 }
