@@ -290,7 +290,6 @@ exports.resetEmail = catchAsync(async (req, res, next) => {
     passwordResetToken: req.params.token,
   }).select('+emailResetTime');
 
-  console.log(user);
   if (!user) {
     return next(new AppError('无效的Token', 400));
   }
