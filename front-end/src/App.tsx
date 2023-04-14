@@ -3,6 +3,9 @@ import { useRoutes } from 'react-router';
 // 重置样式
 import 'reset-css';
 
+// css
+import './App.scss';
+
 // 其他样式
 import './assets/iconfont/iconfont.css';
 

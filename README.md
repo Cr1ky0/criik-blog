@@ -57,7 +57,7 @@
             "arrowParens": "avoid"
         }
     ```
-3. react项目中也可以env来配置全局变量，但不推荐，ts会报错
+3. react项目中也可以env来配置全局变量
 ```js
     // .env
     // 必须以REACT_APP_开头否则失效

@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1556249",
+      "name": "note",
+      "font_class": "note",
+      "unicode": "e896",
+      "unicode_decimal": 59542
+    },
+    {
+      "icon_id": "4766954",
+      "name": "star",
+      "font_class": "star",
+      "unicode": "e7df",
+      "unicode_decimal": 59359
+    },
+    {
+      "icon_id": "11975178",
+      "name": "代码",
+      "font_class": "daima",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
       "icon_id": "1199116",
       "name": "home",
       "font_class": "home",

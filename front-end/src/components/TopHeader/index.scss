@@ -7,17 +7,8 @@
   display: flex;
   justify-content: space-between;
   // 内部导航位置
-  .leftNav,
-  .middleNav,
-  .rightNav {
+  .leftNav {
     display: flex;
     justify-content: space-between;
-  }
-
-  .middleNav {
-    width: 240px;
-    > div {
-      margin-top: 17px;
-    }
   }
 }

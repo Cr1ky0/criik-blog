@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import App from './App';
+import { THEME_COLOR } from './global';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
@@ -11,7 +12,7 @@ root.render(
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: '#e7eff8',
+            colorPrimary: THEME_COLOR,
           },
         }}
       >
