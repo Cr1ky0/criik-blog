@@ -1,0 +1,40 @@
+@import '../../../assets/css/index.scss';
+.left-nav {
+  min-width: 150px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  // 图片
+  .left-nav-icon {
+    width: 40px;
+    height: 40px;
+    // border: 1px solid $FONT_COLOR;
+    padding: 1px;
+    margin: {
+      top: 5px;
+      left: 20px;
+    }
+    border: {
+      radius: 3px;
+    }
+    background: {
+      image: url('../../../assets/images/left-nav-icon.png');
+      repeat: no-repeat;
+      size: cover;
+      clip: content-box;
+    }
+  }
+
+  // 作者
+  .left-nav-auth {
+    text-align: center;
+    color: $FONT_COLOR;
+    font: {
+      size: 22px;
+      weight: bolder;
+    }
+    margin: {
+      top: 13px;
+    }
+  }
+}

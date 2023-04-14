@@ -1,8 +1,8 @@
-.middleNav {
-    display: flex;
-    justify-content: space-between;
-    width: 240px;
-    > div {
-      margin-top: 17px;
-    }
+.middle-nav {
+  display: flex;
+  justify-content: space-between;
+  min-width: 270px;
+  > div {
+    margin-top: 17px;
   }
+}

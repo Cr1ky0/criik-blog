@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import './index.scss';
 
 // ui-c
-import TopLink from '../../UI/LinkBtn';
+import LinkBtn from '../../UI/LinkBtn';
 
 const MiddleNav = () => {
   const [isChosen, setIsChosen] = useState([true, false, false, false]);
@@ -13,18 +13,28 @@ const MiddleNav = () => {
   const handleClick = (chosenList: boolean[], key: number) => {
     const newList = [];
     for (let i = 0; i < chosenList.length; i += 1) {
-      if (i === key) newList.push(!chosenList[key]);
-      else newList.push(false);
+      if (i === key) {
+        if (chosenList[key]) newList.push(chosenList[key]); // 当前已被选中则不改变状态
+        else newList.push(!chosenList[key]);
+      } else newList.push(false);
     }
     setIsChosen(newList);
   };
 
   return (
-    <div className="middleNav">
-      <TopLink icon="&#xe600;" text={'主页'} seq={0} isChosen={isChosen} handleClick={handleClick} link={'/'} />
-      <TopLink icon="&#xe60e;" text={'笔记'} seq={1} isChosen={isChosen} handleClick={handleClick} link={'/'} />
-      <TopLink icon="&#xe896;" text={'日志'} seq={2} isChosen={isChosen} handleClick={handleClick} link={'/'} />
-      <TopLink icon="&#xe7df;" text={'精选'} seq={3} isChosen={isChosen} handleClick={handleClick} link={'/'} />
+    <div className="middle-nav">
+      <LinkBtn icon="&#xe600;" seq={0} isChosen={isChosen} handleClick={handleClick} link={'/'}>
+        主页
+      </LinkBtn>
+      <LinkBtn icon="&#xe60e;" seq={1} isChosen={isChosen} handleClick={handleClick} link={'/'}>
+        笔记
+      </LinkBtn>
+      <LinkBtn icon="&#xe896;" seq={2} isChosen={isChosen} handleClick={handleClick} link={'/'}>
+        写博客
+      </LinkBtn>
+      <LinkBtn icon="&#xe7df;" seq={3} isChosen={isChosen} handleClick={handleClick} link={'/'}>
+        精选
+      </LinkBtn>
     </div>
   );
 };

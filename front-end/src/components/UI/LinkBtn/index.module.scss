@@ -2,38 +2,37 @@
   a {
     display: block;
   }
+
+  $bar-to-content:7px;
   // 内容区
   .content {
-    height: 20px;
-    width: 50px;
+    width: 60px;
     font-size: 13px;
     text-align: center;
-  }
-
-  // 动画包裹div
-  // 用来实现过渡的两个bar
-  .bar {
-    width: 0;
-    height: 2px;
-    margin: {
-      left: 50%;// 设一个margin-left，让其也随着过渡，这样就能保证从中间开始过渡
-    }
-    float: left;
-    transition-property: 'width';
-    transition-duration: 0.2s;
-  }
-
-  &:hover {
+    // 动画条
     .bar {
-      width: 100%;
-      margin-left: 0;
+      width: 0;
+      height: 2px;
+      margin: {
+        top: $bar-to-content;
+        left: 50%; // 设一个margin-left，让其也随着过渡，这样就能保证从中间开始过渡
+      }
+      transition-property: 'width';
+      transition-duration: 0.2s;
     }
-  }
 
-  // 选中的效果
-  .chosenBar {
-    width: 100%;
-    height: 2px;
+    // 选中的效果
+    .chosenBar {
+      width: 100%;
+      height: 2px;
+      margin-top: $bar-to-content;
+    }
+
+    &:hover {
+      .bar {
+        width: 100%;
+        margin-left: 0;
+      }
+    }
   }
 }
-

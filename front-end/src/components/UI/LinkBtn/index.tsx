@@ -10,22 +10,23 @@ import { THEME_COLOR } from '../../../global';
 interface LinkBtnProps {
   seq: number;
   icon: string;
-  text: string;
   isChosen: boolean[];
+  children: string;
   link: To;
+  className?: string;
   handleClick: (chosenList: boolean[], key: number) => void;
 }
 
 // 该UI组件用于实现链接按钮效果
 const LinkBtn: React.FC<LinkBtnProps> = props => {
-  const { seq, icon, text, isChosen, link, handleClick } = props;
+  const { seq, icon, children, isChosen, link, handleClick, className } = props;
 
   const contentStyle = { color: THEME_COLOR };
   const barStyle = { backgroundColor: THEME_COLOR };
 
   return (
     <div
-      className={style.wrapper}
+      className={`${style.wrapper} ${className}`}
       onClick={() => {
         handleClick(isChosen, seq);
       }}
@@ -35,10 +36,12 @@ const LinkBtn: React.FC<LinkBtnProps> = props => {
         style={isChosen[seq] ? contentStyle : { color: '#666666' }}
         to={link}
       >
-        {icon}&nbsp;
-        {text}
+        <div>
+          {icon}&nbsp;
+          {children}
+        </div>
+        <div className={isChosen[seq] ? style.chosenBar : style.bar} style={barStyle}></div>
       </Link>
-      <div className={isChosen[seq] ? style.chosenBar : style.bar} style={barStyle}></div>
     </div>
   );
 };

@@ -1,5 +1,10 @@
 @import './assets/css/index.scss';
 
+@font-face {
+    font-family: "Smiley_Sans_Oblique";
+    src: url('./assets/font/Smiley_Sans_Oblique.ttf');
+}
+
 ::-webkit-scrollbar {width: 5px;}
 ::-webkit-scrollbar-thumb {background-color: $THEME_COLOR}
 ::-webkit-scrollbar-track {background-color: #ddd}

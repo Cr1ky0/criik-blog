@@ -1,14 +1,16 @@
 @import '../../../assets/css/index.scss';
 .wrapper {
   cursor: pointer;
+  width: 60px;
   height: 22px;
   line-height: 22px;
   color: $FONT_COLOR;
   text-align: center;
+
   &:hover {
     border-radius: 4px;
     background-color: rgba(0, 0, 0, 0.05);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     .bar {
       width: 100%;
       margin-left: 0;
@@ -18,20 +20,6 @@
   &:active {
     border-radius: 4px;
     background-color: rgba(0, 0, 0, 0.07);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
   }
-
-   // 动画包裹div
-  // 用来实现过渡的两个bar
-  .bar {
-    width: 0;
-    height: 2px;
-    margin: {
-      left: 50%;// 设一个margin-left，让其也随着过渡，这样就能保证从中间开始过渡
-    }
-    float: left;
-    transition-property: 'width';
-    transition-duration: 0.2s;
-  }
-
 }

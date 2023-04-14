@@ -2,11 +2,12 @@ import React from 'react';
 import './index.scss';
 import MiddleNav from './MiddleNav';
 import RightNav from './RightNav';
+import LeftNav from './LeftNav';
 
 const TopHeader = () => {
   return (
     <div className="topHeader">
-      <div className="leftNav">leftNav</div>
+      <LeftNav />
       <MiddleNav />
       <RightNav />
     </div>
