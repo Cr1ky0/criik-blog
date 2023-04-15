@@ -26,7 +26,7 @@ const MiddleNav = () => {
       <LinkBtn icon="&#xe600;" seq={0} isChosen={isChosen} handleClick={handleClick} link={'/'}>
         主页
       </LinkBtn>
-      <LinkBtn icon="&#xe60e;" seq={1} isChosen={isChosen} handleClick={handleClick} link={'/'}>
+      <LinkBtn icon="&#xe60e;" seq={1} isChosen={isChosen} handleClick={handleClick} link={'/test'}>
         笔记
       </LinkBtn>
       <LinkBtn icon="&#xe896;" seq={2} isChosen={isChosen} handleClick={handleClick} link={'/'}>

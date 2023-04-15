@@ -1,6 +1,7 @@
 # criik-blog 全栈项目
 
 # Sever 端
+
 1. 实际上处理是以链式结构进行的，调用next实际是调用下一个中间件，每一个中间件都处于链条中的一环，是有先后顺序的
 2. 利用 protect 中间件，在验证过程中在 req 中存放 user，后续操作可从 req 中读取 user 来保证此次操作必定是针对该用户的操作
 3. 利用setTimeout来设置session销毁时间
@@ -21,15 +22,33 @@
         2. 错误被catch后由next将错误进行传递
         3. 当传递到全局错误处理中间件时在定义的中间件中进行处理(errorController中暴露的回调函数)
 6. 使用config.env配置一些全局属性，例如开发环境，在不同环境下执行不同代码
+7. 关于数据库加密
+    - 在mongodb/bin内的cfg文件内设置
+      > security:<br>
+      >       authorization: enabled
+    - 默认全数据库管理员账号:admin pwd:123456
+    - 使用该管理员账户登录后创建其他数据库的子角色
+        ``` js
+            db.createUser({
+                user: 'criiky0',
+                pwd: '123456',
+                roles:[{
+                    role: 'readWrite',
+                    db: 'criik-blog'
+                }]
+            })
+        ```
+    - 给其他数据库添加验证账户时，非admin db使用readWrite角色，因为子db没有root等角色
 
 # 前端
+
 1. 安装eslint步骤:
-    > npm i eslint -D <br/>
-    > npx eslint --init <br/>
-    > 注意在选择eslint初始化选项时将node和browser规范全选 <br/>
-    > 第一个选项选第二个，带find problems就行，第三个会大面积报错
+   > npm i eslint -D <br/>
+   > npx eslint --init <br/>
+   > 注意在选择eslint初始化选项时将node和browser规范全选 <br/>
+   > 第一个选项选第二个，带find problems就行，第三个会大面积报错
 2. 配置prettier:
-    > yarn add prettier eslint-config-prettier eslint-plugin-prettier -D <br/>
+   > yarn add prettier eslint-config-prettier eslint-plugin-prettier -D <br/>
     ```js
         // .eslintrc.json
         extends: [
@@ -58,8 +77,20 @@
         }
     ```
 3. react项目中也可以env来配置全局变量
-```js
-    // .env
-    // 必须以REACT_APP_开头否则失效
-    REACT_APP_THEME_COLOR=
-```
+   ```js
+       // .env
+       // 必须以REACT_APP_开头否则失效
+       REACT_APP_THEME_COLOR =
+   ```
+
+4. json转化为数组格式
+   ```js
+       Object.values(response.data) // 仅转化value
+   
+       // 转化key和value
+       const list: emojiObj[] = [];
+       Object.entries(response.data).map(([key, value]) => {
+         list.push({key, value});
+       });
+   
+   ```

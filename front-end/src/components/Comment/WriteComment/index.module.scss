@@ -1,0 +1,53 @@
+$COMMENT_H: 30vh;
+$COMMENT_W: 40vw;
+
+.wrapper {
+  display: block;
+  width: $COMMENT_W;
+
+  // 调试用
+  margin: 30vh;
+
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+
+  .content {
+    outline: none;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 2vh;
+    min-height: $COMMENT_H;
+    line-height: 18px;
+    border: 1px solid rgba(0, 0, 0, .2);
+    padding: 2vh;
+    resize: none;
+    border: {
+      radius: 1vh 1vh 0 0;
+      bottom: none;
+    }
+  }
+
+  .funcBar {
+    border: 1px solid rgba(0, 0, 0, .2);
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    margin: {
+      top: -2px;
+    }
+    border: {
+      radius: 0 0 5px 5px;
+      top: none;
+    };
+
+    .emoji {
+      float: left;
+    }
+
+    .submit {
+      float: right;
+    }
+  }
+}
+
