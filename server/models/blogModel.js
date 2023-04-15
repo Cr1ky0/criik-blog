@@ -67,11 +67,6 @@ blogSchema.virtual('comments', {
 });
 
 // 中间件
-blogSchema.pre('save', function (next) {
-  this.find({ active: { $ne: false } }).select('-__v'); // 不能添加和其他表有关联的属性
-  next();
-});
-
 blogSchema.pre(/^(find)/, function (next) {
   this.find({ active: { $ne: false } }).select('-__v'); // 不能添加和其他表有关联的属性
   next();

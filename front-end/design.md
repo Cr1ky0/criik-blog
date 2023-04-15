@@ -13,3 +13,4 @@
    - 黑暗模式
    - 搜索
    - github 跳转
+3. 关于anchor，文本内带#的放到一个div的id中再用anchor即可

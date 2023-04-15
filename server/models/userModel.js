@@ -118,9 +118,16 @@ userSchema.virtual('blogs', {
 
 // 自己的评论
 userSchema.virtual('comments', {
-  ref: 'Comment', // 关联表
-  foreignField: 'belongingUser', // 外键
-  localField: '_id', // 关联属性
+  ref: 'Comment',
+  foreignField: 'belongingUser',
+  localField: '_id',
+});
+
+// 自己的menu
+userSchema.virtual('menus', {
+  ref: 'Menu',
+  foreignField: 'belongTo',
+  localField: '_id',
 });
 
 // 中间件
