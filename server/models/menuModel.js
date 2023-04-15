@@ -39,7 +39,7 @@ const menuSchema = new mongoose.Schema(
   }
 );
 
-// 该menu的子menu
+// 该menu的childMenu
 menuSchema.virtual('childMenus', {
   ref: 'Menu',
   foreignField: 'parentMenu',
