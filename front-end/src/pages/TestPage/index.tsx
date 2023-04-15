@@ -1,9 +1,14 @@
 import React from 'react';
 
-// antd
+// comp
+import Comment from '../../components/Comment';
 
 const TestPage = () => {
-  return <div>test</div>;
+  return (
+    <div>
+      <Comment></Comment>
+    </div>
+  );
 };
 
 export default TestPage;
