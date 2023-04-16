@@ -4,11 +4,12 @@ import React from 'react';
 import style from './index.module.scss';
 
 // antd
-import { Popover } from 'antd';
+import { Popover, Tag } from 'antd';
 
 // interface
 import { BlogTagBoxProps } from '@/interface';
 
+// TODO:后续创个class表，让分类标签根据该表来变换颜色
 // 主页的BlogBox组件
 const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
   const { children, title, statistics } = props;
@@ -46,7 +47,9 @@ const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
         <Popover content="分类标签" trigger="hover">
           <div className={style.classification}>
             <span className="iconfont">&#xe623;</span>
-            {statistics?.classification}
+            <Tag color="cyan" style={{ height: '20px', lineHeight: '20px' }}>
+              {statistics?.classification}
+            </Tag>
           </div>
         </Popover>
       </div>
