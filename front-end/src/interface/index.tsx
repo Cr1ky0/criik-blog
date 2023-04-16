@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react';
+import React, { MouseEventHandler } from 'react';
 
 /* Comment-Comp */
 
@@ -29,4 +29,17 @@ export interface BlogTagBoxProps {
   children: string;
   title: string;
   statistics?: BlogTagBoxStatistic;
+}
+
+// SideMenu
+
+export interface SideMenuItem {
+  label: React.ReactNode;
+  key: string;
+  icon?: React.ReactNode;
+  children?: SideMenuItem[];
+}
+
+export interface SideMenuProps {
+  menus: SideMenuItem[];
 }
