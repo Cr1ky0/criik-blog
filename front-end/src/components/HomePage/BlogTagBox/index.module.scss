@@ -1,0 +1,84 @@
+@import "@/assets/css/index.scss";
+
+$LINE_COLOR: rgba(0, 0, 0, .2);
+
+.wrapper {
+  color: $FONT_COLOR;
+  box-sizing: content-box;
+  width: 40vw;
+  padding: 1vw;
+  border: 1px solid $LINE_COLOR;
+  transition-property: box-shadow;
+  transition-duration: .3s;
+  position: relative;
+  border: {
+    radius: 0.5vw;
+  };
+
+  &:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+  }
+
+  .titleWrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+
+    .title {
+      @include animationBar();
+      cursor: pointer;
+      font-size: 24px;
+      // 限制单行加...
+      word-break: break-all;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .pin {
+      font-size: 20px;
+      position: absolute;
+      right: 3px;
+      top: 3px;
+      color: $THEME_COLOR;
+    }
+
+  }
+
+  .text {
+    word-break: break-all;
+    font-size: 18px;
+    line-height: 24px;
+    overflow: hidden;
+    padding: 5px;
+  }
+
+  .line {
+    margin: 5px;
+    height: 1px;
+    background-color: $LINE_COLOR;
+  }
+
+  .statistics {
+    padding-top: 3px;
+    @include unSelectable;
+
+    > div {
+      cursor: pointer;
+      float: left;
+      padding: 3px;
+
+      > span {
+        margin-right: 6px;
+      }
+    }
+
+    .author {
+      transition: all .3s;
+
+      &:hover {
+        color: $THEME_COLOR;
+      }
+    }
+  }
+}

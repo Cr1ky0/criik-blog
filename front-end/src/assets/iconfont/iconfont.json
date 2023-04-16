@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "11125624",
+      "name": "分类",
+      "font_class": "2",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "386507",
+      "name": "图钉",
+      "font_class": "tuding",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "631375",
+      "name": "火",
+      "font_class": "huo",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "5428580",
+      "name": "user-4",
+      "font_class": "user-",
+      "unicode": "e72e",
+      "unicode_decimal": 59182
+    },
+    {
+      "icon_id": "5925260",
+      "name": "日历选中",
+      "font_class": "rilixuanzhong",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
       "icon_id": "6775641",
       "name": "爱心 _实心",
       "font_class": "aixin_shixin",

@@ -11,7 +11,6 @@ const Comment = () => {
   return (
     <div className={style.wrapper}>
       <WriteComment></WriteComment>
-
       <CommentList></CommentList>
     </div>
   );

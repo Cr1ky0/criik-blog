@@ -1,3 +1,5 @@
+@import "@/assets/css/index.scss";
+
 .wrapper {
   a {
     display: block;
@@ -9,23 +11,13 @@
     width: 60px;
     font-size: 13px;
     text-align: center;
-    // 动画条
-    .bar {
-      width: 0;
-      height: 2px;
-      margin: {
-        top: $bar-to-content;
-        left: 50%; // 设一个margin-left，让其也随着过渡，这样就能保证从中间开始过渡
-      }
-      transition-property: width;
-      transition-duration: 0.2s;
-    }
 
-    // 选中的效果
-    .chosenBar {
-      width: 100%;
-      height: 2px;
-      margin-top: $bar-to-content;
+    a {
+      text-decoration: none;
+
+      &:active {
+        color: #666666;
+      }
     }
 
     &:hover {
@@ -34,5 +26,27 @@
         margin-left: 0;
       }
     }
+
+    // 动画条
+    .bar {
+      width: 0;
+      height: 2px;
+      background-color: $THEME_COLOR;
+      margin: {
+        top: $bar-to-content;
+        left: 50%; // 设一个margin-left，让其也随着过渡，这样就能保证从中间开始过渡
+      }
+      transition-property: width, margin-left;
+      transition-duration: 0.3s;
+    }
+
+    // 选中的效果
+    .chosenBar {
+      width: 100%;
+      height: 2px;
+      margin-top: $bar-to-content;
+      background-color: $THEME_COLOR;
+    }
+
   }
 }

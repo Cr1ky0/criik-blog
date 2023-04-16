@@ -22,7 +22,7 @@ const LinkBtn: React.FC<LinkBtnProps> = props => {
   const { seq, icon, children, isChosen, link, handleClick, className } = props;
 
   const contentStyle = { color: THEME_COLOR };
-  const barStyle = { backgroundColor: THEME_COLOR };
+  // const barStyle = { backgroundColor: THEME_COLOR };
 
   return (
     <div
@@ -32,7 +32,7 @@ const LinkBtn: React.FC<LinkBtnProps> = props => {
       }}
     >
       <Link
-        className={`iconfont ${style.content}`}
+        className={`${style.content} iconfont`}
         style={isChosen[seq] ? contentStyle : { color: '#666666' }}
         to={link}
       >
@@ -40,7 +40,7 @@ const LinkBtn: React.FC<LinkBtnProps> = props => {
           {icon}&nbsp;
           {children}
         </div>
-        <div className={isChosen[seq] ? style.chosenBar : style.bar} style={barStyle}></div>
+        <div className={isChosen[seq] ? style.chosenBar : style.bar}></div>
       </Link>
     </div>
   );

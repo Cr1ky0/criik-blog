@@ -16,3 +16,17 @@ export interface EmojiProps {
 export interface SingleCommentProps {
   children?: string;
 }
+
+// HomePageBlogTagBox
+export interface BlogTagBoxStatistic {
+  author: string;
+  time: string;
+  views: number;
+  classification: string;
+}
+
+export interface BlogTagBoxProps {
+  children: string;
+  title: string;
+  statistics?: BlogTagBoxStatistic;
+}

@@ -14,3 +14,26 @@ $FONT_COLOR: #666666;
     width: $width;
   }
 }
+
+// 动画条
+@mixin animationBar($final_width:100%) {
+
+  &:hover {
+    .bar {
+      width: $final_width;
+      margin-left: 0;
+    }
+  }
+
+  .bar {
+    width: 0;
+    height: 2px;
+    background-color: $THEME_COLOR;
+    margin: {
+      top: 5px;
+      left: 50%; // 设一个margin-left，让其也随着过渡，这样就能保证从中间开始过渡
+    }
+    transition-property: width, margin-left;
+    transition-duration: 0.3s;
+  }
+}
