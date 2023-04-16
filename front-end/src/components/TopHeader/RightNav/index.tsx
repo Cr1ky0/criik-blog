@@ -8,7 +8,7 @@ import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 // ui-c
-import LinkBtn2 from '../../UI/LinkBtn2';
+import LinkBtn2 from '@/components/UI/LinkBtn2';
 
 const RightNav = () => {
   return (

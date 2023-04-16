@@ -1,7 +1,7 @@
 import React from 'react';
-import MainPage from '../pages/MainPage';
-import TestPage from '../pages/TestPage';
-import HomePage from '../pages/MainPage/HomePage';
+import MainPage from '@/pages/MainPage';
+import TestPage from '@/pages/TestPage';
+import HomePage from '@/pages/MainPage/HomePage';
 
 const router = [
   {

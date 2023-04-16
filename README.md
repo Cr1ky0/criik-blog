@@ -1,8 +1,8 @@
-# criik-blog 全栈项目
+#  全栈criik-blog（开发中）
+仿VuePress Theme Hope主题利用React进行开发
 
 # Sever 端
-
-1. 实际上处理是以链式结构进行的，调用next实际是调用下一个中间件，每一个中间件都处于链条中的一环，是有先后顺序的
+1. 实际上整体是以链式结构进行的，调用next实际是调用下一个中间件，每一个中间件都处于链条中的一环，是有先后顺序的
 2. 利用 protect 中间件，在验证过程中在 req 中存放 user，后续操作可从 req 中读取 user 来保证此次操作必定是针对该用户的操作
 3. 利用setTimeout来设置session销毁时间
 4. 对 async 函数进行封装
@@ -41,7 +41,6 @@
     - 给其他数据库添加验证账户时，非admin db使用readWrite角色，因为子db没有root等角色
 
 # 前端
-
 1. 安装eslint步骤:
    > npm i eslint -D <br/>
    > npx eslint --init <br/>
@@ -82,15 +81,42 @@
        // 必须以REACT_APP_开头否则失效
        REACT_APP_THEME_COLOR =
    ```
-
 4. json转化为数组格式
    ```js
        Object.values(response.data) // 仅转化value
-   
+
        // 转化key和value
        const list: emojiObj[] = [];
        Object.entries(response.data).map(([key, value]) => {
          list.push({key, value});
        });
-   
+
    ```
+5. 关于全局路径配置
+   ```js
+    // tsconfig.json
+    "baseUrl": ".",
+    "paths": { // 注意是paths不是path，在这找了半天bug
+        "@/*": [
+        "src/*"
+        ]
+    }
+    // craco.config.js
+    const path = require('path');
+    const resolve = dir => path.resolve(__dirname, dir);
+    module.exports = {
+        webpack: {
+            alias: {
+            '@': resolve('src'),
+            },
+        },
+    };
+   ```
+6. ts里用react-redux的hook时，提前声明类别并暴露声明类别后的hook
+    ```js
+        export type RootState = ReturnType<typeof store.getState>;
+        export type AppDispatch = typeof store.dispatch;
+        export const useAppDispatch: () => AppDispatch = useDispatch;
+        export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+    ```
+

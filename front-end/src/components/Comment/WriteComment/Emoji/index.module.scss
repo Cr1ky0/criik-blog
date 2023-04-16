@@ -1,11 +1,11 @@
-@import '../../../../assets/css/index.scss';
+@import '@/assets/css/index.scss';
 
 .wrapper {
   width: 38vw;
 
   li {
     float: left;
-    font-size: 1.2vw;
+    font-size: 2.1vw;
     cursor: pointer;
 
     &:hover {

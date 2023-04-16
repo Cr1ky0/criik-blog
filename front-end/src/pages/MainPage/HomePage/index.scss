@@ -23,12 +23,13 @@
     position: absolute;
     left: 0;
     right: 0;
-    top:10vh;
-    margin:auto;
+    top: 10vh;
+    margin: auto;
     font: {
       family: 'Smiley_Sans_Oblique';
       size: 20px;
     }
+
     .home-tag-icon {
       width: 100%;
       height: 300px;
@@ -38,6 +39,7 @@
         size: cover;
       }
     }
+
     .home-tag {
       margin: 20px 0;
       font: {

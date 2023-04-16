@@ -1,7 +1,7 @@
 import React from 'react';
 
 // comp
-import Comment from '../../components/Comment';
+import Comment from '@/components/Comment';
 
 const TestPage = () => {
   return (

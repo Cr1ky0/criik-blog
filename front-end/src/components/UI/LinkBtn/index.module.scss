@@ -3,7 +3,7 @@
     display: block;
   }
 
-  $bar-to-content:7px;
+  $bar-to-content: 7px;
   // 内容区
   .content {
     width: 60px;
@@ -17,7 +17,7 @@
         top: $bar-to-content;
         left: 50%; // 设一个margin-left，让其也随着过渡，这样就能保证从中间开始过渡
       }
-      transition-property: 'width';
+      transition-property: width;
       transition-duration: 0.2s;
     }
 

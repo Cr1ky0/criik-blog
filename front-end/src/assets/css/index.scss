@@ -7,3 +7,10 @@ $FONT_COLOR: #666666;
   -ms-user-select: none;
   user-select: none;
 }
+
+// scrollbar设置需要放在其父容器内
+@mixin setScrollBar($width:5px) {
+  ::-webkit-scrollbar {
+    width: $width;
+  }
+}

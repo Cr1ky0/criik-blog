@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import './index.scss';
 
 // ui-c
-import LinkBtn from '../../UI/LinkBtn';
+import LinkBtn from '@/components/UI/LinkBtn';
 
 const MiddleNav = () => {
   const [isChosen, setIsChosen] = useState([true, false, false, false]);

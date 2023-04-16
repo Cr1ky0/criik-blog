@@ -6,10 +6,10 @@ import { Outlet } from 'react-router';
 const { Content } = Layout;
 
 // 组件
-import TopHeader from '../../components/TopHeader';
+import TopHeader from '@/components/TopHeader';
 
 // comp
-import Footer from '../../components/Footer';
+import Footer from '@/components/Footer';
 
 const MainPage = () => {
   return (

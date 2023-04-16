@@ -1,0 +1,103 @@
+@import "@/assets/css/index.scss";
+@import "@/components/Comment/var.scss";
+
+@mixin likesUni {
+  @include unSelectable;
+  cursor: pointer;
+  float: left;
+  margin: {
+    right: 2px;
+  }
+  font: {
+    size: 22px;
+  }
+}
+
+.wrapper {
+  width: $COMMENT_W;
+  color: $FONT_COLOR;
+  margin: {
+    //top: 20px;
+    bottom: 30px;
+  }
+  position: relative;
+  @include setScrollBar($width: 0);
+
+  .avator {
+    float: left;
+    margin: {
+      right: 5px;
+    }
+  }
+
+  .info {
+    display: flex;
+    justify-content: space-between;
+
+    // 左边info
+    .infoBox {
+      .username {
+        color: $THEME_COLOR;
+        float: left;
+        font: {
+          size: 20px;
+          weight: bold;
+        }
+        margin: {
+          right: 5px;
+        }
+      }
+
+      .tags {
+        float: left;
+        margin: {
+          top: 1px;
+        }
+      }
+    }
+
+    // 右边点赞区
+    .likesWrapper {
+      float: right;
+
+      .likes {
+        @include likesUni;
+
+        &:hover {
+          color: $THEME_COLOR;
+        }
+      }
+
+      .likesOnChosen {
+        @include likesUni;
+        color: #ff0000;
+      }
+
+      .likesNum {
+        float: left;
+        margin: {
+          right: 2px;
+        }
+        font: {
+          size: 20px;
+        }
+      }
+    }
+  }
+
+  .signature {
+    font-size: 14px;
+  }
+
+  .comment {
+    width: calc($COMMENT_W * 4 / 5);
+    max-height: $COMMENT_H;
+    word-break: break-all;
+    overflow: auto;
+    margin: {
+      top: 10px;
+      left: auto;
+      right: auto;
+    }
+  }
+}

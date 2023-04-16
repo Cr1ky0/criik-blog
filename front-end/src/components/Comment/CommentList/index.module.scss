@@ -1,0 +1,42 @@
+@import "@/components/Comment/var.scss";
+@import "@/assets/css/index.scss";
+
+.wrapper {
+  width: $COMMENT_W;
+  color: $FONT_COLOR;
+
+  .statistics {
+    margin: {
+      top: 4vh;
+    }
+
+    .counts {
+      float: left;
+      margin: {
+        top: 20px;
+        bottom: 20px;
+        left: 5px;
+      }
+      font: {
+        weight: bold;
+        size: 20px;
+      };
+    }
+
+    .sortMenu {
+      float: right;
+      border-bottom: none;
+
+      > li {
+        padding: {
+          left: 5px;
+          right: 5px;
+        }
+      }
+    }
+  }
+
+  .comments {
+
+  }
+}

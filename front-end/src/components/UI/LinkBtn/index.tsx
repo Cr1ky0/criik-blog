@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import style from './index.module.scss';
 
 // global
-import { THEME_COLOR } from '../../../global';
+import { THEME_COLOR } from '@/global';
 
 interface LinkBtnProps {
   seq: number;

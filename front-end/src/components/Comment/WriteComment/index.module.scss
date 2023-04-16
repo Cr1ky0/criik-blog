@@ -1,27 +1,22 @@
-@import '../../../assets/css/index.scss';
-
-$COMMENT_H: 30vh;
-$COMMENT_W: 40vw;
-$BORDER_COLOR: rgba(0, 0, 0, .2);
+@import '@/assets/css/index.scss';
+@import "@/components/Comment/var.scss";
 
 .wrapper {
   display: block;
   width: $COMMENT_W;
-
-  // 调试用
-  margin: 30vh;
 
   ::-webkit-scrollbar {
     width: 0;
   }
 
   .content {
+    color: $FONT_COLOR;
     outline: none;
     box-sizing: border-box;
     width: 100%;
-    font-size: 2vh;
+    font-size: 20px;
     min-height: $COMMENT_H;
-    line-height: 18px;
+    line-height: 24px;
     border: 1px solid $BORDER_COLOR;
     padding: 2vh;
     resize: none;
@@ -42,11 +37,12 @@ $BORDER_COLOR: rgba(0, 0, 0, .2);
       top: -2px;
     }
     border: {
-      radius: 0 0 5px 5px;
+      radius: 0 0 1vh 1vh;
       top: 1px dashed $BORDER_COLOR;
     };
 
     .emoji {
+      @include unSelectable;
       float: left;
       cursor: pointer;
 

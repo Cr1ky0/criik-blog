@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useRef } from 'react';
+import React, { MouseEventHandler, useEffect, useRef } from 'react';
 
 // css
 import style from './index.module.scss';
@@ -8,10 +8,16 @@ import { Button, Popover } from 'antd';
 
 // comp
 import Emoji from './Emoji';
+import { useAppDispatch } from '@/redux';
+import { setEmoji } from '@/redux/slices/emoji';
 
 const WriteComment = () => {
   const commentRef = useRef<HTMLTextAreaElement>(null);
 
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setEmoji());
+  }, []);
   // 向文本框内部添加表情
   const addEmoji: MouseEventHandler<HTMLLIElement> = event => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
