@@ -1,25 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, MouseEventHandler } from 'react';
+
+// css
+import style from './index.module.scss';
 
 import axios from 'axios';
 
-interface emojiObj {
+interface EmojiObj {
   key: string;
   value: string;
 }
 
-const Emoji = () => {
-  const [emojis, setEmojis] = useState<emojiObj[]>([]);
+interface EmojiProps {
+  handleClick: MouseEventHandler<HTMLLIElement>;
+}
+
+const Emoji: React.FC<EmojiProps> = props => {
+  const [emojis, setEmojis] = useState<EmojiObj[]>([]);
+  const { handleClick } = props;
 
   useEffect(() => {
     axios.get('http://localhost:3002/emoji.json').then(
       response => {
         // 将json转化为对象
-        const list: emojiObj[] = [];
+        const list: EmojiObj[] = [];
         Object.entries(response.data).map(([key, value]) => {
-          list.push({ key, value } as emojiObj);
+          list.push({ key, value } as EmojiObj);
         });
         setEmojis(list);
-        console.log(list);
       },
       error => {
         console.log(error);
@@ -27,7 +34,15 @@ const Emoji = () => {
     );
   }, []);
 
-  return <div></div>;
+  return (
+    <ul className={`${style.wrapper} clearfix`}>
+      {emojis.map(emoji => (
+        <li key={emoji.key} onClick={handleClick}>
+          {emoji.value}
+        </li>
+      ))}
+    </ul>
+  );
 };
 
 export default Emoji;

@@ -1,3 +1,9 @@
-$THEME_COLOR:#5c92d1;
-$FONT_COLOR:#666666;
+$THEME_COLOR: #5c92d1;
+$FONT_COLOR: #666666;
 
+@mixin unSelectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

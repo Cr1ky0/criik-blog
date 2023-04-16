@@ -1,0 +1,21 @@
+@import '../../../../assets/css/index.scss';
+
+.wrapper {
+  width: 38vw;
+
+  li {
+    float: left;
+    font-size: 1.2vw;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, .1);
+      border: {
+        radius: 0.2vw;
+      };
+    }
+
+    // 字体不可选中
+    @include unSelectable;
+  }
+}

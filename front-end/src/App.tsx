@@ -6,7 +6,7 @@ import 'reset-css';
 // css
 import './App.scss';
 
-// 其他样式
+// iconfont
 import './assets/iconfont/iconfont.css';
 
 // 路由

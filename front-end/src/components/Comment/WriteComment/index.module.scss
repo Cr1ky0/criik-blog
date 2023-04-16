@@ -1,5 +1,8 @@
+@import '../../../assets/css/index.scss';
+
 $COMMENT_H: 30vh;
 $COMMENT_W: 40vw;
+$BORDER_COLOR: rgba(0, 0, 0, .2);
 
 .wrapper {
   display: block;
@@ -19,7 +22,7 @@ $COMMENT_W: 40vw;
     font-size: 2vh;
     min-height: $COMMENT_H;
     line-height: 18px;
-    border: 1px solid rgba(0, 0, 0, .2);
+    border: 1px solid $BORDER_COLOR;
     padding: 2vh;
     resize: none;
     border: {
@@ -28,8 +31,10 @@ $COMMENT_W: 40vw;
     }
   }
 
+
+  // 下面功能栏
   .funcBar {
-    border: 1px solid rgba(0, 0, 0, .2);
+    border: 1px solid $BORDER_COLOR;
     width: 100%;
     box-sizing: border-box;
     padding: 5px;
@@ -38,11 +43,16 @@ $COMMENT_W: 40vw;
     }
     border: {
       radius: 0 0 5px 5px;
-      top: none;
+      top: 1px dashed $BORDER_COLOR;
     };
 
     .emoji {
       float: left;
+      cursor: pointer;
+
+      &:hover {
+        color: $THEME_COLOR;
+      }
     }
 
     .submit {
