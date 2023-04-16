@@ -25,6 +25,7 @@ function getItem(
 
 // 将SideMenuItem列表转化为MenuItem列表
 const getAntdMenus: (menus: SideMenuItem[]) => MenuItem[] = menus => {
+  // 一共三层，最多套三层
   return menus.map(menu => {
     return getItem(
       menu.label,
@@ -32,7 +33,16 @@ const getAntdMenus: (menus: SideMenuItem[]) => MenuItem[] = menus => {
       menu.icon,
       menu.children
         ? menu.children.map(menu => {
-            return getItem(menu.label, menu.key, menu.icon);
+            return getItem(
+              menu.label,
+              menu.key,
+              menu.icon,
+              menu.children
+                ? menu.children.map(menu => {
+                    return getItem(menu.label, menu.key, menu.icon);
+                  })
+                : undefined
+            );
           })
         : undefined
     );

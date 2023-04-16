@@ -13,7 +13,16 @@ const TestPage = () => {
       key: 'test',
       icon: <AppstoreOutlined />,
       children: [
-        { label: 'test1', key: 'test1', icon: <LinkOutlined /> },
+        {
+          label: 'test1',
+          key: 'test1',
+          icon: <LinkOutlined />,
+          children: [
+            { label: 'test1', key: 'test1', icon: <LinkOutlined /> },
+            { label: 'test2', key: 'test2', icon: <SettingOutlined /> },
+            { label: 'test3', key: 'test3', icon: <AppstoreOutlined /> },
+          ],
+        },
         { label: 'test2', key: 'test2', icon: <SettingOutlined /> },
         { label: 'test3', key: 'test3', icon: <AppstoreOutlined /> },
       ],
