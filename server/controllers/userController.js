@@ -1,7 +1,26 @@
+const multer = require('multer');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const filterObj = require('../utils/filterObj');
+// TODO:设置头像
+// multer
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new AppError('Not an image! Please upload only images.', 400), false);
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+exports.uploadAvator = upload.single('photo');
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find();
@@ -46,9 +65,7 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
-// TODO:设置头像
-
-exports.getUser = async (req, res) => {
+exports.getUser = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
   res.status(200).json({
@@ -57,7 +74,7 @@ exports.getUser = async (req, res) => {
       user,
     },
   });
-};
+});
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',

@@ -4,6 +4,13 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
+// 上传图片
+router.post(
+  '/uploadAvator',
+  authController.protect,
+  userController.uploadAvator
+);
+
 // 登录注册
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
