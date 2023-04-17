@@ -9,6 +9,9 @@ import { Popover, Tag } from 'antd';
 // interface
 import { BlogTagBoxProps } from '@/interface';
 
+// util
+import { getLimitString } from '@/utils';
+
 // TODO:后续创个class表，让分类标签根据该表来变换颜色
 // 主页的BlogBox组件
 const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
@@ -23,7 +26,7 @@ const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
         </div>
         <div className={`${style.pin} iconfont`}>&#xe637;</div>
       </div>
-      <div className={style.text}>{children.length > limit ? children.slice(limit) + '...' : children}</div>
+      <div className={style.text}>{getLimitString(limit, children)}</div>
       <div className={style.line}></div>
       <div className={`${style.statistics} clearfix`}>
         <Popover content="作者信息" trigger="hover">

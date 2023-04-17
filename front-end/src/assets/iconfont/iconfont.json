@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "3176645",
+      "name": "GitHub",
+      "font_class": "GitHub",
+      "unicode": "ea0a",
+      "unicode_decimal": 59914
+    },
+    {
+      "icon_id": "3876578",
+      "name": "steam",
+      "font_class": "steam",
+      "unicode": "e686",
+      "unicode_decimal": 59014
+    },
+    {
+      "icon_id": "27188628",
+      "name": "qq",
+      "font_class": "qq",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "27188687",
+      "name": "wechat",
+      "font_class": "wechat",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
       "icon_id": "11125624",
       "name": "分类",
       "font_class": "2",

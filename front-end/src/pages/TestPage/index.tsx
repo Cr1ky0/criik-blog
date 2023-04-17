@@ -1,12 +1,16 @@
 import React from 'react';
 import SideMenu from '@/components/SideMenu';
-import { SideMenuItem } from '@/interface';
+
+// interface
+import { SideMenuItem, BlogTagBoxStatistic } from '@/interface';
 
 // comp
 import { AppstoreOutlined, LinkOutlined, SettingOutlined } from '@ant-design/icons';
+import BlogTagBox from '@/components/HomePage/BlogTagBox';
+import IntroductionBox from '@/components/HomePage/IntroductionBox';
 
 const TestPage = () => {
-  // const statistcs: BlogTagBoxStatistic = { author: 'criiky0', views: 200, time: '2023/4/12', classification: 'ts' };
+  const statistics: BlogTagBoxStatistic = { author: 'criiky0', views: 200, time: '2023/4/12', classification: 'ts' };
   const menuList: SideMenuItem[] = [
     {
       label: 'test',
@@ -41,7 +45,15 @@ const TestPage = () => {
 
   return (
     <div style={{ margin: '20vh' }}>
-      <SideMenu menus={menuList}></SideMenu>
+      {/* <BlogTagBox title="test" statistics={statistics}>
+        Test
+      </BlogTagBox>
+      <SideMenu menus={menuList}></SideMenu> */}
+      <IntroductionBox
+        username="Criiky0"
+        icon="@/assets/images/left-nav-icon.ppng"
+        signature="测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试v"
+      ></IntroductionBox>
     </div>
   );
 };

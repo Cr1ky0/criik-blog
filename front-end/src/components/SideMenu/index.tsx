@@ -55,8 +55,8 @@ const SideMenu: React.FC<SideMenuProps> = props => {
     <>
       <Menu
         style={{ width: 256 }}
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
+        defaultSelectedKeys={['test1']}
+        defaultOpenKeys={['test', 'test4']}
         mode="inline"
         items={antdMenus}
       />

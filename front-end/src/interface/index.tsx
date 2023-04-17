@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React, { CSSProperties, MouseEventHandler } from 'react';
 
 /* Comment-Comp */
 
@@ -17,7 +17,9 @@ export interface SingleCommentProps {
   children?: string;
 }
 
-// HomePageBlogTagBox
+/* HomePage */
+
+// BlogTagBox
 export interface BlogTagBoxStatistic {
   author: string;
   time: string;
@@ -31,8 +33,20 @@ export interface BlogTagBoxProps {
   statistics?: BlogTagBoxStatistic;
 }
 
-// SideMenu
+// IntroductionBox
+export interface IntroductionBoxProps {
+  username: string;
+  signature: string;
+  icon: string;
+}
 
+// LinkIcon
+export interface LinkIconProps {
+  icon: string;
+  styles?: CSSProperties;
+}
+
+/* SideMenu */
 export interface SideMenuItem {
   label: React.ReactNode;
   key: string;

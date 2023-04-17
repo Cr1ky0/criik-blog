@@ -1,22 +1,16 @@
-@import "@/assets/css/index.scss";
+@import '@/assets/css/index.scss';
 
-$LINE_COLOR: rgba(0, 0, 0, .2);
+$LINE_COLOR: rgba(0, 0, 0, 0.2);
 
 .wrapper {
+  @include boxShadow;
   color: $FONT_COLOR;
   box-sizing: content-box;
   width: 40vw;
   padding: 1vw;
-  border: 1px solid $LINE_COLOR;
-  transition-property: box-shadow;
-  transition-duration: .3s;
   position: relative;
   border: {
     radius: 0.5vw;
-  };
-
-  &:hover {
-    box-shadow: 0 0 5px rgba(0, 0, 0, .2);
   }
 
   .titleWrapper {
@@ -42,7 +36,6 @@ $LINE_COLOR: rgba(0, 0, 0, .2);
       top: 3px;
       color: $THEME_COLOR;
     }
-
   }
 
   .text {
@@ -73,14 +66,12 @@ $LINE_COLOR: rgba(0, 0, 0, .2);
       }
     }
 
-
     .author {
-      transition: all .3s;
+      transition: all 0.3s;
 
       &:hover {
         color: $THEME_COLOR;
       }
     }
-
   }
 }

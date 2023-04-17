@@ -1,5 +1,5 @@
 $THEME_COLOR: #5c92d1;
-$FONT_COLOR: #666666;
+$FONT_COLOR: #2c3e50;
 
 @mixin unSelectable {
   -webkit-user-select: none;
@@ -8,16 +8,29 @@ $FONT_COLOR: #666666;
   user-select: none;
 }
 
+// 加边框（调试用）
+@mixin bord {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+// 移入改变字体颜色
+@mixin changeColor {
+  cursor: pointer;
+  &:hover {
+    color: $THEME_COLOR;
+  }
+  transition: color 0.3s;
+}
+
 // scrollbar设置需要放在其父容器内
-@mixin setScrollBar($width:5px) {
+@mixin setScrollBar($width: 5px) {
   ::-webkit-scrollbar {
     width: $width;
   }
 }
 
 // 动画条
-@mixin animationBar($final_width:100%) {
-
+@mixin animationBar($final_width: 100%) {
   &:hover {
     .bar {
       width: $final_width;
@@ -36,4 +49,13 @@ $FONT_COLOR: #666666;
     transition-property: width, margin-left;
     transition-duration: 0.3s;
   }
+}
+
+// box阴影
+@mixin boxShadow {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  &:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+  }
+  transition: box-shadow 0.3s;
 }

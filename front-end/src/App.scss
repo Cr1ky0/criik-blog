@@ -1,10 +1,14 @@
 @import './assets/css/index.scss';
 
-
 // 字体设置
 @font-face {
-  font-family: "Smiley_Sans_Oblique";
+  font-family: 'Smiley_Sans_Oblique';
   src: url('./assets/font/Smiley_Sans_Oblique.ttf');
+}
+
+// 根样式
+#root {
+  color: $FONT_COLOR;
 }
 
 // 滚动条
@@ -13,18 +17,17 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: $THEME_COLOR
+  background-color: $THEME_COLOR;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #ddd
+  background-color: #ddd;
 }
-
 
 // clearfix
 .clearfix::before,
 .clearfix::after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }
