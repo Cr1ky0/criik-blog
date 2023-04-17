@@ -37,7 +37,6 @@ export interface BlogTagBoxProps {
 export interface IntroductionBoxProps {
   username: string;
   signature: string;
-  icon: string;
 }
 
 // LinkIcon

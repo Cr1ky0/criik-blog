@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "599914",
+      "name": "QQ",
+      "font_class": "qq1",
+      "unicode": "e66a",
+      "unicode_decimal": 58986
+    },
+    {
       "icon_id": "3176645",
       "name": "GitHub",
       "font_class": "GitHub",
@@ -18,20 +25,6 @@
       "font_class": "steam",
       "unicode": "e686",
       "unicode_decimal": 59014
-    },
-    {
-      "icon_id": "27188628",
-      "name": "qq",
-      "font_class": "qq",
-      "unicode": "e62c",
-      "unicode_decimal": 58924
-    },
-    {
-      "icon_id": "27188687",
-      "name": "wechat",
-      "font_class": "wechat",
-      "unicode": "e635",
-      "unicode_decimal": 58933
     },
     {
       "icon_id": "11125624",

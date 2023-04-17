@@ -1,11 +1,11 @@
 import React from 'react';
-import SideMenu from '@/components/SideMenu';
 
 // interface
 import { SideMenuItem, BlogTagBoxStatistic } from '@/interface';
 
 // comp
 import { AppstoreOutlined, LinkOutlined, SettingOutlined } from '@ant-design/icons';
+import SideMenu from '@/components/SideMenu';
 import BlogTagBox from '@/components/HomePage/BlogTagBox';
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
 
@@ -51,10 +51,10 @@ const TestPage = () => {
       <SideMenu menus={menuList}></SideMenu> */}
       <IntroductionBox
         username="Criiky0"
-        icon="@/assets/images/left-nav-icon.ppng"
         signature="测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试v"
       ></IntroductionBox>
     </div>
   );
 };
+
 export default TestPage;

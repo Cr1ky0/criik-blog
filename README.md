@@ -130,3 +130,8 @@
    export const useAppDispatch: () => AppDispatch = useDispatch;
    export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
    ```
+7. react 内设背景需要先将背景图片引入
+   ```js
+    import img from '@/assets/images/left-nav-icon.png'
+    style={{ backgroundImage: `url(${img})` }}
+   ```

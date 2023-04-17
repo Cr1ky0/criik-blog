@@ -3,19 +3,22 @@
     left: 5px;
     right: 5px;
     bottom: 5px;
-    top:3px;
+    top: 3px;
   }
   width: 30px;
   height: 30px;
   perspective: 800px;
+
   > div {
     cursor: pointer;
+    transition: transform 0.3s .1s;
     font: {
       size: 25px;
     }
+
     &:hover {
       transform: translateZ(120px);
     }
-    transition: transform 0.3s;
+
   }
 }
