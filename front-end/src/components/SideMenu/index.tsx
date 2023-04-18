@@ -1,5 +1,8 @@
 import React from 'react';
 
+// css
+import style from './index.module.scss';
+
 // antd
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd/es/menu';
@@ -58,11 +61,11 @@ const SideMenu: React.FC<SideMenuProps> = props => {
   return (
     <>
       <Menu
-        style={{ width: 256 }}
         defaultSelectedKeys={['test1']}
         defaultOpenKeys={['test', 'test4']}
         mode="inline"
         items={antdMenus}
+        className={style.menu}
       />
     </>
   );

@@ -6,6 +6,10 @@
   src: url('./assets/font/Smiley_Sans_Oblique.ttf');
 }
 
+body {
+  overflow-x: hidden;
+}
+
 // 根样式
 #root {
   color: $FONT_COLOR;

@@ -14,7 +14,7 @@
 }
 
 .wrapper {
-  width: $COMMENT_W;
+  width: 100%;
   color: $FONT_COLOR;
   position: relative;
 
@@ -103,7 +103,7 @@
 
 
   .comment {
-    width: calc($COMMENT_W * 4 / 5);
+    width: 80%;
     max-height: $COMMENT_H;
     word-break: break-all;
     overflow: auto;

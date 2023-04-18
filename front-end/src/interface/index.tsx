@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 /* Comment-Comp */
 
@@ -24,4 +24,10 @@ export interface SideMenuItem {
   key: string;
   icon?: React.ReactNode;
   children?: SideMenuItem[];
+}
+
+/* IconStore */
+export interface AntdIcon {
+  icon: ReactElement;
+  name: string;
 }

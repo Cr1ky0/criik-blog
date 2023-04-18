@@ -9,8 +9,17 @@ import SideMenu from '@/components/SideMenu';
 import BlogTagBox from '@/components/HomePage/BlogTagBox';
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
 import Comment from '@/components/Comment';
+import { useAppSelector } from '@/redux';
+import ReactDOM from 'react-dom/client';
+
+// hooks
+import { useIcons } from '@/components/IconStore';
+
+// utils
+import { getAntdIcon } from '@/utils';
 
 const TestPage = () => {
+  const icons = useIcons();
   const statistics: BlogTagBoxStatistic = { author: 'criiky0', views: 200, time: '2023/4/12', classification: 'ts' };
   const menuList: SideMenuItem[] = [
     {
@@ -45,12 +54,14 @@ const TestPage = () => {
   ];
 
   return (
-    <div style={{ margin: '20vh' }}>
-      <Comment></Comment>
+    <div style={{ margin: '20vh', width: '700px' }}>
+      {getAntdIcon('home', icons)}
+      {getAntdIcon('code', icons)}
+      {/*<Comment></Comment>*/}
       {/* <BlogTagBox title="test" statistics={statistics}>
         Test
-      </BlogTagBox>
-      <SideMenu menus={menuList}></SideMenu> */}
+      </BlogTagBox>*/}
+      {/*<SideMenu menus={menuList}></SideMenu>*/}
       {/*<IntroductionBox*/}
       {/*  username="Criiky0"*/}
       {/*  signature="测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试v"*/}
