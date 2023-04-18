@@ -46,6 +46,7 @@
       ```
     - 给其他数据库添加验证账户时，非 admin db 使用 readWrite 角色，因为子 db 没有 root 等角色
 8. 文件、图片上传：multer+sharp
+9. react内响应式布局见ViewportProvider组件（利用context，全局包裹该组件，获取窗口大小）
 
 # 前端
 

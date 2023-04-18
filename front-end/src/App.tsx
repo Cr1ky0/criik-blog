@@ -9,12 +9,15 @@ import './App.scss';
 // iconfont
 import './assets/iconfont/iconfont.css';
 
+// comp
+import ViewportProvider from './components/ViewportProvider';
+
 // 路由
 import routes from './routes';
 
 const App = () => {
   const elements = useRoutes(routes);
-  return <>{elements}</>;
+  return <ViewportProvider>{elements}</ViewportProvider>;
 };
 
 export default App;

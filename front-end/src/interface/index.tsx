@@ -1,7 +1,6 @@
 import React, { CSSProperties, MouseEventHandler } from 'react';
 
 /* Comment-Comp */
-
 //Emoji
 export interface EmojiObj {
   key: string;

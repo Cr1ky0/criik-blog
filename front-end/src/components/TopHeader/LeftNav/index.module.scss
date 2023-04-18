@@ -1,22 +1,19 @@
 @import '@/assets/css/index.scss';
 
-.left-nav {
+.leftNav{
   min-width: 150px;
   display: flex;
   justify-content: space-between;
   cursor: pointer;
   // 图片
-  .left-nav-icon {
-    width: 40px;
-    height: 40px;
-    // border: 1px solid $FONT_COLOR;
-    padding: 1px;
+  .leftNavIcon {
+    width: 50px;
+    height: 50px;
     margin: {
-      top: 5px;
       left: 20px;
     }
     border: {
-      radius: 3px;
+      radius: 50%;
     }
     background: {
       image: url('../../../assets/images/left-nav-icon.png');
@@ -27,7 +24,7 @@
   }
 
   // 作者
-  .left-nav-auth {
+  .leftNavAuth {
     text-align: center;
     color: $FONT_COLOR;
     font: {
@@ -39,3 +36,4 @@
     }
   }
 }
+

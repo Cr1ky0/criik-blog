@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // css
-import './index.scss';
+import style from './index.module.scss';
 
 // ui-c
 import LinkBtn from '@/components/UI/LinkBtn';
@@ -22,7 +22,7 @@ const MiddleNav = () => {
   };
 
   return (
-    <div className="middle-nav">
+    <div className={style.middleNav}>
       <LinkBtn icon="&#xe600;" seq={0} isChosen={isChosen} handleClick={handleClick} link={'/'}>
         主页
       </LinkBtn>

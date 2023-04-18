@@ -11,13 +11,14 @@ const HomePage = () => {
   return (
     <>
       <div className="back-white"></div>
-      <div className="background-photo" style={{ backgroundImage: `url(${img1})` }}>
+      {/*<div className="background-photo" style={{ backgroundImage: `url(${img1})` }}>*/}
+      {/* <div className="background-photo">
         <div className="home-tag-wrapper">
           <div className="home-tag-icon" style={{ backgroundImage: `url(${img2})` }}></div>
           <div className="home-tag">Criik-Blog</div>
           <div className="home-allegory">Always Be Yourself and Never Compromise to the Life</div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

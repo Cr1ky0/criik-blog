@@ -1,13 +1,22 @@
 import React from 'react';
 
+// hooks
+import { useViewport } from '@/components/ViewportProvider';
+
 // css
-import './index.scss';
+import style from './index.module.scss';
 
 const LeftNav = () => {
-  return (
-    <a className="left-nav" href="https://github.com/Creekyu" target="_blank" rel="noreferrer">
-      <div className="left-nav-icon"></div>
-      <div className="left-nav-auth">CRIIKY0</div>
+  const { width } = useViewport();
+  const breakPoint = 500;
+  return width > breakPoint ? (
+    <a className={style.leftNav} href="https://github.com/Creekyu" target="_blank" rel="noreferrer">
+      <div className={style.leftNavIcon}></div>
+      <div className={style.leftNavAuth}>CRIIKY0</div>
+    </a>
+  ) : (
+    <a className={style.leftNav} href="https://github.com/Creekyu" target="_blank" rel="noreferrer">
+      <div className={style.leftNavIcon}></div>
     </a>
   );
 };

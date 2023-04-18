@@ -1,7 +1,7 @@
 import React from 'react';
 
 // css
-import './index.scss';
+import style from './index.module.scss';
 
 // ui-c
 import LinkBtn2 from '@/components/UI/LinkBtn2';
@@ -11,10 +11,10 @@ import img from '@/assets/images/left-nav-icon.png';
 
 const RightNav = () => {
   return (
-    <div className="right-nav">
+    <div className={style.rightNavPC}>
       <LinkBtn2>Sing up</LinkBtn2>
       <LinkBtn2>Sign in</LinkBtn2>
-      <div className="right-nav-avator" style={{ backgroundImage: `url(${img})` }}></div>
+      <div className={style.rightNavAvatorPC} style={{ backgroundImage: `url(${img})` }}></div>
     </div>
   );
 };
