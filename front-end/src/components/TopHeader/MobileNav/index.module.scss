@@ -1,11 +1,55 @@
 @import '@/assets/css/index.scss';
+
+@mixin setBarWrapper {
+  float: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-direction: column;
+  cursor: pointer;
+  height: 9px;
+  width: 10px;
+  margin: {
+    right: 10px;
+    top: 10px;
+  }
+  > div {
+    height: 1.1px;
+    background-color: #666666;
+    transition: width 0.2s;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+  }
+}
+
+@mixin setNotActiveBar {
+  > div:first-child {
+    width: 10px;
+  }
+  > div:nth-child(2) {
+    width: 5px;
+  }
+  > div:last-child {
+    width: 7.5px;
+  }
+  &:hover {
+    > div:first-child {
+      width: 7.5px;
+    }
+    > div:nth-child(2) {
+      width: 10px;
+    }
+    > div:last-child {
+      width: 5px;
+    }
+  }
+}
+
 .wrapper {
   width: 100%;
   height: 30px;
   background-color: rgba(255, 255, 255, 0.9);
-  position: fixed;
-  z-index: 999;
-  top: 0;
   // 字体不可选中
   @include unSelectable;
 
@@ -27,70 +71,11 @@
     }
   }
 
-  .rightNavNotActive {
-    float: right;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-direction: column;
-    height: 9px;
-    margin: {
-      right: 10px;
-      top: 10px;
-    }
-    cursor: pointer;
-    > div {
-      height: 1.2px;
-      background-color: #666666;
-      transition: width 0.2s;
-    }
-    > div:first-child {
-      width: 10px;
-    }
-    > div:nth-child(2) {
-      width: 5px;
-    }
-    > div:last-child {
-      width: 7.5px;
-    }
-    &:hover {
-      > div:first-child {
-        width: 7.5px;
-      }
-      > div:nth-child(2) {
-        width: 10px;
-      }
-      > div:last-child {
-        width: 5px;
-      }
-    }
-  }
-
   .rightNavActive {
     position: relative;
-    float: right;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-direction: column;
-    cursor: pointer;
-    height: 9px;
-    width: 10px;
-
-    margin: {
-      right: 10px;
-      top: 10px;
-    }
+    @include setBarWrapper;
     &:hover > div {
       background-color: $THEME_COLOR;
-    }
-
-    > div {
-      height: 1px;
-      background-color: #666666;
-      transition: width 0.2s;
-      animation-duration: 0.3s;
-      animation-fill-mode: forwards;
     }
     > div:first-child {
       width: 7.5px;
@@ -103,6 +88,32 @@
     > div:last-child {
       width: 5px;
       animation-name: barAnimation3;
+    }
+  }
+
+  .rightNavNotActive {
+    @include setBarWrapper;
+    @include setNotActiveBar;
+    > div:first-child {
+      animation-name: barAnimation4;
+    }
+    > div:nth-child(2) {
+      animation-name: barAnimation5;
+    }
+    > div:last-child {
+      animation-name: barAnimation6;
+    }
+  }
+
+  .rightNavInit {
+    @include setBarWrapper;
+    @include setNotActiveBar;
+  }
+
+  .menu {
+    width: 100%;
+    > div {
+      width: 60%;
     }
   }
 }
@@ -130,5 +141,38 @@
     position: absolute;
     top: 3px;
     transform: rotateZ(315deg);
+  }
+}
+
+@keyframes barAnimation4 {
+  from {
+    width: 10px;
+    position: absolute;
+    top: 3px;
+    transform: rotateZ(225deg);
+  }
+  to {
+    width: 10px;
+  }
+}
+
+@keyframes barAnimation5 {
+  from {
+    width: 0;
+  }
+  to {
+    width: 5px;
+  }
+}
+
+@keyframes barAnimation6 {
+  from {
+    width: 10px;
+    position: absolute;
+    top: 3px;
+    transform: rotateZ(315deg);
+  }
+  to {
+    width: 7.5px;
   }
 }

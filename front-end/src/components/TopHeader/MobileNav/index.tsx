@@ -5,25 +5,27 @@ import { Link } from 'react-router-dom';
 import style from './index.module.scss';
 
 const MobileNav = () => {
-  const [active, setActice] = useState(true);
+  const [active, setActice] = useState(false);
+  const [isInit, setisInit] = useState(true);
   return (
     <div className={style.wrapper}>
       <div className={style.leftNav}></div>
-      {active ? (
-        <Link className={style.rightNavActive} to="/" onClick={() => setActice(false)}>
-          <div></div>
-          <div></div>
-          <div></div>
-        </Link>
-      ) : (
-        <Link className={style.rightNavNotActive} to="/" onClick={() => setActice(true)}>
-          <div></div>
-          <div></div>
-          <div></div>
-        </Link>
-      )}
 
-      <div className={style.menu}></div>
+      <div className={active ? style.rightNavActive : style.rightNavNotActive} onClick={() => setActice(!active)}>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+      {/* <div className={style.menu}>
+        <div className={style.menuWrapper}>
+          <div className="iconfont">&#xe600;</div>
+          <div className="iconfont">&#xe60e;</div>
+          <div className="iconfont">&#xe896;</div>
+          <div className="iconfont">&#xe7df;</div>
+        </div>
+        <div className={style.introWrapper}></div>
+      </div> */}
     </div>
   );
 };
