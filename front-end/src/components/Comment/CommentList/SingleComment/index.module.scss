@@ -16,88 +16,106 @@
 .wrapper {
   width: $COMMENT_W;
   color: $FONT_COLOR;
-  margin: {
-    //top: 20px;
-    bottom: 30px;
-  }
   position: relative;
-  @include setScrollBar($width: 0);
 
-  .avator {
-    float: left;
-    margin: {
-      right: 5px;
-    }
-  }
-
-  .info {
-    display: flex;
-    justify-content: space-between;
-
-    // 左边info
-    .infoBox {
-      .username {
-        color: $THEME_COLOR;
-        float: left;
-        font: {
-          size: 20px;
-          weight: bold;
-        }
-        margin: {
-          right: 5px;
-        }
-      }
-
-      .tags {
-        float: left;
-        margin: {
-          top: 1px;
-        }
+  .infoWrapper {
+    .avator {
+      @include backgroundImgStyle;
+      float: left;
+      width: 50px;
+      height: 50px;
+      border: 1px solid rgba(0, 0, 0, .1);
+      margin: {
+        right: 10px;
       }
     }
 
-    // 右边点赞区
-    .likesWrapper {
-      float: right;
+    .info {
+      display: flex;
+      justify-content: space-between;
 
-      .likes {
-        @include likesUni;
-
-        &:hover {
+      // 左边info
+      .infoBox {
+        .username {
           color: $THEME_COLOR;
+          float: left;
+          font: {
+            size: 20px;
+            weight: bold;
+          }
+          margin: {
+            right: 5px;
+          }
+        }
+
+        .tags {
+          float: left;
+          margin: {
+            top: 1px;
+          }
+        }
+
+        .time {
+          float: left;
+          line-height: 22px;
+          font-size: 14px;
+          color: $FONT_COLOR_2;
         }
       }
 
-      .likesOnChosen {
-        @include likesUni;
-        color: #ff0000;
-      }
+      // 右边点赞区
+      .likesWrapper {
+        float: right;
 
-      .likesNum {
-        float: left;
-        margin: {
-          right: 2px;
+        .likes {
+          @include likesUni;
+
+          &:hover {
+            color: $THEME_COLOR;
+          }
         }
-        font: {
-          size: 20px;
+
+        .likesOnChosen {
+          @include likesUni;
+          color: #ff0000;
+        }
+
+        .likesNum {
+          float: left;
+          margin: {
+            right: 2px;
+          }
+          font: {
+            size: 20px;
+          }
         }
       }
     }
+
+    .signature {
+      display: flex;
+      line-height: 20px;
+      font-size: 14px;
+      color: $FONT_COLOR_2;
+      margin-top: 5px;
+    }
   }
 
-  .signature {
-    font-size: 14px;
-  }
 
   .comment {
     width: calc($COMMENT_W * 4 / 5);
     max-height: $COMMENT_H;
     word-break: break-all;
     overflow: auto;
+    font: {
+      size: 14px;
+    }
+    line-height: 20px;
+    padding: {
+      top: 20px;
+    }
     margin: {
-      top: 10px;
-      left: auto;
-      right: auto;
+      left: 60px;
     }
   }
 }

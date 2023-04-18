@@ -15,13 +15,10 @@
     max-height: 70%;
 
     .avator {
+      @include backgroundImgStyle;
       outline: none;
       width: 150px;
       height: 150px;
-      background: {
-        size: cover;
-        repeat: no-repeat;
-      }
       margin: {
         bottom: 20px;
         left: auto;

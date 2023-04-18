@@ -1,5 +1,6 @@
 $THEME_COLOR: #5c92d1;
 $FONT_COLOR: #2c3e50;
+$FONT_COLOR_2: rgba(0, 0, 0, .4);
 
 @mixin unSelectable {
   -webkit-user-select: none;
@@ -58,4 +59,15 @@ $FONT_COLOR: #2c3e50;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
   }
   transition: box-shadow 0.3s;
+}
+
+// 设置背景图片样式
+@mixin backgroundImgStyle {
+  background: {
+    size: cover;
+    repeat: no-repeat;
+  };
+  border: {
+    radius: 50%;
+  };
 }

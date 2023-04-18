@@ -8,6 +8,7 @@ import { AppstoreOutlined, LinkOutlined, SettingOutlined } from '@ant-design/ico
 import SideMenu from '@/components/SideMenu';
 import BlogTagBox from '@/components/HomePage/BlogTagBox';
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
+import Comment from '@/components/Comment';
 
 const TestPage = () => {
   const statistics: BlogTagBoxStatistic = { author: 'criiky0', views: 200, time: '2023/4/12', classification: 'ts' };
@@ -45,6 +46,7 @@ const TestPage = () => {
 
   return (
     <div style={{ margin: '20vh' }}>
+      {/*<Comment></Comment>*/}
       {/* <BlogTagBox title="test" statistics={statistics}>
         Test
       </BlogTagBox>

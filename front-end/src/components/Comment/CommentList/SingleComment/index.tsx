@@ -4,11 +4,13 @@ import React, { useState } from 'react';
 import style from './index.module.scss';
 
 // antd
-import { Avatar, Tag } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Tag } from 'antd';
 
 // interface
 import { SingleCommentProps } from '@/interface';
+
+// img
+import img from '@/assets/images/left-nav-icon.png';
 
 const SingleComment: React.FC<SingleCommentProps> = props => {
   const [isChosen, setIsChosen] = useState(false);
@@ -21,31 +23,32 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
   };
   return (
     <li className={`${style.wrapper} clearfix`}>
-      <div className={style.avator}>
-        <Avatar size="large" icon={<UserOutlined />} />
-      </div>
-      <div className={style.info}>
-        <div className={style.infoBox}>
-          <div className={style.username}>Username</div>
-          <div className={style.tags}>
-            <Tag color="blue">置顶</Tag>
-            <Tag color="blue">置顶</Tag>
+      <div className={`${style.infoWrapper} clearfix`}>
+        <div className={style.avator} style={{ backgroundImage: `url(${img})` }}></div>
+        <div className={style.info}>
+          <div className={style.infoBox}>
+            <div className={style.username}>Username</div>
+            <div className={style.tags}>
+              <Tag color="blue">置顶</Tag>
+              <Tag color="blue">置顶</Tag>
+            </div>
+            <div className={style.time}>2023-1-1</div>
+          </div>
+          <div className={style.likesWrapper}>
+            {isChosen ? (
+              <div className={`${style.likesOnChosen} iconfont`} onClick={changeState}>
+                &#xeca2;
+              </div>
+            ) : (
+              <div className={`${style.likes} iconfont`} onClick={changeState}>
+                &#xeca1;
+              </div>
+            )}
+            <div className={`${style.likesNum}`}>{likesNum}</div>
           </div>
         </div>
-        <div className={style.likesWrapper}>
-          {isChosen ? (
-            <div className={`${style.likesOnChosen} iconfont`} onClick={changeState}>
-              &#xeca2;
-            </div>
-          ) : (
-            <div className={`${style.likes} iconfont`} onClick={changeState}>
-              &#xeca1;
-            </div>
-          )}
-          <div className={`${style.likesNum}`}>{likesNum}</div>
-        </div>
+        <div className={style.signature}>signature</div>
       </div>
-      <div className={style.signature}>signature</div>
       <div className={style.comment}>{children}</div>
     </li>
   );
