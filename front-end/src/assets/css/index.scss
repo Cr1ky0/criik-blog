@@ -1,6 +1,7 @@
 $THEME_COLOR: #5c92d1;
 $FONT_COLOR: #2c3e50;
 $FONT_COLOR_2: rgba(0, 0, 0, .4);
+$TOP_HEADER_H: 50px;
 
 @mixin unSelectable {
   -webkit-user-select: none;
@@ -24,7 +25,7 @@ $FONT_COLOR_2: rgba(0, 0, 0, .4);
 }
 
 // scrollbar设置需要放在其父容器内
-@mixin setScrollBar($width: 5px) {
+@mixin setScrollBar($width: 0.5vw) {
   ::-webkit-scrollbar {
     width: $width;
   }

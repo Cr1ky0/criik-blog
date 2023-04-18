@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 import emoji from './slices/emoji';
+import chosenList from '@/redux/slices/chosenList';
 
 const store = configureStore({
   reducer: {
     emoji,
+    chosenList,
   },
 });
 

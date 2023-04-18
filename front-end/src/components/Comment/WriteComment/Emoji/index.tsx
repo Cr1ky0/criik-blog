@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 
 // redux
 import { useAppSelector } from '@/redux';
@@ -7,7 +7,9 @@ import { useAppSelector } from '@/redux';
 import style from './index.module.scss';
 
 // interface
-import { EmojiProps } from '@/interface';
+export interface EmojiProps {
+  handleClick: MouseEventHandler<HTMLLIElement>;
+}
 
 const Emoji: React.FC<EmojiProps> = props => {
   const { handleClick } = props;

@@ -1,0 +1,40 @@
+@import "@/assets/css/index.scss";
+
+.wrapper {
+  .backWhite {
+    width: 100%;
+    height: $TOP_HEADER_H;
+    background-color: #fff;
+  }
+
+  .backgroundPhoto {
+    width: 100%;
+    height: 95vh; // vh为当前视口的高度单位，1vh为1%
+    position: relative;
+    @include backgroundImgStyle(0);
+
+    .homeTagWrapper {
+      width: 30vh;
+      height: 40vh;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+      margin: 20vh auto;
+      font: {
+        family: 'Smiley_Sans_Oblique';
+        size: 3vh;
+      }
+
+      .homeTagIcon {
+        width: 100%;
+        height: 70%;
+        @include backgroundImgStyle(0);
+      }
+
+      .homeTag {
+        margin: 2vh 0;
+        font-size: 5vh;
+      }
+    }
+  }
+
+}

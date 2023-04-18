@@ -7,7 +7,9 @@ import style from './index.module.scss';
 import { Tag } from 'antd';
 
 // interface
-import { SingleCommentProps } from '@/interface';
+export interface SingleCommentProps {
+  children?: string;
+}
 
 // img
 import img from '@/assets/images/left-nav-icon.png';

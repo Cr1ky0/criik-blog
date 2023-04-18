@@ -3,9 +3,9 @@
 .wrapper {
   @include boxShadow;
   box-sizing: border-box;
-  width: 320px;
+  width: 100%;
 
-  padding: 10px;
+  padding: 3%;
   border: {
     radius: 0.5vw;
   }

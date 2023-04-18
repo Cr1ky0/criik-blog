@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 // css
 import style from './index.module.scss';
 
 // interface
-import { LinkIconProps } from '@/interface';
+export interface LinkIconProps {
+  icon: string;
+  styles?: CSSProperties;
+}
 
 const LinkIcon: React.FC<LinkIconProps> = props => {
   const { icon, styles } = props;

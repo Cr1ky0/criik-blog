@@ -46,15 +46,15 @@ const TestPage = () => {
 
   return (
     <div style={{ margin: '20vh' }}>
-      {/*<Comment></Comment>*/}
+      <Comment></Comment>
       {/* <BlogTagBox title="test" statistics={statistics}>
         Test
       </BlogTagBox>
       <SideMenu menus={menuList}></SideMenu> */}
-      <IntroductionBox
-        username="Criiky0"
-        signature="测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试v"
-      ></IntroductionBox>
+      {/*<IntroductionBox*/}
+      {/*  username="Criiky0"*/}
+      {/*  signature="测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试v"*/}
+      {/*></IntroductionBox>*/}
     </div>
   );
 };

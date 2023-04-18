@@ -12,14 +12,6 @@
     font-size: 13px;
     text-align: center;
 
-    a {
-      text-decoration: none;
-
-      &:active {
-        color: #666666;
-      }
-    }
-
     &:hover {
       .bar {
         width: 100%;

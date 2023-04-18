@@ -6,10 +6,10 @@ interface ViewportProviderProps {
 
 interface viewportContextObj {
   width: number;
-  height?: number;
+  height: number;
 }
 
-const viewportContext = createContext<viewportContextObj>({ width: window.innerWidth });
+const viewportContext = createContext<viewportContextObj>({ width: window.innerWidth, height: window.innerHeight });
 
 const ViewportProvider: React.FC<ViewportProviderProps> = ({ children }) => {
   // 顺带监听下高度，备用

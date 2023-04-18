@@ -1,0 +1,41 @@
+@import '@/assets/css/index.scss';
+
+// 菜单
+.menu {
+  width: 100%;
+  position: fixed;
+  top: $TOP_HEADER_H;
+  background-color: #FFF;
+  overflow: auto;
+
+  > div {
+    width: 50%;
+    margin: 0 auto;
+  }
+
+  .wrapper {
+    height: 600px;
+
+    .menuWrapper {
+      margin: {
+        top: 40px;
+      };
+
+
+      > div {
+
+        &::after {
+          content: "";
+          display: block;
+          margin: 20px 0;
+          width: 100%;
+          height: 1px;
+          background-color: rgba(0, 0, 0, .1);
+        }
+      }
+    }
+
+  }
+
+
+}

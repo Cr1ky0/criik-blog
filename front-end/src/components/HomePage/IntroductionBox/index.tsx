@@ -3,20 +3,24 @@ import React from 'react';
 // css
 import style from './index.module.scss';
 
-// interface
-import { IntroductionBoxProps } from '@/interface';
-
 // util
 import { getLimitString } from '@/utils';
 import LinkIcon from './LinkIcon';
 
 import img from '@/assets/images/left-nav-icon.png';
 
+// interface
+export interface IntroductionBoxProps {
+  username: string;
+  signature: string;
+  isMobile?: boolean;
+}
+
 const IntroductionBox: React.FC<IntroductionBoxProps> = props => {
-  const { username, signature } = props;
+  const { username, signature, isMobile } = props;
   const limit = 40;
   return (
-    <div className={style.wrapper}>
+    <div className={style.wrapper} style={isMobile ? { boxShadow: 'none' } : undefined}>
       <div className={`${style.intro} clearfix`}>
         <div className={style.avator} style={{ backgroundImage: `url(${img})` }}></div>
         <div className={style.username}>{username}</div>

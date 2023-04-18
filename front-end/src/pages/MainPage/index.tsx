@@ -1,9 +1,5 @@
 import React from 'react';
-import { Layout } from 'antd';
-
 import { Outlet } from 'react-router';
-
-const { Content } = Layout;
 
 // 组件
 import TopHeader from '@/components/TopHeader';
@@ -11,6 +7,10 @@ import TopHeader from '@/components/TopHeader';
 // comp
 import Footer from '@/components/Footer';
 
+// antd
+import { Layout } from 'antd';
+
+const { Content } = Layout;
 const MainPage = () => {
   return (
     <Layout>

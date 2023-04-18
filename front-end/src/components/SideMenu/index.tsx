@@ -1,8 +1,5 @@
 import React from 'react';
 
-// interface
-import { SideMenuItem, SideMenuProps } from '@/interface';
-
 // antd
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd/es/menu';
@@ -21,6 +18,13 @@ function getItem(
     children,
     label,
   } as MenuItem;
+}
+
+// interface
+import { SideMenuItem } from '@/interface';
+
+export interface SideMenuProps {
+  menus: SideMenuItem[];
 }
 
 // 将SideMenuItem列表转化为MenuItem列表

@@ -1,7 +1,7 @@
 import React from 'react';
 
 // css
-import './index.scss';
+import style from './index.module.scss';
 
 // img
 import img1 from '@/assets/images/home.jpg';
@@ -9,18 +9,16 @@ import img2 from '@/assets/images/left-nav-icon.png';
 
 const HomePage = () => {
   return (
-    <>
-      <div className="back-white"></div>
-      {/*<div className="background-photo" style={{ backgroundImage: `url(${img1})` }}>*/}
-      {/* <div className="background-photo">
-        <div className="home-tag-wrapper">
-          <div className="home-tag-icon" style={{ backgroundImage: `url(${img2})` }}></div>
-          <div className="home-tag">Criik-Blog</div>
-          <div className="home-allegory">Always Be Yourself and Never Compromise to the Life</div>
+    <div className={style.wrapper}>
+      <div className={style.backWhite}></div>
+      <div className={`${style.backgroundPhoto} clearfix`} style={{ backgroundImage: `url(${img1})` }}>
+        <div className={style.homeTagWrapper}>
+          <div className={style.homeTagIcon} style={{ backgroundImage: `url(${img2})` }}></div>
+          <div className={style.homeTag}>Criik-Blog</div>
+          <div>Always Be Yourself and Never Compromise to the Life</div>
         </div>
-      </div> */}
-    </>
+      </div>
+    </div>
   );
 };
-
 export default HomePage;

@@ -15,7 +15,8 @@ export const setEmoji = createAsyncThunk('emoji/setEmoji', async () => {
   const response = await axios.get(`${URL}emoji.json`);
   return response.data;
 });
-export const emoji = createSlice({
+
+const emojiSlice = createSlice({
   name: 'emoji',
   initialState,
   reducers: {},
@@ -35,4 +36,4 @@ export const emoji = createSlice({
   },
 });
 
-export default emoji.reducer;
+export default emojiSlice.reducer;

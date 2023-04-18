@@ -6,11 +6,17 @@ import style from './index.module.scss';
 // antd
 import { Popover, Tag } from 'antd';
 
-// interface
-import { BlogTagBoxProps } from '@/interface';
-
 // util
 import { getLimitString } from '@/utils';
+
+// interface
+import { BlogTagBoxStatistic } from '@/interface';
+
+export interface BlogTagBoxProps {
+  children: string;
+  title: string;
+  statistics?: BlogTagBoxStatistic;
+}
 
 // TODO:后续创个class表，让分类标签根据该表来变换颜色
 // 主页的BlogBox组件
