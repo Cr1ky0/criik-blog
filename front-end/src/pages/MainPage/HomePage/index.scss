@@ -1,3 +1,5 @@
+@import "@/assets/css/index.scss";
+
 .back-white {
   width: 100%;
   height: 50px;
@@ -8,11 +10,7 @@
   width: 100%;
   height: 95vh; // vh为当前视口的高度单位，1vh为1%
   position: relative;
-  background: {
-    image: url('../../../assets/images/home.jpg');
-    repeat: no-repeat;
-    size: cover;
-  }
+  @include backgroundImgStyle(0);
 
   .home-tag-wrapper {
     width: 380px;
@@ -33,11 +31,7 @@
     .home-tag-icon {
       width: 100%;
       height: 300px;
-      background: {
-        image: url('../../../assets/images/left-nav-icon.png');
-        repeat: no-repeat;
-        size: cover;
-      }
+      @include backgroundImgStyle(0);
     }
 
     .home-tag {
