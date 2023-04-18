@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const session = require('express-session');
@@ -43,35 +44,25 @@ const limiter = rateLimit({
 // 对/api使用limiter中间件
 app.use('/api', limiter);
 
-// Body parser, reading data from body into req.body
-// 限制大小10kb
+// 限制query参数和json大小10kb
 app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 // Data sanitization against NoSQL query injection
-// 防止数据库NoSQL注入攻击
 app.use(mongoSanitize());
 
 // Data sanitization against XSS
-// 防止恶意代码注入
 app.use(xss());
 
 // Prevent parameter pollution
-// 可以设置白名单
 app.use(
   hpp({
-    whitelist: [
-      'duration',
-      'ratingsQuantity',
-      'ratingsAverage',
-      'maxGroupSize',
-      'difficulty',
-      'price',
-    ],
+    whitelist: [],
   })
 );
 
 // Serving static files
-app.use(express.static(`${__dirname}/public`));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // session
 app.use(
