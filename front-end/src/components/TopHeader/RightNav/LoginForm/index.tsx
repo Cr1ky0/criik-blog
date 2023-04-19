@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Cookies from 'universal-cookie';
 
@@ -27,10 +27,13 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const login = useCallback(async (values: LoginFormData) => {
     try {
+      setIsLoading(true);
       const response = await loginAjax(values);
+      await message.success('Successfully Log In');
       // 设置token
       const cookies = new Cookies();
       cookies.set('user', response.data.user, { path: '/' });
@@ -39,13 +42,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
       close();
       // 设置滚动条
       setBodyScroll();
-      navigate('/');
-      message.success('登录成功！');
+      navigate(0);
+      setIsLoading(false);
     } catch (err: any) {
       if (err.status === 401) {
-        message.error('请输入正确的邮箱或密码！');
+        message.error('请输入正确的邮箱或密码');
       } else {
-        message.error('未知错误!');
+        message.error('未知错误');
       }
     }
   }, []);
@@ -88,7 +91,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
             </a>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button">
+            <Button type="primary" loading={isLoading} htmlType="submit" className="login-form-button">
               Log in
             </Button>
           </Form.Item>

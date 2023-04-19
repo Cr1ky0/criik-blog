@@ -6,19 +6,14 @@ import style from './index.module.scss';
 import LinkBtn from '@/components/UI/LinkBtn';
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
 
-// hooks
-import { useViewport } from '@/components/ContextProvider/ViewportProvider';
-
 interface MobileMenuProps {
   isOpen: boolean;
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = props => {
   const { isOpen } = props;
-  const { height } = useViewport();
-  const limit = height - 50;
   return (
-    <div className={style.menu} style={{ display: isOpen ? 'block' : 'none', height: `${limit}px` }}>
+    <div className={isOpen ? style.menuOnOpen : style.menuOnClose}>
       <div className={style.wrapper}>
         <div className={style.menuWrapper}>
           <LinkBtn icon="&#xe600;" seq={0} link={'/'} notAnimation={true}>
@@ -35,11 +30,10 @@ const MobileMenu: React.FC<MobileMenuProps> = props => {
           </LinkBtn>
         </div>
         <div className={style.introWrapper}>
-          <IntroductionBox username={'Criiky0'} signature={'ASDASDAS'} isMobile={true}></IntroductionBox>
+          <IntroductionBox isMobile={true}></IntroductionBox>
         </div>
       </div>
     </div>
   );
 };
-
 export default MobileMenu;

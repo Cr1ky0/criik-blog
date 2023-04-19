@@ -16,8 +16,11 @@ const MobileNav = () => {
         className={isOpen ? style.rightNavActive : isInit ? style.rightNavInit : style.rightNavNotActive}
         onClick={() => {
           // 修改根元素滚动
-          if (!isOpen) document.body.style.overflow = 'hidden';
-          else document.body.style.overflow = 'auto';
+          if (!isOpen) {
+            document.body.style.overflow = 'hidden';
+          } else {
+            document.body.style.overflow = 'auto';
+          }
           setIsOpen(!isOpen);
           if (isInit) setIsInit(false);
         }}
@@ -26,9 +29,6 @@ const MobileNav = () => {
         <div></div>
         <div></div>
       </div>
-      {/*<div className={style.test}>*/}
-      {/*  <div></div>*/}
-      {/*</div>*/}
       <MobileMenu isOpen={isOpen}></MobileMenu>
     </div>
   );

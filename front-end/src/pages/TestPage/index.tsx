@@ -57,7 +57,7 @@ const TestPage = () => {
     <div style={{ margin: '20vh', width: '700px' }}>
       {/*{getAntdIcon('home', icons)}*/}
       {/*{getAntdIcon('code', icons)}*/}
-      <Comment></Comment>
+      {/*<Comment></Comment>*/}
       {/* <BlogTagBox title="test" statistics={statistics}>
         Test
       </BlogTagBox>*/}
