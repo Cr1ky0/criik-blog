@@ -14,7 +14,6 @@ export interface EmojiProps {
 const Emoji: React.FC<EmojiProps> = props => {
   const { handleClick } = props;
   const emojis = useAppSelector(state => state.emoji.emojiList);
-
   return (
     <ul className={`${style.wrapper} clearfix`}>
       {emojis.map(emoji => (

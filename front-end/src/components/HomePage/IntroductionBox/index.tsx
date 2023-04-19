@@ -7,7 +7,7 @@ import style from './index.module.scss';
 import { getLimitString } from '@/utils';
 import LinkIcon from './LinkIcon';
 
-import img from '@/assets/images/left-nav-icon.png';
+import img from '@/assets/images/blog-icon.png';
 
 // interface
 export interface IntroductionBoxProps {

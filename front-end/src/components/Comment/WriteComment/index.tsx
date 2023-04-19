@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useEffect, useRef } from 'react';
+import React, { MouseEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 
 // css
 import style from './index.module.scss';
@@ -8,22 +8,17 @@ import { Button, Popover } from 'antd';
 
 // comp
 import Emoji from './Emoji';
-import { useAppDispatch } from '@/redux';
-import { setEmoji } from '@/redux/slices/emoji';
 
 const WriteComment = () => {
   const commentRef = useRef<HTMLTextAreaElement>(null);
-
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(setEmoji());
-  }, []);
+  const [isOpen, setIsOpen] = useState(false);
   // 向文本框内部添加表情
-  const addEmoji: MouseEventHandler<HTMLLIElement> = event => {
+  const addEmoji: MouseEventHandler<HTMLLIElement> = useCallback(event => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const commentNode = commentRef.current!;
     commentNode.value = commentNode.value + event.currentTarget.innerHTML;
-  };
+    setIsOpen(false);
+  }, []);
 
   return (
     <div className={`${style.wrapper} clearfix`}>
@@ -32,10 +27,15 @@ const WriteComment = () => {
         <Popover
           placement="bottomLeft"
           content={<Emoji handleClick={addEmoji} />}
-          trigger="click"
+          open={isOpen}
           style={{ boxShadow: '0 0 1px rgba(0,0,0,.5)' }}
         >
-          <div className={style.emoji}>
+          <div
+            className={style.emoji}
+            onClick={() => {
+              setIsOpen(!isOpen);
+            }}
+          >
             <span className="iconfont" style={{ fontSize: '32px' }}>
               &#xe618;
             </span>

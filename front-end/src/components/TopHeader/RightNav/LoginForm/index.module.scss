@@ -1,0 +1,53 @@
+@import "@/assets/css/index.scss";
+
+.wrapper {
+  width: 100%;
+
+  .header {
+    //@include bord;
+    width: 100%;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 1px;
+      margin: 25px 0;
+      background-color: rgba(0, 0, 0, .05);
+    }
+
+    .logoBox {
+      width: 50%;
+      height: 40px;
+      margin: 0 auto;
+
+      .logo {
+        @include backgroundImgStyle(0);
+        float: left;
+        width: 40px;
+        height: 40px;
+        margin-right: 5px;
+      }
+
+      .blogInfo {
+        float: left;
+        line-height: 40px;
+        font: {
+          family: "Sans Serif Collection";
+          size: 20px;
+        }
+      }
+    }
+
+    .tips {
+      width: 50%;
+      text-align: center;
+      margin: 0 auto;
+      color: $FONT_COLOR_2;
+      font: {
+        family: "Sans Serif Collection";
+        size: 16px;
+      }
+    }
+  }
+}

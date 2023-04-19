@@ -12,7 +12,7 @@ export interface SingleCommentProps {
 }
 
 // img
-import img from '@/assets/images/left-nav-icon.png';
+import img from '@/assets/images/blog-icon.png';
 
 const SingleComment: React.FC<SingleCommentProps> = props => {
   const [isChosen, setIsChosen] = useState(false);

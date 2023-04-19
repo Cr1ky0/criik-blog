@@ -9,20 +9,12 @@ import './App.scss';
 // iconfont
 import './assets/iconfont/iconfont.css';
 
-// context-comp
-import ViewportProvider from './components/ViewportProvider';
-import IconStore from '@/components/IconStore';
-
 // 路由
 import routes from './routes';
 
 const App = () => {
   const elements = useRoutes(routes);
-  return (
-    <ViewportProvider>
-      <IconStore>{elements}</IconStore>
-    </ViewportProvider>
-  );
+  return <>{elements}</>;
 };
 
 export default App;

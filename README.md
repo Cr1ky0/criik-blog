@@ -21,30 +21,30 @@
    exports.getUser = catchAsync(async (req, res, next) => {});
    ```
 5. 错误处理利用 appError + errorController + catchAsync 实现自动错误处理
-    - 基本流程：
-        1. 错误出现时，return next(new AppError(message,status_code))
-        2. 错误被 catch 后由 next 将错误进行传递
-        3. 当传递到全局错误处理中间件时在定义的中间件中进行处理(errorController 中暴露的回调函数)
+   - 基本流程：
+     1. 错误出现时，return next(new AppError(message,status_code))
+     2. 错误被 catch 后由 next 将错误进行传递
+     3. 当传递到全局错误处理中间件时在定义的中间件中进行处理(errorController 中暴露的回调函数)
 6. 使用 config.env 配置一些全局属性，例如开发环境，在不同环境下执行不同代码
 7. 关于数据库加密
-    - 在 mongodb/bin 内的 cfg 文件内设置
-      > security:<br>
-      > authorization: enabled
-    - 默认全数据库管理员账号:admin pwd:123456
-    - 使用该管理员账户登录后创建其他数据库的子角色
-      ```js
-      db.createUser({
-        user: "criiky0",
-        pwd: "123456",
-        roles: [
-          {
-            role: "readWrite",
-            db: "criik-blog",
-          },
-        ],
-      });
-      ```
-    - 给其他数据库添加验证账户时，非 admin db 使用 readWrite 角色，因为子 db 没有 root 等角色
+   - 在 mongodb/bin 内的 cfg 文件内设置
+     > security:<br>
+     > authorization: enabled
+   - 默认全数据库管理员账号:admin pwd:123456
+   - 使用该管理员账户登录后创建其他数据库的子角色
+     ```js
+     db.createUser({
+       user: "criiky0",
+       pwd: "123456",
+       roles: [
+         {
+           role: "readWrite",
+           db: "criik-blog",
+         },
+       ],
+     });
+     ```
+   - 给其他数据库添加验证账户时，非 admin db 使用 readWrite 角色，因为子 db 没有 root 等角色
 8. 文件、图片上传：multer+sharp
 
 # 前端
@@ -133,9 +133,48 @@
    ```
 7. react 内设背景需要先将背景图片引入
    ```js
-    import img from '@/assets/images/left-nav-icon.png'
+    import img from '@/assets/images/blog-icon.png'
     style={{ backgroundImage: `url(${img})` }}
    ```
-8. react内响应式布局见ViewportProvider组件（利用context，全局包裹该组件，获取窗口大小）
+8. react 内响应式布局见 ViewportProvider 组件（利用 context，全局包裹该组件，获取窗口大小）
 9. 关于滚动条，如过要让一个子元素在其父元素内滚动，需要同时设置其父元素以及自身的高度，而且自身高度要大于父元素，否则无法产生滚动条
-10. 用一个组件存放antd icons，通过context让所有组件能够获取
+10. 用一个组件存放 antd icons，通过 context 让所有组件能够获取
+11. 使用@reduxjs/toolkit 时利用 redux-persist 持久化的配置
+    ```js
+    //持久存储
+    import {
+    persistStore,
+    persistReducer,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+    } from "redux-persist";
+    import storage from "redux-persist/lib/storage";
+
+    const reducers = combineReducers({
+    emoji,
+    chosenList,
+    });
+
+    const persistConfig = {
+    key: "root",
+    storage: storage,
+    blacklist: [],
+    };
+    const persistReducers = persistReducer(persistConfig, reducers);
+
+    const store = configureStore({
+    reducer: persistReducers,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+        serializableCheck: {
+            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+        }),
+    });
+
+    const persistor = persistStore(store);
+    ```

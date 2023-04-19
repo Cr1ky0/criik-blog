@@ -16,3 +16,9 @@ export const getAntdIcon: (name: string, antdIcons: AntdIcon[]) => ReactElement 
     return icon.name === name;
   })[0].icon;
 };
+
+// 设置开关滚动条
+export const setBodyScroll = () => {
+  if (document.body.style.overflow !== 'hidden') document.body.style.overflow = 'hidden';
+  else document.body.style.overflow = 'auto';
+};

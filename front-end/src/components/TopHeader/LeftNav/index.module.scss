@@ -1,6 +1,6 @@
 @import '@/assets/css/index.scss';
 
-.leftNav{
+.leftNav {
   min-width: 150px;
   display: flex;
   justify-content: space-between;
@@ -16,7 +16,7 @@
       radius: 50%;
     }
     background: {
-      image: url('../../../assets/images/left-nav-icon.png');
+      image: url('../../../assets/images/blog-icon.png');
       repeat: no-repeat;
       size: cover;
       clip: content-box;

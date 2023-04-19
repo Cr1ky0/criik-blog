@@ -75,10 +75,10 @@ app.use(
 );
 
 // 3) ROUTES
-app.use('/api/v1/users', userRouter);
-app.use('/api/v1/blogs', blogRouter);
-app.use('/api/v1/comments', commentRouter);
-app.use('/api/v1/menus', menuRouter);
+app.use('/api/users', userRouter);
+app.use('/api/blogs', blogRouter);
+app.use('/api/comments', commentRouter);
+app.use('/api/menus', menuRouter);
 
 // none page handle
 app.all('*', (req, res, next) => {
