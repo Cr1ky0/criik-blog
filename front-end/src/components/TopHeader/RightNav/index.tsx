@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-
+import React, { useContext, useEffect, useState } from 'react';
+import Cookies from 'universal-cookie';
 // css
 import style from './index.module.scss';
 import './antd.scss';
@@ -9,7 +9,7 @@ import LinkBtn2 from '@/components/UI/LinkBtn2';
 import LoginForm from '@/components/TopHeader/RightNav/LoginForm';
 
 // img
-import img from '@/assets/images/blog-icon.png';
+import img from '@/assets/images/default.png';
 
 // antd
 import { Modal } from 'antd';
@@ -17,8 +17,13 @@ import { Modal } from 'antd';
 // utils
 import { setBodyScroll } from '@/utils';
 
+// context
+import { useAvatar } from '@/components/ContextProvider/AvatarPrivider';
+
 const RightNav = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const avatar = useAvatar();
+
   return (
     <div className={style.rightNavPC}>
       <LinkBtn2>Sing up</LinkBtn2>
@@ -46,7 +51,7 @@ const RightNav = () => {
           }}
         ></LoginForm>
       </Modal>
-      <div className={style.rightNavAvatorPC} style={{ backgroundImage: `url(${img})` }}></div>
+      <div className={style.rightNavAvatarPC} style={{ backgroundImage: `url(${avatar})` }}></div>
     </div>
   );
 };

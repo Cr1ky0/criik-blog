@@ -31,3 +31,9 @@ export interface AntdIcon {
   icon: ReactElement;
   name: string;
 }
+
+/* LoginForm */
+export interface LoginFormData {
+  email: string;
+  password: string;
+}

@@ -9,10 +9,11 @@ import RightNav from './RightNav';
 import LeftNav from './LeftNav';
 import MobileNav from './MobileNav';
 // hooks
-import { useViewport } from '@/components/ViewportProvider';
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // global
 import { BREAK_POINT } from '@/global';
+
 const TopHeader = () => {
   const { width } = useViewport();
 

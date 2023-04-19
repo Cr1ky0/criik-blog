@@ -133,48 +133,65 @@
    ```
 7. react 内设背景需要先将背景图片引入
    ```js
-    import img from '@/assets/images/blog-icon.png'
-    style={{ backgroundImage: `url(${img})` }}
+        import img from '@/assets/images/blog-icon.png'
+        style={{ backgroundImage: `url(${img})` }}
    ```
-8. react 内响应式布局见 ViewportProvider 组件（利用 context，全局包裹该组件，获取窗口大小）
+8. react 内响应式布局见 ViewportProvider 组件（利用 context，全局包裹该组件，获取窗口大小），context可以让子元素获取传入的value，该value使用useContext(context名)即可获得，可以用改特性在Provider内部存放一些全局要用的功能和数据
 9. 关于滚动条，如过要让一个子元素在其父元素内滚动，需要同时设置其父元素以及自身的高度，而且自身高度要大于父元素，否则无法产生滚动条
 10. 用一个组件存放 antd icons，通过 context 让所有组件能够获取
 11. 使用@reduxjs/toolkit 时利用 redux-persist 持久化的配置
+
     ```js
     //持久存储
     import {
-    persistStore,
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
+      persistStore,
+      persistReducer,
+      FLUSH,
+      REHYDRATE,
+      PAUSE,
+      PERSIST,
+      PURGE,
+      REGISTER,
     } from "redux-persist";
     import storage from "redux-persist/lib/storage";
 
     const reducers = combineReducers({
-    emoji,
-    chosenList,
+      emoji,
+      chosenList,
     });
 
     const persistConfig = {
-    key: "root",
-    storage: storage,
-    blacklist: [],
+      key: "root",
+      storage: storage,
+      blacklist: [],
     };
     const persistReducers = persistReducer(persistConfig, reducers);
 
     const store = configureStore({
-    reducer: persistReducers,
-    middleware: (getDefaultMiddleware) =>
+      reducer: persistReducers,
+      middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
-        serializableCheck: {
+          serializableCheck: {
             ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
+          },
         }),
     });
 
     const persistor = persistStore(store);
+    ```
+
+12. axios 封装
+13. axios 请求回图片需要利用filereader进行处理转化为url可作为背景图
+    ```js
+    avatarAjax(user.avatar)
+        .then(response => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                if (e.target) setAvatar(e.target.result as string);
+            };
+            reader.readAsDataURL(response);
+        })
+        .catch(err => {
+            console.log(err.message);
+        });
     ```

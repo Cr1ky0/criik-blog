@@ -7,7 +7,7 @@ import LinkBtn from '@/components/UI/LinkBtn';
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
 
 // hooks
-import { useViewport } from '@/components/ViewportProvider';
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 interface MobileMenuProps {
   isOpen: boolean;

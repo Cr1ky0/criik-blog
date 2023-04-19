@@ -13,7 +13,7 @@ import { useAppSelector } from '@/redux';
 import ReactDOM from 'react-dom/client';
 
 // hooks
-import { useIcons } from '@/components/IconStore';
+import { useIcons } from '@/components/ContextProvider/IconStore';
 
 // utils
 import { getAntdIcon } from '@/utils';

@@ -13,9 +13,10 @@ import { PersistGate } from 'redux-persist/integration/react';
 // global
 import { THEME_COLOR } from './global';
 
-// context-comp
-import ViewportProvider from './components/ViewportProvider';
-import IconStore from '@/components/IconStore';
+// provider
+import ViewportProvider from './components/ContextProvider/ViewportProvider';
+import IconStore from '@/components/ContextProvider/IconStore';
+import AvatarProvider from '@/components/ContextProvider/AvatarPrivider';
 
 // app
 import App from './App';
@@ -34,9 +35,11 @@ root.render(
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <ViewportProvider>
-              <IconStore>
-                <App />
-              </IconStore>
+              <AvatarProvider>
+                <IconStore>
+                  <App />
+                </IconStore>
+              </AvatarProvider>
             </ViewportProvider>
           </PersistGate>
         </Provider>

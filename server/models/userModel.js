@@ -34,9 +34,9 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
     // 头像文件名
-    avator: {
+    avatar: {
       type: String,
-      default: 'default.jpeg',
+      default: 'default.png',
     },
     // 权限
     role: {

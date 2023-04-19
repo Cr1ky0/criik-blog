@@ -1,7 +1,7 @@
 import React from 'react';
 
 // hooks
-import { useViewport } from '@/components/ViewportProvider';
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // css
 import style from './index.module.scss';

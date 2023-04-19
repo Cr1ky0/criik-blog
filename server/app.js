@@ -41,6 +41,7 @@ const limiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, please try again in an hour!',
 });
+
 // 对/api使用limiter中间件
 app.use('/api', limiter);
 

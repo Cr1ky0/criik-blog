@@ -25,8 +25,8 @@ router.get('/resetEmail/:token', authController.resetEmail);
 // 更新个人信息
 router.patch(
   '/updateMe',
-  userController.uploadAvator,
-  userController.resizeUserAvator,
+  userController.uploadAvatar,
+  userController.resizeUserAvatar,
   userController.updateMe
 );
 

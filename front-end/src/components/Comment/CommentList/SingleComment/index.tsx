@@ -5,19 +5,18 @@ import style from './index.module.scss';
 
 // antd
 import { Tag } from 'antd';
+import { useAvatar } from '@/components/ContextProvider/AvatarPrivider';
 
 // interface
 export interface SingleCommentProps {
   children?: string;
 }
 
-// img
-import img from '@/assets/images/blog-icon.png';
-
 const SingleComment: React.FC<SingleCommentProps> = props => {
   const [isChosen, setIsChosen] = useState(false);
   const [likesNum, setLikesNum] = useState(0);
   const { children } = props;
+  const avatar = useAvatar();
   const changeState = () => {
     if (!isChosen) setLikesNum(likesNum + 1);
     else setLikesNum(likesNum - 1);
@@ -26,7 +25,7 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
   return (
     <li className={`${style.wrapper} clearfix`}>
       <div className={`${style.infoWrapper} clearfix`}>
-        <div className={style.avator} style={{ backgroundImage: `url(${img})` }}></div>
+        <div className={style.avatar} style={{ backgroundImage: `url(${avatar})` }}></div>
         <div className={style.info}>
           <div className={style.infoBox}>
             <div className={style.username}>Username</div>

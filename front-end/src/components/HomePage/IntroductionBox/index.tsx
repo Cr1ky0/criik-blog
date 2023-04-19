@@ -8,6 +8,7 @@ import { getLimitString } from '@/utils';
 import LinkIcon from './LinkIcon';
 
 import img from '@/assets/images/blog-icon.png';
+import { useAvatar } from '@/components/ContextProvider/AvatarPrivider';
 
 // interface
 export interface IntroductionBoxProps {
@@ -18,11 +19,12 @@ export interface IntroductionBoxProps {
 
 const IntroductionBox: React.FC<IntroductionBoxProps> = props => {
   const { username, signature, isMobile } = props;
+  const avatar = useAvatar();
   const limit = 40;
   return (
     <div className={style.wrapper} style={isMobile ? { boxShadow: 'none' } : undefined}>
       <div className={`${style.intro} clearfix`}>
-        <div className={style.avator} style={{ backgroundImage: `url(${img})` }}></div>
+        <div className={style.avatar} style={{ backgroundImage: `url(${avatar})` }}></div>
         <div className={style.username}>{username}</div>
         <div className={style.signature}>{getLimitString(limit, signature)}</div>
       </div>
