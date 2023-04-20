@@ -13,7 +13,7 @@ interface MobileMenuProps {
 const MobileMenu: React.FC<MobileMenuProps> = props => {
   const { isOpen } = props;
   return (
-    <div className={isOpen ? style.menuOnOpen : style.menuOnClose}>
+    <div id="mobile-menu-wrapper" className={isOpen ? style.menuOnOpen : style.menuOnClose}>
       <div className={style.wrapper}>
         <div className={style.menuWrapper}>
           <LinkBtn icon="&#xe600;" seq={0} link={'/'} notAnimation={true}>

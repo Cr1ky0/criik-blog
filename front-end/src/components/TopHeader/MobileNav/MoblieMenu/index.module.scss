@@ -1,19 +1,12 @@
 @import '@/assets/css/index.scss';
 
-@mixin setAnime {
-  animation: test;
-  animation-duration: .5s;
-}
-
-@mixin total($height,$overflow) {
-  height: $height;
+@mixin total($overflow) {
+  overflow: $overflow;
   width: 100%;
   position: fixed;
   top: $TOP_HEADER_H;
-  overflow: $overflow;
   background-color: #FFF;
   transition: height .2s;
-
   > div {
     width: 50%;
     margin: 0 auto;
@@ -38,30 +31,15 @@
         }
       }
     }
-
-    .introWrapper {
-      padding-bottom: 20vh;
-    }
-
   }
 }
 
 // 菜单
 .menuOnOpen {
-  @include total(90vh, auto);
+  @include total(auto);
 
 }
 
 .menuOnClose {
-  @include total(0, hidden);
+  @include total(hidden);
 }
-
-@keyframes anim2 {
-  from {
-    height: 300px;
-  }
-  to {
-    height: 0;
-  }
-}
-
