@@ -49,23 +49,19 @@
 // 菜单
 .menuOnOpen {
   @include total(90vh, auto);
-  //@include total(anim1)
 
 }
 
 .menuOnClose {
-  //@include total(anim2)
   @include total(0, hidden);
 }
 
 @keyframes anim2 {
   from {
     height: 300px;
-    //background-color: #FFF;
   }
   to {
     height: 0;
-    //background-color: transparent;
   }
 }
 

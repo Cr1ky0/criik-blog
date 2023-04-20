@@ -11,7 +11,7 @@ import img from '@/assets/images/blog-icon.png';
 
 // antd
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import { Button, Form, message, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 
 // ajax
 import { loginAjax } from '@/api/user';
@@ -22,6 +22,9 @@ import { setBodyScroll } from '@/utils';
 // interface
 import { LoginFormData } from '@/interface';
 
+// context
+import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+
 interface LoginFormProps {
   close: () => void;
 }
@@ -29,6 +32,7 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const message = useGlobalMessage();
   const login = useCallback(async (values: LoginFormData) => {
     try {
       setIsLoading(true);
@@ -54,7 +58,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
   }, []);
   return (
     <div className={style.wrapper}>
-      {/*{contextHolder}*/}
+      {message.holder}
       <div className={style.header}>
         <div className={style.logoBox}>
           <div className={style.logo} style={{ backgroundImage: `url(${img})` }}></div>

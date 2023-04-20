@@ -10,7 +10,7 @@ import LinkBtn2 from '@/components/UI/LinkBtn2';
 import LoginForm from '@/components/TopHeader/RightNav/LoginForm';
 
 // antd
-import { message, Modal, Popconfirm } from 'antd';
+import { Modal, Popconfirm } from 'antd';
 import { FrownTwoTone } from '@ant-design/icons';
 
 // utils
@@ -18,12 +18,14 @@ import { setBodyScroll } from '@/utils';
 
 // context
 import { useAvatar } from '@/components/ContextProvider/AvatarPrivider';
+import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // gloabl
 import { THEME_COLOR } from '@/global';
 
 const RightNav = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const message = useGlobalMessage();
   const avatar = useAvatar();
   const cookies = new Cookies();
   const user = cookies.get('user');
@@ -37,6 +39,7 @@ const RightNav = () => {
 
   return (
     <div className={style.rightNavPC}>
+      {message.holder}
       {user ? (
         <Popconfirm
           placement="bottom"

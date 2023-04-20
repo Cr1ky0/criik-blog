@@ -12,15 +12,8 @@ import './assets/iconfont/iconfont.css';
 // 路由
 import routes from './routes';
 
-// atnd
-import { message } from 'antd';
-
 const App = () => {
   const elements = useRoutes(routes);
-  message.config({
-    top: 50,
-    duration: 1,
-  });
   return <>{elements}</>;
 };
 

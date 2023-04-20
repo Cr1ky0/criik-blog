@@ -17,7 +17,9 @@ const MainPage = () => {
       <TopHeader></TopHeader>
       <Layout>
         <Content>
-          <Outlet />
+          <React.StrictMode>
+            <Outlet />
+          </React.StrictMode>
         </Content>
       </Layout>
       <Footer></Footer>

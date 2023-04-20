@@ -37,3 +37,11 @@ export interface LoginFormData {
   email: string;
   password: string;
 }
+
+/* MessageProvider */
+export interface messageObj {
+  success: (content: string) => void;
+  error: (content: string) => void;
+  warning: (content: string) => void;
+  holder: React.ReactElement;
+}

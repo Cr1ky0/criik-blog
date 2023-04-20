@@ -195,3 +195,4 @@
             console.log(err.message);
         });
     ```
+14. react严格模式包裹antd的布局组件会报错，包裹routes组件就行
