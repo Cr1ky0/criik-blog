@@ -1,9 +1,8 @@
-import React, { CSSProperties, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Cookies from 'universal-cookie';
 // css
 import style from './index.module.scss';
-import './antd.scss';
 
 // comp
 import LinkBtn2 from '@/components/UI/LinkBtn2';
@@ -12,7 +11,7 @@ import Information from '@/components/TopHeader/Information';
 import ChangeInfo from '@/components/TopHeader/ChangeInfo';
 
 // antd
-import { Modal, Popconfirm, Dropdown } from 'antd';
+import { Modal, Popconfirm, Dropdown, Drawer } from 'antd';
 import { FrownTwoTone } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 
@@ -87,6 +86,7 @@ const RightNav = () => {
   return (
     <div className={style.rightNav}>
       {message.holder}
+      {/* 是否登录判断 */}
       {user ? (
         <Popconfirm
           placement="bottom"
@@ -129,13 +129,35 @@ const RightNav = () => {
           </Modal>
         </div>
       )}
+      {/*  菜单栏选项 */}
       {width < BREAK_POINT ? undefined : (
         <Dropdown menu={{ items }} trigger={['click']}>
           <div className={style.rightNavAvatar} style={{ backgroundImage: `url(${avatar})` }}></div>
         </Dropdown>
       )}
-      <Information open={openInfomation} onClose={onCloseInfo}></Information>
-      <ChangeInfo open={openChangeInfo} onClose={onCloseChangeInfo}></ChangeInfo>
+      <Drawer
+        title="Personal Information"
+        style={{ border: 'none' }}
+        width={400}
+        placement="right"
+        closable={false}
+        onClose={onCloseInfo}
+        open={openInfomation}
+      >
+        <Information></Information>
+      </Drawer>
+
+      <Drawer
+        title="Personal Information"
+        style={{ border: 'none' }}
+        width={400}
+        placement="right"
+        closable={false}
+        onClose={onCloseChangeInfo}
+        open={openChangeInfo}
+      >
+        <ChangeInfo></ChangeInfo>
+      </Drawer>
     </div>
   );
 };

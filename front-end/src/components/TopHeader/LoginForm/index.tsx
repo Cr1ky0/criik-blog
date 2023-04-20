@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Cookies from 'universal-cookie';
 
 // css
 import style from './index.module.scss';
-import './antd.scss';
 
 // img
 import img from '@/assets/images/blog-icon.png';

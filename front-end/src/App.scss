@@ -36,3 +36,41 @@ body {
   display: table;
   clear: both;
 }
+
+/***************** antd *******************/
+// RightNav
+.ant-modal {
+  width: 360px !important;
+
+  .ant-modal-content {
+    padding: 30px;
+  }
+
+  .ant-modal-footer {
+    display: none;
+  }
+}
+
+.ant-dropdown-menu-item {
+  padding: 0 !important;
+}
+
+// Information&ChangeInfo
+.ant-drawer {
+  border: none;
+  outline: none;
+}
+
+// LoginForm
+.login-form-forgot {
+  float: right;
+}
+
+.ant-col-rtl .login-form-forgot {
+  float: left;
+}
+
+.login-form-button {
+  width: 100%;
+}
+

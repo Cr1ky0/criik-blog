@@ -196,3 +196,10 @@
         });
     ```
 14. react严格模式包裹antd的布局组件会报错，包裹routes组件就行
+15. 如果直接在标签上加style，这时如果状态发生改变，style被应用，如果该标签有动效css，则会被覆盖，最好的办法是替换两套style，然后利用动画进行设置，但是这样巨麻烦，我这里利用原生js做动效了，原生js设置的不会被覆盖掉，可以有动画，而且保证其展开大小一定是元素包裹大小，如果定义动画就无法知道包裹大小是多少
+    ```js
+        const div = document.getElementById('change-form-box-anime') as HTMLElement;
+        // 如果打开就设置为scrollHeight否则为0
+        if (state) div.style.height = div.scrollHeight + 'px';
+        else div.style.height = '0';
+    ```

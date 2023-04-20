@@ -1,0 +1,95 @@
+@import "@/assets/css/index.scss";
+
+@mixin set {
+  display: flex;
+  justify-content: flex-start;
+  margin: 15px auto;
+
+  &:hover > div, &:hover > input {
+    color: $THEME_COLOR;
+    border-color: $THEME_COLOR;
+  }
+
+  > div {
+    cursor: default;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+  }
+
+  > input {
+    cursor: default;
+    width: 100%;
+    display: block;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+    font: {
+      size: 16px;
+    }
+
+    &:focus {
+      color: $THEME_COLOR;
+      border-color: $THEME_COLOR;
+    }
+  }
+}
+
+.wrapper {
+  width: 100%;
+  border-radius: 5px;
+
+  > div {
+    padding: 0 20px;
+  }
+
+  .title {
+    margin-top: 15px;
+  }
+
+  .form {
+    .mainInput {
+      @include set;
+    }
+
+    .otherInputOnOpen {
+      overflow: hidden;
+      transition: all .3s;
+      //animation: anim1 .3s;
+      //animation-fill-mode: forwards;
+
+      > div {
+        @include set;
+      }
+
+    }
+
+    .otherInputOnClose {
+      overflow: hidden;
+      transition: all .3s;
+      //animation: anim2 .3s;
+      //animation-fill-mode: forwards;
+
+      > div {
+        @include set;
+      }
+    }
+
+  }
+}
+
+@keyframes anim1 {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100px;
+  }
+}
+
+@keyframes anim2 {
+  from {
+    height: 100px;
+  }
+  to {
+    height: 0;
+  }
+}
