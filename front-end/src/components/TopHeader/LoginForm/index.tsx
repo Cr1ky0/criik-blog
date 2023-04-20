@@ -87,10 +87,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
           </Form.Item>
           <Form.Item>
             <Form.Item noStyle>
-              <a href="">Sing up</a>
+              <a href="front-end/src/components/TopHeader/LoginForm">Sing up</a>
             </Form.Item>
 
-            <a className="login-form-forgot" href="">
+            <a className="login-form-forgot" href="front-end/src/components/TopHeader/LoginForm">
               Forgot password
             </a>
           </Form.Item>

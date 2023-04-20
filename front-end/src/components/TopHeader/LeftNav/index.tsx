@@ -12,7 +12,7 @@ const LeftNav = () => {
   return width > breakPoint ? (
     <a className={style.leftNav} href="https://github.com/Creekyu" target="_blank" rel="noreferrer">
       <div className={style.leftNavIcon}></div>
-      <div className={style.leftNavAuth}>CRIIKY0</div>
+      <div className={style.leftNavInfo}>Gezelligheid</div>
     </a>
   ) : (
     <a className={style.leftNav} href="https://github.com/Creekyu" target="_blank" rel="noreferrer">
