@@ -6,9 +6,10 @@ import style from './index.module.scss';
 
 // ui
 import ChangeFormBox from '@/components/UI/ChangeFormBox';
+import LinkBtn2 from '@/components/UI/LinkBtn2';
 
 const ChangeInfo = () => {
-  const [isOpen, setIsOpen] = useState([false, false]);
+  const [isOpen, setIsOpen] = useState([false, false, false, false]);
   const cookies = new Cookies();
   const user = cookies.get('user');
   const openForm = (state: boolean, chosenList: boolean[], key: number) => {
@@ -44,23 +45,38 @@ const ChangeInfo = () => {
           seq={0}
         >
           <div>
-            <input type="password" placeholder="新密码" />
-            <div></div>
-          </div>
-          <div>
             <input type="password" placeholder="确认密码" />
             <div></div>
           </div>
         </ChangeFormBox>
+        <ChangeFormBox title="邮箱" placeHolder={user.email} isOpen={isOpen} handleClick={openForm} type="text" seq={1}>
+          <div>
+            <input type="text" placeholder="验证码" />
+            <LinkBtn2 styles={{ width: '110px' }}>获取验证码</LinkBtn2>
+          </div>
+        </ChangeFormBox>
+      </div>
+      <div className={style.selfInfo}>
+        <div className={style.title}>
+          <div></div>
+          <div>个人信息</div>
+        </div>
         <ChangeFormBox
           title="昵称"
           placeHolder={user.name}
           isOpen={isOpen}
           handleClick={openForm}
           type="text"
-          seq={1}
+          seq={2}
         ></ChangeFormBox>
-        {/*<div className={style.form}></div>*/}
+        <ChangeFormBox
+          title="个人简介"
+          placeHolder={user.brief}
+          isOpen={isOpen}
+          handleClick={openForm}
+          type="text"
+          seq={3}
+        ></ChangeFormBox>
       </div>
     </div>
   );

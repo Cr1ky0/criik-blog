@@ -133,9 +133,36 @@ const RightNav = () => {
       )}
       {/*  菜单栏选项 */}
       {width < BREAK_POINT ? undefined : user ? (
-        <Dropdown menu={{ items }} trigger={['click']}>
-          <div className={style.rightNavAvatar} style={{ backgroundImage: `url(${avatar})` }}></div>
-        </Dropdown>
+        <>
+          <Dropdown menu={{ items }} trigger={['click']}>
+            <div className={style.rightNavAvatar} style={{ backgroundImage: `url(${avatar})` }}></div>
+          </Dropdown>
+          <Drawer
+            title="Personal Information"
+            style={{ border: 'none' }}
+            width={400}
+            placement="right"
+            closable={false}
+            onClose={onCloseInfo}
+            open={openInfomation}
+            destroyOnClose
+          >
+            <Information></Information>
+          </Drawer>
+
+          <Drawer
+            title="Personal Information"
+            style={{ border: 'none' }}
+            width={400}
+            placement="right"
+            closable={false}
+            onClose={onCloseChangeInfo}
+            open={openChangeInfo}
+            destroyOnClose
+          >
+            <ChangeInfo></ChangeInfo>
+          </Drawer>
+        </>
       ) : (
         <div
           className={style.rightNavAvatar}
@@ -145,31 +172,6 @@ const RightNav = () => {
           }}
         ></div>
       )}
-      <Drawer
-        title="Personal Information"
-        style={{ border: 'none' }}
-        width={400}
-        placement="right"
-        closable={false}
-        onClose={onCloseInfo}
-        open={openInfomation}
-        destroyOnClose
-      >
-        <Information></Information>
-      </Drawer>
-
-      <Drawer
-        title="Personal Information"
-        style={{ border: 'none' }}
-        width={400}
-        placement="right"
-        closable={false}
-        onClose={onCloseChangeInfo}
-        open={openChangeInfo}
-        destroyOnClose
-      >
-        <ChangeInfo></ChangeInfo>
-      </Drawer>
     </div>
   );
 };
