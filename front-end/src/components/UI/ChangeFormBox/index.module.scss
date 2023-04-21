@@ -35,6 +35,7 @@
 
 .wrapper {
   width: 100%;
+  margin: 10px auto;
   border-radius: 5px;
 
   > div {
@@ -50,7 +51,8 @@
       @include set;
     }
 
-    .otherInputOnOpen {
+    .otherInput {
+      height: 0;
       overflow: hidden;
       transition: all .3s;
       //animation: anim1 .3s;
@@ -60,17 +62,6 @@
         @include set;
       }
 
-    }
-
-    .otherInputOnClose {
-      overflow: hidden;
-      transition: all .3s;
-      //animation: anim2 .3s;
-      //animation-fill-mode: forwards;
-
-      > div {
-        @include set;
-      }
     }
 
   }

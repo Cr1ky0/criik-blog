@@ -2,7 +2,6 @@ const Comment = require('../models/commentModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const filterObj = require('../utils/filterObj');
-const fs = require('fs');
 
 exports.getComment = catchAsync(async (req, res, next) => {
   const comment = await Comment.findById(req.params.id);

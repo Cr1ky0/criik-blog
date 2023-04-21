@@ -88,18 +88,20 @@ const RightNav = () => {
       {message.holder}
       {/* 是否登录判断 */}
       {user ? (
-        <Popconfirm
-          placement="bottom"
-          title={'是否要Log Out？'}
-          icon={<FrownTwoTone />}
-          okText="Yes"
-          cancelText="No"
-          onConfirm={handleLogout}
-        >
-          <LinkBtn2 className={style.logOut} styles={width < BREAK_POINT ? { marginLeft: '80px' } : undefined}>
-            Log out
-          </LinkBtn2>
-        </Popconfirm>
+        <>
+          <Popconfirm
+            placement="bottom"
+            title={'是否要Log Out？'}
+            icon={<FrownTwoTone />}
+            okText="Yes"
+            cancelText="No"
+            onConfirm={handleLogout}
+          >
+            <LinkBtn2 className={style.logOut} styles={width < BREAK_POINT ? { marginLeft: '80px' } : undefined}>
+              Log out
+            </LinkBtn2>
+          </Popconfirm>
+        </>
       ) : (
         <div className={style.signWrapper}>
           <LinkBtn2>Sing up</LinkBtn2>
@@ -130,10 +132,18 @@ const RightNav = () => {
         </div>
       )}
       {/*  菜单栏选项 */}
-      {width < BREAK_POINT ? undefined : (
+      {width < BREAK_POINT ? undefined : user ? (
         <Dropdown menu={{ items }} trigger={['click']}>
           <div className={style.rightNavAvatar} style={{ backgroundImage: `url(${avatar})` }}></div>
         </Dropdown>
+      ) : (
+        <div
+          className={style.rightNavAvatar}
+          style={{ backgroundImage: `url(${avatar})` }}
+          onClick={() => {
+            message.error('请先登录！');
+          }}
+        ></div>
       )}
       <Drawer
         title="Personal Information"
@@ -143,6 +153,7 @@ const RightNav = () => {
         closable={false}
         onClose={onCloseInfo}
         open={openInfomation}
+        destroyOnClose
       >
         <Information></Information>
       </Drawer>
@@ -155,6 +166,7 @@ const RightNav = () => {
         closable={false}
         onClose={onCloseChangeInfo}
         open={openChangeInfo}
+        destroyOnClose
       >
         <ChangeInfo></ChangeInfo>
       </Drawer>

@@ -14,29 +14,34 @@ import { doc } from 'prettier';
 interface ChangeFormBoxProps {
   placeHolder?: string;
   title?: string;
-  isOpen: boolean;
+  isOpen: boolean[];
   children?: React.ReactNode;
-  handleClick: (state: boolean) => void;
+  handleClick: (state: boolean, chosenList: boolean[], key: number) => void;
+  type: string;
+  seq: number;
 }
 
 // children必须是按照制定规范的块
 const ChangeFormBox: React.FC<ChangeFormBoxProps> = props => {
-  const { placeHolder, title, isOpen, children, handleClick } = props;
+  const { placeHolder, title, isOpen, children, handleClick, type, seq } = props;
   const [isFocus, setIsFocus] = useState(false);
   const styles: CSSProperties = { color: THEME_COLOR, borderColor: THEME_COLOR };
   return (
-    <div className={style.wrapper} style={{ border: isOpen ? '1px solid rgba(0,0,0,.2)' : '1px solid transparent' }}>
+    <div
+      className={style.wrapper}
+      style={{ border: isOpen[seq] ? '1px solid rgba(0,0,0,.2)' : '1px solid transparent' }}
+    >
       <div className={style.title}>{title}</div>
       <div className={style.form}>
         <form>
           <div
             className={style.mainInput}
             onClick={() => {
-              handleClick(true);
+              handleClick(true, isOpen, seq);
             }}
           >
             <input
-              type="text"
+              type={type}
               onFocus={() => {
                 setIsFocus(true);
               }}
@@ -49,7 +54,7 @@ const ChangeFormBox: React.FC<ChangeFormBoxProps> = props => {
               &#xe601;
             </div>
           </div>
-          <div id="change-form-box-anime" className={isOpen ? style.otherInputOnOpen : style.otherInputOnClose}>
+          <div id={`change-form-box-anime-${seq}`} className={style.otherInput}>
             {children}
             <div style={{ marginBottom: `15px` }}>
               <Button type="primary" style={{ marginRight: '10px' }}>
@@ -57,7 +62,7 @@ const ChangeFormBox: React.FC<ChangeFormBoxProps> = props => {
               </Button>
               <Button
                 onClick={() => {
-                  handleClick(false);
+                  handleClick(false, isOpen, seq);
                 }}
               >
                 取消
