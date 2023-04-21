@@ -48,12 +48,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
       navigate(0);
       setIsLoading(false);
     } catch (err: any) {
-      if (err.status === 401) {
-        setIsLoading(false);
-        message.error('请输入正确的邮箱或密码');
-      } else {
-        message.error('未知错误');
-      }
+      setIsLoading(false);
     }
   }, []);
   return (
@@ -87,12 +82,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
           </Form.Item>
           <Form.Item>
             <Form.Item noStyle>
-              <a href="front-end/src/components/TopHeader/LoginForm">Sing up</a>
+              <a>Sing up</a>
             </Form.Item>
 
-            <a className="login-form-forgot" href="front-end/src/components/TopHeader/LoginForm">
-              Forgot password
-            </a>
+            <a className="login-form-forgot">Forgot password</a>
           </Form.Item>
           <Form.Item>
             <Button type="primary" loading={isLoading} htmlType="submit" className="login-form-button">

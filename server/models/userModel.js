@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, '请输入密码！'],
-      minlength: 6,
+      minlength: [6, '密码小于最小长度6位，请重新输入'],
       select: false,
     },
     // 头像文件名
@@ -59,7 +59,7 @@ const userSchema = new mongoose.Schema(
     // 修改邮箱时的缓存
     newEmail: {
       type: String,
-      defualt: null,
+      default: '',
       lowercase: true,
     },
     // 密码最近更新时间

@@ -62,23 +62,24 @@ const sendCode = async (req, res, user, operation, next, isLink = false) => {
     code = crypto.createHash('sha256').update(code).digest('hex');
     const resetURL = `${req.protocol}://${req.get(
       'host'
-    )}/api/v1/users/resetEmail/${code}`;
+    )}/api/users/resetEmail/${code}`;
     message = `这是你的邮箱重置链接，请点击验证:\n${resetURL}\n请妥善保管，勿将其发送给任何陌生人！`;
   }
 
   try {
     if (process.env.NODE_ENV === 'development') console.log(message);
     else {
-      await sendEmail({
-        email: user.email,
-        subject: '验证码-重置密码 (valid for 10 min)',
-        message,
-      });
+      //   await sendEmail({
+      //     email: user.email,
+      //     subject: '验证码-重置密码 (valid for 10 min)',
+      //     message,
+      //   });
     }
     if (!isLink) {
       // 设置session
       req.session.code = code;
       req.session.user_id = user.id;
+      console.log(req.session);
 
       // 如果上一个计时器存在则清除
       if (sessionTimer) clearTimeout(sessionTimer);
@@ -239,6 +240,10 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     return next(new AppError('旧密码输入错误，请重新输入！', 401));
   }
 
+  if (req.body.password !== req.body.passwordConfirm) {
+    return next(new AppError('两次输入密码不一致，请重新输入！', 401));
+  }
+
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
@@ -257,7 +262,7 @@ exports.sendLinkToNewEmail = catchAsync(async (req, res, next) => {
     .createHash('sha256')
     .update(req.body.code)
     .digest('hex');
-
+  // TODO:前端验证时session会丢失，待解决
   // session计时验证
   if (!req.session.code) {
     return next(new AppError('验证码无效!', 400));
@@ -270,10 +275,6 @@ exports.sendLinkToNewEmail = catchAsync(async (req, res, next) => {
   // 验证码错误
   if (hashedToken !== user.passwordResetToken) {
     return next(new AppError('验证码错误！', 400));
-  }
-  // email相同则不修改
-  if (user.email === req.body.newEmail) {
-    return next(new AppError('不能修改为相同的邮箱！', 400));
   }
 
   // 将新邮箱暂存至数据库

@@ -4,16 +4,19 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-// 登录注册
-router.post('/signup', authController.signup);
+// 登录
 router.post('/login', authController.login);
 
+// 注册
+// router.post('/signup', authController.signup);
 // 更改密码
-router.post('/forgotPassword', authController.forgotPassword);
-router.patch('/resetPassword', authController.resetPassword);
+// router.post('/forgotPassword', authController.forgotPassword);
+// router.patch('/resetPassword', authController.resetPassword);
 
 // 下面所有的routes都要用protect
 router.use(authController.protect);
+// 限制只有管理员权限操作，暂不对外开放
+router.use(authController.restrictTo('admin'));
 
 router.patch('/updateMyPassword', authController.updatePassword);
 

@@ -63,6 +63,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   const filteredBody = filterObj(req.body, 'name', 'brief');
   // 添加头像信息
   if (req.file) filteredBody.avatar = req.file.filename;
+  console.log(filteredBody);
 
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,

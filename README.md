@@ -203,3 +203,8 @@
         if (state) div.style.height = div.scrollHeight + 'px';
         else div.style.height = '0';
     ```
+16. forwardRef
+    ```js
+        // 泛型定义不要反了
+        const FC = forwardRef<HTMLInputElement, ChangeFormBoxProps>((props,ref)=>{})
+    ```

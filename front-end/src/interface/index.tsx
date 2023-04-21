@@ -45,3 +45,24 @@ export interface messageObj {
   warning: (content: string) => void;
   holder: React.ReactElement;
 }
+
+/* Form */
+
+// userPswObj
+export interface userPswObj {
+  oldPassword?: string;
+  password?: string;
+  passwordConfirm?: string;
+}
+
+// userInfo
+export interface userInfoObj {
+  name?: string;
+  brief?: string;
+}
+
+// email
+export interface emailObj {
+  code?: string;
+  newEmail?: string;
+}
