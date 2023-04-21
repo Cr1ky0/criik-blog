@@ -32,9 +32,8 @@ service.interceptors.response.use(
     if (error.response.status) {
       switch (error.response.status) {
         // 401: 未登录，分为登录信息错误和限制的路由，故不在这里处理
-        // case 401:
-        //   break;
-
+        case 401:
+          break;
         // 403 token过期
         // 登录过期对用户进行提示
         // 清除本地token和清空vuex中token对象

@@ -38,6 +38,7 @@ const RightNav = () => {
   const { width } = useViewport();
   // handle log out
   const handleLogout = useCallback(async () => {
+    // await可以让按钮进入加载状态
     await message.success('Successfully Log Out');
     cookies.remove('user');
     cookies.remove('token');

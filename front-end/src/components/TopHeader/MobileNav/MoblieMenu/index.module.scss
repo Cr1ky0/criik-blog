@@ -2,6 +2,7 @@
 
 @mixin total($overflow) {
   overflow: $overflow;
+  height: 0;
   width: 100%;
   position: fixed;
   top: $TOP_HEADER_H;

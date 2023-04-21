@@ -49,6 +49,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
       setIsLoading(false);
     } catch (err: any) {
       if (err.status === 401) {
+        setIsLoading(false);
         message.error('请输入正确的邮箱或密码');
       } else {
         message.error('未知错误');
