@@ -19,18 +19,13 @@ const noticeContext = createContext<noticeObj>(
 const NoticeProvider: React.FC<noticeProviderProps> = ({ children }) => {
   const [api, contextHolder] = notification.useNotification();
   const openNotice = useCallback(
-    async (type: NotificationType, message: string, description: string, placement?: NotificationPlacement) => {
-      await api.open({
+    (type: NotificationType, message: string, description: string, placement?: NotificationPlacement) => {
+      api.open({
         type,
         message,
         description,
         placement,
       });
-      // await api[type]({
-      //   message,
-      //   description,
-      //   placement,
-      // });
     },
     []
   );

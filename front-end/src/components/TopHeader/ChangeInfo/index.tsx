@@ -16,7 +16,6 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 // api
 import { sendCodeAjax, updateEmailAjax, updateLoginState, updateMeAjax, updateMyPswAjax } from '@/api/user';
 import isEmail from 'validator/lib/isEmail';
-import { useGlobalNotice } from '@/components/ContextProvider/NoticeProvider';
 
 const ChangeInfo = () => {
   const [isOpen, setIsOpen] = useState([false, false, false, false]);
@@ -24,7 +23,6 @@ const ChangeInfo = () => {
   const cookies = new Cookies();
   const user = cookies.get('user');
   const message = useGlobalMessage();
-  const openNotice = useGlobalNotice();
   const navigate = useNavigate();
   // ref
   // psw Ref
@@ -37,6 +35,12 @@ const ChangeInfo = () => {
   // info Ref
   const usernameRef = useRef<HTMLInputElement>(null);
   const briefRef = useRef<HTMLInputElement>(null);
+
+  // 设置按钮loading状态，用于传给封装的axios内
+  const setLoadingState = (state: boolean) => {
+    setIsLoading(state);
+  };
+
   // 实现展开Form动画
   const openForm = useCallback((state: boolean, chosenList: boolean[], key: number) => {
     const newList = [];
@@ -78,8 +82,7 @@ const ChangeInfo = () => {
   // 密码表单
   const handlePasswordForm = useCallback(async () => {
     const data = getFormValues(oldPswRef, pswRef, pswCfmRef2);
-    await updateMyPswAjax(data);
-    setIsLoading(true);
+    await updateMyPswAjax(data, setLoadingState);
     await message.success('修改成功, 请重新登录!');
     setIsLoading(false);
     cookies.remove('token');
@@ -100,16 +103,14 @@ const ChangeInfo = () => {
       setIsLoading(false);
       return;
     }
-    await updateEmailAjax(data);
-    setIsLoading(true);
+    await updateEmailAjax(data, setLoadingState);
     await message.success('链接已发送至新邮箱，请前往验证');
     setIsLoading(false);
   }, []);
   // 个人信息表单
   const handleUsernameForm = useCallback(async () => {
     const data = getFormValues(usernameRef);
-    await updateMeAjax(data);
-    setIsLoading(true);
+    await updateMeAjax(data, setLoadingState);
     await message.success('更新成功!');
     // 刷新登录状态
     await updateLoginState();
@@ -118,8 +119,7 @@ const ChangeInfo = () => {
   }, []);
   const handleBriefForm = useCallback(async () => {
     const data = getFormValues(briefRef);
-    await updateMeAjax(data);
-    setIsLoading(true);
+    await updateMeAjax(data, setLoadingState);
     await message.success('更新成功!');
     await updateLoginState();
     navigate(0);

@@ -26,7 +26,7 @@ import App from './App';
 message.config({
   top: 50,
   maxCount: 3,
-  duration: 1,
+  duration: 1.5,
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
