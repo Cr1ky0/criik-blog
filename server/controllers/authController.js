@@ -37,7 +37,7 @@ const createSendToken = (user, statusCode, res) => {
 
   res.cookie('jwt', token, cookieOptions);
 
-  // Remove password from output
+  // 移除不必到的属性
   user.password = undefined;
 
   res.status(statusCode).json({
@@ -120,7 +120,9 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('请输入邮箱和密码！!', 400));
   }
   // 验证用户是否存在
-  const user = await User.findOne({ email }).select('+password'); // 带+号后原本select为false的就可以被查询过来
+  const user = await User.findOne({ email }).select(
+    '+password -emailResetTime -role -newEmail'
+  ); // 带+号后原本select为false的就可以被查询过来
 
   // 调用userSchema中的方法
   if (!user || !(await user.correctPassword(password, user.password))) {
@@ -254,7 +256,6 @@ exports.sendLinkToNewEmail = catchAsync(async (req, res, next) => {
     .createHash('sha256')
     .update(req.body.code)
     .digest('hex');
-  // TODO:前端验证时session会丢失，待解决
   // session计时验证
   if (!req.session.code) {
     return next(new AppError('验证码无效!', 400));

@@ -23,7 +23,7 @@ const UploadAvatar = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { error, success, holder } = useGlobalMessage();
+  const { error, success } = useGlobalMessage();
   const navigate = useNavigate();
   const cookies = new Cookies();
   const user = cookies.get('user');
@@ -70,7 +70,7 @@ const UploadAvatar = () => {
       error('请上传新的图片！');
       return;
     }
-    console.log(fileList[0]);
+    // 传base64格式的图片
     await updateMeAjax({ avatar: fileList[0].thumbUrl });
     setIsLoading(true);
     await success('上传成功！');
@@ -79,7 +79,6 @@ const UploadAvatar = () => {
   };
   return (
     <div className={style.wrapper}>
-      {holder}
       <div className={style.uploadBox}>
         <ImgCrop rotationSlider>
           <Upload

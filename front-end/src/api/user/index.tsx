@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie';
 import { message } from 'antd';
 
 // interface
-import { emailObj, LoginFormData, userInfoObj, userPswObj } from '@/interface';
+import { emailObj, LoginFormData, userUpdateObj, userPswObj } from '@/interface';
 
 // 拦截器已经错误处理，像登录这样失败有其他错误处理操作的不用改封装
 export const catchAsync = (fn: any) => async (values?: unknown) => {
@@ -20,6 +20,7 @@ export const loginAjax = async (values: LoginFormData) => {
   const response = await service.post('/api/users/login', values);
   // 设置token
   const cookies = new Cookies();
+  delete response.data.data.user['_id'];
   cookies.set('user', response.data.data.user, { path: '/' });
   cookies.set('token', response.data.token, { path: '/' });
   return Promise.resolve(response.data);
@@ -54,7 +55,7 @@ export const updateEmailAjax = catchAsync(async (values: emailObj) => {
   return Promise.resolve(response);
 });
 
-export const updateMeAjax = catchAsync(async (values: userInfoObj) => {
+export const updateMeAjax = catchAsync(async (values: userUpdateObj) => {
   const response = await service.patch('/api/users/updateMe', values);
   return Promise.resolve(response);
 });

@@ -78,26 +78,26 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
     // 关注的用户 (child ref)
-    subUsers: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
-      },
-    ],
+    // subUsers: [
+    //   {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'User',
+    //   },
+    // ],
     // 关注自己的用户 (child ref)
-    selfSubers: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
-      },
-    ],
+    // selfSubers: [
+    //   {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'User',
+    //   },
+    // ],
     // 订阅的博客 (child ref)
-    subBlogs: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Blog',
-      },
-    ],
+    // subBlogs: [
+    //   {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'Blog',
+    //   },
+    // ],
   },
 
   {

@@ -38,21 +38,6 @@ body {
 }
 
 /***************** antd *******************/
-// RightNav
-#top-header-right-nav { // 防止污染
-  .ant-modal {
-    width: 360px !important;
-
-    .ant-modal-content {
-      padding: 30px;
-    }
-
-    .ant-modal-footer {
-      display: none;
-    }
-  }
-}
-
 .ant-dropdown-menu-item {
   padding: 0 !important;
 }

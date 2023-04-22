@@ -51,7 +51,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
   }, []);
   return (
     <div className={style.wrapper}>
-      {message.holder}
       <div className={style.header}>
         <div className={style.logoBox}>
           <div className={style.logo} style={{ backgroundImage: `url(${img})` }}></div>

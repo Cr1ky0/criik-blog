@@ -85,8 +85,7 @@ const RightNav = () => {
   ];
 
   return (
-    <div id="top-header-right-nav" className={style.rightNav}>
-      {message.holder}
+    <div className={style.rightNav}>
       {/* 是否登录判断 */}
       {user ? (
         <>
@@ -109,7 +108,6 @@ const RightNav = () => {
           <LinkBtn2
             onClick={() => {
               setModalOpen(true);
-              setBodyScroll();
             }}
           >
             Sign in
@@ -118,10 +116,11 @@ const RightNav = () => {
             centered
             destroyOnClose
             maskClosable={false}
+            width={360}
+            footer=""
             open={modalOpen}
             onCancel={() => {
               setModalOpen(false);
-              setBodyScroll();
             }}
           >
             <LoginForm

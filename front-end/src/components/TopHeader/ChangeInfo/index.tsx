@@ -16,6 +16,7 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 // api
 import { sendCodeAjax, updateEmailAjax, updateLoginState, updateMeAjax, updateMyPswAjax } from '@/api/user';
 import isEmail from 'validator/lib/isEmail';
+import { useGlobalNotice } from '@/components/ContextProvider/NoticeProvider';
 
 const ChangeInfo = () => {
   const [isOpen, setIsOpen] = useState([false, false, false, false]);
@@ -23,6 +24,7 @@ const ChangeInfo = () => {
   const cookies = new Cookies();
   const user = cookies.get('user');
   const message = useGlobalMessage();
+  const openNotice = useGlobalNotice();
   const navigate = useNavigate();
   // ref
   // psw Ref
@@ -78,7 +80,7 @@ const ChangeInfo = () => {
     const data = getFormValues(oldPswRef, pswRef, pswCfmRef2);
     await updateMyPswAjax(data);
     setIsLoading(true);
-    await message.success('修改成功，请重新登录！');
+    await message.success('修改成功, 请重新登录!');
     setIsLoading(false);
     cookies.remove('token');
     cookies.remove('user');
@@ -124,89 +126,93 @@ const ChangeInfo = () => {
     setIsLoading(false);
   }, []);
   return (
-    <div className={style.wrapper}>
-      <div className={style.accountSecurity}>
-        <div className={style.title}>
-          <div></div>
-          <div>账户与安全</div>
-        </div>
-        <ChangeFormBox
-          name="oldPassword"
-          title="密码"
-          placeHolder="********"
-          isOpen={isOpen}
-          handleClose={openForm}
-          handleSubmit={handlePasswordForm}
-          isLoading={isLoading}
-          type="password"
-          seq={0}
-          ref={oldPswRef}
-        >
-          <div>
-            <input type="password" placeholder="新密码" name="password" ref={pswRef} />
+    <>
+      {user ? (
+        <div className={style.wrapper}>
+          <div className={style.accountSecurity}>
+            <div className={style.title}>
+              <div></div>
+              <div>账户与安全</div>
+            </div>
+            <ChangeFormBox
+              name="oldPassword"
+              title="密码"
+              placeHolder="********"
+              isOpen={isOpen}
+              handleClose={openForm}
+              handleSubmit={handlePasswordForm}
+              isLoading={isLoading}
+              type="password"
+              seq={0}
+              ref={oldPswRef}
+            >
+              <div>
+                <input type="password" placeholder="新密码" name="password" ref={pswRef} />
+              </div>
+              <div>
+                <input type="password" placeholder="确认密码" name="passwordConfirm" ref={pswCfmRef2} />
+              </div>
+            </ChangeFormBox>
+            <ChangeFormBox
+              title="邮箱"
+              placeHolder={user.email}
+              isOpen={isOpen}
+              handleClose={openForm}
+              isLoading={isLoading}
+              handleSubmit={handleEmailForm}
+              type="text"
+              seq={1}
+              name="newEmail"
+              ref={newEmailRef}
+            >
+              <div>
+                <input type="text" placeholder="验证码" name="code" ref={codeRef} />
+                <LinkBtn2 styles={{ width: '110px' }} onClick={sendCode}>
+                  获取验证码
+                </LinkBtn2>
+              </div>
+            </ChangeFormBox>
           </div>
-          <div>
-            <input type="password" placeholder="确认密码" name="passwordConfirm" ref={pswCfmRef2} />
+          <div className={style.selfInfo}>
+            <div className={style.title}>
+              <div></div>
+              <div>个人信息</div>
+            </div>
+            <ChangeFormBox
+              title="昵称"
+              placeHolder={user.name}
+              isOpen={isOpen}
+              handleClose={openForm}
+              ref={usernameRef}
+              isLoading={isLoading}
+              handleSubmit={handleUsernameForm}
+              type="text"
+              name="name"
+              seq={2}
+            ></ChangeFormBox>
+            <ChangeFormBox
+              title="个人简介"
+              placeHolder={user.brief}
+              isOpen={isOpen}
+              isLoading={isLoading}
+              handleClose={openForm}
+              handleSubmit={handleBriefForm}
+              ref={briefRef}
+              type="text"
+              name="brief"
+              seq={3}
+            ></ChangeFormBox>
           </div>
-        </ChangeFormBox>
-        <ChangeFormBox
-          title="邮箱"
-          placeHolder={user ? user.email : undefined}
-          isOpen={isOpen}
-          handleClose={openForm}
-          isLoading={isLoading}
-          handleSubmit={handleEmailForm}
-          type="text"
-          seq={1}
-          name="newEmail"
-          ref={newEmailRef}
-        >
-          <div>
-            <input type="text" placeholder="验证码" name="code" ref={codeRef} />
-            <LinkBtn2 styles={{ width: '110px' }} onClick={sendCode}>
-              获取验证码
-            </LinkBtn2>
+          <div className={style.uploadAvatar}>
+            <div className={style.title}>
+              <div></div>
+              <div>头像</div>
+            </div>
+            <UploadAvatar></UploadAvatar>
           </div>
-        </ChangeFormBox>
-      </div>
-      <div className={style.selfInfo}>
-        <div className={style.title}>
-          <div></div>
-          <div>个人信息</div>
         </div>
-        <ChangeFormBox
-          title="昵称"
-          placeHolder={user ? user.name : undefined}
-          isOpen={isOpen}
-          handleClose={openForm}
-          ref={usernameRef}
-          isLoading={isLoading}
-          handleSubmit={handleUsernameForm}
-          type="text"
-          name="name"
-          seq={2}
-        ></ChangeFormBox>
-        <ChangeFormBox
-          title="个人简介"
-          placeHolder={user ? user.brief : undefined}
-          isOpen={isOpen}
-          isLoading={isLoading}
-          handleClose={openForm}
-          handleSubmit={handleBriefForm}
-          ref={briefRef}
-          type="text"
-          name="brief"
-          seq={3}
-        ></ChangeFormBox>
-      </div>
-      <div className={style.uploadAvatar}>
-        <div className={style.title}>
-          <div></div>
-          <div>头像</div>
-        </div>
-        <UploadAvatar></UploadAvatar>
-      </div>
-    </div>
+      ) : undefined}
+    </>
   );
 };
 export default ChangeInfo;

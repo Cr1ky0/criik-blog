@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import { NotificationPlacement } from 'antd/es/notification/interface';
 
 /* Comment-Comp */
 
@@ -43,8 +44,17 @@ export interface messageObj {
   success: (content: string) => void;
   error: (content: string) => void;
   warning: (content: string) => void;
-  holder: React.ReactElement;
 }
+
+/* NoticeProvider */
+export type NotificationType = 'success' | 'info' | 'warning' | 'error';
+
+export type noticeObj = (
+  type: NotificationType,
+  message: string,
+  description: string,
+  placement?: NotificationPlacement
+) => void;
 
 /* Form */
 
@@ -55,11 +65,20 @@ export interface userPswObj {
   passwordConfirm?: string;
 }
 
-// userInfo
-export interface userInfoObj {
+// userUpdate
+export interface userUpdateObj {
   name?: string;
   brief?: string;
   avatar?: unknown;
+}
+
+// userInfo
+export interface userObj {
+  name: string;
+  email: string;
+  brief: string;
+  avatar: string;
+  id: string;
 }
 
 // email

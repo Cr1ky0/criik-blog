@@ -19,6 +19,7 @@ import { useIcons } from '@/components/ContextProvider/IconStore';
 // utils
 import { getAntdIcon } from '@/utils';
 import App from '@/pages/TestPage/test';
+import { useGlobalNotice } from '@/components/ContextProvider/NoticeProvider';
 
 const TestPage = () => {
   const icons = useIcons();
@@ -55,8 +56,16 @@ const TestPage = () => {
     },
   ];
 
+  const openNotice = useGlobalNotice();
   return (
     <div style={{ margin: '20vh', width: '700px' }}>
+      <button
+        onClick={() => {
+          openNotice('success', '111', 'test', 'topLeft');
+        }}
+      >
+        test
+      </button>
       <UploadAvatar></UploadAvatar>
       <App></App>
       {/*{getAntdIcon('home', icons)}*/}

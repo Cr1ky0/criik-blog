@@ -11,7 +11,7 @@ import { THEME_COLOR } from '@/global';
 import { updateMyPswAjax } from '@/api/user';
 
 // interface
-import { userInfoObj } from '@/interface';
+import { userUpdateObj } from '@/interface';
 
 interface ChangeFormBoxProps {
   placeHolder?: string;
