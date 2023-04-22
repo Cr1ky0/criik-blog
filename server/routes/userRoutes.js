@@ -31,7 +31,7 @@ router.get('/updateLoginState', userController.updateLoginState);
 // 更新个人信息
 router.patch(
   '/updateMe',
-  userController.uploadAvatar,
+  //   userController.uploadAvatar,
   userController.resizeUserAvatar,
   userController.updateMe
 );

@@ -59,6 +59,7 @@ export interface userPswObj {
 export interface userInfoObj {
   name?: string;
   brief?: string;
+  avatar?: unknown;
 }
 
 // email

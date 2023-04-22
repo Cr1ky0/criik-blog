@@ -1,43 +1,22 @@
-const multer = require('multer');
 const sharp = require('sharp');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const filterObj = require('../utils/filterObj');
 
-// multer
-const multerStorage = multer.memoryStorage();
-
-const multerFilter = (req, file, cb) => {
-  // if (file.size > 50000) {
-  //   cb(new AppError('上传的图像过大！', 400), false);
-  // }
-  if (file.mimetype.startsWith('image')) {
-    cb(null, true);
-  } else {
-    cb(new AppError('请勿上传其他文件！', 400), false);
-  }
-};
-
-const upload = multer({
-  storage: multerStorage,
-  fileFilter: multerFilter,
-});
-
 // avatar
-exports.uploadAvatar = upload.single('avatar');
 
 exports.resizeUserAvatar = catchAsync(async (req, res, next) => {
-  if (!req.file) return next();
-
-  req.file.filename = `user-${req.user.id}.jpeg`;
-
+  if (!req.body.avatar) return next();
+  const base64 = req.body.avatar.replace(/^data:image\/\w+;base64,/, '');
+  const buffer = Buffer.from(base64, 'base64');
+  req.filename = `user-${req.user.id}.jpeg`;
   // 利用sharp对图像进行压缩
-  await sharp(req.file.buffer)
+  await sharp(buffer)
     .resize(500, 500, { fit: 'outside' })
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
-    .toFile(`public/images/users/${req.file.filename}`);
+    .toFile(`public/images/users/${req.filename}`);
   next();
 });
 
@@ -73,8 +52,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   // 过滤掉不能更新的字段
   const filteredBody = filterObj(req.body, 'name', 'brief');
   // 添加头像信息
-  if (req.file) filteredBody.avatar = req.file.filename;
-  console.log(filteredBody);
+  if (req.filename) filteredBody.avatar = req.filename;
 
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,

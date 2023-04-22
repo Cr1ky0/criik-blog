@@ -39,15 +39,17 @@ body {
 
 /***************** antd *******************/
 // RightNav
-.ant-modal {
-  width: 360px !important;
+#top-header-right-nav { // 防止污染
+  .ant-modal {
+    width: 360px !important;
 
-  .ant-modal-content {
-    padding: 30px;
-  }
+    .ant-modal-content {
+      padding: 30px;
+    }
 
-  .ant-modal-footer {
-    display: none;
+    .ant-modal-footer {
+      display: none;
+    }
   }
 }
 

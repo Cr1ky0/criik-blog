@@ -85,7 +85,7 @@ const RightNav = () => {
   ];
 
   return (
-    <div className={style.rightNav}>
+    <div id="top-header-right-nav" className={style.rightNav}>
       {message.holder}
       {/* 是否登录判断 */}
       {user ? (

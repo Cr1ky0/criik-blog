@@ -7,6 +7,7 @@ import style from './index.module.scss';
 
 // comp
 import ChangeFormBox from '@/components/TopHeader/ChangeInfo/ChangeFormBox';
+import UploadAvatar from '@/components/TopHeader/UploadAvatar';
 
 // ui
 import LinkBtn2 from '@/components/UI/LinkBtn2';
@@ -17,7 +18,7 @@ import { sendCodeAjax, updateEmailAjax, updateLoginState, updateMeAjax, updateMy
 import isEmail from 'validator/lib/isEmail';
 
 const ChangeInfo = () => {
-  const [isOpen, setIsOpen] = useState([false, false, false, false, false]);
+  const [isOpen, setIsOpen] = useState([false, false, false, false]);
   const [isLoading, setIsLoading] = useState(false);
   const cookies = new Cookies();
   const user = cookies.get('user');
@@ -197,17 +198,13 @@ const ChangeInfo = () => {
           name="brief"
           seq={3}
         ></ChangeFormBox>
-        <ChangeFormBox
-          title="头像"
-          isOpen={isOpen}
-          isLoading={isLoading}
-          handleClose={openForm}
-          handleSubmit={handleBriefForm}
-          ref={briefRef}
-          type="text"
-          name="avatar"
-          seq={4}
-        ></ChangeFormBox>
+      </div>
+      <div className={style.uploadAvatar}>
+        <div className={style.title}>
+          <div></div>
+          <div>头像</div>
+        </div>
+        <UploadAvatar></UploadAvatar>
       </div>
     </div>
   );

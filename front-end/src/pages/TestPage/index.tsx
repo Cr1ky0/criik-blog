@@ -11,12 +11,14 @@ import IntroductionBox from '@/components/HomePage/IntroductionBox';
 import Comment from '@/components/Comment';
 import { useAppSelector } from '@/redux';
 import ReactDOM from 'react-dom/client';
+import UploadAvatar from '@/components/TopHeader/UploadAvatar';
 
 // hooks
 import { useIcons } from '@/components/ContextProvider/IconStore';
 
 // utils
 import { getAntdIcon } from '@/utils';
+import App from '@/pages/TestPage/test';
 
 const TestPage = () => {
   const icons = useIcons();
@@ -55,6 +57,8 @@ const TestPage = () => {
 
   return (
     <div style={{ margin: '20vh', width: '700px' }}>
+      <UploadAvatar></UploadAvatar>
+      <App></App>
       {/*{getAntdIcon('home', icons)}*/}
       {/*{getAntdIcon('code', icons)}*/}
       {/*<Comment></Comment>*/}

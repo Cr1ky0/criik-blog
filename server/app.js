@@ -53,7 +53,7 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // 限制query参数和json大小10kb
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json({ limit: '120kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 // Data sanitization against NoSQL query injection
@@ -74,6 +74,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // cookie
 app.use(cookieParser());
+
 // session
 app.use(
   session({
