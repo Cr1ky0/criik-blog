@@ -16,17 +16,14 @@ const AvatarProvider: React.FC<avatarContextProps> = ({ children }) => {
   const user = cookies.get('user');
   useEffect(() => {
     if (user)
-      avatarAjax(user.avatar)
-        .then(response => {
-          const reader = new FileReader();
-          reader.onload = e => {
-            if (e.target) setAvatar(e.target.result as string);
-          };
-          reader.readAsDataURL(response);
-        })
-        .catch(err => {
-          console.log(err.message);
-        });
+      avatarAjax(user.avatar).then(response => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          if (e.target) setAvatar(e.target.result as string);
+        };
+        reader.readAsDataURL(response);
+        console.log(response);
+      });
   }, [user]);
   return <avatarContext.Provider value={avatar}>{children}</avatarContext.Provider>;
 };

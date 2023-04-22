@@ -55,7 +55,6 @@
    > 注意在选择 eslint 初始化选项时将 node 和 browser 规范全选 <br/>
    > 第一个选项选第二个，带 find problems 就行，第三个会大面积报错
 2. 配置 prettier:
-
    > yarn add prettier eslint-config-prettier eslint-plugin-prettier -D <br/>
 
    ```js
@@ -68,22 +67,6 @@
            // 其他配置
            "prettier"  // 增加项
        ],
-
-       // .prettierrc
-       {
-           // 超过最大值换行
-           "printWidth": 120,
-           // 缩进字节数
-           "tabWidth": 2,
-           // 缩进不使用tab, 使用空格
-           "useTabs": false,
-           // 使用单引号代替双引号
-           "singleQuote": true,
-           // 默认值。因为使用了一些折行敏感型的渲染器（如GitHub comment）而按照markdown文本样式进行折行
-           "proseWrap": "preserve",
-           //  (x) => {} 箭头函数参数只有一个时是否要有小括号。avoid: 省略括号
-           "arrowParens": "avoid"
-       }
    ```
 
 3. react 项目中也可以 env 来配置全局变量
@@ -180,7 +163,23 @@
     const persistor = persistStore(store);
     ```
 
-12. axios 封装
+12. axios 封装，这里和sever的catchAsync有异曲同工之妙，把错误拦截下来，因为已经在拦截器内做了统一处理，一些有其他错误处理的不用改封装
+    ```js
+        const catchAsync = (fn: any) => async (values?: unknown) => {
+            try {
+                const response = await fn(values);
+                return Promise.resolve(response.data);
+            } catch (err: any) {
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                return new Promise(() => {});
+            }
+        };
+
+        export const avatarAjax = catchAsync(async (values: string) => {
+            const response = await service.get(`/images/users/${values}`, { responseType: 'blob' });
+            return Promise.resolve(response);
+        });
+    ```
 13. axios 请求回图片需要利用filereader进行处理转化为url可作为背景图
     ```js
     avatarAjax(user.avatar)

@@ -34,7 +34,7 @@ service.interceptors.response.use(
       return Promise.reject(response);
     }
   },
-  error => {
+  async error => {
     if (error.response.status) {
       switch (error.response.status) {
         // 400也有很多情况，不在这处理
@@ -61,7 +61,7 @@ service.interceptors.response.use(
           break;
       }
       // 全局提示
-      message.error(error.response.data.message);
+      await message.error(error.response.data.message);
       return Promise.reject(error.response);
     }
   }
