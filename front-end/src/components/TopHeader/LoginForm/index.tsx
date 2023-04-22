@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
-import Cookies from 'universal-cookie';
+import isEmail from 'validator/lib/isEmail';
 
 // css
 import style from './index.module.scss';
@@ -33,18 +33,16 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
   const navigate = useNavigate();
   const message = useGlobalMessage();
   const login = useCallback(async (values: LoginFormData) => {
+    if (!isEmail(values.email)) {
+      message.error('请输入正确的邮箱！');
+      return;
+    }
     try {
       setIsLoading(true);
-      const response = await loginAjax(values);
+      await loginAjax(values);
       await message.success('Successfully Log In');
-      // 设置token
-      const cookies = new Cookies();
-      cookies.set('user', response.data.user, { path: '/' });
-      cookies.set('token', response.token, { path: '/' });
       // 关闭窗口
       close();
-      // 设置滚动条
-      setBodyScroll();
       navigate(0);
       setIsLoading(false);
     } catch (err: any) {

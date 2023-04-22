@@ -20,6 +20,7 @@ interface ChangeFormBoxProps {
   children?: React.ReactNode;
   handleClose: (state: boolean, chosenList: boolean[], key: number) => void;
   handleSubmit: () => void;
+  isLoading?: boolean;
   type: string;
   seq: number;
   name: string;
@@ -27,7 +28,7 @@ interface ChangeFormBoxProps {
 
 // children必须是按照制定规范的块
 const ChangeFormBox = forwardRef<HTMLInputElement, ChangeFormBoxProps>((props, ref) => {
-  const { placeHolder, title, isOpen, children, handleClose, handleSubmit, type, seq, name } = props;
+  const { placeHolder, title, isOpen, children, handleClose, handleSubmit, type, seq, name, isLoading } = props;
   const [isFocus, setIsFocus] = useState(false);
   const styles: CSSProperties = { color: THEME_COLOR, borderColor: THEME_COLOR };
   return (
@@ -51,8 +52,9 @@ const ChangeFormBox = forwardRef<HTMLInputElement, ChangeFormBoxProps>((props, r
               setIsFocus(true);
               if (type === 'password') event.currentTarget.placeholder = '当前密码';
             }}
-            onBlur={() => {
+            onBlur={event => {
               setIsFocus(false);
+              if (type === 'password') event.currentTarget.placeholder = '********';
             }}
             placeholder={placeHolder}
           />
@@ -63,7 +65,7 @@ const ChangeFormBox = forwardRef<HTMLInputElement, ChangeFormBoxProps>((props, r
         <div id={`change-form-box-anime-${seq}`} className={style.otherInput}>
           {children}
           <div style={{ marginBottom: `15px` }}>
-            <Button type="primary" style={{ marginRight: '10px' }} onClick={handleSubmit}>
+            <Button type="primary" style={{ marginRight: '10px' }} onClick={handleSubmit} loading={isLoading}>
               确定
             </Button>
             <Button

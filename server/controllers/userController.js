@@ -53,6 +53,17 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
   });
 });
 
+// 用于对已经登录的用户刷新其状态
+exports.updateLoginState = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+    },
+  });
+});
+
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 阻止在这里更新密码
   if (req.body.password || req.body.passwordConfirm) {

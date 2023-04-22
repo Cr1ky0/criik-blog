@@ -2,7 +2,9 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 // 安全相关插件
 const rateLimit = require('express-rate-limit');
@@ -22,7 +24,12 @@ const menuRouter = require('./routes/menuRoutes');
 const app = express();
 
 // Implement CORS
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: 'http://localhost:3000',
+  })
+);
 app.options('*', cors());
 
 // 1) GLOBAL MIDDLEWARES
@@ -65,13 +72,27 @@ app.use(
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// cookie
+app.use(cookieParser());
 // session
 app.use(
   session({
-    name: 'verifacation code session',
+    name: 'codeSession',
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    rolling: true, //在每次请求时强行设置 cookie，这将重置cookie过期时间（默认：false）
+    store: MongoStore.create({
+      mongoUrl: 'mongodb://criiky0:123456@127.0.0.1:27017/criik-blog', //数据库的地址
+      ttl: 10 * 60,
+    }),
+    // 设置发送给前端的cookie属性
+    cookie: {
+      secure: false,
+      httpOnly: true,
+      path: '/api/users',
+      maxAge: 1000 * 60 * 10,
+    },
   })
 );
 

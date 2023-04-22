@@ -1,4 +1,6 @@
 import service from '@/utils/request';
+import Cookies from 'universal-cookie';
+import { message } from 'antd';
 
 // interface
 import { emailObj, LoginFormData, userInfoObj, userPswObj } from '@/interface';
@@ -16,11 +18,23 @@ export const catchAsync = (fn: any) => async (values?: unknown) => {
 
 export const loginAjax = async (values: LoginFormData) => {
   const response = await service.post('/api/users/login', values);
+  // 设置token
+  const cookies = new Cookies();
+  cookies.set('user', response.data.data.user, { path: '/' });
+  cookies.set('token', response.data.token, { path: '/' });
   return Promise.resolve(response.data);
 };
 
-// values是user.avator
-export const avatarAjax = catchAsync(async (values: string) => {
+export const updateLoginState = catchAsync(async () => {
+  const response = await service.get(`/api/users/updateLoginState`);
+  // 设置token
+  const cookies = new Cookies();
+  cookies.set('user', response.data.data.user, { path: '/' });
+  return Promise.resolve(response);
+});
+
+export // values是user.avator
+const avatarAjax = catchAsync(async (values: string) => {
   const response = await service.get(`/images/users/${values}`, { responseType: 'blob' });
   return Promise.resolve(response);
 });

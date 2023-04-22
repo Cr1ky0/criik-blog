@@ -5,10 +5,10 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
-const sendEmail = require('../utils/email');
+// const sendEmail = require('../utils/email');
 
 // 用于清除session计时器
-let sessionTimer;
+// let sessionTimer;
 // session时限
 const sessionExistTime = 60 * 60 * 1000;
 
@@ -79,14 +79,6 @@ const sendCode = async (req, res, user, operation, next, isLink = false) => {
       // 设置session
       req.session.code = code;
       req.session.user_id = user.id;
-      console.log(req.session);
-
-      // 如果上一个计时器存在则清除
-      if (sessionTimer) clearTimeout(sessionTimer);
-      // 设置时间后销毁session
-      sessionTimer = setTimeout(() => {
-        if (req.session) req.session.destroy();
-      }, sessionExistTime);
     }
 
     let sendMessage = '验证码已经发送至邮箱!';

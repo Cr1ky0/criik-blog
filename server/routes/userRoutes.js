@@ -13,17 +13,20 @@ router.post('/login', authController.login);
 // router.post('/forgotPassword', authController.forgotPassword);
 // router.patch('/resetPassword', authController.resetPassword);
 
+// reset邮箱
+router.get('/resetEmail/:token', authController.resetEmail);
+
 // 下面所有的routes都要用protect
 router.use(authController.protect);
 // 限制只有管理员权限操作，暂不对外开放
 router.use(authController.restrictTo('admin'));
 
-router.patch('/updateMyPassword', authController.updatePassword);
-
 // 更换邮箱
 router.post('/updateEmail', authController.updateEmail);
 router.post('/sendLinkToNewEmail', authController.sendLinkToNewEmail);
-router.get('/resetEmail/:token', authController.resetEmail);
+
+router.patch('/updateMyPassword', authController.updatePassword);
+router.get('/updateLoginState', userController.updateLoginState);
 
 // 更新个人信息
 router.patch(

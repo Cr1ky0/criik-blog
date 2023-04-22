@@ -46,7 +46,13 @@
      ```
    - 给其他数据库添加验证账户时，非 admin db 使用 readWrite 角色，因为子 db 没有 root 等角色
 8. 文件、图片上传：multer+sharp
-
+9. connect-mongo，session持久化
+10. *关于session和cookie
+    - 使用express-session后，一旦设置session，会向前端发送一个session_id的cookie，在Set-Cookie请求头内
+    - 如果Set-Cookie请求头内的cookie设置了http-only，那么前端无论如何都无法获取到该cookie（服务器可读cookie）
+    - 那么此时前端如果想在axios发送请求时携带该cookie，需要打开withCredentials选项，此时会出现跨域问题
+    - 这里我使用cors解决跨域，打开了withCredentials仍会出现跨域问题，需要配置cors的credentials:true,同时origin设为请求发送端的地址
+    - 如果要使用不带http-only的cookie，用cookie-parser，在配置里面把httpOnly关了就行
 # 前端
 
 1. 安装 eslint 步骤:

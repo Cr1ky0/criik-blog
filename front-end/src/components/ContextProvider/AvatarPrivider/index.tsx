@@ -22,7 +22,6 @@ const AvatarProvider: React.FC<avatarContextProps> = ({ children }) => {
           if (e.target) setAvatar(e.target.result as string);
         };
         reader.readAsDataURL(response);
-        console.log(response);
       });
   }, [user]);
   return <avatarContext.Provider value={avatar}>{children}</avatarContext.Provider>;

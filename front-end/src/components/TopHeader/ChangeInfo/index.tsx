@@ -13,10 +13,12 @@ import LinkBtn2 from '@/components/UI/LinkBtn2';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // api
-import { sendCodeAjax, updateEmailAjax, updateMeAjax, updateMyPswAjax } from '@/api/user';
+import { sendCodeAjax, updateEmailAjax, updateLoginState, updateMeAjax, updateMyPswAjax } from '@/api/user';
+import isEmail from 'validator/lib/isEmail';
 
 const ChangeInfo = () => {
-  const [isOpen, setIsOpen] = useState([false, false, false, false]);
+  const [isOpen, setIsOpen] = useState([false, false, false, false, false]);
+  const [isLoading, setIsLoading] = useState(false);
   const cookies = new Cookies();
   const user = cookies.get('user');
   const message = useGlobalMessage();
@@ -74,7 +76,9 @@ const ChangeInfo = () => {
   const handlePasswordForm = useCallback(async () => {
     const data = getFormValues(oldPswRef, pswRef, pswCfmRef2);
     await updateMyPswAjax(data);
+    setIsLoading(true);
     await message.success('修改成功，请重新登录！');
+    setIsLoading(false);
     cookies.remove('token');
     cookies.remove('user');
     navigate(0);
@@ -83,26 +87,40 @@ const ChangeInfo = () => {
   // 邮箱表单
   const sendCode = useCallback(async () => {
     await sendCodeAjax();
-    await message.success('验证码已发送到原邮箱，请前往邮箱查看！');
+    message.success('验证码已发送到原邮箱，请前往邮箱查看！');
   }, []);
   const handleEmailForm = useCallback(async () => {
     const data = getFormValues(newEmailRef, codeRef);
+    if (!isEmail(data.newEmail)) {
+      setIsLoading(true);
+      await message.error('请输入正确的邮箱!');
+      setIsLoading(false);
+      return;
+    }
     await updateEmailAjax(data);
+    setIsLoading(true);
     await message.success('链接已发送至新邮箱，请前往验证');
+    setIsLoading(false);
   }, []);
   // 个人信息表单
   const handleUsernameForm = useCallback(async () => {
     const data = getFormValues(usernameRef);
     await updateMeAjax(data);
+    setIsLoading(true);
     await message.success('更新成功!');
-    // TODO:更新状态
+    // 刷新登录状态
+    await updateLoginState();
     navigate(0);
+    setIsLoading(false);
   }, []);
   const handleBriefForm = useCallback(async () => {
     const data = getFormValues(briefRef);
     await updateMeAjax(data);
+    setIsLoading(true);
     await message.success('更新成功!');
+    await updateLoginState();
     navigate(0);
+    setIsLoading(false);
   }, []);
   return (
     <div className={style.wrapper}>
@@ -118,6 +136,7 @@ const ChangeInfo = () => {
           isOpen={isOpen}
           handleClose={openForm}
           handleSubmit={handlePasswordForm}
+          isLoading={isLoading}
           type="password"
           seq={0}
           ref={oldPswRef}
@@ -131,9 +150,10 @@ const ChangeInfo = () => {
         </ChangeFormBox>
         <ChangeFormBox
           title="邮箱"
-          placeHolder={user.email}
+          placeHolder={user ? user.email : undefined}
           isOpen={isOpen}
           handleClose={openForm}
+          isLoading={isLoading}
           handleSubmit={handleEmailForm}
           type="text"
           seq={1}
@@ -155,10 +175,11 @@ const ChangeInfo = () => {
         </div>
         <ChangeFormBox
           title="昵称"
-          placeHolder={user.name}
+          placeHolder={user ? user.name : undefined}
           isOpen={isOpen}
           handleClose={openForm}
           ref={usernameRef}
+          isLoading={isLoading}
           handleSubmit={handleUsernameForm}
           type="text"
           name="name"
@@ -166,14 +187,26 @@ const ChangeInfo = () => {
         ></ChangeFormBox>
         <ChangeFormBox
           title="个人简介"
-          placeHolder={user.brief}
+          placeHolder={user ? user.brief : undefined}
           isOpen={isOpen}
+          isLoading={isLoading}
           handleClose={openForm}
           handleSubmit={handleBriefForm}
           ref={briefRef}
           type="text"
           name="brief"
           seq={3}
+        ></ChangeFormBox>
+        <ChangeFormBox
+          title="头像"
+          isOpen={isOpen}
+          isLoading={isLoading}
+          handleClose={openForm}
+          handleSubmit={handleBriefForm}
+          ref={briefRef}
+          type="text"
+          name="avatar"
+          seq={4}
         ></ChangeFormBox>
       </div>
     </div>

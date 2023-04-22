@@ -15,13 +15,15 @@ const service = axios.create({
 
 // 都用json发数据
 service.defaults.headers.post['Content-Type'] = 'application/json';
-
+service.defaults.withCredentials = true;
 //请求拦截器
 service.interceptors.request.use(config => {
   // 附加token
   const cookies = new Cookies();
   const token = cookies.get('token');
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
 
