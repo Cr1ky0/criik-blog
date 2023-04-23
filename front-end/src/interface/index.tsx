@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { NotificationPlacement } from 'antd/es/notification/interface';
+import type { MenuProps } from 'antd/es/menu';
 
 /* Comment-Comp */
 
@@ -20,11 +21,14 @@ export interface BlogTagBoxStatistic {
 }
 
 /* SideMenu */
+export type MenuItem = Required<MenuProps>['items'][number];
+
 export interface SideMenuItem {
-  label: React.ReactNode;
+  label: string;
   key: string;
-  icon?: React.ReactNode;
+  icon?: string;
   children?: SideMenuItem[];
+  grade: number;
 }
 
 /* IconStore */

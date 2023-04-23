@@ -5,69 +5,37 @@ import style from './index.module.scss';
 
 // antd
 import { Menu } from 'antd';
-import type { MenuProps } from 'antd/es/menu';
 
-type MenuItem = Required<MenuProps>['items'][number];
+// ui
+import LinkBtn2 from '@/components/UI/LinkBtn2';
 
-function getItem(
-  label: React.ReactNode,
-  key?: React.Key | null,
-  icon?: React.ReactNode,
-  children?: MenuItem[]
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  } as MenuItem;
-}
+// redux
+import { useAppSelector } from '@/redux';
 
-// interface
-import { SideMenuItem } from '@/interface';
+// context
+import { useIcons } from '../ContextProvider/IconStore';
 
-export interface SideMenuProps {
-  menus: SideMenuItem[];
-}
+// utils
+import { getAntdMenus } from '@/utils';
 
-// 将SideMenuItem列表转化为MenuItem列表
-const getAntdMenus: (menus: SideMenuItem[]) => MenuItem[] = menus => {
-  // 一共三层，最多套三层
-  return menus.map(menu => {
-    return getItem(
-      menu.label,
-      menu.key,
-      menu.icon,
-      menu.children
-        ? menu.children.map(menu => {
-            return getItem(
-              menu.label,
-              menu.key,
-              menu.icon,
-              menu.children
-                ? menu.children.map(menu => {
-                    return getItem(menu.label, menu.key, menu.icon);
-                  })
-                : undefined
-            );
-          })
-        : undefined
-    );
-  });
-};
-const SideMenu: React.FC<SideMenuProps> = props => {
-  const { menus } = props;
-  const antdMenus = getAntdMenus(menus);
+const SideMenu = () => {
+  const menus = useAppSelector(state => state.blogMenu.menuList);
+  const icons = useIcons();
+  const antdMenus = getAntdMenus(menus, icons);
   return (
-    <>
+    <div className={style.wrapper}>
+      <div className={style.edit}>
+        <LinkBtn2 className={`${style.editBtn} iconfont`}>&#xe603;</LinkBtn2>
+        <LinkBtn2 className={`${style.deleteBtn} iconfont`}>&#xe604;</LinkBtn2>
+      </div>
       <Menu
+        style={{ borderRadius: '0 0 5px 5px', border: 'none' }}
         defaultSelectedKeys={['test1']}
         defaultOpenKeys={['test', 'test4']}
         mode="inline"
         items={antdMenus}
-        className={style.menu}
       />
-    </>
+    </div>
   );
 };
 

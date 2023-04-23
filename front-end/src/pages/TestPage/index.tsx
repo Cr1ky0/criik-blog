@@ -20,54 +20,25 @@ import { useIcons } from '@/components/ContextProvider/IconStore';
 import { getAntdIcon } from '@/utils';
 import App from '@/pages/TestPage/test';
 import { useGlobalNotice } from '@/components/ContextProvider/NoticeProvider';
+import AddMenu from '@/components/SideMenu/AddMenu';
 
 const TestPage = () => {
   const icons = useIcons();
   const statistics: BlogTagBoxStatistic = { author: 'criiky0', views: 200, time: '2023/4/12', classification: 'ts' };
-  const menuList: SideMenuItem[] = [
-    {
-      label: 'test',
-      key: 'test',
-      icon: <AppstoreOutlined />,
-      children: [
-        {
-          label: 'test1',
-          key: 'test1',
-          icon: <LinkOutlined />,
-          children: [
-            { label: 'test1', key: 'test1', icon: <LinkOutlined /> },
-            { label: 'test2', key: 'test2', icon: <SettingOutlined /> },
-            { label: 'test3', key: 'test3', icon: <AppstoreOutlined /> },
-          ],
-        },
-        { label: 'test2', key: 'test2', icon: <SettingOutlined /> },
-        { label: 'test3', key: 'test3', icon: <AppstoreOutlined /> },
-      ],
-    },
-    {
-      label: 'test4',
-      key: 'test4',
-      icon: <AppstoreOutlined />,
-      children: [
-        { label: 'test5', key: 'test5', icon: <LinkOutlined /> },
-        { label: 'test6', key: 'test6', icon: <SettingOutlined /> },
-        { label: 'test7', key: 'test7', icon: <AppstoreOutlined /> },
-      ],
-    },
-  ];
 
   const openNotice = useGlobalNotice();
   return (
-    <div style={{ margin: '20vh', width: '700px' }}>
-      <UploadAvatar></UploadAvatar>
-      <App></App>
+    <div style={{ margin: '20vh', width: '300px' }}>
+      {/*<UploadAvatar></UploadAvatar>*/}
+      {/*<App></App>*/}
       {/*{getAntdIcon('home', icons)}*/}
       {/*{getAntdIcon('code', icons)}*/}
       {/*<Comment></Comment>*/}
       {/* <BlogTagBox title="test" statistics={statistics}>
         Test
       </BlogTagBox>*/}
-      {/*<SideMenu menus={menuList}></SideMenu>*/}
+      {/*<SideMenu></SideMenu>*/}
+      <AddMenu></AddMenu>
       {/*<IntroductionBox*/}
       {/*  username="Criiky0"*/}
       {/*  signature="测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试v"*/}
