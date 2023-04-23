@@ -13,29 +13,79 @@
     position: relative;
     @include backgroundImgStyle(0);
 
+
     .homeTagWrapper {
-      width: 30vh;
-      height: 40vh;
+      width: 100%;
       text-align: center;
       color: rgba(255, 255, 255, 0.8);
-      margin: 20vh auto;
-      font: {
-        family: 'Smiley_Sans_Oblique';
-        size: 3vh;
+      display: flex;
+      flex-direction: column;
+      margin-top: 150px;
+
+      > div {
+        margin: 0 auto;
       }
 
       .homeTagIcon {
-        width: 100%;
-        height: 70%;
+        width: 200px;
+        height: 200px;
         @include backgroundImgStyle(0);
       }
 
       .homeTag {
         width: 100%;
-        margin: 2vh 0;
-        font-size: 5vh;
+        margin: 10px 0;
+        font: {
+          size: 30px;
+          weight: bolder;
+        }
+      }
+
+      > div:last-child {
+        font-size: 24px;
       }
     }
+
+  }
+
+  .backgroundPhotoMobile {
+    width: 100%;
+    height: 25vh; // vh为当前视口的高度单位，1vh为1%
+    position: relative;
+    @include backgroundImgStyle(0, cover);
+
+    .homeTagWrapper {
+      width: 40vw;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+
+
+      .homeTagIcon {
+        height: 15vh;
+        @include backgroundImgStyle(0);
+      }
+
+      .homeTag {
+        font: {
+          size: 16px;
+          weight: bolder;
+        }
+      }
+
+      > div:last-child {
+        font-size: 16px;
+      }
+    }
+
   }
 
 }
+
+
+

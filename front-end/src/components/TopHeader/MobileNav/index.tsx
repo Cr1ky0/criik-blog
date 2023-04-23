@@ -7,13 +7,17 @@ import style from './index.module.scss';
 import MobileMenu from './MoblieMenu';
 import RightNav from '@/components/TopHeader/RightNav';
 import LeftNav from '@/components/TopHeader/LeftNav';
+import Avatar from '@/components/TopHeader/Avatar';
 
 const MobileNav = () => {
   const [isInit, setIsInit] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <LeftNav></LeftNav>
+      <div className={style.leftAvatar}>
+        <Avatar></Avatar>
+      </div>
+      <div className={style.middle}>Gezelligheid</div>
       <div className={style.rightNavWrapper}>
         <div
           className={isOpen ? style.rightNavActive : isInit ? style.rightNavInit : style.rightNavNotActive}

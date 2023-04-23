@@ -48,22 +48,19 @@
   }
 }
 
+.leftAvatar {
+  margin-left: 20px;
+}
 
-.leftNav {
-  width: 40px;
-  height: 40px;
-  border: {
-    radius: 50%;
+.middle {
+  text-align: center;
+  color: $FONT_COLOR;
+  font: {
+    size: 22px;
+    weight: bolder;
   }
   margin: {
-    top: 5px;
-    left: 2px;
-  }
-  background: {
-    image: url('../../../assets/images/blog-icon.png');
-    repeat: no-repeat;
-    size: cover;
-    clip: content-box;
+    top: 13px;
   }
 }
 

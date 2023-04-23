@@ -63,9 +63,9 @@ $TOP_HEADER_H: 50px;
 }
 
 // 设置背景图片样式
-@mixin backgroundImgStyle($radius:50%) {
+@mixin backgroundImgStyle($radius:50%,$size:cover) {
   background: {
-    size: cover;
+    size: $size;
     repeat: no-repeat;
   };
   border: {

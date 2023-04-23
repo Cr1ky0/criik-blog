@@ -7,16 +7,13 @@ import style from './index.module.scss';
 // comp
 import LinkBtn2 from '@/components/UI/LinkBtn2';
 import LoginForm from '@/components/TopHeader/LoginForm';
-import Information from '@/components/TopHeader/Information';
-import ChangeInfo from '@/components/TopHeader/ChangeInfo';
+import Avatar from '@/components/TopHeader/Avatar';
 
 // antd
-import { Modal, Popconfirm, Dropdown, Drawer } from 'antd';
+import { Modal, Popconfirm } from 'antd';
 import { FrownTwoTone } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
 
 // context
-import { useAvatar } from '@/components/ContextProvider/AvatarPrivider';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
@@ -25,10 +22,9 @@ import { BREAK_POINT } from '@/global';
 
 const RightNav = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [openInfomation, setOpenInfomation] = useState(false);
-  const [openChangeInfo, setOpenChangeInfo] = useState(false);
+
   const message = useGlobalMessage();
-  const avatar = useAvatar();
+
   const cookies = new Cookies();
   const user = cookies.get('user');
   const navigate = useNavigate();
@@ -41,41 +37,6 @@ const RightNav = () => {
     cookies.remove('token');
     navigate(0);
   }, []);
-  const onCloseInfo = useCallback(() => {
-    setOpenInfomation(false);
-  }, []);
-  const onCloseChangeInfo = useCallback(() => {
-    setOpenChangeInfo(false);
-  }, []);
-
-  const items: MenuProps['items'] = [
-    {
-      label: (
-        <div
-          style={{ padding: '5px 10px' }}
-          onClick={() => {
-            setOpenInfomation(!openInfomation);
-          }}
-        >
-          个人信息
-        </div>
-      ),
-      key: '0',
-    },
-    {
-      label: (
-        <div
-          style={{ padding: '5px 10px' }}
-          onClick={() => {
-            setOpenChangeInfo(!openInfomation);
-          }}
-        >
-          修改信息
-        </div>
-      ),
-      key: '1',
-    },
-  ];
 
   return (
     <div className={style.rightNav}>
@@ -90,9 +51,7 @@ const RightNav = () => {
             cancelText="No"
             onConfirm={handleLogout}
           >
-            <LinkBtn2 className={style.logOut} styles={width < BREAK_POINT ? { marginLeft: '80px' } : undefined}>
-              Log out
-            </LinkBtn2>
+            <LinkBtn2 className={style.logOut}>Log out</LinkBtn2>
           </Popconfirm>
         </>
       ) : (
@@ -109,7 +68,7 @@ const RightNav = () => {
             centered
             destroyOnClose
             maskClosable={false}
-            width={360}
+            width={width > BREAK_POINT ? '320px' : '60vw'}
             footer=""
             open={modalOpen}
             onCancel={() => {
@@ -126,46 +85,7 @@ const RightNav = () => {
         </div>
       )}
       {/*  菜单栏选项 */}
-      {width < BREAK_POINT ? undefined : user ? (
-        <>
-          <Dropdown menu={{ items }} trigger={['click']}>
-            <div className={style.rightNavAvatar} style={{ backgroundImage: `url(${avatar})` }}></div>
-          </Dropdown>
-          <Drawer
-            title="Personal Information"
-            style={{ border: 'none' }}
-            width={400}
-            placement="right"
-            closable={false}
-            onClose={onCloseInfo}
-            open={openInfomation}
-            destroyOnClose
-          >
-            <Information></Information>
-          </Drawer>
-
-          <Drawer
-            title="Personal Information"
-            style={{ border: 'none' }}
-            width={400}
-            placement="right"
-            closable={false}
-            onClose={onCloseChangeInfo}
-            open={openChangeInfo}
-            destroyOnClose
-          >
-            <ChangeInfo></ChangeInfo>
-          </Drawer>
-        </>
-      ) : (
-        <div
-          className={style.rightNavAvatar}
-          style={{ backgroundImage: `url(${avatar})` }}
-          onClick={() => {
-            message.error('请先登录！');
-          }}
-        ></div>
-      )}
+      {width < BREAK_POINT ? undefined : <Avatar></Avatar>}
     </div>
   );
 };

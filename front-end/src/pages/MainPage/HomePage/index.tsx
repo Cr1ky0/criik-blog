@@ -7,11 +7,18 @@ import style from './index.module.scss';
 import img1 from '@/assets/images/home.jpg';
 import img2 from '@/assets/images/blog-icon.png';
 
+// context
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
+
 const HomePage = () => {
+  const { width } = useViewport();
   return (
     <div className={style.wrapper}>
       <div className={style.backWhite}></div>
-      <div className={`${style.backgroundPhoto} clearfix`} style={{ backgroundImage: `url(${img1})` }}>
+      <div
+        className={`${width > 400 ? style.backgroundPhoto : style.backgroundPhotoMobile} clearfix`}
+        style={{ backgroundImage: `url(${img1})` }}
+      >
         <div className={style.homeTagWrapper}>
           <div className={style.homeTagIcon} style={{ backgroundImage: `url(${img2})` }}></div>
           <div className={style.homeTag}>Criik-Blog</div>

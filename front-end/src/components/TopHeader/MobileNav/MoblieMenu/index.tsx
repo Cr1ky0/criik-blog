@@ -5,7 +5,6 @@ import style from './index.module.scss';
 // redux
 import LinkBtn from '@/components/UI/LinkBtn';
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
-import ChangeInfo from '@/components/TopHeader/ChangeInfo';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -33,11 +32,6 @@ const MobileMenu: React.FC<MobileMenuProps> = props => {
         <div className={style.introWrapper}>
           <IntroductionBox isMobile={true}></IntroductionBox>
         </div>
-        {/*{user ? (*/}
-        {/*  <div className={style.changeInfoWrapper}>*/}
-        {/*    <ChangeInfo></ChangeInfo>*/}
-        {/*  </div>*/}
-        {/*) : undefined}*/}
       </div>
     </div>
   );
