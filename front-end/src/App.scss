@@ -18,7 +18,8 @@ body {
 
 // 滚动条
 ::-webkit-scrollbar {
-  width: 0.5vw;
+  //width: 0.5vw;
+  width: 0;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -60,4 +61,5 @@ body {
 .login-form-button {
   width: 100%;
 }
+
 

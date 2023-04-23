@@ -23,15 +23,15 @@ export const isNoScroll = () => {
 };
 
 // 设置开关滚动条
-export const setBodyScroll = () => {
-  if (!isNoScroll()) {
-    document.body.style.overflow = 'hidden';
-    // 解决抖动
-    document.body.style.paddingRight = '0.5vw';
-    (document.getElementById('top-header') as HTMLElement).style.paddingRight = '0.5vw';
-  } else {
-    document.body.style.overflow = 'auto';
-    document.body.style.paddingRight = '0';
-    (document.getElementById('top-header') as HTMLElement).style.paddingRight = '0';
-  }
-};
+// export const setBodyScroll = () => {
+//   if (!isNoScroll()) {
+//     document.body.style.overflow = 'hidden';
+//     // 解决抖动
+//     document.body.style.paddingRight = '0.5vw';
+//     (document.getElementById('top-header') as HTMLElement).style.paddingRight = '0.5vw';
+//   } else {
+//     document.body.style.overflow = 'auto';
+//     document.body.style.paddingRight = '0';
+//     (document.getElementById('top-header') as HTMLElement).style.paddingRight = '0';
+//   }
+// };

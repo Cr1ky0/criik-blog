@@ -15,14 +15,12 @@ import { Button, Form, Input } from 'antd';
 // ajax
 import { loginAjax } from '@/api/user';
 
-// utils
-import { setBodyScroll } from '@/utils';
-
 // interface
 import { LoginFormData } from '@/interface';
 
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+import { useGlobalNotice } from '@/components/ContextProvider/NoticeProvider';
 
 interface LoginFormProps {
   close: () => void;

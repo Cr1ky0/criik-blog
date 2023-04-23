@@ -11,16 +11,17 @@ interface noticeProviderProps {
   children?: React.ReactNode;
 }
 
-const noticeContext = createContext<noticeObj>(
-  (type: NotificationType, message: string, description: string, placement?: NotificationPlacement) => {
-    return { type, message, description, placement };
-  }
-);
+const noticeContext = createContext<noticeObj>({
+  openNotice: (type: NotificationType, message: string, description: string, placement?: NotificationPlacement) => {
+    return;
+  },
+  holder: <></>,
+});
 const NoticeProvider: React.FC<noticeProviderProps> = ({ children }) => {
   const [api, contextHolder] = notification.useNotification();
   const openNotice = useCallback(
-    (type: NotificationType, message: string, description: string, placement?: NotificationPlacement) => {
-      api.open({
+    async (type: NotificationType, message: string, description: string, placement?: NotificationPlacement) => {
+      await api.open({
         type,
         message,
         description,
@@ -31,7 +32,7 @@ const NoticeProvider: React.FC<noticeProviderProps> = ({ children }) => {
   );
 
   return (
-    <noticeContext.Provider value={openNotice}>
+    <noticeContext.Provider value={{ openNotice, holder: contextHolder }}>
       {contextHolder}
       {children}
     </noticeContext.Provider>

@@ -15,9 +15,6 @@ import { Modal, Popconfirm, Dropdown, Drawer } from 'antd';
 import { FrownTwoTone } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 
-// utils
-import { setBodyScroll } from '@/utils';
-
 // context
 import { useAvatar } from '@/components/ContextProvider/AvatarPrivider';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
@@ -46,11 +43,9 @@ const RightNav = () => {
   }, []);
   const onCloseInfo = useCallback(() => {
     setOpenInfomation(false);
-    setBodyScroll();
   }, []);
   const onCloseChangeInfo = useCallback(() => {
     setOpenChangeInfo(false);
-    setBodyScroll();
   }, []);
 
   const items: MenuProps['items'] = [
@@ -60,7 +55,6 @@ const RightNav = () => {
           style={{ padding: '5px 10px' }}
           onClick={() => {
             setOpenInfomation(!openInfomation);
-            setBodyScroll();
           }}
         >
           个人信息
@@ -74,7 +68,6 @@ const RightNav = () => {
           style={{ padding: '5px 10px' }}
           onClick={() => {
             setOpenChangeInfo(!openInfomation);
-            setBodyScroll();
           }}
         >
           修改信息
@@ -126,6 +119,7 @@ const RightNav = () => {
             <LoginForm
               close={() => {
                 setModalOpen(false);
+                // setBodyScroll();
               }}
             ></LoginForm>
           </Modal>

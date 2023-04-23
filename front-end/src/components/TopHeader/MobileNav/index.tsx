@@ -7,7 +7,6 @@ import style from './index.module.scss';
 import MobileMenu from './MoblieMenu';
 import RightNav from '@/components/TopHeader/RightNav';
 import LeftNav from '@/components/TopHeader/LeftNav';
-import { setBodyScroll } from '@/utils';
 
 const MobileNav = () => {
   const [isInit, setIsInit] = useState(true);
@@ -25,7 +24,6 @@ const MobileNav = () => {
             else
               div.style.height =
                 window.innerHeight - (document.getElementById('top-header') as HTMLElement).scrollHeight + 'px';
-            setBodyScroll();
             setIsOpen(!isOpen);
             if (isInit) setIsInit(false);
           }}

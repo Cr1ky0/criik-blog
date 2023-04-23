@@ -44,17 +44,16 @@ export interface messageObj {
   success: (content: string) => void;
   error: (content: string) => void;
   warning: (content: string) => void;
+  holder: React.ReactNode;
 }
 
 /* NoticeProvider */
 export type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
-export type noticeObj = (
-  type: NotificationType,
-  message: string,
-  description: string,
-  placement?: NotificationPlacement
-) => void;
+export type noticeObj = {
+  openNotice: (type: NotificationType, message: string, description: string, placement?: NotificationPlacement) => void;
+  holder: React.ReactNode;
+};
 
 /* Form */
 

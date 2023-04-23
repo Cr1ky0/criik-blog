@@ -59,13 +59,6 @@ const TestPage = () => {
   const openNotice = useGlobalNotice();
   return (
     <div style={{ margin: '20vh', width: '700px' }}>
-      <button
-        onClick={() => {
-          openNotice('success', '111', 'test', 'topLeft');
-        }}
-      >
-        test
-      </button>
       <UploadAvatar></UploadAvatar>
       <App></App>
       {/*{getAntdIcon('home', icons)}*/}

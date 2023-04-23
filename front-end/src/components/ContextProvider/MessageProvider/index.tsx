@@ -20,6 +20,7 @@ const messageContext = createContext<messageObj>({
   error: content => {
     message.error(content);
   },
+  holder: <></>,
 });
 
 const MessageProvider: React.FC<messageProviderProps> = ({ children }) => {
@@ -46,7 +47,7 @@ const MessageProvider: React.FC<messageProviderProps> = ({ children }) => {
   };
 
   return (
-    <messageContext.Provider value={{ success, error, warning }}>
+    <messageContext.Provider value={{ success, error, warning, holder: contextHolder }}>
       {contextHolder}
       {children}
     </messageContext.Provider>
@@ -56,6 +57,6 @@ const MessageProvider: React.FC<messageProviderProps> = ({ children }) => {
 export default MessageProvider;
 
 export const useGlobalMessage = () => {
-  const { success, error, warning } = useContext(messageContext);
-  return { success, error, warning };
+  const { success, error, warning, holder } = useContext(messageContext);
+  return { success, error, warning, holder };
 };
