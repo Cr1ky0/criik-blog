@@ -18,7 +18,6 @@ export interface BlogTagBoxProps {
   statistics?: BlogTagBoxStatistic;
 }
 
-// TODO:后续创个class表，让分类标签根据该表来变换颜色
 // 主页的BlogBox组件
 const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
   const { children, title, statistics } = props;

@@ -37,8 +37,8 @@ const TestPage = () => {
       {/* <BlogTagBox title="test" statistics={statistics}>
         Test
       </BlogTagBox>*/}
-      {/*<SideMenu></SideMenu>*/}
-      <AddMenu></AddMenu>
+      <SideMenu></SideMenu>
+      {/*<AddMenu></AddMenu>*/}
       {/*<IntroductionBox*/}
       {/*  username="Criiky0"*/}
       {/*  signature="测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试v"*/}

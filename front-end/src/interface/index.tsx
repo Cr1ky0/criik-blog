@@ -25,7 +25,7 @@ export type MenuItem = Required<MenuProps>['items'][number];
 
 export interface SideMenuItem {
   label: string;
-  key: string;
+  key: string | number;
   icon?: string;
   children?: SideMenuItem[];
   grade: number;

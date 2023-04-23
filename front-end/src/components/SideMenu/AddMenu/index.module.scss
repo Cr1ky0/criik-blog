@@ -1,0 +1,22 @@
+.editInputWrapper, .addInputWrapper {
+  height: 0;
+  overflow: hidden;
+  transition: height .3s;
+}
+
+
+.editTagWrapper {
+  padding-top: 10px;
+  display: flex;
+  justify-content: flex-start;
+
+  .addTagBtn {
+    margin-left: auto;
+  }
+
+  .editTagBtn {
+    margin-right: 20px;
+  }
+  
+
+}

@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState, forwardRef, RefObject } from 'react';
+import React, { CSSProperties, useState, forwardRef } from 'react';
 
 // css
 import style from './index.module.scss';
@@ -8,27 +8,38 @@ import { Button } from 'antd';
 
 // global
 import { THEME_COLOR } from '@/global';
-import { updateMyPswAjax } from '@/api/user';
-
-// interface
-import { userUpdateObj } from '@/interface';
 
 interface ChangeFormBoxProps {
   placeHolder?: string;
   title?: string;
   isOpen: boolean[];
   children?: React.ReactNode;
-  handleClose: (state: boolean, chosenList: boolean[], key: number) => void;
+  handleClose?: (state: boolean, chosenList: boolean[], key: number) => void;
   handleSubmit: () => void;
   isLoading?: boolean;
   type: string;
   seq: number;
   name: string;
+  single?: boolean;
+  okText?: string;
 }
 
 // children必须是按照制定规范的块
 const ChangeFormBox = forwardRef<HTMLInputElement, ChangeFormBoxProps>((props, ref) => {
-  const { placeHolder, title, isOpen, children, handleClose, handleSubmit, type, seq, name, isLoading } = props;
+  const {
+    placeHolder,
+    title,
+    isOpen,
+    children,
+    handleClose,
+    handleSubmit,
+    type,
+    seq,
+    name,
+    isLoading,
+    single,
+    okText,
+  } = props;
   const [isFocus, setIsFocus] = useState(false);
   const styles: CSSProperties = { color: THEME_COLOR, borderColor: THEME_COLOR };
   return (
@@ -41,7 +52,7 @@ const ChangeFormBox = forwardRef<HTMLInputElement, ChangeFormBoxProps>((props, r
         <div
           className={style.mainInput}
           onClick={() => {
-            handleClose(true, isOpen, seq);
+            if (handleClose) handleClose(true, isOpen, seq);
           }}
         >
           <input
@@ -62,19 +73,25 @@ const ChangeFormBox = forwardRef<HTMLInputElement, ChangeFormBoxProps>((props, r
             &#xe601;
           </div>
         </div>
-        <div id={`change-form-box-anime-${seq}`} className={style.otherInput}>
+        <div
+          id={`change-form-box-anime-${seq}`}
+          className={style.otherInput}
+          style={{ height: single ? '50px' : undefined }}
+        >
           {children}
           <div style={{ marginBottom: `15px` }}>
             <Button type="primary" style={{ marginRight: '10px' }} onClick={handleSubmit} loading={isLoading}>
-              确定
+              {okText ? okText : '确定'}
             </Button>
-            <Button
-              onClick={() => {
-                handleClose(false, isOpen, seq);
-              }}
-            >
-              取消
-            </Button>
+            {single ? undefined : (
+              <Button
+                onClick={() => {
+                  if (handleClose) handleClose(false, isOpen, seq);
+                }}
+              >
+                取消
+              </Button>
+            )}
           </div>
         </div>
       </div>

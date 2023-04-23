@@ -22,6 +22,15 @@ export const isNoScroll = () => {
   return document.body.style.overflow === 'hidden';
 };
 
+// 根据key获得其在SideMenuList的层级
+export const getGrade: (menus: SideMenuItem[], key: string) => number | undefined = (menus, key) => {
+  const filter = menus.filter(menu => menu.key === key);
+  if (filter[0]) return filter[0].grade;
+  for (let i = 0; i < menus.length; i += 1) {
+    if (menus[i].children) return getGrade(menus[i].children as SideMenuItem[], key);
+  }
+};
+
 // 将SideMenuItem列表转化为MenuItem列表
 function getItem(label: string, key?: React.Key | null, icon?: React.ReactNode, children?: MenuItem[]): MenuItem {
   return {
@@ -57,7 +66,11 @@ function getTreeItem(title: string, key?: React.Key | null, icon?: React.ReactNo
   } as DataNode;
 }
 
-export const getDataNodeTree: (menus: SideMenuItem[], icons: AntdIcon[]) => DataNode[] = (menus, icons) => {
+export const getDataNodeTree: (menus: SideMenuItem[], icons: AntdIcon[], onlyParent?: boolean) => DataNode[] = (
+  menus,
+  icons,
+  onlyParent = false
+) => {
   // 改写递归，可以套n层
   return menus.map(menu => {
     // 从iconsContext中提取出对应icon Node
@@ -66,7 +79,11 @@ export const getDataNodeTree: (menus: SideMenuItem[], icons: AntdIcon[]) => Data
       menu.label,
       menu.key,
       icon[0] ? icon[0].icon : undefined,
-      menu.children ? getDataNodeTree(menu.children, icons) : undefined
+      menu.children
+        ? onlyParent && menu.grade === 2
+          ? undefined
+          : getDataNodeTree(menu.children, icons, onlyParent)
+        : undefined
     );
   });
 };

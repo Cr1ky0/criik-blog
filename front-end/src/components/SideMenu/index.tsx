@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // css
 import style from './index.module.scss';
 
 // antd
-import { Menu } from 'antd';
+import { Menu, Modal } from 'antd';
 
 // ui
 import LinkBtn2 from '@/components/UI/LinkBtn2';
@@ -17,16 +17,38 @@ import { useIcons } from '../ContextProvider/IconStore';
 
 // utils
 import { getAntdMenus } from '@/utils';
+import AddMenu from '@/components/SideMenu/AddMenu';
 
 const SideMenu = () => {
   const menus = useAppSelector(state => state.blogMenu.menuList);
+  const [open, setOpen] = useState(false);
   const icons = useIcons();
   const antdMenus = getAntdMenus(menus, icons);
   return (
     <div className={style.wrapper}>
       <div className={style.edit}>
-        <LinkBtn2 className={`${style.editBtn} iconfont`}>&#xe603;</LinkBtn2>
-        <LinkBtn2 className={`${style.deleteBtn} iconfont`}>&#xe604;</LinkBtn2>
+        <LinkBtn2
+          className={`${style.editBtn} iconfont`}
+          onClick={() => {
+            setOpen(true);
+          }}
+        >
+          &#xe603;
+        </LinkBtn2>
+      </div>
+      <div>
+        <Modal
+          title="编辑分类标签"
+          centered
+          footer=""
+          destroyOnClose
+          open={open}
+          onCancel={() => {
+            setOpen(false);
+          }}
+        >
+          <AddMenu></AddMenu>
+        </Modal>
       </div>
       <Menu
         style={{ borderRadius: '0 0 5px 5px', border: 'none' }}
