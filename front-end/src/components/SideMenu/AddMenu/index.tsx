@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { ReactNode, useCallback, useRef, useState } from 'react';
 
 // css
 import style from './index.module.scss';
@@ -6,6 +6,9 @@ import style from './index.module.scss';
 // antd
 import { Button, Tree } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+
+// comp
+import ChangeFormBox from '@/components/TopHeader/ChangeInfo/ChangeFormBox';
 
 // redux
 import { useAppSelector } from '@/redux';
@@ -15,19 +18,16 @@ import { getDataNodeTree } from '@/utils';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
-import ChangeFormBox from '@/components/TopHeader/ChangeInfo/ChangeFormBox';
-
-// interface
 
 const AddMenu = () => {
+  const icons = useIcons();
   const menus = useAppSelector(state => state.blogMenu.menuList);
+  const antdMenus = getDataNodeTree(menus, icons, true);
   const tagRef = useRef<HTMLInputElement>(null);
   const addRef = useRef<HTMLInputElement>(null);
-  const icons = useIcons();
-  const antdMenus = getDataNodeTree(menus, icons, true);
-  const defaultCheck = antdMenus[0].key;
-  const [curKey, setCurKey] = useState<string | number>('');
-  const [curTitle, setCurTitle] = useState<React.ReactNode>('');
+  const defaultCheck = antdMenus[0];
+  const [curKey, setCurKey] = useState<string | number>(defaultCheck.key);
+  const [curTitle, setCurTitle] = useState<ReactNode>(defaultCheck.title as ReactNode);
   const changeHeight = useCallback((state: 'edit' | 'del') => {
     const div = document.getElementById('edit-input-Wrapper') as HTMLElement;
     const div2 = document.getElementById('delete-input-Wrapper') as HTMLElement;
@@ -60,8 +60,8 @@ const AddMenu = () => {
         showIcon
         defaultExpandAll
         switcherIcon={<DownOutlined />}
-        defaultCheckedKeys={[defaultCheck]}
-        defaultSelectedKeys={[defaultCheck]}
+        defaultCheckedKeys={[defaultCheck.key]}
+        defaultSelectedKeys={[defaultCheck.key]}
         treeData={antdMenus}
         onClick={(_, node) => {
           setCurKey(node.key);
