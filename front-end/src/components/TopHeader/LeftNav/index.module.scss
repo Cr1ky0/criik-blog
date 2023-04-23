@@ -4,6 +4,7 @@
   min-width: 150px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   cursor: pointer;
   // 图片
   .leftNavIcon {
@@ -29,9 +30,6 @@
     font: {
       size: 22px;
       weight: bolder;
-    }
-    margin: {
-      top: 13px;
     }
   }
 }

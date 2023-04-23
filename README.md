@@ -30,9 +30,9 @@
    - 在 mongodb/bin 内的 cfg 文件内设置
      > security:<br>
      > authorization: enabled
-   - 默认全数据库管理员账号:admin pwd:123456
-   - 使用该管理员账户登录后创建其他数据库的子角色
+   - 打开后重启mongodb服务，然后use admin，进入admin数据库进行用户创建
      ```js
+     db.createUser({user:"criiky0",pwd:"123456",roles:[{role:"readWrite",db:"criik-blog"}]});
      db.createUser({
        user: "criiky0",
        pwd: "123456",

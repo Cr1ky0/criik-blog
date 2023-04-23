@@ -4,11 +4,10 @@
   min-width: 110px;
   display: flex;
   justify-content: space-between;
-
+  align-items: center;
   .logOut {
     color: $THEME_COLOR;
     margin: {
-      top: 13px;
       left: 30px;
     }
 
@@ -17,8 +16,8 @@
   .signWrapper {
     display: flex;
     justify-content: space-between;
+    //align-items: center;
     margin: {
-      top: 13px;
       right: 5px;
     }
   }

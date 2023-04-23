@@ -85,7 +85,7 @@ const RightNav = () => {
         </div>
       )}
       {/*  菜单栏选项 */}
-      {width < BREAK_POINT ? undefined : <Avatar></Avatar>}
+      <Avatar></Avatar>
     </div>
   );
 };

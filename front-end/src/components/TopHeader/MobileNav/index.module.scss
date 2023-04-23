@@ -11,8 +11,7 @@
   height: 15px;
   width: 15px;
   margin: {
-    right: 10px;
-    top: 17px;
+    left: 20px;
   }
   > div {
     height: 12%;
@@ -48,24 +47,13 @@
   }
 }
 
-.leftAvatar {
-  margin-left: 20px;
-}
 
-.middle {
-  text-align: center;
-  color: $FONT_COLOR;
-  font: {
-    size: 22px;
-    weight: bolder;
-  }
-  margin: {
-    top: 13px;
-  }
-}
+.leftNavWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-.rightNavWrapper {
-  .rightNavActive {
+  .leftNavActive {
     @include setBarWrapper;
 
     > div {
@@ -92,7 +80,7 @@
     }
   }
 
-  .rightNavNotActive {
+  .leftNavNotActive {
     @include setBarWrapper;
     @include setNotActiveBar;
 
@@ -109,9 +97,18 @@
     }
   }
 
-  .rightNavInit {
+  .leftNavInit {
     @include setBarWrapper;
     @include setNotActiveBar;
+  }
+}
+
+.middle {
+  text-align: center;
+  color: $FONT_COLOR;
+  font: {
+    size: 16px;
+    weight: bolder;
   }
 }
 
