@@ -7,10 +7,10 @@ const menuSchema = new mongoose.Schema(
       type: String,
       required: [true, '博客必须拥有标题'],
     },
-    // 是否为母菜单
-    isParent: {
+    // 图标（对应前端的图标库）
+    icon: {
       type: String,
-      default: true,
+      default: 'home',
     },
     // 删除标志
     active: {
@@ -18,10 +18,10 @@ const menuSchema = new mongoose.Schema(
       default: true,
       select: false,
     },
-    // 所属父菜单 (Parent ref)
-    parentMenu: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Menu',
+    // 所属层级
+    grade: {
+      type: Number,
+      default: 1,
     },
     // 所属用户 (Parent Ref)
     belongTo: {
@@ -38,21 +38,6 @@ const menuSchema = new mongoose.Schema(
     },
   }
 );
-
-// 该menu的childMenu
-menuSchema.virtual('childMenus', {
-  ref: 'Menu',
-  foreignField: 'parentMenu',
-  localField: '_id',
-});
-
-menuSchema.pre(/^find/, function (next) {
-  this.find({ active: { $ne: false } }).populate({
-    path: 'childMenus',
-    select: '-__v',
-  });
-  next();
-});
 
 const Menu = mongoose.model('Menu', menuSchema);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRoutes } from 'react-router';
 // 重置样式
-import 'reset-css';
+// import 'reset-css';
 
 // css
 import './App.scss';

@@ -12,6 +12,7 @@ import Comment from '@/components/Comment';
 import { useAppSelector } from '@/redux';
 import ReactDOM from 'react-dom/client';
 import UploadAvatar from '@/components/TopHeader/UploadAvatar';
+import ReactMarkdown from '@/components/ReactMarkdownWrapper';
 
 // hooks
 import { useIcons } from '@/components/ContextProvider/IconStore';
@@ -27,8 +28,52 @@ const TestPage = () => {
   const statistics: BlogTagBoxStatistic = { author: 'criiky0', views: 200, time: '2023/4/12', classification: 'ts' };
 
   const openNotice = useGlobalNotice();
+  const markdown = `
+## Table of Content
+# Test Title
+1. test
+    - test
+    > eaweaweawe
+# Test Title2
+
+Here is some JavaScript code:
+~~~javascript
+console.log('It works!')
+const ReactMarkdownProvider: React.FC<ReactMarkdownProps> = ({ children }) => {
   return (
-    <div style={{ margin: '20vh', width: '300px' }}>
+    <>
+      <ReactMarkdown
+        remarkPlugins={[remarkMath]}
+        rehypePlugins={[rehypeKatex]}
+        // components={CodeMark}
+      >
+        {children}
+      </ReactMarkdown>
+    </>
+  );
+};
+~~~
+
+($C_L$)
+
+
+A paragraph with *emphasis* and **strong importance**.
+
+> A block quote with ~strikethrough~ and a URL: https://reactjs.org.
+
+* Lists
+* [ ] todo
+* [x] done
+
+A table:
+
+| a | b |
+| - | -
+`;
+  return (
+    <div style={{ margin: '20vh', width: '500px' }}>
+      {/*<div>*/}
+      <ReactMarkdown>{markdown}</ReactMarkdown>
       {/*<UploadAvatar></UploadAvatar>*/}
       {/*<App></App>*/}
       {/*{getAntdIcon('home', icons)}*/}
@@ -37,7 +82,7 @@ const TestPage = () => {
       {/* <BlogTagBox title="test" statistics={statistics}>
         Test
       </BlogTagBox>*/}
-      <SideMenu></SideMenu>
+      {/*<SideMenu></SideMenu>*/}
       {/*<AddMenu></AddMenu>*/}
       {/*<IntroductionBox*/}
       {/*  username="Criiky0"*/}

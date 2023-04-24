@@ -10,9 +10,10 @@ router.use(authController.protect); // 全局保护
 router
   .route('/getAllMenus')
   .get(authController.restrictTo('admin'), menuController.getMenus);
-router.route('/addParentMenu').post(menuController.addParentMenu);
-router.route('/addChildMenu').post(menuController.addChildMenu);
 
-router.route('/').get(menuController.getMenusOfUser);
+router
+  .route('/')
+  .get(menuController.getMenusOfUser)
+  .post(menuController.addMenu);
 
 module.exports = router;
