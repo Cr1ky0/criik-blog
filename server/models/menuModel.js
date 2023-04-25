@@ -6,12 +6,10 @@ const menuSchema = new mongoose.Schema(
     title: {
       type: String,
       required: [true, '博客必须拥有标题'],
+      unique: [true, '标题不能重复！'],
     },
     // 图标（对应前端的图标库）
-    icon: {
-      type: String,
-      default: 'home',
-    },
+    icon: String,
     // 删除标志
     active: {
       type: Boolean,
@@ -22,6 +20,16 @@ const menuSchema = new mongoose.Schema(
     grade: {
       type: Number,
       default: 1,
+    },
+    // 是否是菜单（非博客）
+    isParent: {
+      type: Boolean,
+      default: true,
+    },
+    // 所属父菜单
+    belongingMenu: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Menu',
     },
     // 所属用户 (Parent Ref)
     belongTo: {

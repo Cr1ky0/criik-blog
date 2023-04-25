@@ -30,6 +30,26 @@ exports.addMenu = catchAsync(async (req, res, next) => {
     title: req.body.title,
     grade: req.body.grade,
     belongTo: req.user.id, // 受保护的路径使用req下的user
+    belongingMenu: req.body.parentId,
+    icon: req.body.icon,
+    isParent: true,
+  });
+
+  res.status(201).json({
+    status: 'success',
+    body: {
+      menu,
+    },
+  });
+});
+
+exports.addBlogMenu = catchAsync(async (req, res, next) => {
+  const menu = await Menu.create({
+    title: req.body.title,
+    grade: 3,
+    belongTo: req.user.id, // 受保护的路径使用req下的user
+    belongingMenu: req.body.parentId,
+    isParent: false,
   });
 
   res.status(201).json({

@@ -75,7 +75,7 @@ A table:
   return (
     <div style={{ margin: '20vh', width: '500px' }}>
       {/*<div>*/}
-      <ReactMarkdown>{markdown}</ReactMarkdown>
+      {/*<ReactMarkdown>{markdown}</ReactMarkdown>*/}
       {/*<UploadAvatar></UploadAvatar>*/}
       {/*<App></App>*/}
       {/*{getAntdIcon('home', icons)}*/}
@@ -84,7 +84,7 @@ A table:
       {/* <BlogTagBox title="test" statistics={statistics}>
         Test
       </BlogTagBox>*/}
-      {/*<SideMenu></SideMenu>*/}
+      <SideMenu></SideMenu>
       {/*<AddMenu></AddMenu>*/}
       {/*<IntroductionBox*/}
       {/*  username="Criiky0"*/}

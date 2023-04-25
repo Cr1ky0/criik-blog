@@ -50,13 +50,17 @@ const SideMenu = () => {
           <AddMenu></AddMenu>
         </Modal>
       </div>
-      <Menu
-        style={{ borderRadius: '0 0 5px 5px', border: 'none' }}
-        defaultSelectedKeys={['test1']}
-        defaultOpenKeys={['test', 'test4']}
-        mode="inline"
-        items={antdMenus}
-      />
+      {menus.length ? (
+        <Menu
+          style={{ borderRadius: '0 0 5px 5px', border: 'none' }}
+          defaultSelectedKeys={['test1']}
+          defaultOpenKeys={['test', 'test4']}
+          mode="inline"
+          items={antdMenus}
+        />
+      ) : (
+        <div className={style.noneMenu}>还没有分类，快去添加吧！</div>
+      )}
     </div>
   );
 };

@@ -59,7 +59,7 @@ export type noticeObj = {
   holder: React.ReactNode;
 };
 
-/* Form */
+/* Ajax */
 
 // userPswObj
 export interface userPswObj {
@@ -88,4 +88,12 @@ export interface userObj {
 export interface emailObj {
   code?: string;
   newEmail?: string;
+}
+
+// menu
+export interface addMenuObj {
+  title: string;
+  grade: number;
+  belongingMenu?: string;
+  icon: string;
 }

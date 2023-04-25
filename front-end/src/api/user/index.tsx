@@ -1,21 +1,9 @@
 import service from '@/utils/request';
 import Cookies from 'universal-cookie';
+import { catchAsync } from '@/api';
 
 // interface
 import { emailObj, LoginFormData, userUpdateObj, userPswObj } from '@/interface';
-
-// 拦截器已经错误处理，像登录这样失败有其他错误处理操作的不用改封装
-export const catchAsync = (fn: any) => async (values?: unknown, setIsLoading?: (state: boolean) => void) => {
-  try {
-    if (setIsLoading) setIsLoading(true);
-    const response = await fn(values);
-    return Promise.resolve(response.data);
-  } catch (err: any) {
-    if (setIsLoading) setIsLoading(false);
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    return new Promise(() => {});
-  }
-};
 
 export const loginAjax = async (values: LoginFormData) => {
   const response = await service.post('/api/users/login', values);
@@ -35,6 +23,7 @@ export const updateLoginState = catchAsync(async () => {
   return Promise.resolve(response);
 });
 
+// 个人信息部分
 export // values是user.avator
 const avatarAjax = catchAsync(async (values: string) => {
   const response = await service.get(`/images/users/${values}`, { responseType: 'blob' });

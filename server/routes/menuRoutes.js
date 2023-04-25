@@ -6,14 +6,13 @@ const menuController = require('../controllers/menuController');
 const router = express.Router();
 
 router.use(authController.protect); // 全局保护
+router.use(authController.restrictTo('admin'));
 
-router
-  .route('/getAllMenus')
-  .get(authController.restrictTo('admin'), menuController.getMenus);
+router.route('/getAllMenus').get(menuController.getMenus);
 
-router
-  .route('/')
-  .get(menuController.getMenusOfUser)
-  .post(menuController.addMenu);
+router.post('/addMenu', menuController.addMenu);
+router.post('/addBlogMenu', menuController.addBlogMenu);
+
+router.route('/').get(menuController.getMenusOfUser);
 
 module.exports = router;
