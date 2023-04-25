@@ -36,11 +36,6 @@ const ChangeInfo = () => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const briefRef = useRef<HTMLInputElement>(null);
 
-  // 设置按钮loading状态，用于传给封装的axios内
-  const setLoadingState = (state: boolean) => {
-    setIsLoading(state);
-  };
-
   // 实现展开Form动画
   const openForm = useCallback((state: boolean, chosenList: boolean[], key: number) => {
     const newList = [];
@@ -81,49 +76,91 @@ const ChangeInfo = () => {
   );
   // 密码表单
   const handlePasswordForm = useCallback(async () => {
+    setIsLoading(true);
     const data = getFormValues(oldPswRef, pswRef, pswCfmRef2);
-    await updateMyPswAjax(data, setLoadingState);
-    await message.success('修改成功, 请重新登录!');
-    setIsLoading(false);
-    cookies.remove('token');
-    cookies.remove('user');
-    navigate(0);
+    await updateMyPswAjax(
+      data,
+      async () => {
+        await message.success('修改成功, 请重新登录!');
+        setIsLoading(false);
+        cookies.remove('token');
+        cookies.remove('user');
+        navigate(0);
+      },
+      content => {
+        message.error(content);
+        setIsLoading(false);
+      }
+    );
   }, []);
 
   // 邮箱表单
+  // TODO:有漏洞待解决
   const sendCode = useCallback(async () => {
+    const ref = newEmailRef.current as HTMLInputElement;
+    if (!isEmail(ref.value)) {
+      message.error('请输入正确的邮箱！');
+      return;
+    }
     await sendCodeAjax();
+    ref.disabled = true;
     message.success('验证码已发送到原邮箱，请前往邮箱查看！');
   }, []);
   const handleEmailForm = useCallback(async () => {
+    setIsLoading(true);
     const data = getFormValues(newEmailRef, codeRef);
     if (!isEmail(data.newEmail)) {
-      setIsLoading(true);
-      await message.error('请输入正确的邮箱!');
+      message.error('请输入正确的邮箱!');
       setIsLoading(false);
       return;
     }
-    await updateEmailAjax(data, setLoadingState);
-    await message.success('链接已发送至新邮箱，请前往验证');
-    setIsLoading(false);
+    await updateEmailAjax(
+      data,
+      async () => {
+        await message.success('链接已发送至新邮箱，请前往验证');
+        setIsLoading(false);
+      },
+      content => {
+        message.error(content);
+        setIsLoading(false);
+      }
+    );
   }, []);
   // 个人信息表单
   const handleUsernameForm = useCallback(async () => {
+    setIsLoading(true);
     const data = getFormValues(usernameRef);
-    await updateMeAjax(data, setLoadingState);
-    await message.success('更新成功!');
-    // 刷新登录状态
-    await updateLoginState();
-    navigate(0);
-    setIsLoading(false);
+    await updateMeAjax(
+      data,
+      async () => {
+        // 刷新登录状态
+        await updateLoginState();
+        await message.success('更新成功!');
+        navigate(0);
+        setIsLoading(false);
+      },
+      content => {
+        message.error(content);
+        setIsLoading(false);
+      }
+    );
   }, []);
   const handleBriefForm = useCallback(async () => {
+    setIsLoading(true);
     const data = getFormValues(briefRef);
-    await updateMeAjax(data, setLoadingState);
-    await message.success('更新成功!');
-    await updateLoginState();
-    navigate(0);
-    setIsLoading(false);
+    await updateMeAjax(
+      data,
+      async () => {
+        await message.success('更新成功!');
+        await updateLoginState();
+        navigate(0);
+        setIsLoading(false);
+      },
+      content => {
+        message.error(content);
+        setIsLoading(false);
+      }
+    );
   }, []);
   return (
     <>

@@ -30,23 +30,28 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const message = useGlobalMessage();
-  const login = useCallback(async (values: LoginFormData) => {
+  const login = async (values: LoginFormData) => {
+    setIsLoading(true);
     if (!isEmail(values.email)) {
-      message.error('请输入正确的邮箱！');
+      await message.error('请输入正确的邮箱！');
+      setIsLoading(false);
       return;
     }
-    try {
-      setIsLoading(true);
-      await loginAjax(values);
-      await message.success('Successfully Log In');
-      // 关闭窗口
-      close();
-      navigate(0);
-      setIsLoading(false);
-    } catch (err: any) {
-      setIsLoading(false);
-    }
-  }, []);
+    await loginAjax(
+      values,
+      async () => {
+        await message.success('Successfully Log In');
+        // 关闭窗口
+        close();
+        navigate(0);
+        setIsLoading(false);
+      },
+      content => {
+        message.error(content);
+        setIsLoading(false);
+      }
+    );
+  };
   return (
     <div className={style.wrapper}>
       <div className={style.header}>

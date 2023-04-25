@@ -5,15 +5,15 @@ import { catchAsync } from '@/api';
 // interface
 import { emailObj, LoginFormData, userUpdateObj, userPswObj } from '@/interface';
 
-export const loginAjax = async (values: LoginFormData) => {
+export const loginAjax = catchAsync(async (values: LoginFormData) => {
   const response = await service.post('/api/users/login', values);
   // 设置token
   const cookies = new Cookies();
   delete response.data.data.user['_id'];
   cookies.set('user', response.data.data.user, { path: '/' });
   cookies.set('token', response.data.token, { path: '/' });
-  return Promise.resolve(response.data);
-};
+  return Promise.resolve(response);
+});
 
 export const updateLoginState = catchAsync(async () => {
   const response = await service.get(`/api/users/updateLoginState`);

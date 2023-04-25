@@ -175,17 +175,23 @@
 
 12. axios 封装，这里和sever的catchAsync有异曲同工之妙，把错误拦截下来，因为已经在拦截器内做了统一处理，一些有其他错误处理的不用改封装
     ```js
-        const catchAsync = (fn: any) => async (values?: unknown) => {
-            try {
+        export const catchAsync =
+            (fn: any) => async (values?: unknown, success?: () => void, error?: (content: string) => void) => {
+                // success error分别指定success和error的回调
+                try {
                 const response = await fn(values);
+                if (success) success();
                 return Promise.resolve(response.data);
-            } catch (err: any) {
+                } catch (err: any) {
+                if (error) error(err.data.message);
                 // eslint-disable-next-line @typescript-eslint/no-empty-function
                 return new Promise(() => {});
-            }
-        };
+                }
+            };
 
         export const avatarAjax = catchAsync(async (values: string) => {
+            // 这里定义的函数为上面的fn
+            // 而调用该方法时的函数是catchAsync的返回值对应的函数所以在实际调用方法的时候才传入success和error回调，api只需要指定需要的数据参数
             const response = await service.get(`/images/users/${values}`, { responseType: 'blob' });
             return Promise.resolve(response);
         });
