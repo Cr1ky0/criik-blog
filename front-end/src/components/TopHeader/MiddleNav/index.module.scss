@@ -1,8 +1,6 @@
 .middleNav {
   display: flex;
   justify-content: space-between;
+  align-content: center;
   min-width: 270px;
-  > div {
-    margin-top: 19px;
-  }
 }

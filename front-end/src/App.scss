@@ -1,4 +1,4 @@
-@import './assets/css/index.scss';
+@import '@/assets/css/index.scss';
 
 // 字体设置
 @font-face {
@@ -6,6 +6,10 @@
   src: url('./assets/font/Smiley_Sans_Oblique.ttf');
 }
 
+@font-face {
+  font-family: 'Source_Han_Sans_SC_Normal';
+  src: url('./assets/font/Source_Han_Sans_SC_Normal_Normal.otf');
+}
 
 body {
   overflow-x: hidden;

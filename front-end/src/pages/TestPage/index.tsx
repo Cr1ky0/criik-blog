@@ -29,15 +29,14 @@ const TestPage = () => {
 
   const openNotice = useGlobalNotice();
   const markdown = `
-## Table of Content
 # Test Title
 1. test
     - test
     > eaweaweawe
 # Test Title2
-
+>   测试测试测试
 Here is some JavaScript code:
-~~~javascript
+~~~jsx
 console.log('It works!')
 const ReactMarkdownProvider: React.FC<ReactMarkdownProps> = ({ children }) => {
   return (
@@ -56,7 +55,6 @@ const ReactMarkdownProvider: React.FC<ReactMarkdownProps> = ({ children }) => {
 
 ($C_L$)
 
-
 A paragraph with *emphasis* and **strong importance**.
 
 > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
@@ -68,7 +66,11 @@ A paragraph with *emphasis* and **strong importance**.
 A table:
 
 | a | b |
-| - | -
+| - | - |
+| test | test |
+| test | test |
+| test | test |
+| test | test |
 `;
   return (
     <div style={{ margin: '20vh', width: '500px' }}>

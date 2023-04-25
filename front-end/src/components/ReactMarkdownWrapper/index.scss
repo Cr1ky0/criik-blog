@@ -1,15 +1,28 @@
 @import '@/assets/css/index.scss';
 
-#react-markdown-wrapper-avoid-conflict {
-  $fontColor: rgba(0, 0, 0, .7);
+$fontColor: rgba(0, 0, 0, .8);
+
+.markdown-body {
   color: $fontColor;
+  line-height: 24px;
+  font: {
+    size: 20px;
+    family: Source_Han_Sans_SC_Normal;
+  };
+
+  pre {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+  }
 
   h1 {
     padding: 10px 0;
     cursor: pointer;
+    transition: color .3s;
     font: {
-      size: 16px;
-      weight: bold;
+      size: 28px;
+      //weight: bold;
     }
     border: {
       bottom: 1px solid rgba(0, 0, 0, .2);
@@ -26,9 +39,19 @@
 
   li {
     a {
-      text-decoration: none;
-      color: $fontColor;
+      color: $THEME_COLOR;
+      font-size: 20px;
+      transition: all .2s;
     }
   }
 
+  blockquote {
+    padding: 10px;
+    background-color: #eef9fd;
+    border: {
+      left: 5px solid #4cb3d4;
+      radius: 5px;
+    }
+  }
 }
+

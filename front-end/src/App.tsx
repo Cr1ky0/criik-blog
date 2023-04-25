@@ -1,7 +1,8 @@
 import React from 'react';
 import { useRoutes } from 'react-router';
 // 重置样式
-// import 'reset-css';
+// 防止和markdown冲突，自定义reset样式
+import './reset.css';
 
 // css
 import './App.scss';
