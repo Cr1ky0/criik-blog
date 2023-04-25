@@ -9,7 +9,7 @@ export const addMenuAjax = catchAsync(async (values: addMenuObj) => {
   return Promise.resolve(response);
 });
 
-export const addBlogMenuAjax = catchAsync(async (values: string) => {
-  const response = await service.get(`/images/users/${values}`, { responseType: 'blob' });
+export const deleteMenuAjax = catchAsync(async (id: string) => {
+  const response = await service.delete(`/api/menus/deleteMenu/${id}`);
   return Promise.resolve(response);
 });

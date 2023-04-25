@@ -23,11 +23,11 @@ export const isNoScroll = () => {
 };
 
 // 根据key获得其在SideMenuList的层级
-export const getGrade: (menus: SideMenuItem[], key: string) => number | undefined = (menus, key) => {
-  const filter = menus.filter(menu => menu.key === key);
-  if (filter[0]) return filter[0].grade;
+export const getSideMenuItem: (menus: SideMenuItem[], key: string) => SideMenuItem | undefined = (menus, key) => {
+  const filter = menus.filter(menu => menu.id === key);
+  if (filter[0]) return filter[0];
   for (let i = 0; i < menus.length; i += 1) {
-    if (menus[i].children) return getGrade(menus[i].children as SideMenuItem[], key);
+    if (menus[i].children) return getSideMenuItem(menus[i].children as SideMenuItem[], key);
   }
 };
 
@@ -48,8 +48,8 @@ export const getAntdMenus: (menus: SideMenuItem[], icons: AntdIcon[]) => MenuIte
     // 从iconsContext中提取出对应icon Node
     const icon = icons.filter(icon => icon.name === menu.icon);
     return getItem(
-      menu.label,
-      menu.key,
+      menu.title,
+      menu.id,
       icon[0] ? icon[0].icon : undefined,
       menu.children ? getAntdMenus(menu.children, icons) : undefined
     );
@@ -76,8 +76,8 @@ export const getDataNodeTree: (menus: SideMenuItem[], icons: AntdIcon[], onlyPar
     // 从iconsContext中提取出对应icon Node
     const icon = icons.filter(icon => icon.name === menu.icon);
     return getTreeItem(
-      menu.label,
-      menu.key,
+      menu.title,
+      menu.id,
       icon[0] ? icon[0].icon : undefined,
       menu.children
         ? onlyParent && menu.grade === 2

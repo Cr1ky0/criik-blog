@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // interface
 import { SideMenuItem, BlogTagBoxStatistic } from '@/interface';
@@ -9,71 +9,32 @@ import SideMenu from '@/components/SideMenu';
 import BlogTagBox from '@/components/HomePage/BlogTagBox';
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
 import Comment from '@/components/Comment';
-import { useAppSelector } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
 import ReactDOM from 'react-dom/client';
 import UploadAvatar from '@/components/TopHeader/UploadAvatar';
 import ReactMarkdown from '@/components/ReactMarkdownWrapper';
-import Demo from '@/pages/TestPage/test';
+import Demo from '@/pages/MainPage/TestPage/test';
 // hooks
 import { useIcons } from '@/components/ContextProvider/IconStore';
 
 // utils
 import { getAntdIcon } from '@/utils';
 import { useGlobalNotice } from '@/components/ContextProvider/NoticeProvider';
-import AddMenu from '@/components/SideMenu/AddMenu';
+import EditMenu from '@/components/SideMenu/EditMenu';
+import { setMenuList } from '@/redux/slices/blogMenu';
 
 const TestPage = () => {
   const icons = useIcons();
   const statistics: BlogTagBoxStatistic = { author: 'criiky0', views: 200, time: '2023/4/12', classification: 'ts' };
 
   const openNotice = useGlobalNotice();
-  const markdown = `
-# Test Title
-1. test
-    - test
-    > eaweaweawe
-# Test Title2
->   测试测试测试
-Here is some JavaScript code:
-~~~jsx
-console.log('It works!')
-const ReactMarkdownProvider: React.FC<ReactMarkdownProps> = ({ children }) => {
-  return (
-    <>
-      <ReactMarkdown
-        remarkPlugins={[remarkMath]}
-        rehypePlugins={[rehypeKatex]}
-        // components={CodeMark}
-      >
-        {children}
-      </ReactMarkdown>
-    </>
-  );
-};
-~~~
-
-($C_L$)
-
-A paragraph with *emphasis* and **strong importance**.
-
-> A block quote with ~strikethrough~ and a URL: https://reactjs.org.
-
-* Lists
-* [ ] todo
-* [x] done
-
-A table:
-
-| a | b |
-| - | - |
-| test | test |
-| test | test |
-| test | test |
-| test | test |
-`;
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setMenuList());
+  }, []);
   return (
     <div style={{ margin: '20vh', width: '500px' }}>
-      <Demo></Demo>
+      {/*<Demo></Demo>*/}
       {/*<div>*/}
       {/*<ReactMarkdown>{markdown}</ReactMarkdown>*/}
       {/*<UploadAvatar></UploadAvatar>*/}

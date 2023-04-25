@@ -1,6 +1,6 @@
 import React from 'react';
 import MainPage from '@/pages/MainPage';
-import TestPage from '@/pages/TestPage';
+import TestPage from '@/pages/MainPage/TestPage';
 import HomePage from '@/pages/MainPage/HomePage';
 
 const router = [
@@ -12,11 +12,11 @@ const router = [
         path: '',
         element: <HomePage />,
       },
+      {
+        path: 'test',
+        element: <TestPage />,
+      },
     ],
-  },
-  {
-    path: '/test',
-    element: <TestPage />,
   },
 ];
 

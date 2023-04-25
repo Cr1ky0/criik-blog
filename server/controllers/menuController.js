@@ -14,7 +14,7 @@ exports.getMenus = catchAsync(async (req, res, next) => {
 
 exports.getMenusOfUser = catchAsync(async (req, res, next) => {
   // 过滤一下已经populate的子menu
-  const menus = await Menu.find({ belongTo: req.user.id }).select(
+  const menus = await Menu.find({ belongTo: req.user.id, grade: 1 }).select(
     '-__v -belongTo'
   );
   res.status(200).json({
@@ -57,5 +57,14 @@ exports.addBlogMenu = catchAsync(async (req, res, next) => {
     body: {
       menu,
     },
+  });
+});
+
+exports.deleteMenu = catchAsync(async (req, res, next) => {
+  await Menu.findByIdAndUpdate(req.params.id, { active: false });
+
+  res.status(204).json({
+    status: 'success',
+    data: null,
   });
 });

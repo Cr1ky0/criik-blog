@@ -1,46 +1,33 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // interface
 import { SideMenuItem } from '@/interface';
+import service from '@/utils/request';
 
+const URL = 'http://localhost:3002/';
 const initialState = {
-  menuList: [
-    {
-      label: 'test',
-      key: 'test',
-      icon: 'home',
-      grade: 1,
-      children: [
-        {
-          label: 'test1',
-          key: 'test1',
-          icon: 'code',
-          grade: 2,
-          children: [
-            { label: 'test2', key: 'test2', grade: 3 },
-            { label: 'test3', key: 'test3', grade: 3 },
-          ],
-        },
-      ],
-    },
-    {
-      label: 'test4',
-      key: 'test4',
-      icon: 'home',
-      grade: 1,
-      children: [
-        { label: 'test5', key: 'test5', grade: 2 },
-        { label: 'test6', key: 'test6', grade: 2 },
-        { label: 'test7', key: 'test7', grade: 2 },
-      ],
-    },
-  ] as SideMenuItem[],
+  menuList: [] as SideMenuItem[],
 };
+
+export const setMenuList = createAsyncThunk('blogMenu/setMenuList', async () => {
+  const response = await service.get(`${URL}api/menus`);
+  return response.data;
+});
 
 const blogMenuSlice = createSlice({
   name: 'blogMenu',
   initialState,
   reducers: {},
+  extraReducers(builder) {
+    builder
+      .addCase(setMenuList.fulfilled, (state, action) => {
+        const menus = action.payload.body.menus;
+        state.menuList = [...menus];
+      })
+      .addCase(setMenuList.rejected, (state, action) => {
+        console.log(action.error.message);
+      });
+  },
 });
 
 export default blogMenuSlice.reducer;

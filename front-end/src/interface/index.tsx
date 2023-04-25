@@ -24,8 +24,10 @@ export interface BlogTagBoxStatistic {
 export type MenuItem = Required<MenuProps>['items'][number];
 
 export interface SideMenuItem {
-  label: string;
-  key: string | number;
+  id: string;
+  _id: string;
+  belongingMenu?: string;
+  title: string;
   icon?: string;
   children?: SideMenuItem[];
   grade: number;
@@ -94,6 +96,6 @@ export interface emailObj {
 export interface addMenuObj {
   title: string;
   grade: number;
-  belongingMenu?: string;
+  parentId?: string;
   icon: string;
 }

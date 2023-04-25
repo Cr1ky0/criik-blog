@@ -17,7 +17,7 @@ import { useIcons } from '../ContextProvider/IconStore';
 
 // utils
 import { getAntdMenus } from '@/utils';
-import AddMenu from '@/components/SideMenu/AddMenu';
+import EditMenu from '@/components/SideMenu/EditMenu';
 
 const SideMenu = () => {
   const menus = useAppSelector(state => state.blogMenu.menuList);
@@ -47,7 +47,7 @@ const SideMenu = () => {
             setOpen(false);
           }}
         >
-          <AddMenu></AddMenu>
+          <EditMenu></EditMenu>
         </Modal>
       </div>
       {menus.length ? (

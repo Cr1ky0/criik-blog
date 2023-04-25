@@ -30,14 +30,9 @@ service.interceptors.request.use(config => {
 //响应拦截器
 service.interceptors.response.use(
   response => {
-    if (response.status === 200) {
-      return Promise.resolve(response);
-    } else {
-      return Promise.reject(response);
-    }
+    return Promise.resolve(response);
   },
   async error => {
-    await message.error(error.response.data.message);
     if (error.response.status) {
       switch (error.response.status) {
         // 400也有很多情况，不在这处理
@@ -63,8 +58,13 @@ service.interceptors.response.use(
         default:
           break;
       }
-      // 全局提示
+
+      // 全局提示（提示由后端提供）
+      // await message.error(error.response.data.message);
       return Promise.reject(error.response);
+      // 直接输出全局提示然后中断Promise
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      // return new Promise(() => {});
     }
   }
 );
