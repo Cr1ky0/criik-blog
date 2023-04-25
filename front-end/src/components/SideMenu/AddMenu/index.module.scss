@@ -1,9 +1,18 @@
+.noneMenu {
+  padding: 10px 20px;
+}
+
 .editInputWrapper, .addInputWrapper {
   height: 0;
   overflow: hidden;
   transition: height .3s;
+  .selectBox {
+    padding: {
+      top: 10px;
+      left: 20px;
+    }
+  }
 }
-
 
 .editTagWrapper {
   padding-top: 10px;
@@ -17,6 +26,5 @@
   .editTagBtn {
     margin-right: 20px;
   }
-  
 
 }

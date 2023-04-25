@@ -76,7 +76,7 @@ const ChangeFormBox = forwardRef<HTMLInputElement, ChangeFormBoxProps>((props, r
         <div
           id={`change-form-box-anime-${seq}`}
           className={style.otherInput}
-          style={{ height: single ? '50px' : undefined }}
+          style={{ height: single ? '70px' : undefined }}
         >
           {children}
           <div style={{ marginBottom: `15px` }}>

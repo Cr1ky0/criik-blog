@@ -13,13 +13,12 @@ import { useAppSelector } from '@/redux';
 import ReactDOM from 'react-dom/client';
 import UploadAvatar from '@/components/TopHeader/UploadAvatar';
 import ReactMarkdown from '@/components/ReactMarkdownWrapper';
-
+import Demo from '@/pages/TestPage/test';
 // hooks
 import { useIcons } from '@/components/ContextProvider/IconStore';
 
 // utils
 import { getAntdIcon } from '@/utils';
-import App from '@/pages/TestPage/test';
 import { useGlobalNotice } from '@/components/ContextProvider/NoticeProvider';
 import AddMenu from '@/components/SideMenu/AddMenu';
 
@@ -74,6 +73,7 @@ A table:
 `;
   return (
     <div style={{ margin: '20vh', width: '500px' }}>
+      <Demo></Demo>
       {/*<div>*/}
       {/*<ReactMarkdown>{markdown}</ReactMarkdown>*/}
       {/*<UploadAvatar></UploadAvatar>*/}
@@ -86,6 +86,7 @@ A table:
       </BlogTagBox>*/}
       <SideMenu></SideMenu>
       {/*<AddMenu></AddMenu>*/}
+
       {/*<IntroductionBox*/}
       {/*  username="Criiky0"*/}
       {/*  signature="测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试v"*/}

@@ -59,7 +59,7 @@ const SideMenu = () => {
           items={antdMenus}
         />
       ) : (
-        <div className={style.noneMenu}>还没有分类，快去添加吧！</div>
+        <div className={style.noneMenu}>当前还没有分类，快去添加吧！</div>
       )}
     </div>
   );

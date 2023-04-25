@@ -217,3 +217,5 @@
         // 泛型定义不要反了
         const FC = forwardRef<HTMLInputElement, ChangeFormBoxProps>((props,ref)=>{})
     ```
+17. 使用useCallback时，注意设置deps，如果内部有useState的数据，那么deps需要加上该state否则内部state不会改变。
+18. 关于antd的select选择器，如果要自定义选项，注意设置optionLabelProp="value"，意思是每次选择将选项的value值回填到选项框内，如果不填此项，默认将label回填到选项框内，如果此时label是一个ReactNode那么就会报错。
