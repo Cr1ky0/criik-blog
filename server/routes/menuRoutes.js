@@ -13,6 +13,7 @@ router.route('/getAllMenus').get(menuController.getMenus);
 router.post('/addMenu', menuController.addMenu);
 router.post('/addBlogMenu', menuController.addBlogMenu);
 router.delete('/deleteMenu/:id', menuController.deleteMenu);
+router.patch('/updateMenu/:id', menuController.updateMenu);
 
 router.route('/').get(menuController.getMenusOfUser);
 

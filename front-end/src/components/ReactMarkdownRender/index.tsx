@@ -4,6 +4,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 // import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -25,7 +26,7 @@ const ReactMarkdownWrapper: React.FC<ReactMarkdownWrapperProps> = ({ children })
     <ReactMarkdown
       className="markdown-body"
       remarkPlugins={[remarkMath, remarkGfm]}
-      rehypePlugins={[rehypeKatex]}
+      rehypePlugins={[rehypeKatex, rehypeRaw]}
       components={{
         code({ node, inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || '');

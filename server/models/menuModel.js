@@ -20,11 +20,6 @@ const menuSchema = new mongoose.Schema(
       type: Number,
       default: 1,
     },
-    // // 是否是菜单（非博客）
-    // isParent: {
-    //   type: Boolean,
-    //   default: true,
-    // },
     // 所属父菜单
     belongingMenu: {
       type: mongoose.Schema.ObjectId,
@@ -53,9 +48,16 @@ menuSchema.virtual('children', {
   localField: '_id',
 });
 
+// 归属的博客
+menuSchema.virtual('blogs', {
+  ref: 'Blog',
+  foreignField: 'belongingMenu',
+  localField: '_id',
+});
+
 menuSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } })
-    .populate({ path: 'children' })
+    .populate({ path: 'children blogs' })
     .select('-__v -belongTo');
   next();
 });

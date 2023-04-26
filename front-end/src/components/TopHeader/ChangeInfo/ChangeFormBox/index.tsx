@@ -19,7 +19,7 @@ interface ChangeFormBoxProps {
   isLoading?: boolean;
   type: string;
   seq: number;
-  name: string;
+  name?: string;
   single?: boolean;
   okText?: string;
 }

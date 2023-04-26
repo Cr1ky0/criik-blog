@@ -68,3 +68,15 @@ exports.deleteMenu = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
+
+exports.updateMenu = catchAsync(async (req, res) => {
+  await Menu.findByIdAndUpdate(req.params.id, {
+    title: req.body.title,
+    icon: req.body.icon,
+  });
+
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});

@@ -1,0 +1,33 @@
+@import "@/assets/css/index.scss";
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin: 3vh .5vw;
+
+  .editor {
+    width: 45%;
+    height: 100%;
+    margin-right: 3vw;
+  }
+
+  .preview {
+    box-sizing: border-box;
+    padding: 0 2vw;
+    width: 45%;
+    height: 100%;
+    border: {
+      radius: 5px;
+    };
+    @include boxShadow;
+
+    .previewTips {
+      font-size: 1.5vw;
+      padding: 2vh 0;
+      margin-bottom: 2vh;
+      border-bottom: 1px solid rgba(0, 0, 0, .2);
+    }
+  }
+}

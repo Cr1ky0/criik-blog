@@ -1,12 +1,6 @@
 @import "@/assets/css/index.scss";
 
 .wrapper {
-  .backWhite {
-    width: 100%;
-    height: $TOP_HEADER_H;
-    background-color: #fff;
-  }
-
   .backgroundPhoto {
     width: 100%;
     height: 95vh; // vh为当前视口的高度单位，1vh为1%
@@ -20,15 +14,15 @@
       color: rgba(255, 255, 255, 0.8);
       display: flex;
       flex-direction: column;
-      margin-top: 150px;
+      margin-top: 7vw;
 
       > div {
         margin: 0 auto;
       }
 
       .homeTagIcon {
-        width: 200px;
-        height: 200px;
+        width: 20vw;
+        height: 20vw;
         @include backgroundImgStyle(0);
       }
 
@@ -36,13 +30,13 @@
         width: 100%;
         margin: 10px 0;
         font: {
-          size: 30px;
+          size: 2vw;
           weight: bolder;
         }
       }
 
       > div:last-child {
-        font-size: 24px;
+        font-size: 1.5vw;
       }
     }
 
@@ -50,12 +44,12 @@
 
   .backgroundPhotoMobile {
     width: 100%;
-    height: 25vh; // vh为当前视口的高度单位，1vh为1%
+    height: 200px;
+    // vh为当前视口的高度单位，1vh为1%
     position: relative;
     @include backgroundImgStyle(0, cover);
 
     .homeTagWrapper {
-      width: 40vw;
       text-align: center;
       color: rgba(255, 255, 255, 0.8);
       position: absolute;
@@ -67,19 +61,21 @@
 
 
       .homeTagIcon {
-        height: 15vh;
+        width: 100px;
+        height: 100px;
+        margin: 10px auto;
         @include backgroundImgStyle(0);
       }
 
       .homeTag {
         font: {
-          size: 16px;
+          size: 2vw;
           weight: bolder;
         }
       }
 
       > div:last-child {
-        font-size: 16px;
+        font-size: 2vw;
       }
     }
 

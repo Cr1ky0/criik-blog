@@ -9,11 +9,11 @@ const blogSchema = new mongoose.Schema(
       trim: true,
       maxlength: [50, '超出最大标题限制，请修改后提交'],
     },
-    // 博客分类
-    classification: {
-      type: String,
+    // 博客分类（所属菜单）
+    belongingMenu: {
+      type: mongoose.Schema.ObjectId,
       required: true,
-      default: ['Javascript', 'HTML', 'CSS'],
+      ref: 'Menu',
     },
     // 博客内容
     contents: {
@@ -29,12 +29,6 @@ const blogSchema = new mongoose.Schema(
     views: {
       type: Number,
       default: 0,
-    },
-    // 是否是私人博客
-    isPrivate: {
-      type: Boolean,
-      default: false,
-      select: false,
     },
     // 发布时间
     publishAt: {

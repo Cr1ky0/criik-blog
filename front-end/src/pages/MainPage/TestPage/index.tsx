@@ -12,7 +12,7 @@ import Comment from '@/components/Comment';
 import { useAppDispatch, useAppSelector } from '@/redux';
 import ReactDOM from 'react-dom/client';
 import UploadAvatar from '@/components/TopHeader/UploadAvatar';
-import ReactMarkdown from '@/components/ReactMarkdownWrapper';
+import ReactMarkdown from '@/components/ReactMarkdownRender';
 import Demo from '@/pages/MainPage/TestPage/test';
 // hooks
 import { useIcons } from '@/components/ContextProvider/IconStore';
@@ -21,7 +21,8 @@ import { useIcons } from '@/components/ContextProvider/IconStore';
 import { getAntdIcon } from '@/utils';
 import { useGlobalNotice } from '@/components/ContextProvider/NoticeProvider';
 import EditMenu from '@/components/SideMenu/EditMenu';
-import { setMenuList } from '@/redux/slices/blogMenu';
+import BraftEditorDemo from '@/pages/MainPage/TestPage/test';
+import MarkdownEditor from '@/components/MarkdownEditor';
 
 const TestPage = () => {
   const icons = useIcons();
@@ -29,12 +30,10 @@ const TestPage = () => {
 
   const openNotice = useGlobalNotice();
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(setMenuList());
-  }, []);
   return (
     <div style={{ margin: '20vh', width: '500px' }}>
-      {/*<Demo></Demo>*/}
+      {/*<MarkdownEditor></MarkdownEditor>*/}
+      {/*<BraftEditorDemo></BraftEditorDemo>*/}
       {/*<div>*/}
       {/*<ReactMarkdown>{markdown}</ReactMarkdown>*/}
       {/*<UploadAvatar></UploadAvatar>*/}
@@ -45,9 +44,8 @@ const TestPage = () => {
       {/* <BlogTagBox title="test" statistics={statistics}>
         Test
       </BlogTagBox>*/}
-      <SideMenu></SideMenu>
+      {/*<SideMenu></SideMenu>*/}
       {/*<AddMenu></AddMenu>*/}
-
       {/*<IntroductionBox*/}
       {/*  username="Criiky0"*/}
       {/*  signature="测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试v"*/}

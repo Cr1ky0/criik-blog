@@ -1,9 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import isEmail from 'validator/lib/isEmail';
-
-// css
-import style from './index.module.scss';
 
 // img
 import img from '@/assets/images/blog-icon.png';
@@ -11,6 +8,9 @@ import img from '@/assets/images/blog-icon.png';
 // antd
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
+
+// css
+import style from './index.module.scss';
 
 // ajax
 import { loginAjax } from '@/api/user';
@@ -20,7 +20,6 @@ import { LoginFormData } from '@/interface';
 
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
-import { useGlobalNotice } from '@/components/ContextProvider/NoticeProvider';
 
 interface LoginFormProps {
   close: () => void;

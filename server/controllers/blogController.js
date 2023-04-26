@@ -33,13 +33,13 @@ exports.getBlog = catchAsync(async (req, res, next) => {
 });
 
 exports.addBlog = catchAsync(async (req, res, next) => {
-  const { title, classification, contents } = req.body;
+  const { title, belongingMenu, contents } = req.body;
   if (!title || !contents) {
     return next(new AppError('请输入标题和内容！', 400));
   }
   const newBlog = await Blog.create({
     title,
-    classification,
+    belongingMenu,
     contents,
     belongTo: req.user.id,
   });

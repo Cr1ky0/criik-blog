@@ -1,0 +1,61 @@
+@import "@/assets/css/index.scss";
+
+.wrapper {
+  background-color: #FFF;
+
+  > div {
+    float: left;
+    min-height: 95vh;
+  }
+
+  .sider {
+    width: 24vw;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+    padding: {
+      top: 5vh;
+      left: 2vw;
+      right: 2vw;
+    }
+  }
+
+  .content {
+    width: 76vw;
+    padding: 0 3vw;
+    box-sizing: border-box;
+
+    .inputBox {
+      width: 100%;
+      padding: {
+        top: 2vw;
+      }
+      // antd span
+      > span:first-child {
+        outline: none;
+        border: none;
+        box-shadow: none;
+      }
+
+      > div {
+        width: 20vw;
+        margin-top: 2vh;
+
+        > div {
+          border: none !important;
+          box-shadow: none !important;
+        }
+
+        span {
+          font-size: 1.2vw !important;
+        }
+      }
+    }
+
+    .editor {
+      height: 60vh;
+    }
+
+    .submitBtn {
+      margin: 2vw 0.5vw;
+    }
+  }
+}

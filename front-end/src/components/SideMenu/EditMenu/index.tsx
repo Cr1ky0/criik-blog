@@ -4,31 +4,31 @@ import React, { ReactNode, useCallback, useRef, useState } from 'react';
 import style from './index.module.scss';
 
 // antd
-import { Button, Tree, Select, message } from 'antd';
+import { Button, Tree, Select } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 // comp
 import ChangeFormBox from '@/components/TopHeader/ChangeInfo/ChangeFormBox';
 
 // redux
-import { useAppSelector } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
+import { addMenu } from '@/redux/slices/blogMenu';
 
 // utils
-import { getDataNodeTree, getSideMenuItem } from '@/utils';
+import { generateSideMenuItem, getDataNodeTree, getSideMenuItem } from '@/utils';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
-import { useGlobalNotice } from '@/components/ContextProvider/NoticeProvider';
 
 // api
-import { addMenuAjax, deleteMenuAjax } from '@/api/menu';
+import { addMenuAjax, deleteMenuAjax, updateMenuAjax } from '@/api/menu';
 
 // interface
 import { SideMenuItem } from '@/interface';
 
-const AddMenu = () => {
+const EditMenu = () => {
+  const dispatch = useAppDispatch();
   const menus = useAppSelector(state => state.blogMenu.menuList);
-  const notice = useGlobalNotice();
   const message = useGlobalMessage();
   // 选择图标的下拉菜单列表
   const icons = useIcons();
@@ -53,24 +53,40 @@ const AddMenu = () => {
   // btn的loading状态
   const [isLoading, setIsLoading] = useState(false);
   const [isDelLoading, setDelLoading] = useState(false);
+  // edit下icon为当前选中的图标
+  const [curIcon, setCurIcon] = useState<string | undefined>(menus[0].icon);
+  // 当前是否处于edit下
+  const [isEdit, setIsEdit] = useState(true);
   // 修改标签的inputRef
   const tagRef = useRef<HTMLInputElement>(null);
   // 添加标签的inputRef
   const addRef = useRef<HTMLInputElement>(null);
+  // 添加总标签的inputRef
+  const addParentRef = useRef<HTMLInputElement>(null);
   // 动画
-  const changeHeight = useCallback((state: 'edit' | 'add') => {
+  const changeHeight = useCallback((state: 'edit' | 'add' | 'addParent') => {
     const div = document.getElementById('edit-input-Wrapper') as HTMLElement;
     const div2 = document.getElementById('add-input-Wrapper') as HTMLElement;
     const div3 = document.getElementById('select-icon-input-box') as HTMLElement;
     const div4 = document.getElementById('edit-tag-form-wrapper') as HTMLElement;
+    const div5 = document.getElementById('add-parent-input-Wrapper') as HTMLElement;
     div3.style.height = '32px';
     div4.style.border = '1px solid rgba(0,0,0,.2)';
     if (state === 'edit') {
+      setIsEdit(true);
       div.style.height = div.scrollHeight + 'px';
       div2.style.height = '0';
-    } else {
+      div5.style.height = '0';
+    } else if (state === 'add') {
+      setIsEdit(false);
       div2.style.height = div2.scrollHeight + 'px';
       div.style.height = '0';
+      div5.style.height = '0';
+    } else {
+      setIsEdit(false);
+      div5.style.height = div.scrollHeight + 'px';
+      div.style.height = '0';
+      div2.style.height = '0';
     }
   }, []);
 
@@ -78,22 +94,43 @@ const AddMenu = () => {
     setIconValue(value);
   };
 
-  const handleEdit = useCallback(() => {
+  const handleEdit = async () => {
     const ref = tagRef.current as HTMLInputElement;
-    console.log(ref.value);
-  }, []);
+    // 未选择图标
+    if (!iconValue) {
+      message.error('请选择分类标签图标！');
+      return;
+    }
+    // 未填写Title
+    if (!ref.value) {
+      message.error('请输入标签的标题！');
+      return;
+    }
+    setIsLoading(true);
+    await updateMenuAjax(
+      { id: curKey, icon: iconValue, title: ref.value },
+      async () => {
+        await message.success('修改成功！');
+        setIsLoading(false);
+      },
+      content => {
+        message.error(content);
+        setIsLoading(false);
+      }
+    );
+  };
 
   const handleDelete = async () => {
-    const item = getSideMenuItem(menus, curKey as string) as SideMenuItem;
     setDelLoading(true);
+    const item = getSideMenuItem(menus, curKey as string) as SideMenuItem;
     await deleteMenuAjax(
       item.id,
       async () => {
         await message.success('删除成功！');
         setDelLoading(false);
       },
-      async content => {
-        await message.error(content);
+      content => {
+        message.error(content);
         setDelLoading(false);
       }
     );
@@ -104,12 +141,12 @@ const AddMenu = () => {
     const ref = addRef.current as HTMLInputElement;
     // 未选择图标
     if (!iconValue) {
-      notice.openNotice('error', '操作错误', '请选择分类标签图标！');
+      message.error('请选择分类标签图标！');
       return;
     }
     // 未填写Title
     if (!ref.value) {
-      notice.openNotice('error', '操作错误', '请输入标签的标题！');
+      message.error('请输入标签的标题！');
       return;
     }
     // 当没有分类时
@@ -125,8 +162,8 @@ const AddMenu = () => {
           await message.success('添加成功！');
           setIsLoading(false);
         },
-        async content => {
-          await message.error(content);
+        content => {
+          message.error(content);
           setIsLoading(false);
         }
       );
@@ -134,11 +171,11 @@ const AddMenu = () => {
       const item = getSideMenuItem(menus, curKey as string) as SideMenuItem;
       // 当前选择二级菜单时
       if (item.grade === 2) {
-        notice.openNotice('error', '操作错误', '二级分类无法再添加分类标签！');
+        message.error('二级分类无法再添加分类标签！');
         return;
       }
       setIsLoading(true);
-      await addMenuAjax(
+      const response = await addMenuAjax(
         {
           title: ref.value,
           grade: item.grade + 1,
@@ -149,17 +186,42 @@ const AddMenu = () => {
           await message.success('添加成功！');
           setIsLoading(false);
         },
-        async content => {
-          await message.error(content);
+        content => {
+          message.error(content);
           setIsLoading(false);
         }
       );
+      // 后端发来的新对象，加入state中
+      const newMenu = response.body.menu;
+      const { id, belongingMenu, title, icon, grade } = newMenu;
+      const sideMenuItem = generateSideMenuItem(id, belongingMenu, title, icon, grade);
+      dispatch(addMenu(sideMenuItem));
     }
   };
+
+  const handleAddParent = async () => {
+    setIsLoading(true);
+    const ref = addParentRef.current as HTMLInputElement;
+    await addMenuAjax(
+      {
+        title: ref.value,
+        grade: 1,
+        icon: iconValue,
+      },
+      async () => {
+        await message.success('添加成功！');
+        setIsLoading(false);
+      },
+      content => {
+        message.error(content);
+        setIsLoading(false);
+      }
+    );
+  };
+
   return (
     <>
       {menus.length ? (
-        //   TODO:设置不能取消选择
         <Tree
           showLine
           showIcon
@@ -168,7 +230,15 @@ const AddMenu = () => {
           defaultCheckedKeys={[defaultCheck.key]}
           defaultSelectedKeys={[defaultCheck.key]}
           treeData={antdMenus}
+          selectedKeys={curKey ? [curKey] : undefined}
           onClick={(_, node) => {
+            const item = getSideMenuItem(menus, node.key as string) as SideMenuItem;
+            if (!isEdit && item.grade === 2) {
+              // 当前选择二级菜单时
+              message.error('二级分类无法再添加分类标签！');
+              return;
+            }
+            setCurIcon((item as SideMenuItem).icon);
             setCurKey(node.key);
             setCurTitle(node.title as React.ReactNode);
           }}
@@ -184,32 +254,45 @@ const AddMenu = () => {
             optionLabelProp="value" //使用 optionLabelProp 指定回填到选择框的 Option 属性。
             options={selectIconList}
             onChange={handleChange}
+            placeholder={isEdit ? curIcon : '请选择图标'}
           />
         </div>
-        <div id="edit-input-Wrapper" className={`${style.editInputWrapper} clearfix`}>
+        <div id="edit-input-Wrapper" className={`${style.inputWrapper} clearfix`}>
           <ChangeFormBox
-            title=""
+            title="Edit"
             placeHolder={curTitle as string}
             isOpen={[true]}
             handleSubmit={handleEdit}
             ref={tagRef}
             type="text"
-            name="brief"
             seq={1}
             single={true}
             okText="修改"
             isLoading={isLoading}
           ></ChangeFormBox>
         </div>
-        <div id="add-input-Wrapper" className={`${style.addInputWrapper} clearfix`}>
+        <div id="add-input-Wrapper" className={`${style.inputWrapper} clearfix`}>
           <ChangeFormBox
-            title=""
+            title="Add Child Tag"
             placeHolder={curTitle ? `在${curTitle}下添加子分类` : `添加新分类`}
             isOpen={[true]}
             handleSubmit={handleAdd}
             ref={addRef}
             type="text"
-            name="brief"
+            seq={1}
+            single={true}
+            okText="添加"
+            isLoading={isLoading}
+          ></ChangeFormBox>
+        </div>
+        <div id="add-parent-input-Wrapper" className={`${style.inputWrapper} clearfix`}>
+          <ChangeFormBox
+            title="Add Parent Tag"
+            placeHolder={`添加新的总分类`}
+            isOpen={[true]}
+            handleSubmit={handleAddParent}
+            ref={addParentRef}
+            type="text"
             seq={1}
             single={true}
             okText="添加"
@@ -225,6 +308,7 @@ const AddMenu = () => {
                 onClick={() => {
                   changeHeight('edit');
                 }}
+                style={{ marginLeft: '5px' }}
               >
                 Edit
               </Button>
@@ -239,10 +323,19 @@ const AddMenu = () => {
         <div className={style.addTagBtn}>
           <Button
             onClick={() => {
-              changeHeight('add');
+              changeHeight('addParent');
+              if (defaultCheck) setCurKey(defaultCheck.key);
             }}
           >
-            添加分类
+            添加总分类
+          </Button>
+          <Button
+            onClick={() => {
+              changeHeight('add');
+              if (defaultCheck) setCurKey(defaultCheck.key);
+            }}
+          >
+            添加子分类
           </Button>
         </div>
       </div>
@@ -250,4 +343,4 @@ const AddMenu = () => {
   );
 };
 
-export default AddMenu;
+export default EditMenu;

@@ -1,0 +1,22 @@
+// 调整wrapper大小
+.w-md-editor {
+  height: 100% !important;
+}
+
+// 取消其他所有按钮
+.w-md-editor-toolbar {
+  > ul:last-child {
+    display: none;
+  }
+}
+
+// 编辑文本框
+.w-md-editor-bar {
+  display: none;
+}
+
+.w-md-editor-text-pre > code,
+.w-md-editor-text-input {
+  font-size: 1.1vw !important;
+  line-height: 1.2vw !important;
+}

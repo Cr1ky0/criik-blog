@@ -2,66 +2,32 @@ import React, { ReactElement } from 'react';
 import { NotificationPlacement } from 'antd/es/notification/interface';
 import type { MenuProps } from 'antd/es/menu';
 
-/* Comment-Comp */
-
+/******** API ********/
 //Emoji
 export interface EmojiObj {
   key: string;
   value: string;
 }
 
-/* HomePage */
-
-// BlogTagBox
-export interface BlogTagBoxStatistic {
-  author: string;
-  time: string;
-  views: number;
-  classification: string;
-}
-
-/* SideMenu */
-export type MenuItem = Required<MenuProps>['items'][number];
-
-export interface SideMenuItem {
-  id: string;
+// blog
+export interface blogObj {
   _id: string;
-  belongingMenu?: string;
+  id: string;
   title: string;
-  icon?: string;
-  children?: SideMenuItem[];
-  grade: number;
+  belongingMenu: string;
+  contents: string;
+  likes: number;
+  views: number;
+  publishAt: string;
+  belongTo?: string;
 }
 
-/* IconStore */
-export interface AntdIcon {
-  icon: ReactElement;
-  name: string;
-}
-
-/* LoginForm */
+/******** Ajax ********/
+// LoginForm
 export interface LoginFormData {
   email: string;
   password: string;
 }
-
-/* MessageProvider */
-export interface messageObj {
-  success: (content: string) => void;
-  error: (content: string) => void;
-  warning: (content: string) => void;
-  holder: React.ReactNode;
-}
-
-/* NoticeProvider */
-export type NotificationType = 'success' | 'info' | 'warning' | 'error';
-
-export type noticeObj = {
-  openNotice: (type: NotificationType, message: string, description: string, placement?: NotificationPlacement) => void;
-  holder: React.ReactNode;
-};
-
-/* Ajax */
 
 // userPswObj
 export interface userPswObj {
@@ -99,3 +65,68 @@ export interface addMenuObj {
   parentId?: string;
   icon: string;
 }
+
+export interface updateMenuObj {
+  id: string;
+  title: string;
+  icon?: string;
+}
+
+export interface addBlogObj {
+  belongingMenu: string;
+  title: string;
+  contents: string;
+}
+
+/******** redux ********/
+export interface SideMenuItem {
+  id: string;
+  _id: string;
+  belongingMenu?: string;
+  title: string;
+  icon?: string;
+  children?: SideMenuItem[];
+  blogs?: blogObj[];
+  grade: number;
+}
+
+/******** HomePage ********/
+// BlogTagBox
+export interface BlogTagBoxStatistic {
+  author: string;
+  time: string;
+  views: number;
+  classification: string;
+}
+
+/******** SideMenu ********/
+export type MenuItem = Required<MenuProps>['items'][number];
+
+export interface TreeSelectItem {
+  value?: string;
+  icon?: React.ReactNode;
+  key?: React.Key;
+  children?: TreeSelectItem[];
+}
+
+/******** MessageProvider ********/
+export interface messageObj {
+  success: (content: string) => void;
+  error: (content: string) => void;
+  warning: (content: string) => void;
+  holder: React.ReactNode;
+}
+
+/******** IconStore ********/
+export interface AntdIcon {
+  icon: ReactElement;
+  name: string;
+}
+
+/******** NoticeProvider ********/
+export type NotificationType = 'success' | 'info' | 'warning' | 'error';
+
+export type noticeObj = {
+  openNotice: (type: NotificationType, message: string, description: string, placement?: NotificationPlacement) => void;
+  holder: React.ReactNode;
+};

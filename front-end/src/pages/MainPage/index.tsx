@@ -1,5 +1,8 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router';
+
+// css
+import style from './index.module.scss';
 
 // 组件
 import TopHeader from '@/components/TopHeader';
@@ -11,14 +14,14 @@ import Footer from '@/components/Footer';
 import { Layout } from 'antd';
 import { isNoScroll } from '@/utils';
 
+const { Content, Header } = Layout;
+
 // redux
 import { useAppDispatch } from '@/redux';
 import { setEmoji } from '@/redux/slices/emoji';
-
 // context
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
-const { Content } = Layout;
 const MainPage = () => {
   const dispatch = useAppDispatch();
   const { width } = useViewport();
@@ -29,6 +32,7 @@ const MainPage = () => {
   return (
     <Layout style={{ paddingRight: isNoScroll() ? '0.5vw' : undefined }}>
       <TopHeader></TopHeader>
+      <Header className={style.backWhite}>Header</Header>
       <Layout>
         <Content>
           <React.StrictMode>
@@ -36,7 +40,7 @@ const MainPage = () => {
           </React.StrictMode>
         </Content>
       </Layout>
-      <Footer></Footer>
+      {/*<Footer></Footer>*/}
     </Layout>
   );
 };

@@ -14,7 +14,6 @@ const HomePage = () => {
   const { width } = useViewport();
   return (
     <div className={style.wrapper}>
-      <div className={style.backWhite}></div>
       <div
         className={`${width > 400 ? style.backgroundPhoto : style.backgroundPhotoMobile} clearfix`}
         style={{ backgroundImage: `url(${img1})` }}

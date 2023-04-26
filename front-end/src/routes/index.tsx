@@ -2,6 +2,7 @@ import React from 'react';
 import MainPage from '@/pages/MainPage';
 import TestPage from '@/pages/MainPage/TestPage';
 import HomePage from '@/pages/MainPage/HomePage';
+import BlogManage from '@/pages/MainPage/BlogManage';
 
 const router = [
   {
@@ -15,6 +16,10 @@ const router = [
       {
         path: 'test',
         element: <TestPage />,
+      },
+      {
+        path: 'manage',
+        element: <BlogManage />,
       },
     ],
   },
