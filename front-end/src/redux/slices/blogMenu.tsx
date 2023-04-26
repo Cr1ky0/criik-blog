@@ -3,7 +3,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // interface
 import { SideMenuItem } from '@/interface';
 import service from '@/utils/request';
-import { getSideMenuItem } from '@/utils';
 
 const URL = 'http://localhost:3002/';
 const initialState = {

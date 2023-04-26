@@ -225,3 +225,9 @@
     ```
 17. 使用useCallback时，注意设置deps，如果内部有useState的数据，那么deps需要加上该state否则内部state不会改变。
 18. 关于antd的select选择器，如果要自定义选项，注意设置optionLabelProp="value"，意思是每次选择将选项的value值回填到选项框内，如果不填此项，默认将label回填到选项框内，如果此时label是一个ReactNode那么就会报错。
+19. redux异步处理流程
+    - 首先，在组件内初始化请求数据并赋值state
+    - 更改或添加数据时，调用封装的axios方法
+    - axios方法成功后后端返回新的对象
+    - 更新state，将新对象通过actions添加到state内
+    - 只需要给action传新数据就行，剩余逻辑全部在reducer内完成
