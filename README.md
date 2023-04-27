@@ -133,19 +133,9 @@
 9. 关于滚动条，如过要让一个子元素在其父元素内滚动，需要同时设置其父元素以及自身的高度，而且自身高度要大于父元素，否则无法产生滚动条
 10. 用一个组件存放 antd icons，通过 context 让所有组件能够获取
 11. 使用@reduxjs/toolkit 时利用 redux-persist 持久化的配置
-
     ```js
     //持久存储
-    import {
-      persistStore,
-      persistReducer,
-      FLUSH,
-      REHYDRATE,
-      PAUSE,
-      PERSIST,
-      PURGE,
-      REGISTER,
-    } from "redux-persist";
+    import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER,} from "redux-persist";
     import storage from "redux-persist/lib/storage";
 
     const reducers = combineReducers({
@@ -172,7 +162,6 @@
 
     const persistor = persistStore(store);
     ```
-
 12. axios 封装，这里和sever的catchAsync有异曲同工之妙，把错误拦截下来，因为已经在拦截器内做了统一处理，一些有其他错误处理的不用改封装
     ```js
         export const catchAsync =
@@ -231,3 +220,8 @@
     - axios方法成功后后端返回新的对象
     - 更新state，将新对象通过actions添加到state内
     - 只需要给action传新数据就行，剩余逻辑全部在reducer内完成
+20. 关于antd的全局message，我是这么设置的
+    - 先弄个context封装一下message的方法
+    - 针对加载型消息，antd的message本身提供promise调用，直接在消息完毕后return一个fullfiled状态的Promise
+    - 在处理业务逻辑的时候，await调用消息方法，后面放消息结束后的操作即可（比如状态更新啥的）
+    - 当然，message要放在axios请求成功后的回调里面

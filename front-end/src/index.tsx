@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 // antd
-import { ConfigProvider, message } from 'antd';
+import { ConfigProvider } from 'antd';
 
 // redux
 import { store, persistor } from './redux';
@@ -22,12 +22,6 @@ import NoticeProvider from '@/components/ContextProvider/NoticeProvider';
 
 // app
 import App from './App';
-
-message.config({
-  top: 50,
-  maxCount: 3,
-  duration: 1.5,
-});
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 
 // interface
-import { AntdIcon, MenuItem, SideMenuItem, TreeSelectItem } from '@/interface';
+import { AntdIcon, blogObj, MenuItem, SideMenuItem, TreeSelectItem } from '@/interface';
 
 // antd
 import type { DataNode } from 'antd/es/tree';
@@ -25,7 +25,7 @@ export const getAntdIcon: (name: string, antdIcons: AntdIcon[]) => ReactElement 
 export const generateSideMenuItem = (
   id: string,
   title: string,
-  grade: number,
+  grade?: number,
   icon?: string,
   belongingMenu?: string
 ) => {
@@ -41,12 +41,16 @@ export const generateSideMenuItem = (
 
 // 根据key获得其在SideMenuList对象
 export const getSideMenuItem: (menus: SideMenuItem[], key: string) => SideMenuItem | undefined = (menus, key) => {
-  let filter = menus.filter(menu => menu.id === key);
+  const filter = menus.filter(menu => menu.id === key);
   if (filter.length) return filter[0];
   for (let i = 0; i < menus.length; i += 1) {
+    const filter = (menus[i].blogs as blogObj[]).filter(blog => blog.id === key);
+    if (filter.length) return filter[0];
     if (menus[i].children) {
-      filter = (menus[i].children as SideMenuItem[]).filter(child => child.id === key);
-      if (filter.length) return filter[0];
+      // 这里递归不能直接返回，因为在循环内存在多个递归，如果直接返回会导致被undefined覆盖
+      // 因此需要指定值当值存在时再返回
+      const temp = getSideMenuItem(menus[i].children as SideMenuItem[], key);
+      if (temp) return temp;
     }
   }
 };
@@ -78,7 +82,7 @@ export const getAntdMenus: (menus: SideMenuItem[], icons: AntdIcon[]) => MenuIte
     const icon = icons.filter(icon => icon.name === menu.icon);
     // 可能有blog存在
     const newList: MenuItem[] = [];
-    if (menu.blogs.length) {
+    if (menu.blogs && menu.blogs.length) {
       menu.blogs.map(blog => {
         newList.push(getItem(blog.title, blog.id));
       });
@@ -87,7 +91,9 @@ export const getAntdMenus: (menus: SideMenuItem[], icons: AntdIcon[]) => MenuIte
       menu.title,
       menu.id,
       icon[0] ? icon[0].icon : undefined,
-      menu.children.length ? ([...getAntdMenus(menu.children, icons), ...newList] as MenuItem[]) : undefined
+      (menu.children && menu.children.length) || (menu.blogs && menu.blogs.length)
+        ? ([...getAntdMenus(menu.children ? menu.children : [], icons), ...newList] as MenuItem[])
+        : undefined
     );
   });
 };

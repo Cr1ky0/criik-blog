@@ -82,12 +82,12 @@ export interface addBlogObj {
 export interface SideMenuItem {
   id: string;
   _id: string;
-  belongingMenu?: string;
   title: string;
+  grade?: number;
+  belongingMenu?: string;
   icon?: string;
-  children: SideMenuItem[];
-  blogs: blogObj[];
-  grade: number;
+  children?: SideMenuItem[];
+  blogs?: blogObj[];
 }
 
 /******** HomePage ********/
@@ -107,14 +107,6 @@ export interface TreeSelectItem {
   icon?: React.ReactNode;
   key?: React.Key;
   children?: TreeSelectItem[];
-}
-
-/******** MessageProvider ********/
-export interface messageObj {
-  success: (content: string) => void;
-  error: (content: string) => void;
-  warning: (content: string) => void;
-  holder: React.ReactNode;
 }
 
 /******** IconStore ********/

@@ -22,17 +22,15 @@ import { BREAK_POINT } from '@/global';
 
 const RightNav = () => {
   const [modalOpen, setModalOpen] = useState(false);
-
   const message = useGlobalMessage();
-
+  const { width } = useViewport();
+  const navigate = useNavigate();
   const cookies = new Cookies();
   const user = cookies.get('user');
-  const navigate = useNavigate();
-  const { width } = useViewport();
   // handle log out
   const handleLogout = useCallback(async () => {
     // await可以让按钮进入加载状态
-    await message.success('Successfully Log Out');
+    await message.loadingSuccessAsync('登出中...', '成功退出登录！');
     cookies.remove('user');
     cookies.remove('token');
     navigate(0);
@@ -43,6 +41,7 @@ const RightNav = () => {
       {/* 是否登录判断 */}
       {user ? (
         <>
+          {/* 登录了显示logout */}
           <Popconfirm
             placement="bottom"
             title={'是否要Log Out？'}
@@ -55,6 +54,7 @@ const RightNav = () => {
           </Popconfirm>
         </>
       ) : (
+        //   没登录显示登录
         <div className={style.signWrapper}>
           <LinkBtn2>Sing up</LinkBtn2>
           <LinkBtn2
@@ -64,6 +64,7 @@ const RightNav = () => {
           >
             Sign in
           </LinkBtn2>
+          {/* Login界面 */}
           <Modal
             centered
             destroyOnClose

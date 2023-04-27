@@ -90,10 +90,12 @@ const EditMenu = () => {
     }
   }, []);
 
+  // 选择icon的input改变时处理
   const handleChange = (value: string) => {
     setIconValue(value);
   };
 
+  // redux操作
   const reduxAddState = (state: SideMenuItem) => {
     const { id, belongingMenu, title, icon, grade } = state;
     const sideMenuItem = generateSideMenuItem(id, title, grade, icon, belongingMenu);
@@ -104,6 +106,7 @@ const EditMenu = () => {
     dispatch(deleteMenu(state));
   };
 
+  // edit menu
   const handleEdit = async () => {
     const ref = tagRef.current as HTMLInputElement;
     // 未选择图标
@@ -120,7 +123,8 @@ const EditMenu = () => {
     await updateMenuAjax(
       { id: curKey, icon: iconValue, title: ref.value },
       async () => {
-        await message.success('修改成功！');
+        await message.loadingSuccessAsync('修改中...', '修改成功！');
+        dispatch(editMenu({ id: curKey, title: ref.value, icon: iconValue }));
         setIsLoading(false);
       },
       content => {
@@ -128,16 +132,18 @@ const EditMenu = () => {
         setIsLoading(false);
       }
     );
-    dispatch(editMenu({ id: curKey, title: ref.value, icon: iconValue }));
   };
 
+  // delete menu
   const handleDelete = async () => {
     setDelLoading(true);
     const item = getSideMenuItem(menus, curKey as string) as SideMenuItem;
     await deleteMenuAjax(
       item.id,
       async () => {
-        await message.success('删除成功！');
+        await message.loadingSuccessAsync('删除中...', '删除成功！');
+        // 更新state
+        reduxRemoveState(item.id);
         setDelLoading(false);
       },
       content => {
@@ -145,8 +151,6 @@ const EditMenu = () => {
         setDelLoading(false);
       }
     );
-    // 更新state
-    reduxRemoveState(item.id);
   };
 
   // 在选中的标签下添加子标签
@@ -174,15 +178,18 @@ const EditMenu = () => {
       return;
     }
     setIsLoading(true);
-    const response = await addMenuAjax(
+    await addMenuAjax(
       {
         title: ref.value,
-        grade: item.grade + 1,
+        grade: item.grade ? item.grade + 1 : 1,
         icon: iconValue,
         parentId: item.id,
       },
-      async () => {
-        await message.success('添加成功！');
+      async data => {
+        await message.loadingSuccessAsync('操作中...', '添加成功！');
+        // 后端发来的新对象，加入state中
+        const newMenu = data.body.menu;
+        reduxAddState(newMenu);
         setIsLoading(false);
       },
       content => {
@@ -190,22 +197,32 @@ const EditMenu = () => {
         setIsLoading(false);
       }
     );
-    // 后端发来的新对象，加入state中
-    const newMenu = response.body.menu;
-    reduxAddState(newMenu);
   };
 
   const handleAddParent = async () => {
-    setIsLoading(true);
     const ref = addParentRef.current as HTMLInputElement;
-    const response = await addMenuAjax(
+    // 未选择图标
+    if (!iconValue) {
+      message.error('请选择分类标签图标！');
+      return;
+    }
+    // 未填写Title
+    if (!ref.value) {
+      message.error('请输入标签的标题！');
+      return;
+    }
+    setIsLoading(true);
+    await addMenuAjax(
       {
         title: ref.value,
         grade: 1,
         icon: iconValue,
       },
-      async () => {
-        await message.success('添加成功！');
+      async data => {
+        await message.loadingSuccessAsync('操作中...', '添加成功！');
+        console.log(data);
+        const newMenu = data.body.menu;
+        reduxAddState(newMenu);
         setIsLoading(false);
       },
       content => {
@@ -213,13 +230,12 @@ const EditMenu = () => {
         setIsLoading(false);
       }
     );
-    const newMenu = response.body.menu;
-    reduxAddState(newMenu);
   };
 
   return (
     <>
       {menus.length ? (
+        // 有menus才显示，否则显示提示
         <Tree
           showLine
           showIcon
@@ -244,6 +260,8 @@ const EditMenu = () => {
       ) : (
         <div className={style.noneMenu}>当前没有分类，请添加分类！</div>
       )}
+
+      {/* 表单栏 */}
       <div id="edit-tag-form-wrapper" className={style.formWrapper}>
         <div id="select-icon-input-box" className={style.selectBox}>
           <div>选择图标：</div>
@@ -298,7 +316,9 @@ const EditMenu = () => {
           ></ChangeFormBox>
         </div>
       </div>
+      {/* 最下排按钮*/}
       <div className={`${style.editTagWrapper} clearfix`}>
+        {/* 有menu才显示edit和delete 否则不显示*/}
         {menus.length ? (
           <>
             <div className={style.editTagBtn}>

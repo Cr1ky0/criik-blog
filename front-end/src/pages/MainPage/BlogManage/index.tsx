@@ -9,26 +9,29 @@ import style from './index.module.scss';
 // comp
 import SideMenu from '@/components/SideMenu';
 import MarkdownEditor from '@/components/MarkdownEditor';
+import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 
 // utils
 import { getTreeSelectList } from '@/utils';
 
 // redux
-import { useAppSelector } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
+import { addBlogMenu } from '@/redux/slices/blogMenu';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
-import { addBlogAjax } from '@/api/blog';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
-import ReactMarkdownRender from '@/components/ReactMarkdownRender';
+
+// api
+import { addBlogAjax } from '@/api/blog';
+import { SideMenuItem } from '@/interface';
 
 const BlogManage = () => {
+  const dispatch = useAppDispatch();
   const [menuId, setMenuId] = useState('');
   const [titleContent, setTitleContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState('');
-  // 预览数据和输入数据采用不同的state，避免字数多了以后产生卡顿，只在需要生成预览时生成
-  const [preValue, setPreValue] = useState('');
   const [open, setOpen] = useState(false);
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const icons = useIcons();
@@ -60,8 +63,10 @@ const BlogManage = () => {
         belongingMenu: menuId,
         contents: value,
       },
-      async () => {
-        await message.success('提交成功！');
+      async data => {
+        await message.loadingAsync('提交中...', '提交成功！');
+        const { id, title, belongingMenu } = data.newBlog;
+        dispatch(addBlogMenu({ id, title, belongingMenu } as SideMenuItem));
         setIsLoading(false);
       },
       content => {
@@ -109,7 +114,6 @@ const BlogManage = () => {
             size="large"
             onClick={() => {
               setOpen(true);
-              setPreValue(value);
             }}
           >
             预览

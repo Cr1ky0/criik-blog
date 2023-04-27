@@ -23,7 +23,7 @@ const UploadAvatar = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { error, success } = useGlobalMessage();
+  const message = useGlobalMessage();
   const navigate = useNavigate();
   const cookies = new Cookies();
   const user = cookies.get('user');
@@ -66,15 +66,26 @@ const UploadAvatar = () => {
 
   // 提交
   const handleSubmit = async () => {
+    setIsLoading(true);
     if (fileList[0].name === user.avatar) {
-      error('请上传新的图片！');
+      message.error('请上传新的图片！');
+      setIsLoading(false);
       return;
     }
     // 传base64格式的图片
-    await updateMeAjax({ avatar: fileList[0].thumbUrl });
-    setIsLoading(true);
-    await success('上传成功！');
-    navigate(0);
+    await updateMeAjax(
+      { avatar: fileList[0].thumbUrl },
+      async () => {
+        await message.loadingSuccessAsync('上传中...', '上传成功！');
+        navigate(0);
+        setIsLoading(false);
+      },
+      () => {
+        message.error('上传失败请重新再试！');
+        setIsLoading(false);
+      }
+    );
+
     setIsLoading(false);
   };
   return (
@@ -91,7 +102,7 @@ const UploadAvatar = () => {
             {fileList.length >= 1 ? null : uploadButton}
           </Upload>
         </ImgCrop>
-        <Modal open={previewOpen} title=" " footer={null} onCancel={handleCancel}>
+        <Modal open={previewOpen} title="PhotoPreview" footer={null} onCancel={handleCancel}>
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         </Modal>
       </div>

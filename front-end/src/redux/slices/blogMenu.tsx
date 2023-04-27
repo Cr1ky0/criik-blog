@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // interface
-import { SideMenuItem } from '@/interface';
+import { SideMenuItem, blogObj } from '@/interface';
 import service from '@/utils/request';
 
 const URL = 'http://localhost:3002/';
@@ -20,6 +20,26 @@ const blogMenuSlice = createSlice({
   initialState,
   // TODO:解决所有state状态更改（并重构结构将其放在成功回调内部）
   reducers: {
+    addBlogMenu: (state, action) => {
+      const { id, title, belongingMenu } = action.payload;
+      state.menuList = [
+        ...state.menuList.map(menu => {
+          if (menu.id === belongingMenu) (menu.blogs as blogObj[]).push({ id, _id: id, title, belongingMenu });
+          if (menu.children)
+            menu.children.map(child => {
+              if (child.id === belongingMenu)
+                (child.blogs as blogObj[]).push({
+                  id,
+                  _id: id,
+                  title,
+                  belongingMenu,
+                });
+              return child;
+            });
+          return menu;
+        }),
+      ];
+    },
     // 将新对象插入Menu（Grade<=2）
     addMenu: (state, action) => {
       const newMenu = action.payload;
@@ -83,5 +103,5 @@ const blogMenuSlice = createSlice({
   },
 });
 
-export const { addMenu, editMenu, deleteMenu, setSelectedId } = blogMenuSlice.actions;
+export const { addMenu, editMenu, deleteMenu, setSelectedId, addBlogMenu } = blogMenuSlice.actions;
 export default blogMenuSlice.reducer;

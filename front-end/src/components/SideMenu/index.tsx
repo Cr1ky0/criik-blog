@@ -27,12 +27,14 @@ interface SideMenuProps {
 }
 
 const SideMenu: React.FC<SideMenuProps> = ({ styles }) => {
-  const menus = useAppSelector(state => state.blogMenu.menuList);
-  const dispatch = useAppDispatch();
-  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
-  const [open, setOpen] = useState(false);
   const icons = useIcons();
+  const dispatch = useAppDispatch();
+  const menus = useAppSelector(state => state.blogMenu.menuList);
   const antdMenus = getAntdMenus(menus, icons);
+  // 当前选中的左边菜单栏目
+  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
+  // 预览展开state
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     dispatch(setMenuList());
   }, []);
@@ -62,6 +64,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles }) => {
           <EditMenu></EditMenu>
         </Modal>
       </div>
+      {/* 有tag则显示菜单，否则显示提示 */}
       {menus.length ? (
         <Menu
           style={{ borderRadius: '0 0 5px 5px', border: 'none' }}

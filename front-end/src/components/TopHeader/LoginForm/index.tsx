@@ -20,6 +20,7 @@ import { LoginFormData } from '@/interface';
 
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+import Cookies from 'universal-cookie';
 
 interface LoginFormProps {
   close: () => void;
@@ -29,6 +30,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const message = useGlobalMessage();
+  const cookies = new Cookies();
   const login = async (values: LoginFormData) => {
     setIsLoading(true);
     if (!isEmail(values.email)) {
@@ -38,11 +40,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
     }
     await loginAjax(
       values,
-      async () => {
-        await message.success('Successfully Log In');
+      async data => {
+        const { data: aData, token } = data;
+        await message.loadingSuccessAsync('登录中...', '登陆成功！');
+        // 设置token
+        delete aData.user['_id'];
+        cookies.set('user', aData.user, { path: '/' });
+        cookies.set('token', token, { path: '/' });
         // 关闭窗口
         close();
         navigate(0);
+        navigate('/');
         setIsLoading(false);
       },
       content => {

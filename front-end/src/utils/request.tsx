@@ -2,12 +2,6 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { message } from 'antd';
 
-message.config({
-  top: 50,
-  maxCount: 3,
-  duration: 1,
-});
-
 const service = axios.create({
   timeout: 5000,
   baseURL: 'http://localhost:3002',
@@ -53,6 +47,9 @@ service.interceptors.response.use(
         }
         // 404请求不存在
         case 404:
+          break;
+        // 429 请求数过多
+        case 429:
           break;
         // 其他错误，仍然其他地方处理
         default:

@@ -31,7 +31,7 @@ const MainPage = () => {
   return (
     <Layout>
       <TopHeader></TopHeader>
-      <Header className={style.backWhite}>Header</Header>
+      <Header className={style.backWhite}></Header>
       <Layout>
         <Content>
           <React.StrictMode>

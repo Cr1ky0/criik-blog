@@ -21,7 +21,7 @@ export interface BlogTagBoxProps {
 // 主页的BlogBox组件
 const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
   const { children, title, statistics } = props;
-  const limit = 400; // 超过400字加...
+  const limit = 400; // 超过400字加`...`
   return (
     <div className={style.wrapper}>
       <div className={style.titleWrapper}>

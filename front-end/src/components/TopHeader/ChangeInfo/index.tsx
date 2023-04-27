@@ -7,7 +7,7 @@ import style from './index.module.scss';
 
 // comp
 import ChangeFormBox from '@/components/TopHeader/ChangeInfo/ChangeFormBox';
-import UploadAvatar from '@/components/TopHeader/UploadAvatar';
+import UploadAvatar from '@/components/TopHeader/ChangeInfo/UploadAvatar';
 
 // ui
 import LinkBtn2 from '@/components/UI/LinkBtn2';
@@ -81,7 +81,7 @@ const ChangeInfo = () => {
     await updateMyPswAjax(
       data,
       async () => {
-        await message.success('修改成功, 请重新登录!');
+        await message.loadingSuccessAsync('修改中...', '修改成功, 请重新登录!');
         setIsLoading(false);
         cookies.remove('token');
         cookies.remove('user');
@@ -117,7 +117,7 @@ const ChangeInfo = () => {
     await updateEmailAjax(
       data,
       async () => {
-        await message.success('链接已发送至新邮箱，请前往验证');
+        await message.loadingAsync('发送链接至新邮箱当中...', '链接已发送至新邮箱，请前往验证');
         setIsLoading(false);
       },
       content => {
@@ -126,7 +126,7 @@ const ChangeInfo = () => {
       }
     );
   }, []);
-  // 个人信息表单
+  // 昵称
   const handleUsernameForm = useCallback(async () => {
     setIsLoading(true);
     const data = getFormValues(usernameRef);
@@ -135,7 +135,7 @@ const ChangeInfo = () => {
       async () => {
         // 刷新登录状态
         await updateLoginState();
-        await message.success('更新成功!');
+        await message.loadingSuccessAsync('更新中', '更新成功!');
         navigate(0);
         setIsLoading(false);
       },
@@ -145,13 +145,15 @@ const ChangeInfo = () => {
       }
     );
   }, []);
+
+  // 个人简介
   const handleBriefForm = useCallback(async () => {
     setIsLoading(true);
     const data = getFormValues(briefRef);
     await updateMeAjax(
       data,
       async () => {
-        await message.success('更新成功!');
+        await message.loadingSuccessAsync('更新中', '更新成功!');
         await updateLoginState();
         navigate(0);
         setIsLoading(false);
