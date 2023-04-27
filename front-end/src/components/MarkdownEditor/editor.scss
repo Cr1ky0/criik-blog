@@ -6,7 +6,9 @@
 // 取消其他所有按钮
 .w-md-editor-toolbar {
   > ul:last-child {
-    display: none;
+    > li:not(:last-child) {
+      display: none;
+    }
   }
 }
 
@@ -15,8 +17,26 @@
   display: none;
 }
 
-.w-md-editor-text-pre > code,
-.w-md-editor-text-input {
-  font-size: 1.1vw !important;
-  line-height: 1.2vw !important;
+
+.w-md-editor-text {
+  .wmde-markdown-color {
+    > pre {
+      display: none !important;
+      //.code-line {
+      //  font-size: 20px !important;
+      //  height: 100% !important;
+      //  overflow-y: auto;
+      //}
+    }
+  }
+
+  .w-md-editor-text-input {
+    -webkit-text-fill-color: rgba(0, 0, 0, .7);
+    font-size: 20px !important;
+    line-height: 24px !important;
+    height: 100% !important;
+    overflow-y: auto;
+  }
+
+  height: 100% !important;
 }

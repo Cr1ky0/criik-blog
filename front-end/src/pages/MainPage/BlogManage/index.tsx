@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // antd
-import { Input, TreeSelect, Button } from 'antd';
+import { Input, TreeSelect, Button, Drawer } from 'antd';
 
 // css
 import style from './index.module.scss';
@@ -20,12 +20,16 @@ import { useAppSelector } from '@/redux';
 import { useIcons } from '@/components/ContextProvider/IconStore';
 import { addBlogAjax } from '@/api/blog';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 
 const BlogManage = () => {
   const [menuId, setMenuId] = useState('');
   const [titleContent, setTitleContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState('');
+  // 预览数据和输入数据采用不同的state，避免字数多了以后产生卡顿，只在需要生成预览时生成
+  const [preValue, setPreValue] = useState('');
+  const [open, setOpen] = useState(false);
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const icons = useIcons();
   const antdMenus = getTreeSelectList(menus, icons, true);
@@ -101,9 +105,29 @@ const BlogManage = () => {
           <Button size="large" loading={isLoading} onClick={handleSubmit}>
             提交
           </Button>
-          <Button size="large">总览</Button>
+          <Button
+            size="large"
+            onClick={() => {
+              setOpen(true);
+              setPreValue(value);
+            }}
+          >
+            预览
+          </Button>
         </div>
       </div>
+      <Drawer
+        destroyOnClose
+        title="总览"
+        placement="right"
+        width="50vw"
+        onClose={() => {
+          setOpen(false);
+        }}
+        open={open}
+      >
+        <ReactMarkdownRender>{value}</ReactMarkdownRender>
+      </Drawer>
     </div>
   );
 };

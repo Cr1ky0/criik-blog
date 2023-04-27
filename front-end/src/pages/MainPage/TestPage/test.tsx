@@ -1,6 +1,6 @@
 import React from 'react';
 import MDEditor from '@uiw/react-md-editor';
-import ReactMarkdownWrapper from '@/components/ReactMarkdownRender';
+import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 
 export default function MdEditor() {
   const [value, setValue] = React.useState('**Hello world!!!**');
@@ -12,7 +12,7 @@ export default function MdEditor() {
           setValue(value as string);
         }}
       />
-      <ReactMarkdownWrapper>{value}</ReactMarkdownWrapper>
+      <ReactMarkdownRender>{value}</ReactMarkdownRender>
     </div>
   );
 }

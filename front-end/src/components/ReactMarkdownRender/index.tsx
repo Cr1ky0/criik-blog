@@ -21,7 +21,7 @@ interface ReactMarkdownWrapperProps {
   children: string;
 }
 
-const ReactMarkdownWrapper: React.FC<ReactMarkdownWrapperProps> = ({ children }) => {
+const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) => {
   return (
     <ReactMarkdown
       className="markdown-body"
@@ -47,4 +47,4 @@ const ReactMarkdownWrapper: React.FC<ReactMarkdownWrapperProps> = ({ children })
   );
 };
 
-export default ReactMarkdownWrapper;
+export default ReactMarkdownRender;
