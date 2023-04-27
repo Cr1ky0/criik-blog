@@ -12,7 +12,6 @@ import Footer from '@/components/Footer';
 
 // antd
 import { Layout } from 'antd';
-import { isNoScroll } from '@/utils';
 
 const { Content, Header } = Layout;
 
@@ -30,7 +29,7 @@ const MainPage = () => {
     dispatch(setEmoji());
   }, [width]);
   return (
-    <Layout style={{ paddingRight: isNoScroll() ? '0.5vw' : undefined }}>
+    <Layout>
       <TopHeader></TopHeader>
       <Header className={style.backWhite}>Header</Header>
       <Layout>

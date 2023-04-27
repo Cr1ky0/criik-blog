@@ -9,7 +9,7 @@
   }
 
   .sider {
-    width: 24vw;
+    width: 21vw;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
     padding: {
       top: 5vh;
@@ -19,7 +19,7 @@
   }
 
   .content {
-    width: 76vw;
+    width: 79vw;
     padding: 0 3vw;
     box-sizing: border-box;
 
@@ -56,6 +56,10 @@
 
     .submitBtn {
       margin: 2vw 0.5vw;
+
+      > button:first-child {
+        margin-right: 1vw
+      }
     }
   }
 }

@@ -21,12 +21,14 @@ export const getAntdIcon: (name: string, antdIcons: AntdIcon[]) => ReactElement 
   })[0].icon;
 };
 
-export const isNoScroll = () => {
-  return document.body.style.overflow === 'hidden';
-};
-
 // 生成SideMenuList对象
-export const generateSideMenuItem = (id: string, belongingMenu: string, title: string, icon: string, grade: number) => {
+export const generateSideMenuItem = (
+  id: string,
+  title: string,
+  grade: number,
+  icon?: string,
+  belongingMenu?: string
+) => {
   return {
     id,
     _id: id,
@@ -39,10 +41,13 @@ export const generateSideMenuItem = (id: string, belongingMenu: string, title: s
 
 // 根据key获得其在SideMenuList对象
 export const getSideMenuItem: (menus: SideMenuItem[], key: string) => SideMenuItem | undefined = (menus, key) => {
-  const filter = menus.filter(menu => menu.id === key);
-  if (filter[0]) return filter[0];
+  let filter = menus.filter(menu => menu.id === key);
+  if (filter.length) return filter[0];
   for (let i = 0; i < menus.length; i += 1) {
-    if (menus[i].children) return getSideMenuItem(menus[i].children as SideMenuItem[], key);
+    if (menus[i].children) {
+      filter = (menus[i].children as SideMenuItem[]).filter(child => child.id === key);
+      if (filter.length) return filter[0];
+    }
   }
 };
 
@@ -71,20 +76,19 @@ export const getAntdMenus: (menus: SideMenuItem[], icons: AntdIcon[]) => MenuIte
   return menus.map(menu => {
     // 从iconsContext中提取出对应icon Node
     const icon = icons.filter(icon => icon.name === menu.icon);
-    // 前两层都是菜单，第三层变成由blogs生成，id也变成blogId
-    if (menu.grade === 2 && menu.blogs) {
-      const newList: MenuItem[] = [];
+    // 可能有blog存在
+    const newList: MenuItem[] = [];
+    if (menu.blogs.length) {
       menu.blogs.map(blog => {
         newList.push(getItem(blog.title, blog.id));
       });
-      return getItem(menu.title, menu.id, icon[0] ? icon[0].icon : undefined, newList);
-    } else
-      return getItem(
-        menu.title,
-        menu.id,
-        icon[0] ? icon[0].icon : undefined,
-        menu.children?.length ? getAntdMenus(menu.children, icons) : undefined
-      );
+    }
+    return getItem(
+      menu.title,
+      menu.id,
+      icon[0] ? icon[0].icon : undefined,
+      menu.children.length ? ([...getAntdMenus(menu.children, icons), ...newList] as MenuItem[]) : undefined
+    );
   });
 };
 

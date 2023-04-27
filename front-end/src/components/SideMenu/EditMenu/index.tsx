@@ -11,7 +11,7 @@ import ChangeFormBox from '@/components/TopHeader/ChangeInfo/ChangeFormBox';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addMenu } from '@/redux/slices/blogMenu';
+import { addMenu, deleteMenu, editMenu } from '@/redux/slices/blogMenu';
 
 // utils
 import { generateSideMenuItem, getDataNodeTree, getSideMenuItem } from '@/utils';
@@ -54,7 +54,7 @@ const EditMenu = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDelLoading, setDelLoading] = useState(false);
   // edit下icon为当前选中的图标
-  const [curIcon, setCurIcon] = useState<string | undefined>(menus[0].icon);
+  const [curIcon, setCurIcon] = useState<string | undefined>(menus.length ? menus[0].icon : undefined);
   // 当前是否处于edit下
   const [isEdit, setIsEdit] = useState(true);
   // 修改标签的inputRef
@@ -94,6 +94,16 @@ const EditMenu = () => {
     setIconValue(value);
   };
 
+  const reduxAddState = (state: SideMenuItem) => {
+    const { id, belongingMenu, title, icon, grade } = state;
+    const sideMenuItem = generateSideMenuItem(id, title, grade, icon, belongingMenu);
+    dispatch(addMenu(sideMenuItem));
+  };
+
+  const reduxRemoveState = (state: string) => {
+    dispatch(deleteMenu(state));
+  };
+
   const handleEdit = async () => {
     const ref = tagRef.current as HTMLInputElement;
     // 未选择图标
@@ -118,6 +128,7 @@ const EditMenu = () => {
         setIsLoading(false);
       }
     );
+    dispatch(editMenu({ id: curKey, title: ref.value, icon: iconValue }));
   };
 
   const handleDelete = async () => {
@@ -134,6 +145,8 @@ const EditMenu = () => {
         setDelLoading(false);
       }
     );
+    // 更新state
+    reduxRemoveState(item.id);
   };
 
   // 在选中的标签下添加子标签
@@ -151,58 +164,41 @@ const EditMenu = () => {
     }
     // 当没有分类时
     if (!menus.length) {
-      setIsLoading(true);
-      await addMenuAjax(
-        {
-          title: ref.value,
-          grade: 1,
-          icon: iconValue,
-        },
-        async () => {
-          await message.success('添加成功！');
-          setIsLoading(false);
-        },
-        content => {
-          message.error(content);
-          setIsLoading(false);
-        }
-      );
-    } else {
-      const item = getSideMenuItem(menus, curKey as string) as SideMenuItem;
-      // 当前选择二级菜单时
-      if (item.grade === 2) {
-        message.error('二级分类无法再添加分类标签！');
-        return;
-      }
-      setIsLoading(true);
-      const response = await addMenuAjax(
-        {
-          title: ref.value,
-          grade: item.grade + 1,
-          icon: iconValue,
-          parentId: item.id,
-        },
-        async () => {
-          await message.success('添加成功！');
-          setIsLoading(false);
-        },
-        content => {
-          message.error(content);
-          setIsLoading(false);
-        }
-      );
-      // 后端发来的新对象，加入state中
-      const newMenu = response.body.menu;
-      const { id, belongingMenu, title, icon, grade } = newMenu;
-      const sideMenuItem = generateSideMenuItem(id, belongingMenu, title, icon, grade);
-      dispatch(addMenu(sideMenuItem));
+      message.error('请先添加总分类！');
+      return;
     }
+    const item = getSideMenuItem(menus, curKey as string) as SideMenuItem;
+    // 当前选择二级菜单时
+    if (item.grade === 2) {
+      message.error('二级分类无法再添加分类标签！');
+      return;
+    }
+    setIsLoading(true);
+    const response = await addMenuAjax(
+      {
+        title: ref.value,
+        grade: item.grade + 1,
+        icon: iconValue,
+        parentId: item.id,
+      },
+      async () => {
+        await message.success('添加成功！');
+        setIsLoading(false);
+      },
+      content => {
+        message.error(content);
+        setIsLoading(false);
+      }
+    );
+    // 后端发来的新对象，加入state中
+    const newMenu = response.body.menu;
+    reduxAddState(newMenu);
   };
 
   const handleAddParent = async () => {
     setIsLoading(true);
     const ref = addParentRef.current as HTMLInputElement;
-    await addMenuAjax(
+    const response = await addMenuAjax(
       {
         title: ref.value,
         grade: 1,
@@ -217,6 +213,8 @@ const EditMenu = () => {
         setIsLoading(false);
       }
     );
+    const newMenu = response.body.menu;
+    reduxAddState(newMenu);
   };
 
   return (
@@ -324,7 +322,6 @@ const EditMenu = () => {
           <Button
             onClick={() => {
               changeHeight('addParent');
-              if (defaultCheck) setCurKey(defaultCheck.key);
             }}
           >
             添加总分类
@@ -332,7 +329,7 @@ const EditMenu = () => {
           <Button
             onClick={() => {
               changeHeight('add');
-              if (defaultCheck) setCurKey(defaultCheck.key);
+              if (defaultCheck) setCurKey(curKey ? curKey : defaultCheck.key);
             }}
           >
             添加子分类

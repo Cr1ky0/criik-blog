@@ -5,6 +5,7 @@ import style from './index.module.scss';
 
 // antd
 import { Menu, Modal } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 
 // ui
 import LinkBtn2 from '@/components/UI/LinkBtn2';
@@ -12,13 +13,14 @@ import EditMenu from '@/components/SideMenu/EditMenu';
 
 // redux
 import { useAppSelector, useAppDispatch } from '@/redux';
+import { setMenuList, setSelectedId } from '@/redux/slices/blogMenu';
 
 // context
 import { useIcons } from '../ContextProvider/IconStore';
 
 // utils
-import { getAntdMenus, getAllKeyOfSideMenu } from '@/utils';
-import { setMenuList } from '@/redux/slices/blogMenu';
+import { getAntdMenus, getAllKeyOfSideMenu, getSideMenuItem } from '@/utils';
+import { SideMenuItem } from '@/interface';
 
 interface SideMenuProps {
   styles?: CSSProperties;
@@ -27,6 +29,7 @@ interface SideMenuProps {
 const SideMenu: React.FC<SideMenuProps> = ({ styles }) => {
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const dispatch = useAppDispatch();
+  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const [open, setOpen] = useState(false);
   const icons = useIcons();
   const antdMenus = getAntdMenus(menus, icons);
@@ -63,9 +66,14 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles }) => {
         <Menu
           style={{ borderRadius: '0 0 5px 5px', border: 'none' }}
           openKeys={getAllKeyOfSideMenu(menus)}
-          defaultSelectedKeys={['test1']}
+          expandIcon={<DownOutlined />}
           mode="inline"
           items={antdMenus}
+          selectedKeys={[selectedId]}
+          onSelect={e => {
+            const item = getSideMenuItem(menus, e.key) as SideMenuItem;
+            if (!item.grade) dispatch(setSelectedId(e.key));
+          }}
         />
       ) : (
         <div className={style.noneMenu}>当前还没有分类，快去添加吧！</div>

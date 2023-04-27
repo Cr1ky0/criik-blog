@@ -15,10 +15,10 @@ export interface blogObj {
   id: string;
   title: string;
   belongingMenu: string;
-  contents: string;
-  likes: number;
-  views: number;
-  publishAt: string;
+  contents?: string;
+  likes?: number;
+  views?: number;
+  publishAt?: string;
   belongTo?: string;
 }
 
@@ -85,8 +85,8 @@ export interface SideMenuItem {
   belongingMenu?: string;
   title: string;
   icon?: string;
-  children?: SideMenuItem[];
-  blogs?: blogObj[];
+  children: SideMenuItem[];
+  blogs: blogObj[];
   grade: number;
 }
 

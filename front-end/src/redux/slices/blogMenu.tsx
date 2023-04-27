@@ -7,6 +7,7 @@ import service from '@/utils/request';
 const URL = 'http://localhost:3002/';
 const initialState = {
   menuList: [] as SideMenuItem[],
+  selectedId: '', // 选的博客id
 };
 
 export const setMenuList = createAsyncThunk('blogMenu/setMenuList', async () => {
@@ -36,6 +37,39 @@ const blogMenuSlice = createSlice({
         ];
       }
     },
+    editMenu: (state, action) => {
+      const { id, title, icon } = action.payload;
+      state.menuList = [
+        ...state.menuList.map(menu => {
+          if (menu.id === id) {
+            menu.title = title;
+            menu.icon = icon;
+          } else {
+            if (menu.children)
+              menu.children = menu.children.map(child => {
+                if (child.id === id) {
+                  child.title = title;
+                  child.icon = icon;
+                }
+                return child;
+              });
+          }
+          return menu;
+        }),
+      ];
+    },
+    deleteMenu: (state, action) => {
+      const id = action.payload; // 传入删除menu的id
+      state.menuList = [
+        ...state.menuList.filter(menu => {
+          if (menu.children) menu.children = [...menu.children.filter(child => child.id !== id)];
+          return menu.id !== id;
+        }),
+      ];
+    },
+    setSelectedId: (state, action) => {
+      state.selectedId = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -49,5 +83,5 @@ const blogMenuSlice = createSlice({
   },
 });
 
-export const { addMenu } = blogMenuSlice.actions;
+export const { addMenu, editMenu, deleteMenu, setSelectedId } = blogMenuSlice.actions;
 export default blogMenuSlice.reducer;

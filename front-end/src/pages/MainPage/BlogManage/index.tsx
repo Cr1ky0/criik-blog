@@ -101,6 +101,7 @@ const BlogManage = () => {
           <Button size="large" loading={isLoading} onClick={handleSubmit}>
             提交
           </Button>
+          <Button size="large">总览</Button>
         </div>
       </div>
     </div>
