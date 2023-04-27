@@ -3,6 +3,9 @@ $FONT_COLOR: #2c3e50;
 $FONT_COLOR_2: rgba(0, 0, 0, .4);
 $TOP_HEADER_H: 50px;
 $BACKGROUND_COLOR: #FFF;
+$GRADE_TOP: 999;
+$GRADE_MIDDLE: 500;
+$GRADE_BOTTOM: 100;
 
 @mixin unSelectable {
   -webkit-user-select: none;

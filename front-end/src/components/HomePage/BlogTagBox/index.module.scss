@@ -30,6 +30,7 @@ $LINE_COLOR: rgba(0, 0, 0, 0.2);
     }
 
     .pin {
+      @include unSelectable;
       font-size: 20px;
       position: absolute;
       right: 3px;
@@ -55,23 +56,5 @@ $LINE_COLOR: rgba(0, 0, 0, 0.2);
   .statistics {
     padding-top: 3px;
     @include unSelectable;
-
-    > div {
-      cursor: pointer;
-      float: left;
-      padding: 3px;
-
-      > span {
-        margin-right: 6px;
-      }
-    }
-
-    .author {
-      transition: all 0.3s;
-
-      &:hover {
-        color: $THEME_COLOR;
-      }
-    }
   }
 }

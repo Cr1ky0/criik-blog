@@ -3,6 +3,7 @@ import MainPage from '@/pages/MainPage';
 import TestPage from '@/pages/MainPage/TestPage';
 import HomePage from '@/pages/MainPage/HomePage';
 import BlogManage from '@/pages/MainPage/BlogManage';
+import BlogPage from '@/pages/MainPage/BlogPage';
 
 const router = [
   {
@@ -16,6 +17,10 @@ const router = [
       {
         path: 'test',
         element: <TestPage />,
+      },
+      {
+        path: 'blog',
+        element: <BlogPage />,
       },
       {
         path: 'manage',

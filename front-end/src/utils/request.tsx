@@ -1,6 +1,5 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { message } from 'antd';
 
 const service = axios.create({
   timeout: 5000,

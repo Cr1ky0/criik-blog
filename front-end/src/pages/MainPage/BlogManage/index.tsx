@@ -27,16 +27,21 @@ import { addBlogAjax } from '@/api/blog';
 import { SideMenuItem } from '@/interface';
 
 const BlogManage = () => {
-  const dispatch = useAppDispatch();
-  const [menuId, setMenuId] = useState('');
-  const [titleContent, setTitleContent] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [value, setValue] = useState('');
-  const [open, setOpen] = useState(false);
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const icons = useIcons();
-  const antdMenus = getTreeSelectList(menus, icons, true);
   const message = useGlobalMessage();
+  const antdMenus = getTreeSelectList(menus, icons, true);
+  const dispatch = useAppDispatch();
+  const [menuId, setMenuId] = useState('');
+  // BLog Title
+  const [titleContent, setTitleContent] = useState('');
+  // 提交按钮loading状态
+  const [isLoading, setIsLoading] = useState(false);
+  // blog content
+  const [value, setValue] = useState('');
+  // 预览打开state
+  const [open, setOpen] = useState(false);
+
   const getValue = (value: string) => {
     setValue(value);
   };

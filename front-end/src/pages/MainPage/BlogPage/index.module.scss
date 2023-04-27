@@ -1,0 +1,37 @@
+@import "@/assets/css/index.scss";
+@import "@/pages/MainPage/mixin.scss";
+
+.wrapper {
+  @include setWrapper();
+
+  .content {
+    padding: 5vh 10vw;
+    height: 95vh;
+    overflow-y: auto;
+
+    .info {
+      padding: {
+        bottom: 5vh;
+      }
+
+      .title {
+        font-size: 50px;
+      }
+
+      .blogInfo {
+        margin: {
+          top: 3vh;
+        }
+      }
+
+      //&::after {
+      //  content: '';
+      //  display: block;
+      //  height: 1px;
+      //  width: 100%;
+      //  background-color: rgba(0, 0, 0, .1);
+      //  margin: 3vh 0;
+      //}
+    }
+  }
+}

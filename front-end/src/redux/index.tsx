@@ -4,6 +4,7 @@ import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 import emoji from './slices/emoji';
 import chosenList from './slices/chosenList';
 import blogMenu from './slices/blogMenu';
+import blog from './slices/blog';
 
 //持久存储
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
@@ -13,6 +14,7 @@ const reducers = combineReducers({
   emoji,
   chosenList,
   blogMenu,
+  blog,
 });
 
 const persistConfig = {

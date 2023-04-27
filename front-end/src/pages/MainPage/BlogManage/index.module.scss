@@ -1,28 +1,10 @@
 @import "@/assets/css/index.scss";
+@import "@/pages/MainPage/mixin.scss";
 
 .wrapper {
-  background-color: #FFF;
-
-  > div {
-    float: left;
-    min-height: 95vh;
-  }
-
-  .sider {
-    width: 21vw;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
-    padding: {
-      top: 5vh;
-      left: 2vw;
-      right: 2vw;
-    }
-  }
+  @include setWrapper();
 
   .content {
-    width: 79vw;
-    padding: 0 3vw;
-    box-sizing: border-box;
-
     .inputBox {
       width: 100%;
       padding: {

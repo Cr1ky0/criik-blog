@@ -20,9 +20,7 @@ exports.getAllBlogs = catchAsync(async (req, res, next) => {
 });
 
 exports.getBlog = catchAsync(async (req, res, next) => {
-  const blog = await Blog.findById(req.params.id).populate({
-    path: 'comments',
-  });
+  const blog = await Blog.findById(req.params.id);
 
   res.status(200).json({
     status: 'success',

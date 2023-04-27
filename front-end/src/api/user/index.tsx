@@ -13,6 +13,7 @@ export const loginAjax = catchAsync(async (values: LoginFormData) => {
 export const updateLoginState = catchAsync(async () => {
   const response = await service.get(`/api/users/updateLoginState`);
   // 设置token
+  // 有多个地方要用就不放外面了
   const cookies = new Cookies();
   cookies.set('user', response.data.data.user, { path: '/' });
   return Promise.resolve(response);

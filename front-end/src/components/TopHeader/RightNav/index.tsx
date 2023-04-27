@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie';
 import style from './index.module.scss';
 
 // comp
-import LinkBtn2 from '@/components/UI/LinkBtn2';
+import LinkBtn2 from '@/components/Universal/LinkBtn2';
 import LoginForm from '@/components/TopHeader/LoginForm';
 import Avatar from '@/components/TopHeader/Avatar';
 

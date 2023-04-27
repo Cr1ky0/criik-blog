@@ -3,7 +3,7 @@ import React from 'react';
 import style from './index.module.scss';
 
 // redux
-import LinkBtn from '@/components/UI/LinkBtn';
+import LinkBtn from '@/components/Universal/LinkBtn';
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
 
 interface MobileMenuProps {

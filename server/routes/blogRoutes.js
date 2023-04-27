@@ -23,7 +23,7 @@ router
 
 router
   .route('/:id')
-  .get(blogController.getBlog) // 获取博客，这里将评论提取出来
+  .get(blogController.getBlog) // 获取博客
   .patch(authController.protect, blogController.updateBlog) // 更新博客
   .delete(authController.protect, blogController.deleteBlog); // 删除博客
 module.exports = router;

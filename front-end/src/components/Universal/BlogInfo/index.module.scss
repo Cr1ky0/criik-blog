@@ -1,0 +1,29 @@
+@import "@/assets/css/index.scss";
+
+.wrapper {
+  @include unSelectable;
+  color: rgba(0, 0, 0, .5);
+  font: {
+    family: Source_Han_Sans_SC_Normal;
+    size: 18px;
+  }
+
+  > div {
+    cursor: pointer;
+    float: left;
+    padding: 3px;
+
+    > span {
+      margin-right: 6px;
+      font-size: 18px;
+    }
+  }
+
+  .author {
+    transition: all 0.3s;
+
+    &:hover {
+      color: $THEME_COLOR;
+    }
+  }
+}

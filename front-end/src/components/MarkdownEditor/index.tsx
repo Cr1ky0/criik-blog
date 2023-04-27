@@ -26,7 +26,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = props => {
           }}
         />
       </div>
-      {/* 预览会卡顿暂时不提供 */}
+      {/* 预览字数多时会卡顿暂时不提供实时预览 */}
       {/*<div className={style.preview}>*/}
       {/*  <div className={style.previewTips}>预览</div>*/}
       {/*  <ReactMarkdownRender>{preview}</ReactMarkdownRender>*/}

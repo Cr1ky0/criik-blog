@@ -10,7 +10,7 @@ import ChangeFormBox from '@/components/TopHeader/ChangeInfo/ChangeFormBox';
 import UploadAvatar from '@/components/TopHeader/ChangeInfo/UploadAvatar';
 
 // ui
-import LinkBtn2 from '@/components/UI/LinkBtn2';
+import LinkBtn2 from '@/components/Universal/LinkBtn2';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // api

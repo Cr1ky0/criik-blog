@@ -4,7 +4,7 @@ import React from 'react';
 import style from './index.module.scss';
 
 // ui-c
-import LinkBtn from '@/components/UI/LinkBtn';
+import LinkBtn from '@/components/Universal/LinkBtn';
 
 const MiddleNav = () => {
   return (
@@ -12,7 +12,7 @@ const MiddleNav = () => {
       <LinkBtn icon="&#xe600;" seq={0} link={'/'}>
         主页
       </LinkBtn>
-      <LinkBtn icon="&#xe60e;" seq={1} link={'/test'}>
+      <LinkBtn icon="&#xe60e;" seq={1} link={'/blog'}>
         博客
       </LinkBtn>
       <LinkBtn icon="&#xe896;" seq={2} link={'/manage'}>

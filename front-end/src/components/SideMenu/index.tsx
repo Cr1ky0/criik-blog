@@ -8,7 +8,7 @@ import { Menu, Modal } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 
 // ui
-import LinkBtn2 from '@/components/UI/LinkBtn2';
+import LinkBtn2 from '@/components/Universal/LinkBtn2';
 import EditMenu from '@/components/SideMenu/EditMenu';
 
 // redux
@@ -21,12 +21,14 @@ import { useIcons } from '../ContextProvider/IconStore';
 // utils
 import { getAntdMenus, getAllKeyOfSideMenu, getSideMenuItem } from '@/utils';
 import { SideMenuItem } from '@/interface';
+import { setCurBlog } from '@/redux/slices/blog';
 
 interface SideMenuProps {
   styles?: CSSProperties;
+  noEdit?: boolean;
 }
 
-const SideMenu: React.FC<SideMenuProps> = ({ styles }) => {
+const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit }) => {
   const icons = useIcons();
   const dispatch = useAppDispatch();
   const menus = useAppSelector(state => state.blogMenu.menuList);
@@ -40,16 +42,18 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles }) => {
   }, []);
   return (
     <div className={style.wrapper} style={styles}>
-      <div className={style.edit}>
-        <LinkBtn2
-          className={`${style.editBtn} iconfont`}
-          onClick={() => {
-            setOpen(true);
-          }}
-        >
-          &#xe603;
-        </LinkBtn2>
-      </div>
+      {noEdit ? undefined : (
+        <div className={style.edit}>
+          <LinkBtn2
+            className={`${style.editBtn} iconfont`}
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            &#xe603;
+          </LinkBtn2>
+        </div>
+      )}
       <div>
         <Modal
           title="编辑分类标签"
@@ -73,9 +77,11 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles }) => {
           mode="inline"
           items={antdMenus}
           selectedKeys={[selectedId]}
+          // handle select
           onSelect={e => {
             const item = getSideMenuItem(menus, e.key) as SideMenuItem;
             if (!item.grade) dispatch(setSelectedId(e.key));
+            dispatch(setCurBlog(e.key));
           }}
         />
       ) : (
