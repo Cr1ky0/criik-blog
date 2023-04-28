@@ -220,7 +220,6 @@ const EditMenu = () => {
       },
       async data => {
         await message.loadingSuccessAsync('操作中...', '添加成功！');
-        console.log(data);
         const newMenu = data.body.menu;
         reduxAddState(newMenu);
         setIsLoading(false);

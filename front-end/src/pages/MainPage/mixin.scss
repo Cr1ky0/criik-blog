@@ -2,6 +2,9 @@
 
 @mixin setWrapper($s_width:21vw,$c_width:79vw) {
   background-color: #FFF;
+  overflow: hidden;
+  animation: show .7s;
+  @include setScrollBar(0.3vw);
   > div {
     float: left;
     min-height: 95vh;
@@ -11,6 +14,8 @@
     width: $s_width;
     z-index: $GRADE_MIDDLE;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+    height: 95vh;
+    overflow-y: auto;
     padding: {
       top: 5vh;
       left: 2vw;
@@ -19,11 +24,20 @@
   }
 
   .content {
-    font: {
-      family: Source_Han_Sans_SC_Normal;
-    }
     width: $c_width;
     padding: 0 3vw;
     box-sizing: border-box;
+    font: {
+      family: Source_Han_Sans_SC_Normal;
+    }
+  }
+}
+
+@keyframes show {
+  from {
+    height: 0;
+  }
+  to {
+    height: 95vh;
   }
 }

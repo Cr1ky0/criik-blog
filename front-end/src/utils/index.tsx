@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 
 // interface
-import { AntdIcon, blogObj, MenuItem, SideMenuItem, TreeSelectItem } from '@/interface';
+import { AntdIcon, blogObj, BreadCrumbObj, MenuItem, SideMenuItem, TreeSelectItem } from '@/interface';
 
 // antd
 import type { DataNode } from 'antd/es/tree';
@@ -65,6 +65,26 @@ export const getAllKeyOfSideMenu: (menus: SideMenuItem[]) => string[] = menus =>
   return keys;
 };
 
+// 根据blog id获取其parent链
+export const getBreadcrumbList: (menus: SideMenuItem[], id: string, icons: AntdIcon[]) => BreadCrumbObj[] = (
+  menus,
+  id,
+  icons
+) => {
+  const list = [] as BreadCrumbObj[];
+  const blog = getSideMenuItem(menus, id) as SideMenuItem;
+  list.unshift({ title: blog.title, icon: undefined });
+  if (blog.belongingMenu) {
+    const parent = getSideMenuItem(menus, blog.belongingMenu) as SideMenuItem;
+    list.unshift({ title: parent.title, icon: getAntdIcon(parent.icon as string, icons) });
+    if (parent.belongingMenu) {
+      const grandParent = getSideMenuItem(menus, parent.belongingMenu) as SideMenuItem;
+      list.unshift({ title: grandParent.title, icon: getAntdIcon(grandParent.icon as string, icons) });
+    }
+  }
+  return list;
+};
+
 // 将SideMenuItem列表转化为MenuItem列表
 function getItem(label: string, key: React.Key, icon?: React.ReactNode, children?: MenuItem[]): MenuItem {
   return {
@@ -79,7 +99,8 @@ function getItem(label: string, key: React.Key, icon?: React.ReactNode, children
 export const getAntdMenus: (menus: SideMenuItem[], icons: AntdIcon[]) => MenuItem[] = (menus, icons) => {
   return menus.map(menu => {
     // 从iconsContext中提取出对应icon Node
-    const icon = icons.filter(icon => icon.name === menu.icon);
+    // const icon = icons.filter(icon => icon.name === menu.icon);
+    const icon = getAntdIcon(menu.icon as string, icons);
     // 可能有blog存在
     const newList: MenuItem[] = [];
     if (menu.blogs && menu.blogs.length) {
@@ -90,7 +111,7 @@ export const getAntdMenus: (menus: SideMenuItem[], icons: AntdIcon[]) => MenuIte
     return getItem(
       menu.title,
       menu.id,
-      icon[0] ? icon[0].icon : undefined,
+      icon ? icon : undefined,
       (menu.children && menu.children.length) || (menu.blogs && menu.blogs.length)
         ? ([...getAntdMenus(menu.children ? menu.children : [], icons), ...newList] as MenuItem[])
         : undefined

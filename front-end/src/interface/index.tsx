@@ -122,3 +122,9 @@ export type noticeObj = {
   openNotice: (type: NotificationType, message: string, description: string, placement?: NotificationPlacement) => void;
   holder: React.ReactNode;
 };
+
+/********* BlogPage *********/
+export interface BreadCrumbObj {
+  icon?: React.ReactNode;
+  title: string;
+}

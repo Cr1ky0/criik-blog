@@ -25,6 +25,23 @@
     }
   }
 
+  .menu {
+    ul {
+      background-color: #FFF !important;
+    }
+
+    li {
+      font-size: 16px;
+      color: $FONT_COLOR;
+
+      svg:first-child {
+        height: 16px;
+        width: 16px;
+      }
+    }
+
+  }
+
   .noneMenu {
     width: 100%;
     text-align: center;

@@ -4,10 +4,30 @@
 .wrapper {
   @include setWrapper();
 
+  .loadingAnime {
+    height: 100%;
+    width: 100%;
+    padding: 15vh 20vw;
+  }
+
   .content {
     padding: 5vh 10vw;
     height: 95vh;
     overflow-y: auto;
+
+    .breadCrumb {
+      @include unSelectable;
+      padding: 3vh 0;
+
+      li {
+        font-size: 24px;
+
+        svg {
+          height: 20px;
+          width: 20px;
+        }
+      }
+    }
 
     .info {
       padding: {

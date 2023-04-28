@@ -24,7 +24,6 @@ const items: MenuProps['items'] = [
 const CommentList = () => {
   const [current, setCurrent] = useState('time');
   const onClick: MenuProps['onClick'] = e => {
-    console.log('click ', e);
     setCurrent(e.key);
   };
 

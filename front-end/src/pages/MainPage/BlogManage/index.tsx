@@ -25,11 +25,13 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 // api
 import { addBlogAjax } from '@/api/blog';
 import { SideMenuItem } from '@/interface';
+import { useNavigate } from 'react-router';
 
 const BlogManage = () => {
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const icons = useIcons();
   const message = useGlobalMessage();
+  const navigate = useNavigate();
   const antdMenus = getTreeSelectList(menus, icons, true);
   const dispatch = useAppDispatch();
   const [menuId, setMenuId] = useState('');
@@ -69,10 +71,11 @@ const BlogManage = () => {
         contents: value,
       },
       async data => {
-        await message.loadingAsync('提交中...', '提交成功！');
+        await message.loadingSuccessAsync('提交中...', '提交成功！');
         const { id, title, belongingMenu } = data.newBlog;
         dispatch(addBlogMenu({ id, title, belongingMenu } as SideMenuItem));
         setIsLoading(false);
+        navigate(0);
       },
       content => {
         message.error(content);

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import { message } from 'antd';
 
 const service = axios.create({
   timeout: 5000,
@@ -49,6 +50,7 @@ service.interceptors.response.use(
           break;
         // 429 请求数过多
         case 429:
+          message.error('短时间内请求数过多，请稍后再试');
           break;
         // 其他错误，仍然其他地方处理
         default:

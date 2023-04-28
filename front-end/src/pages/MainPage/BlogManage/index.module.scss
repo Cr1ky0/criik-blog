@@ -5,6 +5,14 @@
   @include setWrapper();
 
   .content {
+    padding: {
+      top: 3vh;
+      right: 7vw;
+      left: 7vw;
+    }
+    height: 95vh;
+    overflow-y: auto;
+
     .inputBox {
       width: 100%;
       padding: {
@@ -45,3 +53,4 @@
     }
   }
 }
+

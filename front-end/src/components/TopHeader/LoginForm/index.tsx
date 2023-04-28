@@ -50,7 +50,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
         // 关闭窗口
         close();
         navigate(0);
-        navigate('/');
         setIsLoading(false);
       },
       content => {

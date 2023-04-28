@@ -43,14 +43,14 @@ if (process.env.NODE_ENV === 'development') {
 
 // 限制相同请求次数
 // 1h内请求次数限制100次
-const limiter = rateLimit({
-  max: 100, // 次数
-  windowMs: 60 * 60 * 1000,
-  message: 'Too many requests from this IP, please try again in an hour!',
-});
+// const limiter = rateLimit({
+//   max: 100, // 次数
+//   windowMs: 60 * 60 * 1000,
+//   message: 'Too many requests from this IP, please try again in an hour!',
+// });
 
 // 对/api使用limiter中间件
-app.use('/api', limiter);
+// app.use('/api', limiter);
 
 // 限制query参数和json大小10kb
 app.use(express.json({ limit: '120kb' }));
