@@ -10,6 +10,7 @@
     padding: 15vh 20vw;
   }
 
+
   .content {
     padding: 5vh 10vw;
     height: 95vh;
@@ -44,14 +45,16 @@
         }
       }
 
-      //&::after {
-      //  content: '';
-      //  display: block;
-      //  height: 1px;
-      //  width: 100%;
-      //  background-color: rgba(0, 0, 0, .1);
-      //  margin: 3vh 0;
-      //}
+    }
+
+    .blogEdit {
+      padding: 5vh 0;
+    }
+
+    .blogContent {
+      .comment {
+        padding: 5vh 2vw;
+      }
     }
   }
 }

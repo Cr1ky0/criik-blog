@@ -85,7 +85,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, setLoading }) => {
           items={antdMenus}
           selectedKeys={[selectedId]}
           // handle select
-          onSelect={e => {
+          onClick={e => {
             const item = getSideMenuItem(menus, e.key) as SideMenuItem;
             if (!item.grade) dispatch(setSelectedId(e.key));
             if (setLoading) {

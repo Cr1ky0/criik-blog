@@ -72,10 +72,19 @@ export interface updateMenuObj {
   icon?: string;
 }
 
+// blog
 export interface addBlogObj {
   belongingMenu: string;
   title: string;
   contents: string;
+}
+
+// comments
+export interface addCommentObj {
+  belongingBlog: string;
+  contents: string;
+  username?: string;
+  brief?: string;
 }
 
 /******** redux ********/
@@ -88,6 +97,15 @@ export interface SideMenuItem {
   icon?: string;
   children?: SideMenuItem[];
   blogs?: blogObj[];
+}
+
+export interface commentObj {
+  id: string;
+  username: string;
+  brief: string;
+  time: string;
+  likes: number;
+  contents: string;
 }
 
 /******** HomePage ********/

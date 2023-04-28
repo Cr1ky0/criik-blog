@@ -1,11 +1,11 @@
 const express = require('express');
 const blogController = require('../controllers/blogController');
 const authController = require('../controllers/authController');
-const commentRoutes = require('./commentRoutes');
+// const commentRoutes = require('./commentRoutes');
 
 const router = express.Router();
 
-router.use('/:blogId/comments', commentRoutes);
+// router.use('/:blogId/comments', commentRoutes);
 
 // 获取所有blog（进行了filter等操作可分页）
 router

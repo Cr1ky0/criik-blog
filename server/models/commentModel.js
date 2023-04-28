@@ -33,6 +33,14 @@ const commentSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Blog',
   },
+  username: {
+    type: String,
+    default: '匿名',
+  },
+  brief: {
+    type: String,
+    default: '这个人很懒，没有个人简介！',
+  },
 });
 
 commentSchema.pre(/^(find)|(populate)/, function (next) {

@@ -5,8 +5,9 @@
 
   li {
     float: left;
-    font-size: 2.1vw;
+    font-size: 1.5vw;
     cursor: pointer;
+    list-style: none;
 
     &:hover {
       background-color: rgba(0, 0, 0, .1);

@@ -8,14 +8,18 @@ import { Tag } from 'antd';
 import { useAvatar } from '@/components/ContextProvider/AvatarPrivider';
 
 // interface
+import { commentObj } from '@/interface';
+
 export interface SingleCommentProps {
-  children?: string;
+  info: commentObj;
 }
 
 const SingleComment: React.FC<SingleCommentProps> = props => {
+  const { info } = props;
+  // TODO:后续添加点赞功能
+  const { contents, username, brief, time, likes } = info;
   const [isChosen, setIsChosen] = useState(false);
   const [likesNum, setLikesNum] = useState(0);
-  const { children } = props;
   const avatar = useAvatar();
   const changeState = () => {
     if (!isChosen) setLikesNum(likesNum + 1);
@@ -28,12 +32,12 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
         <div className={style.avatar} style={{ backgroundImage: `url(${avatar})` }}></div>
         <div className={style.info}>
           <div className={style.infoBox}>
-            <div className={style.username}>Username</div>
+            <div className={style.username}>{username}</div>
             <div className={style.tags}>
               <Tag color="blue">置顶</Tag>
               <Tag color="blue">置顶</Tag>
             </div>
-            <div className={style.time}>2023-1-1</div>
+            <div className={style.time}>{time}</div>
           </div>
           <div className={style.likesWrapper}>
             {isChosen ? (
@@ -48,9 +52,9 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
             <div className={`${style.likesNum}`}>{likesNum}</div>
           </div>
         </div>
-        <div className={style.signature}>signature</div>
+        <div className={style.signature}>{brief}</div>
       </div>
-      <div className={style.comment}>{children}</div>
+      <div className={style.comment}>{contents}</div>
     </li>
   );
 };

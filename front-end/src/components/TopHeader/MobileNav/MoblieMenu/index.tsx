@@ -19,13 +19,13 @@ const MobileMenu: React.FC<MobileMenuProps> = props => {
           <LinkBtn icon="&#xe600;" seq={0} link={'/'} notAnimation={true}>
             主页
           </LinkBtn>
-          <LinkBtn icon="&#xe60e;" seq={1} link={'/test'} notAnimation={true}>
+          <LinkBtn icon="&#xe60e;" seq={1} link={'/blog'} notAnimation={true}>
             博客
           </LinkBtn>
-          <LinkBtn icon="&#xe896;" seq={2} link={'/'} notAnimation={true}>
+          <LinkBtn icon="&#xe896;" seq={2} link={'/manage'} notAnimation={true}>
             写博客
           </LinkBtn>
-          <LinkBtn icon="&#xe7df;" seq={3} link={'/'} notAnimation={true}>
+          <LinkBtn icon="&#xe7df;" seq={3} link={'/stars'} notAnimation={true}>
             精选
           </LinkBtn>
         </div>

@@ -1,4 +1,6 @@
 const Comment = require('../models/commentModel');
+const User = require('../models/userModel');
+const Blog = require('../models/blogModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const filterObj = require('../utils/filterObj');
@@ -14,8 +16,23 @@ exports.getComment = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getCommentsOfBlog = catchAsync(async (req, res, next) => {
+  const comments = await Blog.findById(req.params.blogId)
+    .populate({
+      path: 'comments',
+    })
+    .select('comments');
+  console.log(comments);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      comments,
+    },
+  });
+});
+
 exports.addComment = catchAsync(async (req, res, next) => {
-  const { contents } = req.body;
+  const { contents, belongingBlog, username, brief } = req.body;
   if (!contents) {
     return next(new AppError('请输入内容！', 400));
   }
@@ -23,7 +40,9 @@ exports.addComment = catchAsync(async (req, res, next) => {
   const newComment = await Comment.create({
     contents,
     belongingUser: req.user.id,
-    belongingBlog: req.params.blogId,
+    belongingBlog: belongingBlog,
+    username: username,
+    brief: brief,
   });
 
   res.status(201).json({

@@ -1,24 +1,56 @@
-import React, { MouseEventHandler, useCallback, useEffect, useRef, useState } from 'react';
-
-// css
-import style from './index.module.scss';
+import React, { MouseEventHandler, useCallback, useRef, useState } from 'react';
+import Cookies from 'universal-cookie';
 
 // antd
 import { Button, Popover } from 'antd';
 
+// css
+import style from './index.module.scss';
+
 // comp
 import Emoji from './Emoji';
 
+// redux
+import { useAppSelector } from '@/redux';
+import { addCommentAjax } from '@/api/comment';
+import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+
 const WriteComment = () => {
+  const message = useGlobalMessage();
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const cookies = new Cookies();
+  const user = cookies.get('user');
+  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   // 向文本框内部添加表情
   const addEmoji: MouseEventHandler<HTMLLIElement> = useCallback(event => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const commentNode = commentRef.current!;
+    const commentNode = commentRef.current as HTMLTextAreaElement;
     commentNode.value = commentNode.value + event.currentTarget.innerHTML;
     setIsOpen(false);
   }, []);
+
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    const ref = commentRef.current as HTMLTextAreaElement;
+    await addCommentAjax(
+      {
+        belongingBlog: selectedId,
+        contents: ref.value,
+        username: user ? user.name : undefined,
+        brief: user ? user.brief : undefined,
+      },
+      async () => {
+        await message.loadingAsync('提交中...', '提交成功');
+        ref.value = '';
+        setIsLoading(false);
+      },
+      msg => {
+        message.error(msg);
+        setIsLoading(false);
+      }
+    );
+  };
 
   return (
     <div className={`${style.wrapper} clearfix`}>
@@ -44,7 +76,7 @@ const WriteComment = () => {
 
         <div className={style.submit}>
           <Button size="middle">登录</Button>&nbsp;
-          <Button type="primary" size="middle">
+          <Button type="primary" size="middle" loading={isLoading} onClick={handleSubmit}>
             提交
           </Button>
         </div>

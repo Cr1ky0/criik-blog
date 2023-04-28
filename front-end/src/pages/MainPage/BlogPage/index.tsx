@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import SideMenu from '@/components/SideMenu';
 import BlogInfo from '@/components/Universal/BlogInfo';
 import ReactMarkdownRender from '@/components/ReactMarkdownRender';
+import Comment from '@/components/Comment';
 
 // antd
 import { Skeleton, Breadcrumb } from 'antd';
@@ -32,6 +33,7 @@ const BlogPage = () => {
   const breadcrumbList = selectedId ? getBreadcrumbList(menus, selectedId, icons) : undefined;
 
   useEffect(() => {
+    // 初始化动画
     setTimeout(() => {
       setInitLoading(false);
     }, 1000);
@@ -102,7 +104,13 @@ const BlogPage = () => {
                     </div>
                   </div>
                   <div className={style.blogContent}>
-                    <ReactMarkdownRender>{contents as string}</ReactMarkdownRender>
+                    <div className={style.text}>
+                      <ReactMarkdownRender>{contents as string}</ReactMarkdownRender>
+                    </div>
+                    <div className={style.blogEdit}>edit</div>
+                    <div className={style.comment}>
+                      <Comment></Comment>
+                    </div>
                   </div>
                 </>
               )
