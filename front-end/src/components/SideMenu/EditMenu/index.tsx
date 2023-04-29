@@ -11,10 +11,10 @@ import ChangeFormBox from '@/components/TopHeader/ChangeInfo/ChangeFormBox';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addMenu, deleteMenu, editMenu } from '@/redux/slices/blogMenu';
+import { addMenu, deleteMenu, editMenu, setSelectedId } from '@/redux/slices/blogMenu';
 
 // utils
-import { generateSideMenuItem, getDataNodeTree, getSideMenuItem } from '@/utils';
+import { generateSideMenuItem, getDataNodeTree, getOneBlogId, getSideMenuItem } from '@/utils';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
@@ -27,9 +27,9 @@ import { addMenuAjax, deleteMenuAjax, updateMenuAjax } from '@/api/menu';
 import { SideMenuItem } from '@/interface';
 
 const EditMenu = () => {
-  // TODO:当删除包含选中的blog的菜单时切换selectedId
   const dispatch = useAppDispatch();
   const menus = useAppSelector(state => state.blogMenu.menuList);
+  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const message = useGlobalMessage();
   // 选择图标的下拉菜单列表
   const icons = useIcons();
@@ -103,10 +103,6 @@ const EditMenu = () => {
     dispatch(addMenu(sideMenuItem));
   };
 
-  const reduxRemoveState = (state: string) => {
-    dispatch(deleteMenu(state));
-  };
-
   // edit menu
   const handleEdit = async () => {
     const ref = tagRef.current as HTMLInputElement;
@@ -137,14 +133,18 @@ const EditMenu = () => {
 
   // delete menu
   const handleDelete = async () => {
+    // TODO:当删除包含选中的blog的菜单时切换selectedId
     setDelLoading(true);
     const item = getSideMenuItem(menus, curKey as string) as SideMenuItem;
     await deleteMenuAjax(
       item.id,
       async () => {
         await message.loadingSuccessAsync('删除中...', '删除成功！');
+        // 选择新的id
+        const id = getOneBlogId(menus, selectedId, item.id);
+        dispatch(setSelectedId(id || ''));
         // 更新state
-        reduxRemoveState(item.id);
+        dispatch(deleteMenu(item.id));
         setDelLoading(false);
       },
       content => {

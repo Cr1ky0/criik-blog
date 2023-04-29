@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
 
 // antd
 import { Input, TreeSelect, Button, Drawer } from 'antd';
@@ -13,11 +12,11 @@ import MarkdownEditor from '@/components/MarkdownEditor';
 import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 
 // utils
-import { getTreeSelectList } from '@/utils';
+import { getTreeSelectList, hasBlog } from '@/utils';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addBlogMenu } from '@/redux/slices/blogMenu';
+import { addBlogMenu, setSelectedId } from '@/redux/slices/blogMenu';
 import { setMenuId, setTitle, setMenuTitle, initWriteContent } from '@/redux/slices/blog';
 
 // context
@@ -68,7 +67,12 @@ const BlogManage = () => {
       },
       async data => {
         await message.loadingSuccessAsync('提交中...', '提交成功！');
-        dispatch(addBlogMenu(data.newBlog as SideMenuItem));
+        const blog = data.newBlog;
+        // 如果当前没有blog，则创建完毕后默认选中该blog
+        if (!hasBlog(menus)) {
+          dispatch(setSelectedId(blog.id));
+        }
+        dispatch(addBlogMenu(blog as SideMenuItem));
         dispatch(initWriteContent());
         setIsLoading(false);
       },

@@ -65,23 +65,6 @@ export const getAllKeyOfSideMenu: (menus: SideMenuItem[]) => string[] = menus =>
   return keys;
 };
 
-// 从SideMenuList内获取一个blog key
-export const getOneBlogId: (menus: SideMenuItem[], curId?: string) => string | void = (menus, curId) => {
-  let blogKey = '';
-  for (let i = 0; i < menus.length; i += 1) {
-    const menu = menus[i];
-    if (menu.blogs && menu.blogs.length) {
-      blogKey = menu.blogs[0].id;
-      if (curId && blogKey !== curId) return blogKey;
-      else if (!curId) {
-        return blogKey;
-      }
-    } else if (menu.children) {
-      return getOneBlogId(menu.children, curId);
-    }
-  }
-};
-
 // 根据blog id获取其parent链
 export const getBreadcrumbList: (menus: SideMenuItem[], id: string, icons: AntdIcon[]) => BreadCrumbObj[] = (
   menus,
@@ -102,6 +85,46 @@ export const getBreadcrumbList: (menus: SideMenuItem[], id: string, icons: AntdI
   return list;
 };
 
+// 从SideMenuList内获取一个blog key
+export const getOneBlogId: (menus: SideMenuItem[], curId?: string, menuId?: string) => string | void = (
+  menus,
+  curId,
+  menuId
+) => {
+  // curId用来避免选中当前已选中的id
+  // menuId用来避免选中当前菜单下的SelectedId
+  // 这两个参数都可选
+  let blogKey = '';
+  menus.forEach(menu => {
+    if (menu.id !== menuId) {
+      // 检查blogs
+      if (menu.blogs && menu.blogs.length) {
+        if (menu.blogs[0].id !== curId) blogKey = menu.blogs[0].id;
+      }
+      // 进入子菜单
+      if (menu.children) {
+        menu.children.forEach(child => {
+          if (child.id !== menuId)
+            if (child.blogs && child.blogs.length) {
+              if (child.blogs[0].id !== curId) blogKey = child.blogs[0].id;
+            }
+        });
+      }
+    }
+  });
+  return blogKey;
+};
+
+// 检测当前SideMenuItem其是否包含blog
+export const hasBlog: (menus: SideMenuItem[]) => true | undefined = menus => {
+  for (let i = 0; i < menus.length; i += 1) {
+    const menu = menus[i];
+    if (menu.blogs && menu.blogs.length) return true;
+    if (menu.children) return hasBlog(menu.children);
+  }
+};
+
+/**************** 列表生成 *****************/
 // 将SideMenuItem列表转化为MenuItem列表
 function getItem(label: string, key: React.Key, icon?: React.ReactNode, children?: MenuItem[]): MenuItem {
   return {
@@ -205,6 +228,7 @@ export const getTreeSelectList: (menus: SideMenuItem[], icons: AntdIcon[], onlyP
     );
   });
 };
+
 // 设置开关滚动条
 // export const setBodyScroll = () => {
 //   if (!isNoScroll()) {

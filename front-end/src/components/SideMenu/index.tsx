@@ -22,7 +22,7 @@ import { setChosenList } from '@/redux/slices/chosenList';
 import { useIcons } from '../ContextProvider/IconStore';
 
 // utils
-import { getAntdMenus, getAllKeyOfSideMenu, getSideMenuItem, getOneBlogId } from '@/utils';
+import { getAntdMenus, getAllKeyOfSideMenu, getSideMenuItem } from '@/utils';
 
 // interface
 import { SideMenuItem } from '@/interface';
