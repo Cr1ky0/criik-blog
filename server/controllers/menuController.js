@@ -1,4 +1,5 @@
 const Menu = require('../models/menuModel');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 // const AppError = require('../utils/appError');
 
@@ -26,30 +27,16 @@ exports.getMenusOfUser = catchAsync(async (req, res, next) => {
 });
 
 exports.addMenu = catchAsync(async (req, res, next) => {
+  const { title, icon, parentId, grade } = req.body;
+  if (!title) return next(new AppError('请输入标题！', 400));
+  if (!icon) return next(new AppError('请选择图标！', 400));
   const menu = await Menu.create({
-    title: req.body.title,
-    grade: req.body.grade,
+    title: title,
+    grade: grade,
     belongTo: req.user.id, // 受保护的路径使用req下的user
-    belongingMenu: req.body.parentId,
-    icon: req.body.icon,
+    belongingMenu: parentId,
+    icon: icon,
     isParent: true,
-  });
-
-  res.status(201).json({
-    status: 'success',
-    body: {
-      menu,
-    },
-  });
-});
-
-exports.addBlogMenu = catchAsync(async (req, res, next) => {
-  const menu = await Menu.create({
-    title: req.body.title,
-    grade: 3,
-    belongTo: req.user.id, // 受保护的路径使用req下的user
-    belongingMenu: req.body.parentId,
-    isParent: false,
   });
 
   res.status(201).json({
@@ -69,12 +56,14 @@ exports.deleteMenu = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.updateMenu = catchAsync(async (req, res) => {
+exports.updateMenu = catchAsync(async (req, res, next) => {
+  const { title, icon } = req.body;
+  if (!title) return next(new AppError('请输入标题!', 400));
+  if (!icon) return next(new AppError('请选择图标！', 400));
   await Menu.findByIdAndUpdate(req.params.id, {
     title: req.body.title,
     icon: req.body.icon,
   });
-
   res.status(204).json({
     status: 'success',
     data: null,

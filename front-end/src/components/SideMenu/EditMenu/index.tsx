@@ -106,16 +106,6 @@ const EditMenu = () => {
   // edit menu
   const handleEdit = async () => {
     const ref = tagRef.current as HTMLInputElement;
-    // 未选择图标
-    if (!iconValue) {
-      message.error('请选择分类标签图标！');
-      return;
-    }
-    // 未填写Title
-    if (!ref.value) {
-      message.error('请输入标签的标题！');
-      return;
-    }
     setIsLoading(true);
     await updateMenuAjax(
       { id: curKey, icon: iconValue, title: ref.value },
@@ -157,16 +147,6 @@ const EditMenu = () => {
   // 在选中的标签下添加子标签
   const handleAdd = async () => {
     const ref = addRef.current as HTMLInputElement;
-    // 未选择图标
-    if (!iconValue) {
-      message.error('请选择分类标签图标！');
-      return;
-    }
-    // 未填写Title
-    if (!ref.value) {
-      message.error('请输入标签的标题！');
-      return;
-    }
     // 当没有分类时
     if (!menus.length) {
       message.error('请先添加总分类！');
@@ -202,16 +182,6 @@ const EditMenu = () => {
 
   const handleAddParent = async () => {
     const ref = addParentRef.current as HTMLInputElement;
-    // 未选择图标
-    if (!iconValue) {
-      message.error('请选择分类标签图标！');
-      return;
-    }
-    // 未填写Title
-    if (!ref.value) {
-      message.error('请输入标签的标题！');
-      return;
-    }
     setIsLoading(true);
     await addMenuAjax(
       {
