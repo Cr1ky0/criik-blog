@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 // comp
 import SideMenu from '@/components/SideMenu';
@@ -15,9 +16,10 @@ import style from './index.module.scss';
 //redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setSelectedId, deleteMenu } from '@/redux/slices/blogMenu';
+import { setAllContent } from '@/redux/slices/blog';
 
 // utils
-import { getBreadcrumbList, getOneBlogId } from '@/utils';
+import { getBreadcrumbList, getOneBlogId, getSideMenuItem } from '@/utils';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
@@ -26,8 +28,15 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 // api
 import { deleteBlogAjax } from '@/api/blog';
 
+// interface
+import { SideMenuItem } from '@/interface';
+import { setChosenList } from '@/redux/slices/chosenList';
+import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
+
 const BlogPage = () => {
   const message = useGlobalMessage();
+  const modal = useGlobalModal();
+  const navigate = useNavigate();
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const curBlog = useAppSelector(state => state.blog.curBlog);
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
@@ -44,6 +53,20 @@ const BlogPage = () => {
     }, 1000);
   }, [selectedId]);
 
+  const handleEdit = () => {
+    const { title, belongingMenu, contents } = curBlog;
+    const menu = getSideMenuItem(menus, belongingMenu) as SideMenuItem;
+    dispatch(
+      setAllContent({
+        title,
+        menuId: menu.id,
+        menuTitle: menu.title,
+        content: contents,
+      })
+    );
+    navigate('/manage');
+    dispatch(setChosenList([false, false, true, false]));
+  };
   const handleDelete = async () => {
     await deleteBlogAjax(
       selectedId,
@@ -132,10 +155,30 @@ const BlogPage = () => {
                     </div>
                     <div className={style.blogEdit}>
                       <div>
-                        <div>
+                        <div
+                          onClick={() => {
+                            modal.confirm({
+                              title: '提示',
+                              content: '编辑此页会覆盖正在编辑的博客，确定要这么做吗？',
+                              onOk: () => {
+                                handleEdit();
+                              },
+                            });
+                          }}
+                        >
                           <span className="iconfont">&#xe624;</span>&nbsp;编辑此页
                         </div>
-                        <div onClick={handleDelete}>
+                        <div
+                          onClick={() => {
+                            modal.confirm({
+                              title: '提示',
+                              content: '是否删除当前博客？',
+                              onOk: () => {
+                                handleDelete();
+                              },
+                            });
+                          }}
+                        >
                           <span className="iconfont" style={{ fontSize: '1.1vw' }}>
                             &#xe604;
                           </span>

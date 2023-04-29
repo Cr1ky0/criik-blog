@@ -19,6 +19,7 @@ import IconStore from '@/components/ContextProvider/IconStore';
 import AvatarProvider from '@/components/ContextProvider/AvatarPrivider';
 import MessageProvider from '@/components/ContextProvider/MessageProvider';
 import NoticeProvider from '@/components/ContextProvider/NoticeProvider';
+import ModalProvider from '@/components/ContextProvider/ModalProvider';
 
 // app
 import App from './App';
@@ -36,15 +37,17 @@ root.render(
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <MessageProvider>
-            <NoticeProvider>
-              <ViewportProvider>
-                <AvatarProvider>
-                  <IconStore>
-                    <App />
-                  </IconStore>
-                </AvatarProvider>
-              </ViewportProvider>
-            </NoticeProvider>
+            <ModalProvider>
+              <NoticeProvider>
+                <ViewportProvider>
+                  <AvatarProvider>
+                    <IconStore>
+                      <App />
+                    </IconStore>
+                  </AvatarProvider>
+                </ViewportProvider>
+              </NoticeProvider>
+            </ModalProvider>
           </MessageProvider>
         </PersistGate>
       </Provider>

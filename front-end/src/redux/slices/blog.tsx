@@ -37,6 +37,9 @@ const blogSlice = createSlice({
         content: '',
       };
     },
+    setAllContent: (state, action) => {
+      state.writeContent = action.payload;
+    },
   },
   extraReducers(builder) {
     builder.addCase(setCurBlog.fulfilled, (state, action) => {
@@ -47,5 +50,5 @@ const blogSlice = createSlice({
   },
 });
 
-export const { setTitle, setMenuTitle, setMenuId, setContent, initWriteContent } = blogSlice.actions;
+export const { setTitle, setMenuTitle, setMenuId, setContent, initWriteContent, setAllContent } = blogSlice.actions;
 export default blogSlice.reducer;

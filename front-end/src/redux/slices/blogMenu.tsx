@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // interface
 import { SideMenuItem, blogObj } from '@/interface';
 import service from '@/utils/request';
+import { getOneBlogId } from '@/utils';
 
 const URL = 'http://localhost:3002/';
 const initialState = {
@@ -117,6 +118,8 @@ const blogMenuSlice = createSlice({
       .addCase(setMenuList.fulfilled, (state, action) => {
         const menus = action.payload.body.menus;
         state.menuList = [...menus];
+        // 设置一个初始选中项
+        state.selectedId = getOneBlogId(menus) || '';
       })
       .addCase(setMenuList.rejected, (state, action) => {
         console.log(action.error.message);
