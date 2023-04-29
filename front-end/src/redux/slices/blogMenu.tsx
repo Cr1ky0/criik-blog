@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // interface
-import { SideMenuItem, blogMenuObj } from '@/interface';
+import { SideMenuItem, blogObj } from '@/interface';
 import service from '@/utils/request';
 
 const URL = 'http://localhost:3002/';
@@ -20,25 +20,30 @@ const blogMenuSlice = createSlice({
   initialState,
   reducers: {
     addBlogMenu: (state, action) => {
-      const { id, title, belongingMenu } = action.payload;
+      const { id, title, belongingMenu, author } = action.payload;
       state.menuList = [
         ...state.menuList.map(menu => {
-          if (menu.id === belongingMenu)
-            (menu.blogs as blogMenuObj[]).push({
+          if (menu.id === belongingMenu) {
+            if (!menu.blogs) menu.blogs = [];
+            (menu.blogs as blogObj[]).push({
               id,
               _id: id,
               title,
               belongingMenu,
             });
+          }
           if (menu.children)
             menu.children.map(child => {
-              if (child.id === belongingMenu)
-                (child.blogs as blogMenuObj[]).push({
+              if (child.id === belongingMenu) {
+                if (!child.blogs) child.blogs = [];
+                (child.blogs as blogObj[]).push({
                   id,
                   _id: id,
                   title,
                   belongingMenu,
+                  author,
                 });
+              }
               return child;
             });
           return menu;
@@ -84,13 +89,24 @@ const blogMenuSlice = createSlice({
       ];
     },
     deleteMenu: (state, action) => {
-      const id = action.payload; // 传入删除menu的id
-      state.menuList = [
+      const id = action.payload; // 传入删除menu的id（包括blogId）
+      // 删除菜单只有两层，顺便处理第二层的blogs
+      let newList = [
         ...state.menuList.filter(menu => {
           if (menu.children) menu.children = [...menu.children.filter(child => child.id !== id)];
+          if (menu.blogs) menu.blogs = [...menu.blogs.filter(blog => blog.id !== id)];
           return menu.id !== id;
         }),
       ];
+      // 第三层blogs删除
+      newList = newList.map(menu => {
+        if (menu.children)
+          menu.children.map(child => {
+            if (child.blogs) child.blogs = [...child.blogs.filter(blog => blog.id !== id)];
+          });
+        return menu;
+      });
+      state.menuList = newList;
     },
     setSelectedId: (state, action) => {
       state.selectedId = action.payload;

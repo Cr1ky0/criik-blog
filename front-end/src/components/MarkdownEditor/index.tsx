@@ -8,21 +8,21 @@ import MDEditor from '@uiw/react-md-editor';
 import style from './index.module.scss';
 import './editor.scss';
 
-interface MarkdownEditorProps {
-  value: string;
-  setValue: (value: string) => void;
-}
+// redux
+import { useAppDispatch, useAppSelector } from '@/redux';
+import { setContent } from '@/redux/slices/blog';
 
-const MarkdownEditor: React.FC<MarkdownEditorProps> = props => {
-  const { value, setValue } = props;
+const MarkdownEditor = () => {
+  const { content } = useAppSelector(state => state.blog.writeContent);
+  const dispatch = useAppDispatch();
   return (
     <div className={`${style.wrapper} clearfix`}>
       <div className={style.editor}>
         <MDEditor
-          value={value}
+          value={content}
           preview="edit"
           onChange={value => {
-            setValue(value as string);
+            dispatch(setContent(value));
           }}
         />
       </div>

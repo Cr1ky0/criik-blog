@@ -65,6 +65,23 @@ export const getAllKeyOfSideMenu: (menus: SideMenuItem[]) => string[] = menus =>
   return keys;
 };
 
+// 从SideMenuList内获取一个blog key
+export const getOneBlogId: (menus: SideMenuItem[], curId?: string) => string | void = (menus, curId) => {
+  let blogKey = '';
+  for (let i = 0; i < menus.length; i += 1) {
+    const menu = menus[i];
+    if (menu.blogs && menu.blogs.length) {
+      blogKey = menu.blogs[0].id;
+      if (curId && blogKey !== curId) return blogKey;
+      else if (!curId) {
+        return blogKey;
+      }
+    } else if (menu.children) {
+      return getOneBlogId(menu.children, curId);
+    }
+  }
+};
+
 // 根据blog id获取其parent链
 export const getBreadcrumbList: (menus: SideMenuItem[], id: string, icons: AntdIcon[]) => BreadCrumbObj[] = (
   menus,

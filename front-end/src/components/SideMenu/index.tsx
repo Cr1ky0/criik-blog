@@ -1,4 +1,5 @@
 import React, { CSSProperties, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 // antd
 import { Menu, Modal } from 'antd';
@@ -21,8 +22,7 @@ import { setChosenList } from '@/redux/slices/chosenList';
 import { useIcons } from '../ContextProvider/IconStore';
 
 // utils
-import { getAntdMenus, getAllKeyOfSideMenu, getSideMenuItem } from '@/utils';
-import { useNavigate } from 'react-router';
+import { getAntdMenus, getAllKeyOfSideMenu, getSideMenuItem, getOneBlogId } from '@/utils';
 
 // interface
 import { SideMenuItem } from '@/interface';
@@ -82,7 +82,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, setLoading }) => {
           className={style.menu}
           style={{ borderRadius: '0 0 5px 5px', border: 'none' }}
           // TODO:解决刷新展开问题
-          // defaultOpenKeys={getAllKeyOfSideMenu(menus)}
+          defaultOpenKeys={getAllKeyOfSideMenu(menus)}
           expandIcon={<DownOutlined />}
           mode="inline"
           items={antdMenus}

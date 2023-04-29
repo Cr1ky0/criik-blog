@@ -74,25 +74,18 @@ export interface EmojiObj {
   value: string;
 }
 
-// blog
+// blog（和菜单里的blogs项通用）
 export interface blogObj {
   _id: string;
   id: string;
   title: string;
-  author: string;
   belongingMenu: string;
-  publishAt: string;
-  contents: string;
-  likes: number;
-  views: number;
-  belongTo: string;
-}
-
-export interface blogMenuObj {
-  id: string;
-  _id: string;
-  title: string;
-  belongingMenu: string;
+  author?: string;
+  publishAt?: string;
+  contents?: string;
+  likes?: number;
+  views?: number;
+  belongTo?: string;
 }
 
 export interface SideMenuItem {
@@ -125,6 +118,13 @@ export interface commentApiObj {
   belongingBlog: string;
   username: string;
   brief: string;
+}
+
+export interface textContentObj {
+  title: string;
+  menuId: string; // 所属分类Id
+  menuTitle: string;
+  content: string;
 }
 
 /******** HomePage ********/

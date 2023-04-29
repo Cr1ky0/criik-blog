@@ -13,18 +13,25 @@ import { Skeleton, Breadcrumb } from 'antd';
 import style from './index.module.scss';
 
 //redux
-import { useAppSelector } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
+import { setSelectedId, deleteMenu } from '@/redux/slices/blogMenu';
 
 // utils
-import { getBreadcrumbList } from '@/utils';
+import { getBreadcrumbList, getOneBlogId } from '@/utils';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
+import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+
+// api
+import { deleteBlogAjax } from '@/api/blog';
 
 const BlogPage = () => {
+  const message = useGlobalMessage();
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const curBlog = useAppSelector(state => state.blog.curBlog);
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [initLoading, setInitLoading] = useState(true);
   const { title, contents, author, publishAt } = curBlog;
@@ -36,6 +43,24 @@ const BlogPage = () => {
       setInitLoading(false);
     }, 1000);
   }, [selectedId]);
+
+  const handleDelete = async () => {
+    await deleteBlogAjax(
+      selectedId,
+      async () => {
+        await message.loadingAsync('删除中...', '删除成功');
+        // 删除后重新设置selectedId以外的ID（先更新selectedId的话下面的代码的selectedId仍是原来的Id，没做更新）
+        const id = getOneBlogId(menus, selectedId);
+        dispatch(setSelectedId(id || ''));
+        // 删除id
+        dispatch(deleteMenu(selectedId));
+      },
+      msg => {
+        message.error(msg);
+      }
+    );
+  };
+
   return (
     <div className={`${style.wrapper} clearfix`}>
       {/* 初始化加载动画 */}
@@ -110,7 +135,7 @@ const BlogPage = () => {
                         <div>
                           <span className="iconfont">&#xe624;</span>&nbsp;编辑此页
                         </div>
-                        <div>
+                        <div onClick={handleDelete}>
                           <span className="iconfont" style={{ fontSize: '1.1vw' }}>
                             &#xe604;
                           </span>
@@ -119,7 +144,7 @@ const BlogPage = () => {
                       </div>
                       <div>
                         <div>
-                          上次编辑于：<span>{publishAt.split('T')[0]}</span>
+                          上次编辑于：<span>{(publishAt as string).split('T')[0]}</span>
                         </div>
                         <div>
                           贡献者：<span>{author}</span>

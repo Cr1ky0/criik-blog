@@ -27,6 +27,7 @@ import { addMenuAjax, deleteMenuAjax, updateMenuAjax } from '@/api/menu';
 import { SideMenuItem } from '@/interface';
 
 const EditMenu = () => {
+  // TODO:当删除包含选中的blog的菜单时切换selectedId
   const dispatch = useAppDispatch();
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const message = useGlobalMessage();
