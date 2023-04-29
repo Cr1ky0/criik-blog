@@ -6,6 +6,7 @@ import { blogObj, textContentObj } from '@/interface';
 const initialState = {
   curBlog: {} as blogObj,
   writeContent: {} as textContentObj,
+  isEdit: false, // 标志博客是否处于编辑状态，处于编辑状态则提交按钮变为更新
 };
 
 export const setCurBlog = createAsyncThunk('blog/setCurBlog', async (id: string) => {
@@ -17,6 +18,9 @@ const blogSlice = createSlice({
   name: 'blog',
   initialState,
   reducers: {
+    setIsEdit: (state, action) => {
+      state.isEdit = action.payload;
+    },
     setTitle: (state, action) => {
       state.writeContent.title = action.payload;
     },
@@ -50,5 +54,6 @@ const blogSlice = createSlice({
   },
 });
 
-export const { setTitle, setMenuTitle, setMenuId, setContent, initWriteContent, setAllContent } = blogSlice.actions;
+export const { setIsEdit, setTitle, setMenuTitle, setMenuId, setContent, initWriteContent, setAllContent } =
+  blogSlice.actions;
 export default blogSlice.reducer;

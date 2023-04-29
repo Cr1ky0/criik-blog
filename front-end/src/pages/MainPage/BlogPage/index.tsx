@@ -16,7 +16,8 @@ import style from './index.module.scss';
 //redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setSelectedId, deleteMenu } from '@/redux/slices/blogMenu';
-import { setAllContent } from '@/redux/slices/blog';
+import { initWriteContent, setAllContent, setIsEdit } from '@/redux/slices/blog';
+import { setChosenList } from '@/redux/slices/chosenList';
 
 // utils
 import { getBreadcrumbList, getOneBlogId, getSideMenuItem } from '@/utils';
@@ -24,14 +25,13 @@ import { getBreadcrumbList, getOneBlogId, getSideMenuItem } from '@/utils';
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 
 // api
 import { deleteBlogAjax } from '@/api/blog';
 
 // interface
 import { SideMenuItem } from '@/interface';
-import { setChosenList } from '@/redux/slices/chosenList';
-import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 
 const BlogPage = () => {
   const message = useGlobalMessage();
@@ -66,6 +66,7 @@ const BlogPage = () => {
     );
     navigate('/manage');
     dispatch(setChosenList([false, false, true, false]));
+    dispatch(setIsEdit(true));
   };
   const handleDelete = async () => {
     await deleteBlogAjax(
@@ -77,6 +78,11 @@ const BlogPage = () => {
         dispatch(setSelectedId(id || ''));
         // 删除id
         dispatch(deleteMenu(selectedId));
+        // 没有博客了则将编辑状态置为Add
+        if (!id) {
+          dispatch(setIsEdit(false));
+          dispatch(initWriteContent());
+        }
       },
       msg => {
         message.error(msg);

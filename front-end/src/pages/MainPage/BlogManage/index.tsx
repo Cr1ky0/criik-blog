@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
 // antd
-import { Input, TreeSelect, Button, Drawer } from 'antd';
+import { Input, TreeSelect, Button, Drawer, Dropdown, Space } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import type { MenuProps } from 'antd';
 
 // css
 import style from './index.module.scss';
@@ -12,19 +14,20 @@ import MarkdownEditor from '@/components/MarkdownEditor';
 import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 
 // utils
-import { getTreeSelectList, hasBlog } from '@/utils';
+import { getSideMenuItem, getTreeSelectList, hasBlog } from '@/utils';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { addBlogMenu, setSelectedId } from '@/redux/slices/blogMenu';
-import { setMenuId, setTitle, setMenuTitle, initWriteContent } from '@/redux/slices/blog';
+import { setMenuId, setTitle, setMenuTitle, initWriteContent, setIsEdit, setAllContent } from '@/redux/slices/blog';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 
 // api
-import { addBlogAjax } from '@/api/blog';
+import { addBlogAjax, updateBlogAjax } from '@/api/blog';
 
 // interface
 import { SideMenuItem } from '@/interface';
@@ -32,8 +35,12 @@ import { SideMenuItem } from '@/interface';
 const BlogManage = () => {
   // TODO:后续可以再整个草稿箱
   const menus = useAppSelector(state => state.blogMenu.menuList);
+  const modal = useGlobalModal();
   // text info
   const { title, menuId, content, menuTitle } = useAppSelector(state => state.blog.writeContent);
+  const isEdit = useAppSelector(state => state.blog.isEdit);
+  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
+  const curBlog = useAppSelector(state => state.blog.curBlog);
   const icons = useIcons();
   const message = useGlobalMessage();
   const antdMenus = getTreeSelectList(menus, icons, true);
@@ -42,23 +49,53 @@ const BlogManage = () => {
   const [isLoading, setIsLoading] = useState(false);
   // 预览打开state
   const [open, setOpen] = useState(false);
+
+  // 编辑状态菜单
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: <div style={{ fontSize: '1vw' }}>Update</div>,
+      onClick: () => {
+        if (!hasBlog(menus)) {
+          message.error('当前没有博客可供编辑！');
+          return;
+        }
+        modal.confirm({
+          title: '提示',
+          content: '编辑当前博客会覆盖正在编辑的内容，确定要这么做吗？',
+          onOk: () => {
+            const { title, belongingMenu, contents } = curBlog;
+            const menu = getSideMenuItem(menus, belongingMenu) as SideMenuItem;
+            dispatch(
+              setAllContent({
+                title,
+                menuId: menu.id,
+                menuTitle: menu.title,
+                content: contents,
+              })
+            );
+            dispatch(setIsEdit(true));
+          },
+        });
+      },
+    },
+    {
+      key: '2',
+      label: <div style={{ fontSize: '1vw' }}>Add</div>,
+      onClick: () => {
+        modal.confirm({
+          title: '提示',
+          content: '添加博客会情况当前编辑状态，确定要这么做吗？',
+          onOk: () => {
+            dispatch(initWriteContent());
+            dispatch(setIsEdit(false));
+          },
+        });
+      },
+    },
+  ];
   const handleSubmit = async () => {
     setIsLoading(true);
-    if (!title) {
-      setIsLoading(false);
-      message.error('请输入标题！');
-      return;
-    }
-    if (!menuId) {
-      setIsLoading(false);
-      message.error('请选择分类！');
-      return;
-    }
-    if (!content) {
-      setIsLoading(false);
-      message.error('请输入博客内容！');
-      return;
-    }
     await addBlogAjax(
       {
         title,
@@ -83,12 +120,51 @@ const BlogManage = () => {
     );
   };
 
+  const handleUpdate = async () => {
+    setIsLoading(true);
+    await updateBlogAjax(
+      {
+        blogId: selectedId,
+        data: {
+          title,
+          belongingMenu: menuId,
+          contents: content,
+        },
+      },
+      async () => {
+        await message.loadingSuccessAsync('更新中...', '更新成功！');
+        dispatch(initWriteContent());
+        setIsLoading(false);
+      },
+      content => {
+        message.error(content);
+        setIsLoading(false);
+      }
+    );
+  };
+
   return (
     <div className={`${style.wrapper} clearfix`}>
       <div className={style.sider}>
         <SideMenu></SideMenu>
       </div>
       <div className={style.content}>
+        {/*<div className={style.editState}>当前状态：{isEdit ? 'Update' : 'Add'}</div>*/}
+        <div className={style.editState}>
+          当前状态：
+          <Dropdown menu={{ items, selectable: true, selectedKeys: [isEdit ? '1' : '2'] }}>
+            <a
+              onClick={e => {
+                e.preventDefault();
+              }}
+            >
+              <Space>
+                {isEdit ? 'Update' : 'Add'}
+                <DownOutlined />
+              </Space>
+            </a>
+          </Dropdown>
+        </div>
         <div className={style.inputBox}>
           <Input
             showCount
@@ -117,9 +193,16 @@ const BlogManage = () => {
           <MarkdownEditor></MarkdownEditor>
         </div>
         <div className={style.submitBtn}>
-          <Button size="large" loading={isLoading} onClick={handleSubmit}>
-            提交
-          </Button>
+          {/* 是否处于编辑状态 */}
+          {isEdit ? (
+            <Button size="large" loading={isLoading} onClick={handleUpdate}>
+              更新
+            </Button>
+          ) : (
+            <Button size="large" loading={isLoading} onClick={handleSubmit}>
+              提交
+            </Button>
+          )}
           <Button
             size="large"
             onClick={() => {

@@ -32,9 +32,8 @@ exports.getBlog = catchAsync(async (req, res, next) => {
 
 exports.addBlog = catchAsync(async (req, res, next) => {
   const { title, belongingMenu, contents } = req.body;
-  if (!title || !contents) {
-    return next(new AppError('请输入标题和内容！', 400));
-  }
+  if (!belongingMenu) return next(new AppError('请选择分类！', 400));
+  if (!title || !contents) return next(new AppError('请输入标题和内容！', 400));
   const newBlog = await Blog.create({
     title,
     belongingMenu,
@@ -64,19 +63,15 @@ exports.getBlogs = catchAsync(async (req, res, next) => {
 });
 
 exports.updateBlog = catchAsync(async (req, res, next) => {
-  const blog = await Blog.findById(req.params.id);
-
-  // 需要验证该博客是否为当前用户的博客
-  if (blog.belongTo.toString() !== req.user.id) {
-    return next(new AppError('不属于该用户的博客无法修改！', 403));
-  }
-
   const filteredBody = filterObj(
     req.body,
     'contents',
-    'classification',
+    'belongingMenu',
     'title'
   );
+  const { title, belongingMenu, contents } = req.body;
+  if (!belongingMenu) return next(new AppError('请选择分类！', 400));
+  if (!title || !contents) return next(new AppError('请输入标题和内容！', 400));
   const updatedBlog = await Blog.findByIdAndUpdate(
     req.params.id,
     filteredBody,

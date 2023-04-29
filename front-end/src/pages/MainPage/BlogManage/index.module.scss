@@ -13,10 +13,21 @@
     height: 95vh;
     overflow-y: auto;
 
+    .editState {
+      font-size: 1vw;
+      padding: {
+        top: 1vh;
+      }
+
+      a {
+        color: $THEME_COLOR;
+      }
+    }
+
     .inputBox {
       width: 100%;
       padding: {
-        top: 2vw;
+        top: 1vh;
       }
       // antd span
       > span:first-child {
