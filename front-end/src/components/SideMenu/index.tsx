@@ -43,6 +43,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, setLoading }) => {
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   // 预览展开state
   const [open, setOpen] = useState(false);
+  // timer
+  const [timer, setTimer] = useState<any>();
   useEffect(() => {
     dispatch(setMenuList());
   }, []);
@@ -79,24 +81,33 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, setLoading }) => {
         <Menu
           className={style.menu}
           style={{ borderRadius: '0 0 5px 5px', border: 'none' }}
-          openKeys={getAllKeyOfSideMenu(menus)}
+          // TODO:解决刷新展开问题
+          // defaultOpenKeys={getAllKeyOfSideMenu(menus)}
           expandIcon={<DownOutlined />}
           mode="inline"
           items={antdMenus}
           selectedKeys={[selectedId]}
           // handle select
-          onClick={e => {
+          onClick={async e => {
             const item = getSideMenuItem(menus, e.key) as SideMenuItem;
-            if (!item.grade) dispatch(setSelectedId(e.key));
-            if (setLoading) {
-              setLoading(true);
-              setTimeout(() => {
-                setLoading(false);
-              }, 1000);
+            if (!item.grade) {
+              dispatch(setSelectedId(e.key));
+              if (setLoading) {
+                setLoading(true);
+                // 清除上一次timer，不然重复点动画加载有问题
+                clearTimeout(timer);
+                setTimer(
+                  setTimeout(() => {
+                    setLoading(false);
+                  }, 1000)
+                );
+              }
+              // 更改当前选中对象
+              dispatch(setCurBlog(e.key));
+              // 更改nav
+              dispatch(setChosenList([false, true, false, false]));
+              navigate('/blog');
             }
-            dispatch(setCurBlog(e.key));
-            navigate('/blog');
-            dispatch(setChosenList([false, true, false, false]));
           }}
         />
       ) : (

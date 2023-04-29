@@ -40,6 +40,7 @@ exports.addBlog = catchAsync(async (req, res, next) => {
     belongingMenu,
     contents,
     belongTo: req.user.id,
+    author: req.user.name,
   });
 
   res.status(201).json({

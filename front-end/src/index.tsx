@@ -35,8 +35,8 @@ root.render(
     >
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <NoticeProvider>
-            <MessageProvider>
+          <MessageProvider>
+            <NoticeProvider>
               <ViewportProvider>
                 <AvatarProvider>
                   <IconStore>
@@ -44,8 +44,8 @@ root.render(
                   </IconStore>
                 </AvatarProvider>
               </ViewportProvider>
-            </MessageProvider>
-          </NoticeProvider>
+            </NoticeProvider>
+          </MessageProvider>
         </PersistGate>
       </Provider>
     </ConfigProvider>

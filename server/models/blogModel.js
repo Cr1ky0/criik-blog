@@ -15,6 +15,10 @@ const blogSchema = new mongoose.Schema(
       required: true,
       ref: 'Menu',
     },
+    author: {
+      type: String,
+      required: [true, '博客需要有作者！'],
+    },
     // 博客内容
     contents: {
       type: String,

@@ -49,7 +49,39 @@
 
     .blogEdit {
       padding: 5vh 0;
+      display: flex;
+      justify-content: space-between;
+
+      // 左边编辑和删除
+      > div:first-child {
+        color: $THEME_COLOR;
+
+        > div {
+          cursor: pointer;
+          font: {
+            size: 1vw;
+          }
+          padding: .5vh 0;
+        }
+      }
+
+      // 右边信息
+      > div:last-child {
+        color: #526e89;
+
+        > div {
+          font: {
+            size: 1vw;
+          }
+          padding: .5vh 0;
+
+          span {
+            color: $FONT_COLOR;
+          }
+        }
+      }
     }
+
 
     .blogContent {
       .comment {

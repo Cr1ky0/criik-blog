@@ -2,26 +2,6 @@ import React, { ReactElement } from 'react';
 import { NotificationPlacement } from 'antd/es/notification/interface';
 import type { MenuProps } from 'antd/es/menu';
 
-/******** API ********/
-//Emoji
-export interface EmojiObj {
-  key: string;
-  value: string;
-}
-
-// blog
-export interface blogObj {
-  _id: string;
-  id: string;
-  title: string;
-  belongingMenu: string;
-  contents?: string;
-  likes?: number;
-  views?: number;
-  publishAt?: string;
-  belongTo?: string;
-}
-
 /******** Ajax ********/
 // LoginForm
 export interface LoginFormData {
@@ -88,6 +68,33 @@ export interface addCommentObj {
 }
 
 /******** redux ********/
+//Emoji
+export interface EmojiObj {
+  key: string;
+  value: string;
+}
+
+// blog
+export interface blogObj {
+  _id: string;
+  id: string;
+  title: string;
+  author: string;
+  belongingMenu: string;
+  publishAt: string;
+  contents: string;
+  likes: number;
+  views: number;
+  belongTo: string;
+}
+
+export interface blogMenuObj {
+  id: string;
+  _id: string;
+  title: string;
+  belongingMenu: string;
+}
+
 export interface SideMenuItem {
   id: string;
   _id: string;
@@ -106,6 +113,18 @@ export interface commentObj {
   time: string;
   likes: number;
   contents: string;
+  userId: string;
+}
+
+export interface commentApiObj {
+  _id: string;
+  contents: string;
+  likes: number;
+  publishAt: string;
+  belongingUser: string;
+  belongingBlog: string;
+  username: string;
+  brief: string;
 }
 
 /******** HomePage ********/

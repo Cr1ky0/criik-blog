@@ -9,11 +9,12 @@ interface avatarContextProps {
   children?: React.ReactNode;
 }
 
-const avatarContext = createContext('');
+const avatarContext = createContext(img);
 const AvatarProvider: React.FC<avatarContextProps> = ({ children }) => {
   const [avatar, setAvatar] = useState(img);
   const cookies = new Cookies();
   const user = cookies.get('user');
+
   useEffect(() => {
     if (user)
       avatarAjax(user.avatar).then(response => {

@@ -7,7 +7,7 @@ const authController = require('../controllers/authController');
 const router = express.Router();
 
 // 添加评论
-router.route('/').post(authController.protect, commentController.addComment);
+router.route('/').post(commentController.addComment);
 router.get('/getCommentsOfBlog/:blogId', commentController.getCommentsOfBlog);
 
 router

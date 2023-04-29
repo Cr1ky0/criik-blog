@@ -16,6 +16,8 @@ router.post('/login', authController.login);
 // reset邮箱
 router.get('/resetEmail/:token', authController.resetEmail);
 
+router.get('/getUserAvatar/:id', userController.getUserAvatar);
+
 // 下面所有的routes都要用protect
 router.use(authController.protect);
 // 限制只有管理员权限操作，暂不对外开放

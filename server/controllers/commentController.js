@@ -1,5 +1,4 @@
 const Comment = require('../models/commentModel');
-const User = require('../models/userModel');
 const Blog = require('../models/blogModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -22,11 +21,11 @@ exports.getCommentsOfBlog = catchAsync(async (req, res, next) => {
       path: 'comments',
     })
     .select('comments');
-  console.log(comments);
+  const commentsList = comments.comments;
   res.status(200).json({
     status: 'success',
     data: {
-      comments,
+      comments: commentsList,
     },
   });
 });
@@ -39,10 +38,10 @@ exports.addComment = catchAsync(async (req, res, next) => {
 
   const newComment = await Comment.create({
     contents,
-    belongingUser: req.user.id,
+    belongingUser: req.user ? req.user.id : '644c9a90f43dbdb4dc3296f8', // 如果没登录就设为默认用户
     belongingBlog: belongingBlog,
-    username: username,
-    brief: brief,
+    username: username || '匿名',
+    brief: brief || '这个人很懒，没有个性签名！',
   });
 
   res.status(201).json({

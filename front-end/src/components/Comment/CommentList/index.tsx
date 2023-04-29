@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 // antd
 import type { MenuProps } from 'antd';
@@ -11,8 +11,7 @@ import style from './index.module.scss';
 import SingleComment from '@/components/Comment/CommentList/SingleComment';
 
 // redux
-import { useAppDispatch, useAppSelector } from '@/redux';
-import { setComments } from '@/redux/slices/comments';
+import { useAppSelector } from '@/redux';
 
 const items: MenuProps['items'] = [
   {
@@ -29,13 +28,7 @@ const items: MenuProps['items'] = [
 
 const CommentList = () => {
   const [current, setCurrent] = useState('time');
-  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
-  const dispatch = useAppDispatch();
   const comments = useAppSelector(state => state.comments.commentList);
-  console.log(comments);
-  useEffect(() => {
-    dispatch(setComments(selectedId));
-  }, []);
   const onClick: MenuProps['onClick'] = e => {
     setCurrent(e.key);
   };
@@ -56,8 +49,7 @@ const CommentList = () => {
       <ul className={style.comments}>
         {comments.length
           ? comments.map(comment => {
-              const { id, username, brief, time, likes, contents } = comment;
-              return <SingleComment key={id} info={{ id, username, brief, time, likes, contents }} />;
+              return <SingleComment key={comment.id} info={comment} />;
             })
           : undefined}
       </ul>

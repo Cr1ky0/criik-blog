@@ -22,22 +22,20 @@ import { getBreadcrumbList } from '@/utils';
 import { useIcons } from '@/components/ContextProvider/IconStore';
 
 const BlogPage = () => {
-  // TODO:加载动画
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const curBlog = useAppSelector(state => state.blog.curBlog);
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const [loading, setLoading] = useState(false);
   const [initLoading, setInitLoading] = useState(true);
-  const { title, contents } = curBlog;
+  const { title, contents, author, publishAt } = curBlog;
   const icons = useIcons();
   const breadcrumbList = selectedId ? getBreadcrumbList(menus, selectedId, icons) : undefined;
-
   useEffect(() => {
     // 初始化动画
     setTimeout(() => {
       setInitLoading(false);
     }, 1000);
-  }, []);
+  }, [selectedId]);
   return (
     <div className={`${style.wrapper} clearfix`}>
       {/* 初始化加载动画 */}
@@ -107,7 +105,27 @@ const BlogPage = () => {
                     <div className={style.text}>
                       <ReactMarkdownRender>{contents as string}</ReactMarkdownRender>
                     </div>
-                    <div className={style.blogEdit}>edit</div>
+                    <div className={style.blogEdit}>
+                      <div>
+                        <div>
+                          <span className="iconfont">&#xe624;</span>&nbsp;编辑此页
+                        </div>
+                        <div>
+                          <span className="iconfont" style={{ fontSize: '1.1vw' }}>
+                            &#xe604;
+                          </span>
+                          &nbsp;删除博客
+                        </div>
+                      </div>
+                      <div>
+                        <div>
+                          上次编辑于：<span>{publishAt.split('T')[0]}</span>
+                        </div>
+                        <div>
+                          贡献者：<span>{author}</span>
+                        </div>
+                      </div>
+                    </div>
                     <div className={style.comment}>
                       <Comment></Comment>
                     </div>
