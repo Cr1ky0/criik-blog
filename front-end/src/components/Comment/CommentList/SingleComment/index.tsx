@@ -35,7 +35,6 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
   // 利用likeList判断当前评论的id是否在其中来记录点赞状态
   const likeList = useAppSelector(state => state.comments.likeList);
   const isChosen = isLike(likeList, id);
-  // const [isChosen, setIsChosen] = useState(isLike(likeList, id));
   const dispatch = useAppDispatch();
   const [avatar, setAvatar] = useState(img);
   // 获取当前评论用户的头像
@@ -59,12 +58,10 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
     getUserAvatarById(userId);
   }, []);
   const handleClick = () => {
-    if (isChosen) {
+    if (!isChosen) {
       dispatch(addLikeId(id));
-      // setIsChosen(true);
     } else {
       dispatch(delLikeId(id));
-      // setIsChosen(false);
     }
   };
 

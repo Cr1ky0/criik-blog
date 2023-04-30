@@ -157,10 +157,7 @@ export const getOneMenuId: (menus: SideMenuItem[]) => string = menus => {
 
 // 通过likeList判断该评论是否已被点赞
 export const isLike = (likeList: string[], id: string) => {
-  if (likeList) {
-    const list = likeList.filter(itemId => itemId === id);
-    return list.length !== 0;
-  } else return false;
+  return likeList.some(itemId => itemId === id);
 };
 
 /**************** 列表生成 *****************/
