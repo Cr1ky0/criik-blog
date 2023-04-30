@@ -3,11 +3,22 @@ import service from '@/utils/request';
 import { commentObj, commentApiObj, requestOptions } from '@/interface';
 import moment from 'moment';
 
-const initialState = {
+interface commentsState {
+  commentList: commentObj[];
+  curPage: number;
+  isLoading: boolean;
+  length: number;
+  sort: 'time' | 'hot';
+  likeList: string[]; // 用来存放已经点过赞的评论id列表
+}
+
+const initialState: commentsState = {
   commentList: [] as commentObj[],
   curPage: 1,
   isLoading: false,
   length: 0,
+  sort: 'time',
+  likeList: [],
 };
 
 export const setComments = createAsyncThunk('comments/setComments', async (options: requestOptions) => {
@@ -30,6 +41,26 @@ const commentsSlice = createSlice({
     },
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
+    },
+    setSort: (state, action) => {
+      state.sort = action.payload;
+    },
+    addLength: state => {
+      state.length = state.length + 1;
+    },
+    updateComment: (state, action) => {
+      const { id, data } = action.payload;
+      state.commentList = state.commentList.map(comment => {
+        if (comment.id === id) {
+          return Object.assign({}, comment, data);
+        } else return comment;
+      });
+    },
+    addLikeId: (state, action) => {
+      state.likeList = [...state.likeList, action.payload];
+    },
+    delLikeId: (state, action) => {
+      state.likeList = state.likeList.filter(id => action.payload !== id);
     },
   },
   extraReducers(builder) {
@@ -62,5 +93,6 @@ const commentsSlice = createSlice({
   },
 });
 
-export const { setCurPage, setIsLoading } = commentsSlice.actions;
+export const { setCurPage, setIsLoading, setSort, addLength, updateComment, addLikeId, delLikeId } =
+  commentsSlice.actions;
 export default commentsSlice.reducer;

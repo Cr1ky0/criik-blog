@@ -10,19 +10,27 @@ import style from './index.module.scss';
 // comp
 import Emoji from './Emoji';
 
-// redux
-import { useAppSelector } from '@/redux';
-import { addCommentAjax } from '@/api/comment';
+// context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+
+// redux
+import { useAppDispatch, useAppSelector } from '@/redux';
+import { addLength, setComments, setIsLoading } from '@/redux/slices/comments';
+
+// api
+import { addCommentAjax } from '@/api/comment';
 
 const WriteComment = () => {
   const message = useGlobalMessage();
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading1] = useState(false);
   const cookies = new Cookies();
   const user = cookies.get('user');
-  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
+  const selectedId = useAppSelector(state => state.blog.selectedId);
+  const curPage = useAppSelector(state => state.comments.curPage);
+  const sort = useAppSelector(state => state.comments.sort);
+  const dispatch = useAppDispatch();
   // 向文本框内部添加表情
   const addEmoji: MouseEventHandler<HTMLLIElement> = useCallback(event => {
     const commentNode = commentRef.current as HTMLTextAreaElement;
@@ -31,7 +39,7 @@ const WriteComment = () => {
   }, []);
 
   const handleSubmit = async () => {
-    setIsLoading(true);
+    setIsLoading1(true);
     const ref = commentRef.current as HTMLTextAreaElement;
     await addCommentAjax(
       {
@@ -44,19 +52,30 @@ const WriteComment = () => {
       async () => {
         await message.loadingAsync('提交中...', '提交成功');
         ref.value = '';
-        dispatch()
-        setIsLoading(false);
+        dispatch(setIsLoading(true));
+        setTimeout(() => {
+          dispatch(setIsLoading(false));
+        }, 500);
+        dispatch(addLength());
+        dispatch(
+          setComments({
+            id: selectedId,
+            page: curPage,
+            sort: sort === 'time' ? '-publishAt' : '-likes',
+          })
+        );
+        setIsLoading1(false);
       },
       msg => {
         message.error(msg);
-        setIsLoading(false);
+        setIsLoading1(false);
       }
     );
   };
 
   return (
     <div className={`${style.wrapper} clearfix`}>
-      <textarea className={style.content} ref={commentRef} name="comment" placeholder="请输入文本" />
+      <textarea className={style.content} ref={commentRef} name="comment" placeholder="请输入评论" />
       <div className={`${style.funcBar} clearfix`}>
         <Popover
           placement="bottomLeft"

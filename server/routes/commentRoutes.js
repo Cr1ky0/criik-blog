@@ -12,8 +12,6 @@ router.get('/getCommentsNum/:blogId', commentController.getCommentNum);
 // 添加评论
 router.route('/').post(commentController.addComment);
 
-// router.get('/getCommentsOfBlog', commentController.getCommentsOfBlog);
-
 router
   .route('/:id')
   .get(commentController.defaultParams, commentController.getCommentsOfBlog)

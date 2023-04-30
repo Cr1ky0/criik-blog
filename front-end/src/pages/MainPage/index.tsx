@@ -18,16 +18,13 @@ const { Content, Header } = Layout;
 // redux
 import { useAppDispatch } from '@/redux';
 import { setEmoji } from '@/redux/slices/emoji';
-// context
-import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 const MainPage = () => {
   const dispatch = useAppDispatch();
-  const { width } = useViewport();
   useEffect(() => {
     // 加载后先把emoji请求回来，后面不再请求了
     dispatch(setEmoji());
-  }, [width]);
+  }, []);
   return (
     <Layout>
       <TopHeader></TopHeader>

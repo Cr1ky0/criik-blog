@@ -36,15 +36,14 @@ const messageContext = createContext<messageObj>({
   holder: <></>,
 });
 
-// message配置
-message.config({
-  top: 70,
-  maxCount: 1,
-  duration: 1.5,
-});
-
 const MessageProvider: React.FC<messageProviderProps> = ({ children }) => {
-  const [messageApi, contextHolder] = message.useMessage();
+  // message配置
+  const config = {
+    top: 70,
+    maxCount: 1,
+    duration: 1.5,
+  };
+  const [messageApi, contextHolder] = message.useMessage(config);
 
   const success = (content: string) => {
     messageApi.open({

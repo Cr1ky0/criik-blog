@@ -3,7 +3,6 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 import emoji from './slices/emoji';
 import chosenList from './slices/chosenList';
-import blogMenu from './slices/blogMenu';
 import blog from './slices/blog';
 import comments from './slices/comments';
 //持久存储
@@ -13,7 +12,6 @@ import storage from 'redux-persist/lib/storage';
 const reducers = combineReducers({
   emoji,
   chosenList,
-  blogMenu,
   blog,
   comments,
 });
@@ -21,7 +19,7 @@ const reducers = combineReducers({
 const persistConfig = {
   key: 'root',
   storage: storage,
-  blacklist: ['comments'],
+  blacklist: [],
 };
 const persistReducers = persistReducer(persistConfig, reducers);
 

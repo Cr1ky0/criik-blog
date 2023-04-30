@@ -57,6 +57,13 @@ export interface addBlogObj {
   belongingMenu: string;
   title: string;
   contents: string;
+  updateAt?: string;
+  views?: string;
+}
+
+export interface updateBlogObj {
+  blogId: string;
+  data: addBlogObj;
 }
 
 // comments
@@ -82,6 +89,7 @@ export interface blogObj {
   belongingMenu: string;
   author?: string;
   publishAt?: string;
+  updateAt?: string;
   contents?: string;
   likes?: number;
   views?: number;

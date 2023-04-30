@@ -102,14 +102,16 @@ export const getOneBlogId: (menus: SideMenuItem[], curId?: string, menuId?: stri
     if (menu.id !== menuId) {
       // 检查blogs
       if (menu.blogs && menu.blogs.length) {
-        if (menu.blogs[0].id !== curId) blogKey = menu.blogs[0].id;
+        const blogs = menu.blogs.filter(blog => blog.id !== curId);
+        if (blogs.length) blogKey = blogs[0].id;
       }
       // 进入子菜单
       if (menu.children) {
         menu.children.forEach(child => {
           if (child.id !== menuId)
             if (child.blogs && child.blogs.length) {
-              if (child.blogs[0].id !== curId) blogKey = child.blogs[0].id;
+              const blogs = child.blogs.filter(blog => blog.id !== curId);
+              if (blogs.length) blogKey = blogs[0].id;
             }
         });
       }
@@ -119,12 +121,17 @@ export const getOneBlogId: (menus: SideMenuItem[], curId?: string, menuId?: stri
 };
 
 // 检测当前SideMenuItem其是否包含blog
-export const hasBlog: (menus: SideMenuItem[]) => true | undefined = menus => {
-  for (let i = 0; i < menus.length; i += 1) {
-    const menu = menus[i];
-    if (menu.blogs && menu.blogs.length) return true;
-    if (menu.children) return hasBlog(menu.children);
-  }
+export const hasBlog: (menus: SideMenuItem[]) => boolean = menus => {
+  let flag = false;
+  menus.map(menu => {
+    console.log(menu);
+    if (menu.blogs && menu.blogs.length) flag = true;
+    if (menu.children)
+      menu.children.map(child => {
+        if (child.blogs && child.blogs.length) flag = true;
+      });
+  });
+  return flag;
 };
 
 // 检测当前删除的菜单是否包含curKey
@@ -146,6 +153,14 @@ export const getOneMenuId: (menus: SideMenuItem[]) => string = menus => {
   else {
     return '';
   }
+};
+
+// 通过likeList判断该评论是否已被点赞
+export const isLike = (likeList: string[], id: string) => {
+  if (likeList) {
+    const list = likeList.filter(itemId => itemId === id);
+    return list.length !== 0;
+  } else return false;
 };
 
 /**************** 列表生成 *****************/

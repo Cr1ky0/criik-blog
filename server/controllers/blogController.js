@@ -40,6 +40,7 @@ exports.addBlog = catchAsync(async (req, res, next) => {
     contents,
     belongTo: req.user.id,
     author: req.user.name,
+    publishAt: Date.now(),
   });
 
   res.status(201).json({
@@ -67,13 +68,16 @@ exports.updateBlog = catchAsync(async (req, res, next) => {
     req.body,
     'contents',
     'belongingMenu',
-    'title'
+    'title',
+    'views',
+    'updateAt'
   );
-  // 加入编辑时间
-  filteredBody.publishAt = Date.now();
-  const { title, belongingMenu, contents } = req.body;
-  if (!belongingMenu) return next(new AppError('请选择分类！', 400));
-  if (!title || !contents) return next(new AppError('请输入标题和内容！', 400));
+  const { title, belongingMenu, contents, views } = req.body;
+  if (!views) {
+    if (!belongingMenu) return next(new AppError('请选择分类！', 400));
+    if (!title || !contents)
+      return next(new AppError('请输入标题和内容！', 400));
+  }
   const updatedBlog = await Blog.findByIdAndUpdate(
     req.params.id,
     filteredBody,

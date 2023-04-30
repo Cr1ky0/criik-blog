@@ -3,6 +3,8 @@
 
 .wrapper {
   @include setWrapper();
+  @include setSider();
+  @include setContent();
 
   .content {
     padding: {

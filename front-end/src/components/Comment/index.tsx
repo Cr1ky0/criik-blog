@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 import { setComments, setCurPage, setLength } from '@/redux/slices/comments';
 
 const Comment = () => {
-  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
+  const selectedId = useAppSelector(state => state.blog.selectedId);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(setComments({ id: selectedId, page: 1 }));

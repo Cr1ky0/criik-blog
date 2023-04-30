@@ -1,5 +1,6 @@
 import React, { CSSProperties, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import Cookies from 'universal-cookie';
 
 // antd
 import { Menu, Modal } from 'antd';
@@ -14,7 +15,7 @@ import EditMenu from '@/components/SideMenu/EditMenu';
 
 // redux
 import { useAppSelector, useAppDispatch } from '@/redux';
-import { setMenuList, setSelectedId } from '@/redux/slices/blogMenu';
+import { setMenuList, setSelectedId } from '@/redux/slices/blog';
 import { setCurBlog } from '@/redux/slices/blog';
 import { setChosenList } from '@/redux/slices/chosenList';
 
@@ -37,16 +38,18 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, setLoading }) => {
   const icons = useIcons();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const menus = useAppSelector(state => state.blogMenu.menuList);
+  const menus = useAppSelector(state => state.blog.menuList);
   const antdMenus = getAntdMenus(menus, icons);
   // 当前选中的左边菜单栏目
-  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
+  const selectedId = useAppSelector(state => state.blog.selectedId);
   // 预览展开state
   const [open, setOpen] = useState(false);
   // timer
   const [timer, setTimer] = useState<any>();
   useEffect(() => {
-    dispatch(setMenuList());
+    const cookies = new Cookies();
+    const user = cookies.get('user');
+    if (user) dispatch(setMenuList());
   }, []);
   return (
     <div className={style.wrapper} style={styles}>

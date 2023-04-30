@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import isEmail from 'validator/lib/isEmail';
 
@@ -22,11 +22,16 @@ import { LoginFormData } from '@/interface';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import Cookies from 'universal-cookie';
 
+// redux
+import { useAppDispatch } from '@/redux';
+import { setMenuList } from '@/redux/slices/blog';
+
 interface LoginFormProps {
   close: () => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
+  const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const message = useGlobalMessage();
@@ -51,6 +56,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
         close();
         navigate(0);
         setIsLoading(false);
+        // 设置加载menus
+        dispatch(setMenuList());
       },
       content => {
         message.error(content);

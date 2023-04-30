@@ -10,6 +10,9 @@
     min-height: 95vh;
   }
 
+}
+
+@mixin setSider($s_width:21vw) {
   .sider {
     width: $s_width;
     z-index: $GRADE_MIDDLE;
@@ -22,7 +25,9 @@
       right: 2vw;
     }
   }
+}
 
+@mixin setContent($c_width:79vw) {
   .content {
     width: $c_width;
     padding: 0 3vw;

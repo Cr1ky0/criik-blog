@@ -14,6 +14,7 @@
 }
 
 .wrapper {
+  @include setScrollBar(0);
   list-style: none;
   width: 100%;
   color: $FONT_COLOR;
@@ -102,17 +103,17 @@
     }
   }
 
-
   .comment {
+    @include setScrollBar(0);
     width: 80%;
-    max-height: $COMMENT_H;
+    //max-height: $COMMENT_H;
+    //overflow-y: auto;
     word-break: break-all;
-    overflow: auto;
     font: {
-      size: 14px;
+      size: 16px;
     }
     line-height: 20px;
-    padding: {
+    margin: {
       top: 20px;
     }
     margin: {

@@ -3,90 +3,11 @@
 
 .wrapper {
   @include setWrapper();
+  @include setSider();
 
   .loadingAnime {
     height: 100%;
     width: 100%;
     padding: 15vh 20vw;
-  }
-
-
-  .content {
-    padding: 5vh 10vw;
-    height: 95vh;
-    overflow-y: auto;
-
-    .breadCrumb {
-      @include unSelectable;
-      padding: 3vh 0;
-
-      li {
-        font-size: 24px;
-
-        svg {
-          height: 20px;
-          width: 20px;
-        }
-      }
-    }
-
-    .info {
-      padding: {
-        bottom: 5vh;
-      }
-
-      .title {
-        font-size: 50px;
-      }
-
-      .blogInfo {
-        margin: {
-          top: 3vh;
-        }
-      }
-
-    }
-
-    .blogEdit {
-      padding: 5vh 0;
-      display: flex;
-      justify-content: space-between;
-
-      // 左边编辑和删除
-      > div:first-child {
-        color: $THEME_COLOR;
-
-        > div {
-          cursor: pointer;
-          font: {
-            size: 1vw;
-          }
-          padding: 1vh 0;
-        }
-      }
-
-      // 右边信息
-      > div:last-child {
-        color: #526e89;
-
-        > div {
-          font: {
-            size: 1vw;
-          }
-          padding: 1vh 0;
-
-          span {
-            color: $FONT_COLOR;
-          }
-        }
-      }
-    }
-
-
-    .blogContent {
-      .comment {
-        padding: 5vh 2vw;
-      }
-    }
   }
 }

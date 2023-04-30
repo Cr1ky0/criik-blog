@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 // antd
 import { Tag } from 'antd';
@@ -16,6 +16,13 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 // img
 import img from '@/assets/images/default.png';
 
+// redux
+import { useAppDispatch, useAppSelector } from '@/redux';
+import { addLikeId, delLikeId } from '@/redux/slices/comments';
+
+// util
+import { isLike } from '@/utils';
+
 export interface SingleCommentProps {
   info: commentObj;
 }
@@ -24,33 +31,43 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
   const { info } = props;
   const message = useGlobalMessage();
   // TODO:后续添加点赞功能
-  const { contents, username, brief, time, userId, likes } = info;
-  const [isChosen, setIsChosen] = useState(false);
-  const [likesNum, setLikesNum] = useState(0);
+  const { contents, username, brief, time, userId, likes, id } = info;
+  // 利用likeList判断当前评论的id是否在其中来记录点赞状态
+  const likeList = useAppSelector(state => state.comments.likeList);
+  const isChosen = isLike(likeList, id);
+  // const [isChosen, setIsChosen] = useState(isLike(likeList, id));
+  const dispatch = useAppDispatch();
   const [avatar, setAvatar] = useState(img);
   // 获取当前评论用户的头像
-  const getUserAvatarById = useCallback(async (id: string) => {
-    const res = await getAvatarOfUser(id);
-    await avatarAjax(
-      res.data.avatar,
-      response => {
-        const reader = new FileReader();
-        reader.onload = e => {
-          if (e.target) setAvatar(e.target.result as string);
-        };
-        reader.readAsDataURL(response);
-      },
-      msg => {
-        message.error(msg);
-      }
-    );
+  useMemo(() => {
+    const getUserAvatarById = async (id: string) => {
+      const res = await getAvatarOfUser(id);
+      await avatarAjax(
+        res.data.avatar,
+        response => {
+          const reader = new FileReader();
+          reader.onload = e => {
+            if (e.target) setAvatar(e.target.result as string);
+          };
+          reader.readAsDataURL(response);
+        },
+        msg => {
+          message.error(msg);
+        }
+      );
+    };
+    getUserAvatarById(userId);
   }, []);
-  getUserAvatarById(userId);
-  const changeState = () => {
-    if (!isChosen) setLikesNum(likesNum + 1);
-    else setLikesNum(likesNum - 1);
-    setIsChosen(!isChosen);
+  const handleClick = () => {
+    if (isChosen) {
+      dispatch(addLikeId(id));
+      // setIsChosen(true);
+    } else {
+      dispatch(delLikeId(id));
+      // setIsChosen(false);
+    }
   };
+
   return (
     <li className={`${style.wrapper} clearfix`}>
       <div className={`${style.infoWrapper} clearfix`}>
@@ -66,15 +83,15 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
           </div>
           <div className={style.likesWrapper}>
             {isChosen ? (
-              <div className={`${style.likesOnChosen} iconfont`} onClick={changeState}>
+              <div className={`${style.likesOnChosen} iconfont`} onClick={handleClick}>
                 &#xeca2;
               </div>
             ) : (
-              <div className={`${style.likes} iconfont`} onClick={changeState}>
+              <div className={`${style.likes} iconfont`} onClick={handleClick}>
                 &#xeca1;
               </div>
             )}
-            <div className={`${style.likesNum}`}>{likesNum}</div>
+            <div className={`${style.likesNum}`}>{likes}</div>
           </div>
         </div>
         <div className={style.signature}>{brief}</div>

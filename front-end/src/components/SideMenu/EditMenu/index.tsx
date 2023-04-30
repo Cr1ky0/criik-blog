@@ -11,7 +11,7 @@ import ChangeFormBox from '@/components/TopHeader/ChangeInfo/ChangeFormBox';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addMenu, deleteMenu, editMenu, setSelectedId } from '@/redux/slices/blogMenu';
+import { addMenu, deleteMenu, editMenu, setSelectedId } from '@/redux/slices/blog';
 
 // utils
 import { generateSideMenuItem, getDataNodeTree, getOneBlogId, getOneMenuId, getSideMenuItem, hasCurKey } from '@/utils';
@@ -26,11 +26,12 @@ import { deleteBlogOfMenuAjax } from '@/api/blog';
 
 // interface
 import { SideMenuItem } from '@/interface';
+import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 
 const EditMenu = () => {
   const dispatch = useAppDispatch();
-  const menus = useAppSelector(state => state.blogMenu.menuList);
-  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
+  const menus = useAppSelector(state => state.blog.menuList);
+  const selectedId = useAppSelector(state => state.blog.selectedId);
   const message = useGlobalMessage();
   // 选择图标的下拉菜单列表
   const icons = useIcons();
@@ -65,6 +66,7 @@ const EditMenu = () => {
   const addRef = useRef<HTMLInputElement>(null);
   // 添加总标签的inputRef
   const addParentRef = useRef<HTMLInputElement>(null);
+  const modal = useGlobalModal();
   // 动画
   const changeHeight = useCallback((state: 'edit' | 'add' | 'addParent') => {
     const div = document.getElementById('edit-input-Wrapper') as HTMLElement;
@@ -112,9 +114,9 @@ const EditMenu = () => {
       { id: curKey, icon: iconValue, title: ref.value },
       async () => {
         await message.loadingSuccessAsync('修改中...', '修改成功！');
-        ref.value = '';
         dispatch(editMenu({ id: curKey, title: ref.value, icon: iconValue }));
         setIsLoading(false);
+        ref.value = '';
       },
       content => {
         message.error(content);
@@ -188,8 +190,8 @@ const EditMenu = () => {
         // 后端发来的新对象，加入state中
         const newMenu = data.body.menu;
         reduxAddState(newMenu);
-        ref.value = '';
         setIsLoading(false);
+        ref.value = '';
       },
       content => {
         message.error(content);
@@ -210,14 +212,13 @@ const EditMenu = () => {
       async data => {
         await message.loadingSuccessAsync('操作中...', '添加成功！');
         const newMenu = data.body.menu;
-        console.log(curKey, newMenu);
         if (!curKey) {
           setCurKey(newMenu.id);
           setCurTitle(newMenu.title);
         }
-        ref.value = '';
         reduxAddState(newMenu);
         setIsLoading(false);
+        ref.value = '';
       },
       content => {
         message.error(content);
@@ -272,7 +273,13 @@ const EditMenu = () => {
             title="Edit"
             placeHolder={curTitle as string}
             isOpen={[true]}
-            handleSubmit={handleEdit}
+            handleSubmit={() => {
+              modal.confirm({
+                title: '提示',
+                content: '确定要更新分类吗？',
+                onOk: handleEdit,
+              });
+            }}
             ref={tagRef}
             type="text"
             seq={1}
@@ -326,7 +333,17 @@ const EditMenu = () => {
               </Button>
             </div>
             <div className={style.deleteTagBtn}>
-              <Button danger onClick={handleDelete} loading={isDelLoading}>
+              <Button
+                danger
+                onClick={() => {
+                  modal.confirm({
+                    title: '提示',
+                    content: '该操作会删除分类下的所有内容，确定要删除分类吗？',
+                    onOk: handleDelete,
+                  });
+                }}
+                loading={isDelLoading}
+              >
                 Delete
               </Button>
             </div>

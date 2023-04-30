@@ -18,8 +18,16 @@ import { getSideMenuItem, getTreeSelectList, hasBlog } from '@/utils';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addBlogMenu, setSelectedId } from '@/redux/slices/blogMenu';
-import { setMenuId, setTitle, setMenuTitle, initWriteContent, setIsEdit, setAllContent } from '@/redux/slices/blog';
+import { addBlogMenu, setSelectedId, deleteMenu } from '@/redux/slices/blog';
+import {
+  setMenuId,
+  setTitle,
+  setMenuTitle,
+  initWriteContent,
+  setIsEdit,
+  setAllContent,
+  updateCurBlog,
+} from '@/redux/slices/blog';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
@@ -34,12 +42,12 @@ import { SideMenuItem } from '@/interface';
 
 const BlogManage = () => {
   // TODO:后续可以再整个草稿箱
-  const menus = useAppSelector(state => state.blogMenu.menuList);
+  const menus = useAppSelector(state => state.blog.menuList);
   const modal = useGlobalModal();
   // text info
   const { title, menuId, content, menuTitle } = useAppSelector(state => state.blog.writeContent);
   const isEdit = useAppSelector(state => state.blog.isEdit);
-  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
+  const selectedId = useAppSelector(state => state.blog.selectedId);
   const curBlog = useAppSelector(state => state.blog.curBlog);
   const icons = useIcons();
   const message = useGlobalMessage();
@@ -56,7 +64,7 @@ const BlogManage = () => {
       key: '1',
       label: <div style={{ fontSize: '1vw' }}>Update</div>,
       onClick: () => {
-        if (!hasBlog(menus)) {
+        if (!hasBlog(menus) && !selectedId) {
           message.error('当前没有博客可供编辑！');
           return;
         }
@@ -129,11 +137,23 @@ const BlogManage = () => {
           title,
           belongingMenu: menuId,
           contents: content,
+          updateAt: Date.now(),
         },
       },
       async () => {
         await message.loadingSuccessAsync('更新中...', '更新成功！');
         dispatch(initWriteContent());
+        // 更新后要重新设置blog信息、删除原blog的menu、添加blog到新的menu
+        dispatch(updateCurBlog({ title, belongingMenu: menuId, contents: content, updateAt: Date.now() }));
+        dispatch(deleteMenu(selectedId));
+        dispatch(
+          addBlogMenu({
+            id: selectedId,
+            title,
+            belongingMenu: menuId,
+          })
+        );
+        dispatch(setIsEdit(false));
         setIsLoading(false);
       },
       content => {

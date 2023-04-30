@@ -2,12 +2,7 @@ import { catchAsync } from '@/api';
 import service from '@/utils/request';
 
 // interface
-import { addBlogObj } from '@/interface';
-
-interface updateBlogObj {
-  blogId: string;
-  data: addBlogObj;
-}
+import { addBlogObj, updateBlogObj } from '@/interface';
 
 export const addBlogAjax = catchAsync(async (values: addBlogObj) => {
   const response = await service.post('/api/blogs/', values);

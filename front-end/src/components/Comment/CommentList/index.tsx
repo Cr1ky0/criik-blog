@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // antd
 import type { MenuProps } from 'antd';
@@ -12,31 +12,29 @@ import SingleComment from '@/components/Comment/CommentList/SingleComment';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { setComments, setCurPage, setIsLoading } from '@/redux/slices/comments';
+import { setComments, setCurPage, setIsLoading, setSort } from '@/redux/slices/comments';
 
 const items: MenuProps['items'] = [
   {
     label: '按时间',
     key: 'time',
-    // icon: <MailOutlined />,
   },
   {
     label: '按热度',
     key: 'hot',
-    // icon: <AppstoreOutlined />,
   },
 ];
 
 const CommentList = () => {
-  const [current, setCurrent] = useState('time');
+  const sort = useAppSelector(state => state.comments.sort);
   const comments = useAppSelector(state => state.comments.commentList);
-  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
+  const selectedId = useAppSelector(state => state.blog.selectedId);
   const curPage = useAppSelector(state => state.comments.curPage);
   const isLoading = useAppSelector(state => state.comments.isLoading);
   const length = useAppSelector(state => state.comments.length);
   const dispatch = useAppDispatch();
   const onClick: MenuProps['onClick'] = e => {
-    setCurrent(e.key);
+    dispatch(setSort(e.key));
   };
 
   return (
@@ -52,13 +50,14 @@ const CommentList = () => {
             <div className={style.counts}>{length} 评论</div>
             <Menu
               onClick={onClick}
-              selectedKeys={[current]}
+              selectedKeys={[sort]}
               mode="horizontal"
               items={items}
               className={style.sortMenu}
               disabledOverflow
-              onSelect={() => {
-                if (current === 'time') {
+              onSelect={e => {
+                dispatch(setSort(e.key));
+                if (e.key === 'time') {
                   dispatch(setIsLoading(true));
                   setTimeout(() => {
                     dispatch(setIsLoading(false));
@@ -108,7 +107,7 @@ const CommentList = () => {
                   setComments({
                     id: selectedId,
                     page,
-                    sort: current === 'time' ? '-publishAt' : '-likes',
+                    sort: sort === 'time' ? '-publishAt' : '-likes',
                   })
                 );
               }}

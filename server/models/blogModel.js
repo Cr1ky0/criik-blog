@@ -25,10 +25,10 @@ const blogSchema = new mongoose.Schema(
       required: [true, '请输入博客内容'],
     },
     // 点赞数
-    likes: {
-      type: Number,
-      default: 0,
-    },
+    // likes: {
+    //   type: Number,
+    //   default: 0,
+    // },
     // 浏览次数
     views: {
       type: Number,
@@ -36,6 +36,11 @@ const blogSchema = new mongoose.Schema(
     },
     // 发布时间
     publishAt: {
+      type: Date,
+      default: Date.now(),
+    },
+    // 编辑时间
+    updateAt: {
       type: Date,
       default: Date.now(),
     },

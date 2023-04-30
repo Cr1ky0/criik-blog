@@ -60,6 +60,7 @@ exports.addComment = catchAsync(async (req, res, next) => {
     belongingBlog: belongingBlog,
     username: username || '匿名',
     brief: brief || '这个人很懒，没有个性签名！',
+    publishAt: Date.now(),
   });
 
   res.status(201).json({
@@ -71,12 +72,13 @@ exports.addComment = catchAsync(async (req, res, next) => {
 });
 
 exports.updateComment = catchAsync(async (req, res, next) => {
-  const comment = await Comment.findById(req.params.id);
+  //   const comment = await Comment.findById(req.params.id);
+  //   if (comment.belongingUser.toString() !== req.user.id) {
+  //     return next(new AppError('不属于该用户评论的无法更新！', 403));
+  //   }
 
-  if (comment.belongingUser.toString() !== req.user.id) {
-    return next(new AppError('不属于该用户评论的无法更新！', 403));
-  }
-  const filteredBody = filterObj(req.body, 'contents');
+  // 目前仅设置更新likes数量
+  const filteredBody = filterObj(req.body, 'likes');
   const updatedComment = await Comment.findByIdAndUpdate(
     req.params.id,
     filteredBody,

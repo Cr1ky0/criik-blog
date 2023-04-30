@@ -6,6 +6,7 @@ const commentSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: [true, '请输入评论'],
+    maxLength: [200, '评论最多可输入200个字符，请修改后提交！'],
   },
   // 点赞数
   likes: {
