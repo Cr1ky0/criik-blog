@@ -1,17 +1,16 @@
 const express = require('express');
 const blogController = require('../controllers/blogController');
 const authController = require('../controllers/authController');
-// const commentRoutes = require('./commentRoutes');
 
 const router = express.Router();
 
-// router.use('/:blogId/comments', commentRoutes);
-
 router.use(authController.protect);
+router.use(authController.restrictTo('admin'));
 // 获取所有blog（进行了filter等操作可分页）
-router
-  .route('/getAllBlogs')
-  .get(authController.restrictTo('admin'), blogController.getAllBlogs);
+router.route('/getAllBlogs').get(blogController.getAllBlogs);
+
+// 删除对应menu下的blogs（单层）
+router.delete('/delBlogsOfMenu/:blogId', blogController.deleteBlogOfMenu);
 
 router
   .route('/')

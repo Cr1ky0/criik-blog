@@ -69,6 +69,8 @@ exports.updateBlog = catchAsync(async (req, res, next) => {
     'belongingMenu',
     'title'
   );
+  // 加入编辑时间
+  filteredBody.publishAt = Date.now();
   const { title, belongingMenu, contents } = req.body;
   if (!belongingMenu) return next(new AppError('请选择分类！', 400));
   if (!title || !contents) return next(new AppError('请输入标题和内容！', 400));
@@ -90,13 +92,20 @@ exports.updateBlog = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteBlog = catchAsync(async (req, res, next) => {
-  const blog = await Blog.findById(req.params.id);
-
-  // 需要验证该博客是否为当前用户的博客
-  if (blog.belongTo.toString() !== req.user.id) {
-    return next(new AppError('不属于该用户的博客无法删除！', 403));
-  }
   await Blog.findByIdAndUpdate(req.params.id, { active: false });
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
+
+// 删除对应menu下的blog
+exports.deleteBlogOfMenu = catchAsync(async (req, res, next) => {
+  await Blog.updateMany(
+    { belongingMenu: req.params.blogId },
+    { active: false }
+  );
+
   res.status(204).json({
     status: 'success',
     data: null,

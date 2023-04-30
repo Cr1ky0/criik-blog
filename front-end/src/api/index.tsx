@@ -12,9 +12,9 @@ export const catchAsync =
         // 这里处理一些后端没有传递错误信息的状态码的消息输出
         if (err.status === 429) error('请求数过多，请稍后再试!');
         else error(err.data.message);
+        return new Promise(() => {
+          /* pass */
+        });
       }
-      return new Promise(() => {
-        /* pass */
-      });
     }
   };

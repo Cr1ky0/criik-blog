@@ -20,8 +20,8 @@ export const updateLoginState = catchAsync(async () => {
 });
 
 // 个人信息部分
-export // values是user.avatar
-const avatarAjax = catchAsync(async (values: string) => {
+// values是user.avatar
+export const avatarAjax = catchAsync(async (values: string) => {
   const response = await service.get(`/images/users/${values}`, { responseType: 'blob' });
   return Promise.resolve(response);
 });

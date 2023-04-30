@@ -42,14 +42,17 @@ export const generateSideMenuItem = (
 // 根据key获得其在SideMenuList对象
 export const getSideMenuItem: (menus: SideMenuItem[], key: string) => SideMenuItem | undefined = (menus, key) => {
   const filter = menus.filter(menu => menu.id === key);
-  if (filter.length) return filter[0];
+  if (filter && filter.length) return filter[0];
   for (let i = 0; i < menus.length; i += 1) {
-    const filter = (menus[i].blogs as blogObj[]).filter(blog => blog.id === key);
-    if (filter.length) return filter[0];
-    if (menus[i].children) {
+    const menu = menus[i];
+    if (menu.blogs) {
+      const filter = (menu.blogs as blogObj[]).filter(blog => blog.id === key);
+      if (filter && filter.length) return filter[0];
+    }
+    if (menu.children) {
       // 这里递归不能直接返回，因为在循环内存在多个递归，如果直接返回会导致被undefined覆盖
       // 因此需要指定值当值存在时再返回
-      const temp = getSideMenuItem(menus[i].children as SideMenuItem[], key);
+      const temp = getSideMenuItem(menu.children as SideMenuItem[], key);
       if (temp) return temp;
     }
   }
@@ -121,6 +124,27 @@ export const hasBlog: (menus: SideMenuItem[]) => true | undefined = menus => {
     const menu = menus[i];
     if (menu.blogs && menu.blogs.length) return true;
     if (menu.children) return hasBlog(menu.children);
+  }
+};
+
+// 检测当前删除的菜单是否包含curKey
+export const hasCurKey: (menu: SideMenuItem, curKey: string | number) => boolean = (menu, curKey) => {
+  let flag = false;
+  if (menu.id === curKey) {
+    flag = true;
+  }
+  if (menu.children)
+    menu.children.map(child => {
+      if (child.id === curKey) flag = true;
+    });
+  return flag;
+};
+
+// 获取一个菜单Item的Id
+export const getOneMenuId: (menus: SideMenuItem[]) => string = menus => {
+  if (menus.length) return menus[0].id;
+  else {
+    return '';
   }
 };
 

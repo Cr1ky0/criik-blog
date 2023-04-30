@@ -10,10 +10,14 @@ router.use(authController.restrictTo('admin'));
 
 router.route('/getAllMenus').get(menuController.getMenus);
 
-router.post('/addMenu', menuController.addMenu);
-router.delete('/deleteMenu/:id', menuController.deleteMenu);
-router.patch('/updateMenu/:id', menuController.updateMenu);
+router
+  .route('/')
+  .get(menuController.getMenusOfUser)
+  .post(menuController.addMenu);
 
-router.route('/').get(menuController.getMenusOfUser);
+router
+  .route('/:id')
+  .delete(menuController.deleteMenu)
+  .patch(menuController.updateMenu);
 
 module.exports = router;

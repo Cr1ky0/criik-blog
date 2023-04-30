@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 import { addMenu, deleteMenu, editMenu, setSelectedId } from '@/redux/slices/blogMenu';
 
 // utils
-import { generateSideMenuItem, getDataNodeTree, getOneBlogId, getSideMenuItem } from '@/utils';
+import { generateSideMenuItem, getDataNodeTree, getOneBlogId, getOneMenuId, getSideMenuItem, hasCurKey } from '@/utils';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
@@ -22,6 +22,7 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // api
 import { addMenuAjax, deleteMenuAjax, updateMenuAjax } from '@/api/menu';
+import { deleteBlogOfMenuAjax } from '@/api/blog';
 
 // interface
 import { SideMenuItem } from '@/interface';
@@ -111,6 +112,7 @@ const EditMenu = () => {
       { id: curKey, icon: iconValue, title: ref.value },
       async () => {
         await message.loadingSuccessAsync('修改中...', '修改成功！');
+        ref.value = '';
         dispatch(editMenu({ id: curKey, title: ref.value, icon: iconValue }));
         setIsLoading(false);
       },
@@ -123,18 +125,33 @@ const EditMenu = () => {
 
   // delete menu
   const handleDelete = async () => {
-    // TODO:当删除包含选中的blog的菜单时切换selectedId
     setDelLoading(true);
+    // 需要删除该菜单下的所有博客以及子菜单
     const item = getSideMenuItem(menus, curKey as string) as SideMenuItem;
     await deleteMenuAjax(
       item.id,
       async () => {
-        await message.loadingSuccessAsync('删除中...', '删除成功！');
+        // 删除该菜单下的blogs
+        await deleteBlogOfMenuAjax(item.id);
+        // 删除子菜单和其下的blogs
+        if (item.children)
+          item.children.map(child => {
+            deleteMenuAjax(child.id);
+            if (child.blogs && child.blogs.length) deleteBlogOfMenuAjax(child.id);
+          });
+        await message.loadingAsync('删除中...', '删除成功！');
         // 选择新的id
         const id = getOneBlogId(menus, selectedId, item.id);
         dispatch(setSelectedId(id || ''));
         // 更新state
         dispatch(deleteMenu(item.id));
+        // 重新设置curKey
+        if (hasCurKey(item, curKey)) {
+          const id = getOneMenuId(menus);
+          const item = getSideMenuItem(menus, id);
+          setCurKey(id);
+          if (item) setCurTitle(item.title);
+        }
         setDelLoading(false);
       },
       content => {
@@ -171,6 +188,7 @@ const EditMenu = () => {
         // 后端发来的新对象，加入state中
         const newMenu = data.body.menu;
         reduxAddState(newMenu);
+        ref.value = '';
         setIsLoading(false);
       },
       content => {
@@ -192,6 +210,12 @@ const EditMenu = () => {
       async data => {
         await message.loadingSuccessAsync('操作中...', '添加成功！');
         const newMenu = data.body.menu;
+        console.log(curKey, newMenu);
+        if (!curKey) {
+          setCurKey(newMenu.id);
+          setCurTitle(newMenu.title);
+        }
+        ref.value = '';
         reduxAddState(newMenu);
         setIsLoading(false);
       },

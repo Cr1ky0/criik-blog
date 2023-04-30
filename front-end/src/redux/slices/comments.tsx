@@ -1,20 +1,37 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import service from '@/utils/request';
-import { commentObj, commentApiObj } from '@/interface';
+import { commentObj, commentApiObj, requestOptions } from '@/interface';
+import moment from 'moment';
 
 const initialState = {
   commentList: [] as commentObj[],
+  curPage: 1,
+  isLoading: false,
+  length: 0,
 };
 
-export const setComments = createAsyncThunk('comments/setComments', async (blogId: string) => {
-  const response = await service.get(`/api/comments/getCommentsOfBlog/${blogId}`);
+export const setComments = createAsyncThunk('comments/setComments', async (options: requestOptions) => {
+  const { id, page, sort } = options;
+  const response = await service.get(`/api/comments/${id}?page=${page}&sort=${sort ? sort : ''}`);
+  return response.data;
+});
+
+export const setLength = createAsyncThunk('comments/setLength', async (blogId: string) => {
+  const response = await service.get(`/api/comments/getCommentsNum/${blogId}`);
   return response.data;
 });
 
 const commentsSlice = createSlice({
   name: 'comments',
   initialState,
-  reducers: {},
+  reducers: {
+    setCurPage: (state, action) => {
+      state.curPage = action.payload;
+    },
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(setComments.fulfilled, (state, action) => {
@@ -25,7 +42,7 @@ const commentsSlice = createSlice({
               id: comment._id,
               contents: comment.contents,
               likes: comment.likes,
-              time: comment.publishAt.split('T')[0],
+              time: moment(comment.publishAt).format('YYYY-MM-DD HH:mm:ss'),
               username: comment.username,
               brief: comment.brief,
               userId: comment.belongingUser,
@@ -35,8 +52,15 @@ const commentsSlice = createSlice({
       })
       .addCase(setComments.rejected, (state, action) => {
         console.log(action.error.message);
+      })
+      .addCase(setLength.fulfilled, (state, action) => {
+        state.length = action.payload.data.length;
+      })
+      .addCase(setLength.rejected, (state, action) => {
+        console.log(action.error.message);
       });
   },
 });
 
+export const { setCurPage, setIsLoading } = commentsSlice.actions;
 export default commentsSlice.reducer;

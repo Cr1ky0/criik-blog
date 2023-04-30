@@ -69,7 +69,8 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
 // 获取user的avatar值
 exports.getUserAvatar = catchAsync(async (req, res) => {
-  const user = await User.findById(req.params.id).select('avatar');
+  //   const user = await User.findById(req.params.id).select('avatar');
+  const user = await User.findById(req.params.id);
   const { avatar } = user;
   res.status(200).json({
     status: 'success',

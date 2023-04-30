@@ -48,6 +48,7 @@ exports.addMenu = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteMenu = catchAsync(async (req, res, next) => {
+  // 还需要将该菜单下的blog和menu删除
   await Menu.findByIdAndUpdate(req.params.id, { active: false });
 
   res.status(204).json({

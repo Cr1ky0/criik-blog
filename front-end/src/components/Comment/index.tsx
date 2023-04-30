@@ -9,13 +9,15 @@ import CommentList from './CommentList';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { setComments } from '@/redux/slices/comments';
+import { setComments, setCurPage, setLength } from '@/redux/slices/comments';
 
 const Comment = () => {
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(setComments(selectedId));
+    dispatch(setComments({ id: selectedId, page: 1 }));
+    dispatch(setCurPage(1));
+    dispatch(setLength(selectedId));
   }, []);
   return (
     <div className={style.wrapper}>

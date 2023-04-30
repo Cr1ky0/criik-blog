@@ -32,6 +32,7 @@ import { deleteBlogAjax } from '@/api/blog';
 
 // interface
 import { SideMenuItem } from '@/interface';
+import moment from 'moment';
 
 const BlogPage = () => {
   const message = useGlobalMessage();
@@ -166,9 +167,7 @@ const BlogPage = () => {
                             modal.confirm({
                               title: '提示',
                               content: '编辑此页会覆盖正在编辑的博客，确定要这么做吗？',
-                              onOk: () => {
-                                handleEdit();
-                              },
+                              onOk: handleEdit,
                             });
                           }}
                         >
@@ -179,9 +178,7 @@ const BlogPage = () => {
                             modal.confirm({
                               title: '提示',
                               content: '是否删除当前博客？',
-                              onOk: () => {
-                                handleDelete();
-                              },
+                              onOk: handleDelete,
                             });
                           }}
                         >
@@ -193,7 +190,7 @@ const BlogPage = () => {
                       </div>
                       <div>
                         <div>
-                          上次编辑于：<span>{(publishAt as string).split('T')[0]}</span>
+                          上次编辑于：<span>{moment(publishAt as string).format('YYYY-MM-DD HH:mm:ss')}</span>
                         </div>
                         <div>
                           贡献者：<span>{author}</span>

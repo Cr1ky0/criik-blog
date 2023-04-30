@@ -24,3 +24,8 @@ export const deleteBlogAjax = catchAsync(async (blogId: string) => {
   const response = await service.delete(`/api/blogs/${blogId}`);
   return Promise.resolve(response);
 });
+
+export const deleteBlogOfMenuAjax = catchAsync(async (blogId: string) => {
+  const response = await service.delete(`/api/blogs/delBlogsOfMenu/${blogId}`);
+  return Promise.resolve(response);
+});

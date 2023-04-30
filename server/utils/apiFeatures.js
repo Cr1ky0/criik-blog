@@ -1,3 +1,5 @@
+const { collection } = require('../models/commentModel');
+
 // 将各种针对query的操作放在对象内部
 class APIFeatures {
   constructor(query, queryString) {
@@ -25,7 +27,7 @@ class APIFeatures {
       const sortBy = this.queryString.sort.split(',').join(' ');
       this.query = this.query.sort(sortBy);
     } else {
-      this.query = this.query.sort('-createdAt'); // 默认排序
+      this.query = this.query.sort('-publishAt'); // 默认排序
     }
     return this;
   }

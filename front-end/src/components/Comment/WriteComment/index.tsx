@@ -37,12 +37,14 @@ const WriteComment = () => {
       {
         belongingBlog: selectedId,
         contents: ref.value,
+        userId: user ? user.id : '644c9a90f43dbdb4dc3296f8', // 没登录统一设为匿名账户
         username: user ? user.name : undefined,
         brief: user ? user.brief : undefined,
       },
       async () => {
         await message.loadingAsync('提交中...', '提交成功');
         ref.value = '';
+        dispatch()
         setIsLoading(false);
       },
       msg => {

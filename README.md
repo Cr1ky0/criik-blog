@@ -225,3 +225,4 @@
     - 针对加载型消息，antd的message本身提供promise调用，直接在消息完毕后return一个fullfiled状态的Promise
     - 在处理业务逻辑的时候，await调用消息方法，后面放消息结束后的操作即可（比如状态更新啥的）
     - 当然，message要放在axios请求成功后的回调里面
+21. 利用moment包处理date类型数据

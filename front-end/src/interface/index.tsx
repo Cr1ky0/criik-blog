@@ -127,6 +127,15 @@ export interface textContentObj {
   content: string;
 }
 
+/************ 请求参数 ****************/
+export interface requestOptions {
+  id: string;
+  sort?: string;
+  page?: number;
+  limit?: number;
+  fields?: string;
+}
+
 /******** HomePage ********/
 // BlogTagBox
 export interface BlogTagBoxStatistic {
