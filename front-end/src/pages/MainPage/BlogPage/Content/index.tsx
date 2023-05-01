@@ -31,6 +31,7 @@ import { deleteBlogAjax, updateBlogAjax } from '@/api/blog';
 
 // interface
 import { SideMenuItem } from '@/interface';
+import BlogToc from '@/components/BlogPage/BlogToc';
 
 interface BlogPageContentProps {
   setLoading: (state: boolean) => void;
@@ -112,7 +113,7 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
     );
   };
   return (
-    <div className={`${style.content} clearfix`}>
+    <div id="blog-page-content-wrapper" className={`${style.content} clearfix`}>
       {/* 选中状态 */}
       {selectedId ? (
         /* Content加载状态 */
@@ -126,84 +127,89 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
           </>
         ) : (
           <>
-            <div className={style.breadCrumb}>
-              <Breadcrumb
-                items={
-                  breadcrumbList
-                    ? breadcrumbList.map(item => {
-                        return {
-                          title: (
-                            <>
-                              {item.icon} {item.title}
-                            </>
-                          ),
-                        };
-                      })
-                    : []
-                }
-              />
-            </div>
-            <div className={style.info}>
-              <div className={style.title}>{title}</div>
-              <div className={style.blogInfo}>
-                <BlogInfo
-                  statistics={{
-                    author: author as string,
-                    time: moment(publishAt).format('YYYY-MM-DD'),
-                    views: views as number,
-                    belongingMenu,
-                  }}
-                ></BlogInfo>
+            <div className={style.blog}>
+              <div className={style.breadCrumb}>
+                <Breadcrumb
+                  items={
+                    breadcrumbList
+                      ? breadcrumbList.map(item => {
+                          return {
+                            title: (
+                              <>
+                                {item.icon} {item.title}
+                              </>
+                            ),
+                          };
+                        })
+                      : []
+                  }
+                />
               </div>
-            </div>
-            <div className={style.blogContent}>
-              <div className={style.text}>
-                <ReactMarkdownRender>{contents as string}</ReactMarkdownRender>
-              </div>
-              <div className={style.blogEdit}>
-                <div>
-                  <div
-                    onClick={() => {
-                      modal.confirm({
-                        title: '提示',
-                        content: '编辑此页会覆盖正在编辑的博客，确定要这么做吗？',
-                        onOk: () => {
-                          handleEdit();
-                        },
-                      });
+              <div className={style.info}>
+                <div className={style.title}>{title}</div>
+                <div className={style.blogInfo}>
+                  <BlogInfo
+                    statistics={{
+                      author: author as string,
+                      time: moment(publishAt).format('YYYY-MM-DD'),
+                      views: views as number,
+                      belongingMenu,
                     }}
-                  >
-                    <span className="iconfont">&#xe624;</span>&nbsp;编辑此页
-                  </div>
-                  <div
-                    onClick={() => {
-                      modal.confirm({
-                        title: '提示',
-                        content: '是否删除当前博客？',
-                        onOk: () => {
-                          handleDelete();
-                        },
-                      });
-                    }}
-                  >
-                    <span className="iconfont" style={{ fontSize: '1.1vw' }}>
-                      &#xe604;
-                    </span>
-                    &nbsp;删除博客
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    上次编辑于：<span>{moment(updateAt).format('YYYY-MM-DD HH:mm:ss')}</span>
-                  </div>
-                  <div>
-                    贡献者：<span>{author}</span>
-                  </div>
+                  ></BlogInfo>
                 </div>
               </div>
-              <div className={style.comment}>
-                <Comment></Comment>
+              <div className={style.blogContent}>
+                <div className={style.text}>
+                  <ReactMarkdownRender>{contents as string}</ReactMarkdownRender>
+                </div>
+                <div className={style.blogEdit}>
+                  <div>
+                    <div
+                      onClick={() => {
+                        modal.confirm({
+                          title: '提示',
+                          content: '编辑此页会覆盖正在编辑的博客，确定要这么做吗？',
+                          onOk: () => {
+                            handleEdit();
+                          },
+                        });
+                      }}
+                    >
+                      <span className="iconfont">&#xe624;</span>&nbsp;编辑此页
+                    </div>
+                    <div
+                      onClick={() => {
+                        modal.confirm({
+                          title: '提示',
+                          content: '是否删除当前博客？',
+                          onOk: () => {
+                            handleDelete();
+                          },
+                        });
+                      }}
+                    >
+                      <span className="iconfont" style={{ fontSize: '1.1vw' }}>
+                        &#xe604;
+                      </span>
+                      &nbsp;删除博客
+                    </div>
+                  </div>
+                  <div>
+                    <div>
+                      上次编辑于：<span>{moment(updateAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                    </div>
+                    <div>
+                      贡献者：<span>{author}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className={style.comment}>
+                  <Comment></Comment>
+                </div>
               </div>
+            </div>
+            <div className={style.toc}>
+              <BlogToc text={contents as string}></BlogToc>
             </div>
           </>
         )

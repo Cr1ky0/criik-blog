@@ -122,13 +122,6 @@ const EditMenu = () => {
     }
   }, []);
 
-  // redux操作
-  const reduxAddState = (state: SideMenuItem) => {
-    const { id, belongingMenu, title, icon, grade, color } = state;
-    const sideMenuItem = generateSideMenuItem(id, title, grade, icon, belongingMenu, color);
-    dispatch(addMenu(sideMenuItem));
-  };
-
   // edit menu
   const handleEdit = async () => {
     const ref = tagRef.current as HTMLInputElement;
@@ -218,7 +211,7 @@ const EditMenu = () => {
         await message.loadingSuccessAsync('操作中...', '添加成功！');
         // 后端发来的新对象，加入state中
         const newMenu = data.body.menu;
-        reduxAddState(newMenu);
+        dispatch(addMenu(newMenu));
         setIsLoading(false);
         ref.value = '';
         setIconValue(undefined);
@@ -248,7 +241,7 @@ const EditMenu = () => {
           setCurKey(newMenu.id);
           setCurTitle(newMenu.title);
         }
-        reduxAddState(newMenu);
+        dispatch(addMenu(newMenu));
         setIsLoading(false);
         ref.value = '';
         setIconValue(undefined);

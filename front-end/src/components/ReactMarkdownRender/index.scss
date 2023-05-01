@@ -28,9 +28,9 @@ $fontColor: rgba(0, 0, 0, .8);
       bottom: 1px solid rgba(0, 0, 0, .2);
     };
 
-    &::before {
-      content: " # "
-    }
+    //&::before {
+    //  content: " # "
+    //}
 
     &:hover {
       color: $THEME_COLOR;

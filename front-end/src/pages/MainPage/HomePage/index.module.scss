@@ -89,7 +89,7 @@
 
   .main {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     min-height: 100vh;
 
     > div {
@@ -99,31 +99,22 @@
     }
 
     .content {
-      width: 65vw;
-      padding: {
-        left: 10vw;
-        right: 5vw;
-      }
+      width: 900px;
+      padding-right: 20px;
 
       .paginate {
         display: flex;
-        justify-content: center;
-        margin: {
-          right: 10vw;
-        }
+        justify-content: space-around;
       }
     }
 
     .sider {
-      width: 35vw;
+      width: 350px;
       position: relative;
 
       > div {
         position: sticky;
         top: 10vh;
-        padding: {
-          right: 14vw;
-        }
       }
     }
   }

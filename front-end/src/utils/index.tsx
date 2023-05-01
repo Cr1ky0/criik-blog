@@ -161,6 +161,19 @@ export const isLike = (likeList: string[], id: string) => {
   return likeList.some(itemId => itemId === id);
 };
 
+// 过滤blog内容的Title
+export const filterTitle = (text: string) => {
+  const newContents = text.replaceAll('&lt;', '<');
+  const titleList = newContents.match(/#(.*)/g);
+  let filterContents = newContents;
+  if (titleList)
+    titleList.map((title: string) => {
+      const filteredTitle = title.split('#')[1].trim();
+      filterContents = filterContents.replace(title, `${title}<span id="${filteredTitle}"></span>`);
+    });
+  return filterContents;
+};
+
 /**************** 列表生成 *****************/
 // 将SideMenuItem列表转化为MenuItem列表
 function getItem(label: string, key: React.Key, icon?: React.ReactNode, children?: MenuItem[]): MenuItem {

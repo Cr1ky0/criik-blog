@@ -33,6 +33,7 @@ const HomePage = () => {
   const homePageBlogLength = useAppSelector(state => state.blog.homePageBlogLength);
   useEffect(() => {
     dispatch(setChosenList([true, false, false, false]));
+    dispatch(setHomePageBlogs(curPage));
   }, []);
 
   return (

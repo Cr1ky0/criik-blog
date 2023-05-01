@@ -1,8 +1,11 @@
 import service from '@/utils/request';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+// util
+import { filterTitle, getOneBlogId } from '@/utils';
+
 // interface
 import { blogObj, SideMenuItem, textContentObj } from '@/interface';
-import { getOneBlogId } from '@/utils';
 
 interface blogInitObj {
   menuList: SideMenuItem[];
@@ -199,8 +202,9 @@ const blogSlice = createSlice({
     builder
       .addCase(setCurBlog.fulfilled, (state, action) => {
         // 由于这里后端做了防止注入的措施，html代码被转换掉了，需要进行一些处理
-        const newContents = action.payload.blog.contents.replaceAll('&lt;', '<');
-        state.curBlog = Object.assign({}, action.payload.blog, { contents: newContents });
+        const blog = action.payload.blog;
+        const contents = filterTitle(blog.contents);
+        state.curBlog = Object.assign({}, action.payload.blog, { contents });
         state.views = action.payload.blog.views;
       })
       .addCase(setCurBlog.rejected, (state, action) => {
@@ -209,11 +213,13 @@ const blogSlice = createSlice({
       .addCase(setMenuList.fulfilled, (state, action) => {
         const { menus, blogId, blog } = action.payload;
         state.menuList = [...menus];
-        if (!state.selectedId) state.selectedId = blogId;
-        if (blog) {
-          const newContents = blog.contents.replaceAll('&lt;', '<');
-          state.curBlog = Object.assign({}, blog, { contents: newContents });
-          state.views = blog.views;
+        if (!state.selectedId && state.curBlog) {
+          state.selectedId = blogId;
+          if (blog) {
+            const newContents = blog.contents.replaceAll('&lt;', '<');
+            state.curBlog = Object.assign({}, blog, { contents: newContents });
+            state.views = blog.views;
+          }
         }
       })
       .addCase(setMenuList.rejected, (state, action) => {
