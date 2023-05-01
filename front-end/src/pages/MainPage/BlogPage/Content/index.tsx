@@ -16,7 +16,6 @@ import style from './index.module.scss';
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setSelectedId, deleteMenu } from '@/redux/slices/blog';
 import { initWriteContent, setAllContent, setCurBlog, setIsEdit, setViews, updateCurBlog } from '@/redux/slices/blog';
-import { setChosenList } from '@/redux/slices/chosenList';
 
 // utils
 import { getBreadcrumbList, getOneBlogId, getSideMenuItem } from '@/utils';
@@ -82,7 +81,6 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
       })
     );
     navigate('/manage');
-    dispatch(setChosenList([false, false, true, false]));
     dispatch(setIsEdit(true));
   };
   const handleDelete = async () => {

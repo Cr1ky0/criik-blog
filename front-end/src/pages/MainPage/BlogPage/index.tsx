@@ -10,13 +10,19 @@ import { Skeleton } from 'antd';
 // css
 import style from './index.module.scss';
 
+// redux
+import { setChosenList } from '@/redux/slices/chosenList';
+import { useAppDispatch } from '@/redux';
+
 const BlogPage = () => {
   const [loading, setLoading] = useState(false);
   const [initLoading, setInitLoading] = useState(true);
+  const dispatch = useAppDispatch();
   const handleChange = (state: boolean) => {
     setLoading(state);
   };
   useEffect(() => {
+    dispatch(setChosenList([false, true, false, false]));
     // 初始化动画
     const timer = setTimeout(() => {
       setInitLoading(false);

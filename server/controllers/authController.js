@@ -121,7 +121,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   // 验证用户是否存在
   const user = await User.findOne({ email }).select(
-    '+password -emailResetTime -role -newEmail'
+    '+password -emailResetTime -newEmail'
   ); // 带+号后原本select为false的就可以被查询过来
 
   // 调用userSchema中的方法

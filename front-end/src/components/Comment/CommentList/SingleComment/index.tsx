@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import Cookies from 'universal-cookie';
 
 // antd
 import { Tag } from 'antd';
@@ -37,6 +38,9 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
   const isChosen = isLike(likeList, id);
   const dispatch = useAppDispatch();
   const [avatar, setAvatar] = useState(img);
+  const cookies = new Cookies();
+  const user = cookies.get('user');
+  console.log(user);
   // 获取当前评论用户的头像
   useMemo(() => {
     const getUserAvatarById = async (id: string) => {
@@ -72,10 +76,9 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
         <div className={style.info}>
           <div className={style.infoBox}>
             <div className={style.username}>{username}</div>
-            {/*<div className={style.tags}>*/}
-            {/*  <Tag color="blue">置顶</Tag>*/}
-            {/*  <Tag color="blue">置顶</Tag>*/}
-            {/*</div>*/}
+            <div className={style.tags}>
+              {user.role === 'admin' ? <Tag color="red">管理员</Tag> : <Tag color="blue">游客</Tag>}
+            </div>
             <div className={style.time}>{time}</div>
           </div>
           <div className={style.likesWrapper}>

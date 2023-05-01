@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // css
 import style from './index.module.scss';
@@ -10,8 +10,16 @@ import img2 from '@/assets/images/blog-icon.png';
 // context
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
+// redux
+import { useAppDispatch } from '@/redux';
+import { setChosenList } from '@/redux/slices/chosenList';
+
 const HomePage = () => {
   const { width } = useViewport();
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setChosenList([true, false, false, false]));
+  }, []);
   return (
     <div className={style.wrapper}>
       <div

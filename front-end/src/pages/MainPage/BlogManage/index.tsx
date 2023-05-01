@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // antd
 import { Input, TreeSelect, Button, Drawer, Dropdown, Space } from 'antd';
@@ -39,6 +39,7 @@ import { addBlogAjax, updateBlogAjax } from '@/api/blog';
 
 // interface
 import { SideMenuItem } from '@/interface';
+import { setChosenList } from '@/redux/slices/chosenList';
 
 const BlogManage = () => {
   // TODO:后续可以再整个草稿箱
@@ -58,6 +59,9 @@ const BlogManage = () => {
   // 预览打开state
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    dispatch(setChosenList([false, false, true, false]));
+  }, []);
   // 编辑状态菜单
   const items: MenuProps['items'] = [
     {

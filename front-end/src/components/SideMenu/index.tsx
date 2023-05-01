@@ -17,7 +17,6 @@ import EditMenu from '@/components/SideMenu/EditMenu';
 import { useAppSelector, useAppDispatch } from '@/redux';
 import { setMenuList, setSelectedId } from '@/redux/slices/blog';
 import { setCurBlog } from '@/redux/slices/blog';
-import { setChosenList } from '@/redux/slices/chosenList';
 
 // context
 import { useIcons } from '../ContextProvider/IconStore';
@@ -108,7 +107,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, setLoading }) => {
               // 更改当前选中对象
               dispatch(setCurBlog(e.key));
               // 更改nav
-              dispatch(setChosenList([false, true, false, false]));
               navigate('/blog');
             }
           }}
