@@ -57,7 +57,6 @@ const commentsSlice = createSlice({
       });
     },
     addLikeId: (state, action) => {
-      console.log(action.payload);
       state.likeList = [action.payload, ...state.likeList];
     },
     delLikeId: (state, action) => {

@@ -124,7 +124,6 @@ export const getOneBlogId: (menus: SideMenuItem[], curId?: string, menuId?: stri
 export const hasBlog: (menus: SideMenuItem[]) => boolean = menus => {
   let flag = false;
   menus.map(menu => {
-    console.log(menu);
     if (menu.blogs && menu.blogs.length) flag = true;
     if (menu.children)
       menu.children.map(child => {

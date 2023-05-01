@@ -32,6 +32,10 @@ const HomePage = () => {
           <div>Always Be Yourself and Never Compromise to the Life</div>
         </div>
       </div>
+      <div className={style.main}>
+        <div className={style.content}>content</div>
+        <div className={style.sider}>sider</div>
+      </div>
     </div>
   );
 };

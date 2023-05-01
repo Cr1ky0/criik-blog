@@ -74,6 +74,11 @@ export interface addCommentObj {
   brief?: string;
 }
 
+export interface updateCommentObj {
+  id: string;
+  likes: number;
+}
+
 /******** redux ********/
 //Emoji
 export interface EmojiObj {

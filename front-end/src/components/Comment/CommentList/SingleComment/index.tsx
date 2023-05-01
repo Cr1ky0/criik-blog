@@ -19,10 +19,11 @@ import img from '@/assets/images/default.png';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addLikeId, delLikeId } from '@/redux/slices/comments';
+import { addLikeId, delLikeId, updateComment } from '@/redux/slices/comments';
 
 // util
 import { isLike } from '@/utils';
+import { updateCommentAjax } from '@/api/comment';
 
 export interface SingleCommentProps {
   info: commentObj;
@@ -40,7 +41,6 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
   const [avatar, setAvatar] = useState(img);
   const cookies = new Cookies();
   const user = cookies.get('user');
-  console.log(user);
   // 获取当前评论用户的头像
   useMemo(() => {
     const getUserAvatarById = async (id: string) => {
@@ -61,11 +61,31 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
     };
     getUserAvatarById(userId);
   }, []);
-  const handleClick = () => {
+  const handleClick = async () => {
     if (!isChosen) {
       dispatch(addLikeId(id));
+      await updateCommentAjax(
+        { id, likes: likes + 1 },
+        data => {
+          const updatedComment = data.data.updatedComment;
+          dispatch(updateComment({ id, data: { likes: updatedComment.likes } }));
+        },
+        msg => {
+          message.error(msg);
+        }
+      );
     } else {
       dispatch(delLikeId(id));
+      await updateCommentAjax(
+        { id, likes: likes - 1 },
+        data => {
+          const updatedComment = data.data.updatedComment;
+          dispatch(updateComment({ id, data: { likes: updatedComment.likes } }));
+        },
+        msg => {
+          message.error(msg);
+        }
+      );
     }
   };
 
