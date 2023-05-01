@@ -27,6 +27,7 @@ export const generateSideMenuItem = (
   title: string,
   grade?: number,
   icon?: string,
+  color?: string,
   belongingMenu?: string
 ) => {
   return {
@@ -35,6 +36,7 @@ export const generateSideMenuItem = (
     belongingMenu,
     title,
     icon,
+    color,
     grade,
   } as SideMenuItem;
 };

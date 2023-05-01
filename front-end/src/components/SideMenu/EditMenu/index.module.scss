@@ -7,14 +7,24 @@
   border-radius: 5px;
 
   .selectBox {
-    display: flex;
-    justify-content: flex-start;
-    line-height: 31px;
-    overflow: hidden;
     height: 0;
+    overflow: hidden;
     transition: height .2s;
-    padding: 0 20px;
-    margin-top: 30px;
+
+    > div {
+      display: flex;
+      justify-content: flex-start;
+      line-height: 31px;
+      padding: 0 20px;
+    }
+
+    > div:first-child {
+      margin-top: 30px;
+    }
+
+    > div:last-child {
+      margin-top: 10px;
+    }
   }
 
   .inputWrapper {

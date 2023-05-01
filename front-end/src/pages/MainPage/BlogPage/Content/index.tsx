@@ -151,7 +151,7 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
                     author: author as string,
                     time: moment(publishAt).format('YYYY-MM-DD'),
                     views: views as number,
-                    classification: (getSideMenuItem(menus, belongingMenu) as SideMenuItem).title,
+                    belongingMenu,
                   }}
                 ></BlogInfo>
               </div>
@@ -167,7 +167,9 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
                       modal.confirm({
                         title: '提示',
                         content: '编辑此页会覆盖正在编辑的博客，确定要这么做吗？',
-                        onOk: handleEdit,
+                        onOk: () => {
+                          handleEdit();
+                        },
                       });
                     }}
                   >
@@ -178,7 +180,9 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
                       modal.confirm({
                         title: '提示',
                         content: '是否删除当前博客？',
-                        onOk: handleDelete,
+                        onOk: () => {
+                          handleDelete();
+                        },
                       });
                     }}
                   >

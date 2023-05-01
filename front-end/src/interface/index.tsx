@@ -96,7 +96,6 @@ export interface blogObj {
   publishAt?: string;
   updateAt?: string;
   contents?: string;
-  likes?: number;
   views?: number;
   belongTo?: string;
 }
@@ -108,6 +107,7 @@ export interface SideMenuItem {
   grade?: number;
   belongingMenu?: string;
   icon?: string;
+  color?: string;
   children?: SideMenuItem[];
   blogs?: blogObj[];
 }
@@ -155,7 +155,7 @@ export interface BlogTagBoxStatistic {
   author: string;
   time: string;
   views: number;
-  classification: string;
+  belongingMenu: string;
 }
 
 /******** SideMenu ********/

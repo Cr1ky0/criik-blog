@@ -11,6 +11,9 @@ interface blogInitObj {
   writeContent: textContentObj;
   isEdit: boolean; // 标志博客是否处于编辑状态，处于编辑状态则提交按钮变为更新
   views: number;
+  homePageBlogs: blogObj[];
+  homePageBlogLength: number;
+  curPage: number;
 }
 
 // 合并了菜单的slice因为无法解决设置了selectedId后设置curBlog延迟的问题
@@ -21,6 +24,9 @@ const initialState: blogInitObj = {
   writeContent: {} as textContentObj,
   isEdit: false, // 标志博客是否处于编辑状态，处于编辑状态则提交按钮变为更新
   views: 0,
+  homePageBlogs: [] as blogObj[],
+  homePageBlogLength: 0,
+  curPage: 1,
 };
 
 export const setCurBlog = createAsyncThunk('blog/setCurBlog', async (id: string) => {
@@ -28,8 +34,8 @@ export const setCurBlog = createAsyncThunk('blog/setCurBlog', async (id: string)
   return response.data.data;
 });
 
-export const setMenuList = createAsyncThunk('blogMenu/setMenuList', async () => {
-  const response = await service.get(`api/menus`);
+export const setMenuList = createAsyncThunk('blog/setMenuList', async () => {
+  const response = await service.get(`/api/menus`);
   const menus = response.data.body.menus;
   // 设置一个初始选中项
   const blogId = getOneBlogId(menus) || '';
@@ -41,10 +47,24 @@ export const setMenuList = createAsyncThunk('blogMenu/setMenuList', async () => 
   }
 });
 
+export const setHomePageBlogs = createAsyncThunk('blog/setHomePageBlogs', async (page: number) => {
+  const response = await service.get(`/api/blogs/getSelfBlogs?page=${page}`);
+  return response.data;
+});
+
+export const setHomePageBlogNum = createAsyncThunk('blog/setHomePageBlogNum', async () => {
+  const response = await service.get('/api/blogs/getSelfBlogNum');
+  return response.data;
+});
+
 const blogSlice = createSlice({
   name: 'blog',
   initialState,
   reducers: {
+    // curPage
+    setCurPage: (state, action) => {
+      state.curPage = action.payload;
+    },
     // views
     setViews: (state, action) => {
       state.views = action.payload;
@@ -198,11 +218,24 @@ const blogSlice = createSlice({
       })
       .addCase(setMenuList.rejected, (state, action) => {
         console.log(action.error.message);
+      })
+      .addCase(setHomePageBlogs.fulfilled, (state, action) => {
+        state.homePageBlogs = [...action.payload.data.blogs];
+      })
+      .addCase(setHomePageBlogs.rejected, (state, action) => {
+        console.log(action.error.message);
+      })
+      .addCase(setHomePageBlogNum.fulfilled, (state, action) => {
+        state.homePageBlogLength = action.payload.data.length;
+      })
+      .addCase(setHomePageBlogNum.rejected, (state, action) => {
+        console.log(action.error.message);
       });
   },
 });
 
 export const {
+  setCurPage,
   setViews,
   updateCurBlog,
   setIsEdit,

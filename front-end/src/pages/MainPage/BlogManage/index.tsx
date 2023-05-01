@@ -18,7 +18,7 @@ import { getSideMenuItem, getTreeSelectList, hasBlog } from '@/utils';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addBlogMenu, setSelectedId, deleteMenu } from '@/redux/slices/blog';
+import { addBlogMenu, setSelectedId, deleteMenu, setHomePageBlogs } from '@/redux/slices/blog';
 import {
   setMenuId,
   setTitle,
@@ -50,6 +50,7 @@ const BlogManage = () => {
   const isEdit = useAppSelector(state => state.blog.isEdit);
   const selectedId = useAppSelector(state => state.blog.selectedId);
   const curBlog = useAppSelector(state => state.blog.curBlog);
+  const curPage = useAppSelector(state => state.blog.curPage);
   const icons = useIcons();
   const message = useGlobalMessage();
   const antdMenus = getTreeSelectList(menus, icons, true);
@@ -121,6 +122,8 @@ const BlogManage = () => {
         if (!hasBlog(menus)) {
           dispatch(setSelectedId(blog.id));
         }
+        // 更新主页博客信息
+        dispatch(setHomePageBlogs(curPage));
         dispatch(addBlogMenu(blog as SideMenuItem));
         dispatch(initWriteContent());
         setIsLoading(false);
@@ -149,6 +152,8 @@ const BlogManage = () => {
         dispatch(initWriteContent());
         // 更新后要重新设置blog信息、删除原blog的menu、添加blog到新的menu
         dispatch(updateCurBlog({ title, belongingMenu: menuId, contents: content, updateAt: Date.now() }));
+        // 更新主页博客信息
+        dispatch(setHomePageBlogs(curPage));
         dispatch(deleteMenu(selectedId));
         dispatch(
           addBlogMenu({

@@ -15,6 +15,16 @@ const blogSchema = new mongoose.Schema(
       required: true,
       ref: 'Menu',
     },
+    // // 分类菜单名
+    // menuTitle: {
+    //   type: String,
+    //   required: true,
+    // },
+    // // 分类菜单颜色
+    // menuColor: {
+    //   type: String,
+    //   required: true,
+    // },
     author: {
       type: String,
       required: [true, '博客需要有作者！'],

@@ -5,21 +5,27 @@ import style from './index.module.scss';
 
 // comp
 import BlogInfo from '@/components/Universal/BlogInfo';
+import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 
 // util
 import { getLimitString } from '@/utils';
 
+// interface
+import { BlogTagBoxStatistic } from '@/interface';
+
 export interface BlogTagBoxProps {
   children: string;
   title: string;
+  statistic: BlogTagBoxStatistic;
 }
 
 // 主页的BlogBox组件
 const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
-  const { children, title } = props;
+  const { children, title, statistic } = props;
+  const { author, time, views, belongingMenu } = statistic;
   const limit = 400; // 超过400字加`...`
   return (
-    <div className={style.wrapper}>
+    <div className={`${style.wrapper} clearfix`}>
       <div className={style.titleWrapper}>
         <div className={style.title}>
           {title}
@@ -30,7 +36,7 @@ const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
       <div className={style.text}>{getLimitString(limit, children)}</div>
       <div className={style.line}></div>
       <div className={`${style.statistics} clearfix`}>
-        <BlogInfo statistics={{ author: 'criiky0', time: '2020/1/2', views: 100, classification: 'test' }}></BlogInfo>
+        <BlogInfo statistics={{ author, time, views, belongingMenu }}></BlogInfo>
       </div>
     </div>
   );

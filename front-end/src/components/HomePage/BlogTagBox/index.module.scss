@@ -5,10 +5,11 @@ $LINE_COLOR: rgba(0, 0, 0, 0.2);
 .wrapper {
   @include boxShadow;
   color: $FONT_COLOR;
+  background-color: #FFF;
   box-sizing: content-box;
-  width: 40vw;
   padding: 1vw;
   position: relative;
+
   border: {
     radius: 0.5vw;
   }

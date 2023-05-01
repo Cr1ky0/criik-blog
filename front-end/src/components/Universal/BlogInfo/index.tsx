@@ -7,38 +7,48 @@ import style from './index.module.scss';
 import { Popover, Tag } from 'antd';
 
 // interface
-import { BlogTagBoxStatistic } from '@/interface';
+import { BlogTagBoxStatistic, SideMenuItem } from '@/interface';
+
+// redux
+import { useAppSelector } from '@/redux';
+
+// util
+import { getSideMenuItem } from '@/utils';
 
 interface BlogInfoProps {
-  statistics?: BlogTagBoxStatistic;
+  statistics: BlogTagBoxStatistic;
 }
 
 const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
+  const menus = useAppSelector(state => state.blog.menuList);
+  const { author, time, views, belongingMenu } = statistics;
+  const item = getSideMenuItem(menus, belongingMenu) as SideMenuItem;
+  const { title, color } = item;
   return (
     <div className={`${style.wrapper} clearfix`}>
       <Popover content="作者信息" trigger="hover" placement="bottom">
         <div>
           <span className="iconfont">&#xe72e;</span>
-          <span className={style.author}>{statistics?.author}</span>
+          <span className={style.author}>{author}</span>
         </div>
       </Popover>
       <Popover content="发布时间" trigger="hover" placement="bottom">
         <div className={style.time}>
           <span className="iconfont">&#xe632;</span>
-          {statistics?.time}
+          {time}
         </div>
       </Popover>
       <Popover content="浏览量" trigger="hover" placement="bottom">
         <div className={style.views}>
           <span className="iconfont">&#xe66c;</span>
-          {statistics?.views}
+          {views}
         </div>
       </Popover>
       <Popover content="分类标签" trigger="hover" placement="bottom">
         <div className={style.classification}>
           <span className="iconfont">&#xe623;</span>
-          <Tag color="cyan" style={{ height: '20px', lineHeight: '20px' }}>
-            {statistics?.classification}
+          <Tag color={color} style={{ height: '20px', lineHeight: '20px' }}>
+            {title}
           </Tag>
         </div>
       </Popover>

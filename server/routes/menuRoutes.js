@@ -1,19 +1,23 @@
 const express = require('express');
-
 const authController = require('../controllers/authController');
 const menuController = require('../controllers/menuController');
 
 const router = express.Router();
 
-router.use(authController.protect); // 全局保护
+router
+  .route('/')
+  .get(authController.protect, menuController.getMenusOfUser)
+  .post(
+    authController.protect,
+    authController.restrictTo('admin'),
+    menuController.addMenu
+  );
+
+// 权限
+router.use(authController.protect);
 router.use(authController.restrictTo('admin'));
 
 router.route('/getAllMenus').get(menuController.getMenus);
-
-router
-  .route('/')
-  .get(menuController.getMenusOfUser)
-  .post(menuController.addMenu);
 
 router
   .route('/:id')

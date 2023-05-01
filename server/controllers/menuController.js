@@ -1,7 +1,6 @@
 const Menu = require('../models/menuModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-// const AppError = require('../utils/appError');
 
 exports.getMenus = catchAsync(async (req, res, next) => {
   const menus = await Menu.find();
@@ -15,9 +14,9 @@ exports.getMenus = catchAsync(async (req, res, next) => {
 
 exports.getMenusOfUser = catchAsync(async (req, res, next) => {
   // 过滤一下已经populate的子menu
-  const menus = await Menu.find({ belongTo: req.user.id, grade: 1 }).select(
-    '-__v -belongTo'
-  );
+  const menus = await Menu.find({ belongTo: req.user.id, grade: 1 })
+    .populate({ path: 'children' })
+    .populate('blogs', '-contents -belongTo -publishAt -likes -views');
   res.status(200).json({
     status: 'success',
     body: {
@@ -26,15 +25,28 @@ exports.getMenusOfUser = catchAsync(async (req, res, next) => {
   });
 });
 
+// exports.getMenuById = catchAsync(async (req, res, next) => {
+//   const menu = await Menu.findById(req.params.id).select('title color');
+
+//   res.status(200).json({
+//     status: 'success',
+//     data: {
+//       menu,
+//     },
+//   });
+// });
+
 exports.addMenu = catchAsync(async (req, res, next) => {
-  const { title, icon, parentId, grade } = req.body;
+  const { title, icon, parentId, grade, color } = req.body;
   if (!title) return next(new AppError('请输入标题！', 400));
   if (!icon) return next(new AppError('请选择图标！', 400));
+  if (!color) return next(new AppError('请选择标签颜色！', 400));
   const menu = await Menu.create({
     title: title,
     grade: grade,
     belongTo: req.user.id, // 受保护的路径使用req下的user
     belongingMenu: parentId,
+    color,
     icon: icon,
     isParent: true,
   });

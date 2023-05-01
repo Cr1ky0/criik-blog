@@ -4,6 +4,14 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
+// 获取我个人的博客信息（主页展示）
+router.get(
+  '/getSelfBlogs',
+  blogController.defaultParams,
+  blogController.getSelfBlogs
+);
+router.get('/getSelfBlogNum', blogController.getSelfBlogNum);
+
 router.use(authController.protect);
 router.use(authController.restrictTo('admin'));
 // 获取所有blog（进行了filter等操作可分页）

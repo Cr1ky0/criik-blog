@@ -5,6 +5,11 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const filterObj = require('../utils/filterObj');
 
+exports.defaultParams = (req, res, next) => {
+  req.query.limit = '10';
+  next();
+};
+
 exports.getAllBlogs = catchAsync(async (req, res, next) => {
   // 规则都放在query参数内了
   const features = new APIFeatures(Blog.find(), req.query);
@@ -113,5 +118,37 @@ exports.deleteBlogOfMenu = catchAsync(async (req, res, next) => {
   res.status(204).json({
     status: 'success',
     data: null,
+  });
+});
+
+exports.getSelfBlogs = catchAsync(async (req, res, next) => {
+  const features = new APIFeatures(
+    Blog.find({
+      belongTo: '64326421e387110cac9f8ece',
+    }),
+    req.query
+  )
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const blogs = await features.query;
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      blogs,
+    },
+  });
+});
+
+exports.getSelfBlogNum = catchAsync(async (req, res, next) => {
+  const blogs = await Blog.find({ belongTo: '64326421e387110cac9f8ece' });
+  const { length } = blogs;
+  res.status(200).json({
+    status: 'success',
+    data: {
+      length,
+    },
   });
 });

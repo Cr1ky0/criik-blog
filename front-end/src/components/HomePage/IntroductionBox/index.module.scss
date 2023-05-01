@@ -2,6 +2,7 @@
 
 .wrapper {
   @include boxShadow;
+  background-color: #FFF;
   box-sizing: border-box;
   width: 100%;
 
@@ -20,7 +21,7 @@
       width: 150px;
       height: 150px;
       margin: {
-        bottom: 20px;
+        bottom: 30px;
         left: auto;
         right: auto;
       }
@@ -33,12 +34,13 @@
       margin: 0 auto;
       font: {
         size: 24px;
-        family: Smiley_Sans_Oblique;
+        family: Source_Han_Sans_SC_Normal;
+        weight: bold;
       }
     }
 
     .signature {
-      font-size: 14px;
+      font-size: 16px;
       text-align: center;
       margin: 20px auto;
       width: 100%;
@@ -64,7 +66,7 @@
       > div:first-child {
         font: {
           size: 24px;
-          family: Smiley_Sans_Oblique;
+          family: Source_Han_Sans_SC_Normal;
         }
       }
 
@@ -80,7 +82,7 @@
   }
 
   .linkBox {
-    margin-top: 15px;
+    margin: 25px 0;
     width: 100%;
     display: flex;
     justify-content: center;

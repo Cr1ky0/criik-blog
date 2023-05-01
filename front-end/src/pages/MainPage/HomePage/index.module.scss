@@ -1,6 +1,12 @@
 @import "@/assets/css/index.scss";
+@import "../mixin.scss";
 
 .wrapper {
+  @include setScrollBar(.5vw);
+  @include setTop();
+  overflow-y: auto;
+  height: 100vh;
+
   .backgroundPhoto {
     width: 100%;
     height: 95vh; // vh为当前视口的高度单位，1vh为1%
@@ -82,7 +88,44 @@
   }
 
   .main {
-    
+    display: flex;
+    justify-content: space-between;
+    min-height: 100vh;
+
+    > div {
+      //background-color: #FFF;
+      min-height: 100vh;
+      padding: 5vh 0;
+    }
+
+    .content {
+      width: 65vw;
+      padding: {
+        left: 10vw;
+        right: 5vw;
+      }
+
+      .paginate {
+        display: flex;
+        justify-content: center;
+        margin: {
+          right: 10vw;
+        }
+      }
+    }
+
+    .sider {
+      width: 35vw;
+      position: relative;
+
+      > div {
+        position: sticky;
+        top: 10vh;
+        padding: {
+          right: 14vw;
+        }
+      }
+    }
   }
 }
 

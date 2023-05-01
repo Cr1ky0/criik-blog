@@ -38,6 +38,14 @@
   }
 }
 
+@mixin setTop() {
+  .backWhite {
+    width: 100%;
+    height: $TOP_HEADER_H;
+    background-color: #FFF;
+  }
+}
+
 @keyframes show {
   from {
     height: 0;

@@ -4,8 +4,9 @@ import React, { ReactNode, useCallback, useRef, useState } from 'react';
 import style from './index.module.scss';
 
 // antd
-import { Button, Tree, Select } from 'antd';
+import { Button, Tree, Select, Tag } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+
 // comp
 import ChangeFormBox from '@/components/TopHeader/ChangeInfo/ChangeFormBox';
 
@@ -28,6 +29,29 @@ import { deleteBlogOfMenuAjax } from '@/api/blog';
 import { SideMenuItem } from '@/interface';
 import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 
+// 颜色选项
+const colorList = [
+  'magenta',
+  'red',
+  'volcano',
+  'orange',
+  'gold',
+  'lime',
+  'green',
+  'cyan',
+  'blue',
+  'geekblue',
+  'purple',
+];
+
+const colorChoseList = colorList.map(color => ({
+  value: color,
+  label: (
+    <>
+      <Tag color={color}>{color}</Tag>
+    </>
+  ),
+}));
 const EditMenu = () => {
   const dispatch = useAppDispatch();
   const menus = useAppSelector(state => state.blog.menuList);
@@ -52,12 +76,16 @@ const EditMenu = () => {
   // 当前选择的标签的Title
   const [curTitle, setCurTitle] = useState<ReactNode>(defaultCheck ? (defaultCheck.title as ReactNode) : '');
   // 当前选择的icon的value
-  const [iconValue, setIconValue] = useState('');
+  const [iconValue, setIconValue] = useState<string | undefined>(undefined);
+  // 当前选择的color的Value
+  const [colorValue, setColorValue] = useState<string | undefined>(undefined);
   // btn的loading状态
   const [isLoading, setIsLoading] = useState(false);
   const [isDelLoading, setDelLoading] = useState(false);
   // edit下icon为当前选中的图标
   const [curIcon, setCurIcon] = useState<string | undefined>(menus.length ? menus[0].icon : undefined);
+  // edit下color
+  const [curColor, setCurColor] = useState<string | undefined>(menus.length ? menus[0].color : undefined);
   // 当前是否处于edit下
   const [isEdit, setIsEdit] = useState(true);
   // 修改标签的inputRef
@@ -74,7 +102,7 @@ const EditMenu = () => {
     const div3 = document.getElementById('select-icon-input-box') as HTMLElement;
     const div4 = document.getElementById('edit-tag-form-wrapper') as HTMLElement;
     const div5 = document.getElementById('add-parent-input-Wrapper') as HTMLElement;
-    div3.style.height = '32px';
+    div3.style.height = '105px';
     div4.style.border = '1px solid rgba(0,0,0,.2)';
     if (state === 'edit') {
       setIsEdit(true);
@@ -94,15 +122,10 @@ const EditMenu = () => {
     }
   }, []);
 
-  // 选择icon的input改变时处理
-  const handleChange = (value: string) => {
-    setIconValue(value);
-  };
-
   // redux操作
   const reduxAddState = (state: SideMenuItem) => {
-    const { id, belongingMenu, title, icon, grade } = state;
-    const sideMenuItem = generateSideMenuItem(id, title, grade, icon, belongingMenu);
+    const { id, belongingMenu, title, icon, grade, color } = state;
+    const sideMenuItem = generateSideMenuItem(id, title, grade, icon, belongingMenu, color);
     dispatch(addMenu(sideMenuItem));
   };
 
@@ -116,7 +139,12 @@ const EditMenu = () => {
         await message.loadingSuccessAsync('修改中...', '修改成功！');
         dispatch(editMenu({ id: curKey, title: ref.value, icon: iconValue }));
         setIsLoading(false);
+        setCurTitle(ref.value);
+        setCurIcon(iconValue);
+        setCurColor(colorValue);
         ref.value = '';
+        setIconValue(undefined);
+        setColorValue(undefined);
       },
       content => {
         message.error(content);
@@ -183,6 +211,7 @@ const EditMenu = () => {
         title: ref.value,
         grade: item.grade ? item.grade + 1 : 1,
         icon: iconValue,
+        color: colorValue,
         parentId: item.id,
       },
       async data => {
@@ -192,6 +221,8 @@ const EditMenu = () => {
         reduxAddState(newMenu);
         setIsLoading(false);
         ref.value = '';
+        setIconValue(undefined);
+        setColorValue(undefined);
       },
       content => {
         message.error(content);
@@ -208,6 +239,7 @@ const EditMenu = () => {
         title: ref.value,
         grade: 1,
         icon: iconValue,
+        color: colorValue,
       },
       async data => {
         await message.loadingSuccessAsync('操作中...', '添加成功！');
@@ -219,6 +251,8 @@ const EditMenu = () => {
         reduxAddState(newMenu);
         setIsLoading(false);
         ref.value = '';
+        setIconValue(undefined);
+        setColorValue(undefined);
       },
       content => {
         message.error(content);
@@ -248,6 +282,7 @@ const EditMenu = () => {
               return;
             }
             setCurIcon((item as SideMenuItem).icon);
+            setCurColor((item as SideMenuItem).color);
             setCurKey(node.key);
             setCurTitle(node.title as React.ReactNode);
           }}
@@ -259,14 +294,32 @@ const EditMenu = () => {
       {/* 表单栏 */}
       <div id="edit-tag-form-wrapper" className={style.formWrapper}>
         <div id="select-icon-input-box" className={style.selectBox}>
-          <div>选择图标：</div>
-          <Select
-            style={{ width: 200 }}
-            optionLabelProp="value" //使用 optionLabelProp 指定回填到选择框的 Option 属性。
-            options={selectIconList}
-            onChange={handleChange}
-            placeholder={isEdit ? curIcon : '请选择图标'}
-          />
+          <div>
+            <div>选择图标：</div>
+            <Select
+              value={iconValue}
+              style={{ width: 200 }}
+              optionLabelProp="value" //使用 optionLabelProp 指定回填到选择框的 Option 属性。
+              options={selectIconList}
+              onChange={value => {
+                setIconValue(value);
+              }}
+              placeholder={isEdit ? curIcon : '请选择图标'}
+            />
+          </div>
+          <div>
+            <div>标签颜色：</div>
+            <Select
+              value={colorValue}
+              style={{ width: 200 }}
+              optionLabelProp="value" //使用 optionLabelProp 指定回填到选择框的 Option 属性。
+              options={colorChoseList}
+              onChange={value => {
+                setColorValue(value);
+              }}
+              placeholder={isEdit ? curColor : '请选择颜色'}
+            />
+          </div>
         </div>
         <div id="edit-input-Wrapper" className={`${style.inputWrapper} clearfix`}>
           <ChangeFormBox
@@ -277,7 +330,9 @@ const EditMenu = () => {
               modal.confirm({
                 title: '提示',
                 content: '确定要更新分类吗？',
-                onOk: handleEdit,
+                onOk: () => {
+                  handleEdit();
+                },
               });
             }}
             ref={tagRef}
@@ -339,7 +394,9 @@ const EditMenu = () => {
                   modal.confirm({
                     title: '提示',
                     content: '该操作会删除分类下的所有内容，确定要删除分类吗？',
-                    onOk: handleDelete,
+                    onOk: () => {
+                      handleDelete();
+                    },
                   });
                 }}
                 loading={isDelLoading}

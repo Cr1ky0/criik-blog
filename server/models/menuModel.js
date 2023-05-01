@@ -15,6 +15,11 @@ const menuSchema = new mongoose.Schema(
       default: true,
       select: false,
     },
+    // 标签颜色
+    color: {
+      type: String,
+      defualt: 'cyan',
+    },
     // 所属层级
     grade: {
       type: Number,
@@ -57,8 +62,8 @@ menuSchema.virtual('blogs', {
 
 menuSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } })
-    .populate({ path: 'children' })
-    .populate('blogs', '-contents -belongTo -publishAt -likes -views')
+    // .populate({ path: 'children' })
+    // .populate('blogs', '-contents -belongTo -publishAt -likes -views')
     .select('-__v -belongTo');
   next();
 });
