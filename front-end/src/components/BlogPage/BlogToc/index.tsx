@@ -96,24 +96,28 @@ const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
         <span className="iconfont">&#xe640;</span>
       </div>
       <>
-        {textList
-          ? textList.map((text, index) => {
-              return (
-                <div key={index} id={`blog-toc-item-${index}`} className={style.item}>
-                  <a
-                    // href={`#${text}`}
-                    onClick={() => {
-                      // 此时curChosen的颜色退去，index的颜色出现
-                      handleClick(curChosen, index);
-                      setCurChosen(index);
-                    }}
-                  >
-                    {text}
-                  </a>
-                </div>
-              );
-            })
-          : undefined}
+        {textList ? (
+          textList.map((text, index) => {
+            return (
+              <div key={index} id={`blog-toc-item-${index}`} className={style.item}>
+                <a
+                  // href={`#${text}`}
+                  onClick={() => {
+                    // 此时curChosen的颜色退去，index的颜色出现
+                    handleClick(curChosen, index);
+                    setCurChosen(index);
+                  }}
+                >
+                  {text}
+                </a>
+              </div>
+            );
+          })
+        ) : (
+          <div style={{ marginLeft: '20px' }}>
+            <span>无标题</span>
+          </div>
+        )}
       </>
     </div>
   );
