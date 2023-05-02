@@ -1,7 +1,15 @@
 import { ReactElement } from 'react';
 
 // interface
-import { AntdIcon, blogObj, BreadCrumbObj, MenuItem, SideMenuItem, TreeSelectItem } from '@/interface';
+import {
+  AntdIcon,
+  blogObj,
+  BreadCrumbObj,
+  ClassificationInfoObj,
+  MenuItem,
+  SideMenuItem,
+  TreeSelectItem,
+} from '@/interface';
 
 // antd
 import type { DataNode } from 'antd/es/tree';
@@ -174,7 +182,25 @@ export const filterTitle = (text: string) => {
   return filterContents;
 };
 
+// 获取所有menu的Title,Color以及其下的博客数量
+export const getClassificationInfo: (menus: SideMenuItem[]) => ClassificationInfoObj[] = menus => {
+  const list = [] as ClassificationInfoObj[];
+  menus.map(menu => {
+    list.push({ title: menu.title, color: menu.color as string, blogNum: menu.blogs ? menu.blogs.length : 0 });
+    if (menu.children)
+      menu.children.map(child => {
+        list.push({
+          title: child.title,
+          color: child.color as string,
+          blogNum: child.blogs ? child.blogs.length : 0,
+        });
+      });
+  });
+  return list;
+};
+
 /**************** 列表生成 *****************/
+
 // 将SideMenuItem列表转化为MenuItem列表
 function getItem(label: string, key: React.Key, icon?: React.ReactNode, children?: MenuItem[]): MenuItem {
   return {

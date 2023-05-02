@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { NotificationPlacement } from 'antd/es/notification/interface';
 import type { MenuProps } from 'antd/es/menu';
+import { getClassificationInfo } from '@/utils';
 
 /******** Ajax ********/
 // LoginForm
@@ -186,4 +187,11 @@ export type noticeObj = {
 export interface BreadCrumbObj {
   icon?: React.ReactNode;
   title: string;
+}
+
+/*********** Classification **********/
+export interface ClassificationInfoObj {
+  title: string;
+  color: string;
+  blogNum: number;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 
 import BlogToc from '@/components/BlogPage/BlogToc';
 import { useAppSelector } from '@/redux';
+import Classification from '@/components/HomePage/Classification';
 
 const TestPage = () => {
   const testText = `
@@ -16,6 +17,7 @@ const TestPage = () => {
   return (
     <div style={{ margin: '20vh', width: '200px', backgroundColor: '#FFF' }}>
       {/*<BlogToc text={testText}></BlogToc>*/}
+      <Classification></Classification>
     </div>
   );
 };

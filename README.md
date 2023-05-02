@@ -226,3 +226,28 @@
     - 在处理业务逻辑的时候，await调用消息方法，后面放消息结束后的操作即可（比如状态更新啥的）
     - 当然，message要放在axios请求成功后的回调里面
 21. 利用moment包处理date类型数据
+22. 如何处理需要在组件加载后才能获取到的数据（如标签样式）
+    ```js
+        // 在组件内声明变量，在useEffect内获取相应结点的样式
+        // 注意：不能直接在组件内获取标签结点，因为初始化时结点还没渲染，无法获取
+        // 而根据组件生命周期可知，在render后useEffect内函数才调用，因此可以获取到对应标签结点
+        let primaryColors: string[];
+        let hoverColors: string[];
+
+        useEffect(() => {
+            primaryColors =
+            classInfoList && classInfoList.length
+                ? classInfoList.map((_, index) => {
+                    const div = document.getElementById(`classification-tag-${index}`) as HTMLElement;
+                    return window.getComputedStyle(div).backgroundColor;
+                })
+                : [];
+            hoverColors =
+            primaryColors && primaryColors.length
+                ? primaryColors.map(color => {
+                    const colorRgb = getColorRgb(color as string);
+                    return `rgba(${colorRgb[0] - 10},${colorRgb[1] - 10},${colorRgb[2] - 10})`;
+                })
+                : [];
+        }, []);
+    ```

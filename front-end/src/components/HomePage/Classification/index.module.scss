@@ -1,0 +1,22 @@
+@import "@/assets/css/index.scss";
+
+.tag {
+  @include unSelectable;
+  box-shadow: 0 0 3px rgba(0, 0, 0, .1);
+  margin: 5px;
+  cursor: pointer;
+  border: none;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font: {
+    size: 18px;
+  }
+
+  .badge {
+    margin: {
+      left: 4px;
+      bottom: 4px;
+    }
+  }
+}
