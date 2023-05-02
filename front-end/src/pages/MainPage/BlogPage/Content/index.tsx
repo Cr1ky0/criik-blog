@@ -118,13 +118,13 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
       {selectedId ? (
         /* Content加载状态 */
         loading ? (
-          <>
+          <div style={{ width: '100%', height: '100%' }}>
             <Skeleton active />
             <br />
             <Skeleton active />
             <br />
             <Skeleton active />
-          </>
+          </div>
         ) : (
           <>
             <div className={style.blog}>

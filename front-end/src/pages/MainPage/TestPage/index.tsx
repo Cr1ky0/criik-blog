@@ -15,7 +15,7 @@ const TestPage = () => {
   const curBlog = useAppSelector(state => state.blog.curBlog);
   return (
     <div style={{ margin: '20vh', width: '200px', backgroundColor: '#FFF' }}>
-      <BlogToc text={testText}></BlogToc>
+      {/*<BlogToc text={testText}></BlogToc>*/}
     </div>
   );
 };
