@@ -35,16 +35,17 @@
 
   .content {
     padding: 0 20px;
+    position: relative;
 
     > div:not(:first-child) {
-      height: 0;
+      opacity: 0;
     }
 
     > div {
+      position: absolute;
       // 功能区
       @include setScrollBar(5px);
-      transition: height .2s;
-      overflow: hidden;
+      transition: opacity .2s;
 
       > div:last-child {
         height: 500px;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // css
 import style from './index.module.scss';
@@ -24,8 +24,17 @@ const BlogDetailBox = () => {
   const [curChosen, setCurChosen] = useState(0);
   const timeline = useAppSelector(state => state.blog.timeLine);
   const menus = useAppSelector(state => state.blogMenu.menuList);
+  useEffect(() => {
+    const content = document.getElementById('blog-detail-box-content') as HTMLElement;
+    // 设个限制不然刷新就+500
+    if (content && parseInt(window.getComputedStyle(content).height) < 500) {
+      // 这里是指定总容器的大小，因为开启定位后脱离文档流
+      const h = parseInt(window.getComputedStyle(content.children[0].children[0]).height);
+      content.style.height = 500 + h + parseInt(window.getComputedStyle(content).height) + 'px';
+    }
+  }, []);
   return (
-    <div className={style.wrapper}>
+    <div className={`${style.wrapper} clearfix`}>
       <div className={style.header}>
         {names.map((name, index) => {
           return (
@@ -37,9 +46,8 @@ const BlogDetailBox = () => {
                   const div = document.getElementById(`blog-detail-box-btn-${index}`) as HTMLElement;
                   const lastContent = document.getElementById(`blog-detail-box-content-${curChosen}`) as HTMLElement;
                   const nowContent = document.getElementById(`blog-detail-box-content-${index}`) as HTMLElement;
-                  lastContent.style.height = '0';
-                  nowContent.style.height =
-                    500 + parseInt(window.getComputedStyle(nowContent.children[0]).height) + 'px';
+                  lastContent.style.opacity = '0';
+                  nowContent.style.opacity = '1';
                   last.style.backgroundColor = 'rgba(0,0,0,.1)';
                   div.style.backgroundColor = THEME_COLOR;
                   setCurChosen(index);
@@ -57,7 +65,7 @@ const BlogDetailBox = () => {
           );
         })}
       </div>
-      <div className={style.content}>
+      <div id="blog-detail-box-content" className={style.content}>
         <div id="blog-detail-box-content-0">
           <div className={style.statistic}>
             <span className="iconfont">&#xe609;</span>
