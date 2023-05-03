@@ -18,16 +18,8 @@ import { getSideMenuItem, getTreeSelectList, hasBlog } from '@/utils';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addBlogMenu, setSelectedId, deleteMenu } from '@/redux/slices/blog';
-import {
-  setMenuId,
-  setTitle,
-  setMenuTitle,
-  initWriteContent,
-  setIsEdit,
-  setAllContent,
-  updateCurBlog,
-} from '@/redux/slices/blog';
+import { addBlogMenu, setSelectedId, deleteMenu } from '@/redux/slices/blogMenu';
+import { setMenuId, setTitle, setMenuTitle, initWriteContent, setIsEdit, setAllContent } from '@/redux/slices/blog';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
@@ -35,7 +27,7 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 
 // api
-import { addBlogAjax, updateBlogAjax } from '@/api/blog';
+import { addBlogAjax, getCurBlog, updateBlogAjax } from '@/api/blog';
 
 // interface
 import { SideMenuItem } from '@/interface';
@@ -43,14 +35,12 @@ import { setChosenList } from '@/redux/slices/chosenList';
 
 const BlogManage = () => {
   // TODO:后续可以再整个草稿箱
-  const menus = useAppSelector(state => state.blog.menuList);
+  const menus = useAppSelector(state => state.blogMenu.menuList);
   const modal = useGlobalModal();
   // text info
   const { title, menuId, content, menuTitle } = useAppSelector(state => state.blog.writeContent);
   const isEdit = useAppSelector(state => state.blog.isEdit);
-  const selectedId = useAppSelector(state => state.blog.selectedId);
-  const curBlog = useAppSelector(state => state.blog.curBlog);
-  const curPage = useAppSelector(state => state.blog.curPage);
+  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const icons = useIcons();
   const message = useGlobalMessage();
   const antdMenus = getTreeSelectList(menus, icons, true);
@@ -77,17 +67,25 @@ const BlogManage = () => {
           title: '提示',
           content: '编辑当前博客会覆盖正在编辑的内容，确定要这么做吗？',
           onOk: () => {
-            const { title, belongingMenu, contents } = curBlog;
-            const menu = getSideMenuItem(menus, belongingMenu) as SideMenuItem;
-            dispatch(
-              setAllContent({
-                title,
-                menuId: menu.id,
-                menuTitle: menu.title,
-                content: contents,
-              })
+            getCurBlog(selectedId).then(
+              response => {
+                const blog = response.data.blog;
+                const { belongingMenu, contents, title } = blog;
+                const menu = getSideMenuItem(menus, belongingMenu) as SideMenuItem;
+                dispatch(
+                  setAllContent({
+                    title,
+                    menuId: menu.id,
+                    menuTitle: menu.title,
+                    content: contents,
+                  })
+                );
+                dispatch(setIsEdit(true));
+              },
+              err => {
+                message.error(err.message);
+              }
             );
-            dispatch(setIsEdit(true));
           },
         });
       },
@@ -149,8 +147,6 @@ const BlogManage = () => {
       async () => {
         await message.loadingSuccessAsync('更新中...', '更新成功！');
         dispatch(initWriteContent());
-        // 更新后要重新设置blog信息、删除原blog的menu、添加blog到新的menu
-        dispatch(updateCurBlog({ title, belongingMenu: menuId, contents: content, updateAt: Date.now() }));
         // 更新主页博客信息
         dispatch(deleteMenu(selectedId));
         dispatch(
@@ -176,7 +172,6 @@ const BlogManage = () => {
         <SideMenu></SideMenu>
       </div>
       <div className={style.content}>
-        {/*<div className={style.editState}>当前状态：{isEdit ? 'Update' : 'Add'}</div>*/}
         <div className={style.editState}>
           当前状态：
           <Dropdown menu={{ items, selectable: true, selectedKeys: [isEdit ? '1' : '2'] }}>

@@ -19,7 +19,7 @@ const getColorRgb = (primaryColor: string) => {
   });
 };
 const Classification = () => {
-  const menus = useAppSelector(state => state.blog.menuList);
+  const menus = useAppSelector(state => state.blogMenu.menuList);
   const classInfoList = getClassificationInfo(menus);
   let primaryColors: string[];
   let hoverColors: string[];

@@ -19,7 +19,8 @@ const { Content } = Layout;
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setEmoji } from '@/redux/slices/emoji';
-import { setMenuList, setTimeLine } from '@/redux/slices/blog';
+import { setTimeLine } from '@/redux/slices/blog';
+import { setMenuList } from '@/redux/slices/blogMenu';
 
 // gloabal
 import { MY_ID } from '@/global';

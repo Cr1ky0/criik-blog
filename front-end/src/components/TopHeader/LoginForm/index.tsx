@@ -22,16 +22,11 @@ import { LoginFormData } from '@/interface';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import Cookies from 'universal-cookie';
 
-// redux
-import { useAppDispatch } from '@/redux';
-import { setMenuList } from '@/redux/slices/blog';
-
 interface LoginFormProps {
   close: () => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
-  const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const message = useGlobalMessage();

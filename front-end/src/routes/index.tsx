@@ -11,6 +11,7 @@ import BlogManage from '@/pages/MainPage/BlogManage';
 
 // blog
 import BlogPage from '@/pages/MainPage/BlogPage';
+import BlogContent from '@/pages/MainPage/BlogPage/BlogContent';
 
 const router = [
   {
@@ -34,6 +35,12 @@ const router = [
       {
         path: 'blog',
         element: <BlogPage />,
+        children: [
+          {
+            path: '',
+            element: <BlogContent></BlogContent>,
+          },
+        ],
       },
       {
         path: 'manage',

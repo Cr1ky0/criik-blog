@@ -8,7 +8,7 @@ const filterObj = require('../utils/filterObj');
 const myId = '64326421e387110cac9f8ece';
 
 exports.defaultParams = (req, res, next) => {
-  req.query.limit = '3';
+  req.query.limit = '10';
   next();
 };
 
@@ -86,14 +86,20 @@ exports.updateBlog = catchAsync(async (req, res, next) => {
 
 exports.updateViewOfBlog = catchAsync(async (req, res, next) => {
   const filteredBody = filterObj(req.body, 'views');
-  await Blog.findByIdAndUpdate(req.params.id, filteredBody, {
-    new: true,
-    runValidators: true,
-  });
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    req.params.id,
+    filteredBody,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
   res.status(200).json({
     status: 'success',
-    data: null,
+    data: {
+      updatedBlog,
+    },
   });
 });
 

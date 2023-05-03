@@ -12,10 +12,10 @@ import ChangeFormBox from '@/components/TopHeader/ChangeInfo/ChangeFormBox';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addMenu, deleteMenu, editMenu, setSelectedId } from '@/redux/slices/blog';
+import { addMenu, deleteMenu, editMenu, setSelectedId } from '@/redux/slices/blogMenu';
 
 // utils
-import { generateSideMenuItem, getDataNodeTree, getOneBlogId, getOneMenuId, getSideMenuItem, hasCurKey } from '@/utils';
+import { getDataNodeTree, getOneBlogId, getOneMenuId, getSideMenuItem, hasCurKey } from '@/utils';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
@@ -54,8 +54,8 @@ const colorChoseList = colorList.map(color => ({
 }));
 const EditMenu = () => {
   const dispatch = useAppDispatch();
-  const menus = useAppSelector(state => state.blog.menuList);
-  const selectedId = useAppSelector(state => state.blog.selectedId);
+  const menus = useAppSelector(state => state.blogMenu.menuList);
+  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const message = useGlobalMessage();
   // 选择图标的下拉菜单列表
   const icons = useIcons();

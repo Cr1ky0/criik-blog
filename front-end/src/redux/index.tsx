@@ -5,6 +5,8 @@ import emoji from './slices/emoji';
 import chosenList from './slices/chosenList';
 import blog from './slices/blog';
 import comments from './slices/comments';
+import blogMenu from '@/redux/slices/blogMenu';
+
 //持久存储
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -14,6 +16,7 @@ const reducers = combineReducers({
   chosenList,
   blog,
   comments,
+  blogMenu,
 });
 
 const persistConfig = {

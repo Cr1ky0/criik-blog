@@ -20,10 +20,9 @@ interface BlogInfoProps {
 }
 
 const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
-  const menus = useAppSelector(state => state.blog.menuList);
+  const menus = useAppSelector(state => state.blogMenu.menuList);
   const { author, time, views, belongingMenu } = statistics;
-  const item = getSideMenuItem(menus, belongingMenu) as SideMenuItem;
-  const { title, color } = item;
+  const item = getSideMenuItem(menus, belongingMenu);
   return (
     <div className={`${style.wrapper} clearfix`}>
       <Popover content="作者信息" trigger="hover" placement="bottom">
@@ -47,8 +46,8 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
       <Popover content="分类标签" trigger="hover" placement="bottom">
         <div className={style.classification}>
           <span className="iconfont">&#xe623;</span>
-          <Tag color={color} style={{ height: '20px', lineHeight: '20px' }}>
-            {title}
+          <Tag color={item ? item.color : undefined} style={{ height: '20px', lineHeight: '20px' }}>
+            {item ? item.title : undefined}
           </Tag>
         </div>
       </Popover>

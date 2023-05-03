@@ -28,7 +28,7 @@ const items: MenuProps['items'] = [
 const CommentList = () => {
   const sort = useAppSelector(state => state.comments.sort);
   const comments = useAppSelector(state => state.comments.commentList);
-  const selectedId = useAppSelector(state => state.blog.selectedId);
+  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const curPage = useAppSelector(state => state.comments.curPage);
   const isLoading = useAppSelector(state => state.comments.isLoading);
   const length = useAppSelector(state => state.comments.length);

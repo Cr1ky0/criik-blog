@@ -27,7 +27,7 @@ const WriteComment = () => {
   const [isLoading, setIsLoading1] = useState(false);
   const cookies = new Cookies();
   const user = cookies.get('user');
-  const selectedId = useAppSelector(state => state.blog.selectedId);
+  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const curPage = useAppSelector(state => state.comments.curPage);
   const sort = useAppSelector(state => state.comments.sort);
   const dispatch = useAppDispatch();

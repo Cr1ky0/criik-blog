@@ -3,7 +3,6 @@ import service from '@/utils/request';
 
 // interface
 import { addBlogObj, updateBlogObj } from '@/interface';
-import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const addBlogAjax = catchAsync(async (values: addBlogObj) => {
   const response = await service.post('/api/blogs/', values);
@@ -11,12 +10,6 @@ export const addBlogAjax = catchAsync(async (values: addBlogObj) => {
 });
 
 export const updateBlogAjax = catchAsync(async (values: updateBlogObj) => {
-  const { blogId, data } = values;
-  const response = await service.patch(`/api/blogs/updateViewOfBlog/${blogId}`, data);
-  return Promise.resolve(response);
-});
-
-export const updateBlogViewAjax = catchAsync(async (values: updateBlogObj) => {
   const { blogId, data } = values;
   const response = await service.patch(`/api/blogs/${blogId}`, data);
   return Promise.resolve(response);
@@ -39,5 +32,14 @@ export const getSelfBlogs = async (page: string) => {
 
 export const getHomePageBlogNum = async () => {
   const response = await service.get('/api/blogs/getSelfBlogNum');
+  return Promise.resolve(response.data);
+};
+export const getCurBlog = async (id: string) => {
+  const response = await service.get(`/api/blogs/${id}`);
+  return Promise.resolve(response.data);
+};
+
+export const updateBlogViewAjax = async (id: string, views: number) => {
+  const response = await service.patch(`/api/blogs/updateViewOfBlog/${id}`, { views });
   return Promise.resolve(response.data);
 };

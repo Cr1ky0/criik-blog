@@ -17,9 +17,10 @@ router.get('/getSelfBlogNum', blogController.getSelfBlogNum);
 router.get('/getSelfTimeLine', blogController.getSelfTimeLine);
 
 // 更新博客views
-router.get('/updateViewOfBlog/:id', blogController.updateViewOfBlog);
+router.patch('/updateViewOfBlog/:id', blogController.updateViewOfBlog);
 
-router.route('/:id').get(blogController.getBlog); // 获取博客
+// 获取指定博客
+router.route('/:id').get(blogController.getBlog);
 
 router.use(authController.protect);
 router.use(authController.restrictTo('admin'));

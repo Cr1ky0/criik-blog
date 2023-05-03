@@ -14,7 +14,6 @@ const TestPage = () => {
   # 第三分段 
   测试3
 `;
-  const curBlog = useAppSelector(state => state.blog.curBlog);
   const timeLine = useAppSelector(state => state.blog.timeLine);
   const dispatch = useAppDispatch();
 

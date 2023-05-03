@@ -32,7 +32,6 @@ export interface SingleCommentProps {
 const SingleComment: React.FC<SingleCommentProps> = props => {
   const { info } = props;
   const message = useGlobalMessage();
-  // TODO:后续添加点赞功能
   const { contents, username, brief, time, userId, likes, id } = info;
   // 利用likeList判断当前评论的id是否在其中来记录点赞状态
   const likeList = useAppSelector(state => state.comments.likeList);
@@ -97,7 +96,7 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
           <div className={style.infoBox}>
             <div className={style.username}>{username}</div>
             <div className={style.tags}>
-              {user.role === 'admin' ? <Tag color="red">管理员</Tag> : <Tag color="blue">游客</Tag>}
+              {user && user.role === 'admin' ? <Tag color="red">管理员</Tag> : <Tag color="blue">游客</Tag>}
             </div>
             <div className={style.time}>{time}</div>
           </div>

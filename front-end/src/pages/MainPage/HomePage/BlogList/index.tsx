@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import moment from 'moment/moment';
 
@@ -19,7 +19,7 @@ const BlogList = () => {
   const [search] = useSearchParams();
   const page = search.get('page') ? search.get('page') : '1';
   const [blogs, setBlogs] = useState([] as blogObj[]);
-  useMemo(() => {
+  useEffect(() => {
     getSelfBlogs(page as string).then(
       res => {
         setBlogs(res.data.blogs);

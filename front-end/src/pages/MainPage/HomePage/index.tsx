@@ -76,7 +76,7 @@ const HomePage = () => {
                 <Pagination
                   showSizeChanger={false}
                   showQuickJumper
-                  pageSize={3}
+                  pageSize={10}
                   current={curPage}
                   total={totalNum}
                   onChange={page => {

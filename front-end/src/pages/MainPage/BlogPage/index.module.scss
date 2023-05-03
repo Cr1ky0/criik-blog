@@ -4,10 +4,21 @@
 .wrapper {
   @include setWrapper();
   @include setSider();
+  @include setContent();
 
   .loadingAnime {
     height: 100%;
     width: 100%;
     padding: 15vh 20vw;
   }
+
+  .content {
+    //position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: 5vh 5vw;
+    height: 95vh;
+    overflow-y: auto;
+  }
+
 }

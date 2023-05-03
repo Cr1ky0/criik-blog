@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { Outlet } from 'react-router';
 
 // comp
 import SideMenu from '@/components/SideMenu';
-import BlogPageContent from '@/pages/MainPage/BlogPage/Content';
 
 // antd
 import { Skeleton } from 'antd';
@@ -12,15 +12,13 @@ import style from './index.module.scss';
 
 // redux
 import { setChosenList } from '@/redux/slices/chosenList';
-import { useAppDispatch } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
 
 const BlogPage = () => {
-  const [loading, setLoading] = useState(false);
   const [initLoading, setInitLoading] = useState(true);
   const dispatch = useAppDispatch();
-  const handleChange = (state: boolean) => {
-    setLoading(state);
-  };
+  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
+
   useEffect(() => {
     dispatch(setChosenList([false, true, false, false]));
     // 初始化动画
@@ -46,14 +44,12 @@ const BlogPage = () => {
       ) : (
         <>
           <div className={style.sider}>
-            <SideMenu
-              noEdit={true}
-              setLoading={(state: boolean) => {
-                setLoading(state);
-              }}
-            ></SideMenu>
+            <SideMenu noEdit={true}></SideMenu>
           </div>
-          <BlogPageContent setLoading={handleChange} loading={loading}></BlogPageContent>
+          <div id="blog-page-content-wrapper" className={`${style.content} clearfix`}>
+            {/* 选中状态 */}
+            {selectedId ? <Outlet /> : <div style={{ fontSize: '24px' }}>当前没有博客，请添加博客后访问！</div>}
+          </div>
         </>
       )}
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import moment from 'moment';
 import Cookies from 'universal-cookie';
@@ -10,18 +10,18 @@ import Comment from '@/components/Comment';
 import BlogToc from '@/components/BlogPage/BlogToc';
 
 // antd
-import { Skeleton, Breadcrumb } from 'antd';
+import { Breadcrumb, Skeleton } from 'antd';
 
 // css
 import style from './index.module.scss';
 
 //redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { setSelectedId, deleteMenu } from '@/redux/slices/blog';
-import { initWriteContent, setAllContent, setCurBlog, setIsEdit, setViews, updateCurBlog } from '@/redux/slices/blog';
+import { setSelectedId, deleteMenu } from '@/redux/slices/blogMenu';
+import { initWriteContent, setAllContent, setIsEdit } from '@/redux/slices/blog';
 
 // utils
-import { getBreadcrumbList, getOneBlogId, getSideMenuItem } from '@/utils';
+import { filterTitle, getBreadcrumbList, getOneBlogId, getSideMenuItem } from '@/utils';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
@@ -29,59 +29,65 @@ import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // api
-import { deleteBlogAjax, updateBlogViewAjax } from '@/api/blog';
+import { deleteBlogAjax, getCurBlog, updateBlogViewAjax } from '@/api/blog';
 
 // interface
-import { SideMenuItem } from '@/interface';
+import { SideMenuItem, blogObj } from '@/interface';
 
-interface BlogPageContentProps {
-  setLoading: (state: boolean) => void;
-  loading: boolean;
-}
-
-const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }) => {
+const BlogContent = () => {
+  const icons = useIcons();
   const message = useGlobalMessage();
   const modal = useGlobalModal();
   const navigate = useNavigate();
-  const menus = useAppSelector(state => state.blog.menuList);
-  const curBlog = useAppSelector(state => state.blog.curBlog);
-  const selectedId = useAppSelector(state => state.blog.selectedId);
-  const views = useAppSelector(state => state.blog.views);
   const dispatch = useAppDispatch();
-  const { title, contents, author, publishAt, belongingMenu, updateAt } = curBlog;
-  const icons = useIcons();
-  const breadcrumbList = selectedId ? getBreadcrumbList(menus, selectedId, icons) : undefined;
+  const [loading, setLoading] = useState(false);
+  const menus = useAppSelector(state => state.blogMenu.menuList);
+  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
+
+  // 获取面包屑列表
+  const breadcrumbList = selectedId ? getBreadcrumbList(menus, selectedId, icons) : [];
+
+  // cookie
   const cookies = new Cookies();
   const user = cookies.get('user');
 
+  // curBlog
+  const [curBlog, setCurBlog] = useState<blogObj>({
+    id: '',
+    _id: '',
+    title: '',
+    belongingMenu: '',
+  });
   useEffect(() => {
-    // 组件加载一次热度+1
-    if (selectedId) {
-      updateBlogViewAjax(
-        {
-          blogId: selectedId,
-          data: {
-            views: views + 1,
-          },
-        },
-        data => {
-          const newBlog = data.data.updatedBlog;
-          dispatch(setViews(newBlog.views));
-        },
-        msg => {
-          message.error(msg);
-        }
-      );
-    }
-  }, []);
+    // 设置loading状态
+    setLoading(true);
+    getCurBlog(selectedId)
+      .then(response => {
+        // 加载一次热度+1
+        return updateBlogViewAjax(selectedId, response.data.blog.views + 1);
+      })
+      .then(data => {
+        const blog = data.data.updatedBlog;
+        // 处理Title
+        const contents = filterTitle(blog.contents);
+        const newBlog = Object.assign({}, blog, { contents });
+        setCurBlog(newBlog);
+        setLoading(false);
+      })
+      .catch(err => {
+        message.error(err.message);
+        setLoading(false);
+      });
+  }, [selectedId]);
+
   const handleEdit = () => {
-    const menu = getSideMenuItem(menus, belongingMenu) as SideMenuItem;
+    const menu = getSideMenuItem(menus, curBlog.belongingMenu) as SideMenuItem;
     dispatch(
       setAllContent({
-        title,
+        title: curBlog.title,
         menuId: menu.id,
         menuTitle: menu.title,
-        content: contents,
+        content: curBlog.contents,
       })
     );
     navigate('/manage');
@@ -102,12 +108,7 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
           dispatch(setIsEdit(false));
           dispatch(initWriteContent());
         } else {
-          // 有博客就将curBlog设为该博客
-          dispatch(setCurBlog(id));
-          setLoading(true);
-          setTimeout(() => {
-            setLoading(false);
-          }, 1000);
+          navigate(`/blog?id=${id}`);
         }
       },
       msg => {
@@ -117,9 +118,8 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
   };
 
   return (
-    <div id="blog-page-content-wrapper" className={`${style.content} clearfix`}>
-      {/* 选中状态 */}
-      {selectedId ? (
+    <>
+      {
         /* Content加载状态 */
         loading ? (
           <div style={{ width: '100%', height: '100%' }}>
@@ -135,7 +135,7 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
               <div className={style.breadCrumb}>
                 <Breadcrumb
                   items={
-                    breadcrumbList
+                    breadcrumbList && breadcrumbList.length
                       ? breadcrumbList.map(item => {
                           return {
                             title: (
@@ -150,21 +150,23 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
                 />
               </div>
               <div className={style.info}>
-                <div className={style.title}>{title}</div>
+                <div className={style.title}>{curBlog.title}</div>
                 <div className={style.blogInfo}>
-                  <BlogInfo
-                    statistics={{
-                      author: author as string,
-                      time: moment(publishAt).format('YYYY-MM-DD'),
-                      views: views as number,
-                      belongingMenu,
-                    }}
-                  ></BlogInfo>
+                  {curBlog.id ? (
+                    <BlogInfo
+                      statistics={{
+                        author: curBlog.author as string,
+                        time: moment(curBlog.publishAt).format('YYYY-MM-DD'),
+                        views: curBlog.views as number,
+                        belongingMenu: curBlog.belongingMenu,
+                      }}
+                    ></BlogInfo>
+                  ) : undefined}
                 </div>
               </div>
               <div className={style.blogContent}>
                 <div className={style.text}>
-                  <ReactMarkdownRender>{contents as string}</ReactMarkdownRender>
+                  <ReactMarkdownRender>{curBlog.contents as string}</ReactMarkdownRender>
                 </div>
                 {/* 博客编辑选项 */}
                 {user ? (
@@ -202,10 +204,10 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
                     </div>
                     <div>
                       <div>
-                        上次编辑于：<span>{moment(updateAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                        上次编辑于：<span>{moment(curBlog.updateAt).format('YYYY-MM-DD HH:mm:ss')}</span>
                       </div>
                       <div>
-                        贡献者：<span>{author}</span>
+                        贡献者：<span>{curBlog.author}</span>
                       </div>
                     </div>
                   </div>
@@ -216,15 +218,13 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
               </div>
             </div>
             <div className={style.toc}>
-              <BlogToc text={contents as string}></BlogToc>
+              {curBlog.id ? <BlogToc text={curBlog.contents as string}></BlogToc> : undefined}
             </div>
           </>
         )
-      ) : (
-        <div style={{ fontSize: '24px' }}>当前没有博客，请添加博客后访问！</div>
-      )}
-    </div>
+      }
+    </>
   );
 };
 
-export default BlogPageContent;
+export default BlogContent;
