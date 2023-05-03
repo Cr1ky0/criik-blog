@@ -39,6 +39,7 @@ const BlogList = () => {
             return (
               <div key={id} style={{ paddingBottom: '3vh' }}>
                 <BlogTagBox
+                  blogId={id}
                   title={title}
                   statistic={{
                     author: author as string,

@@ -1,5 +1,4 @@
 const Blog = require('../models/blogModel');
-const User = require('../models/userModel');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -40,18 +39,6 @@ exports.addBlog = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       newBlog,
-    },
-  });
-});
-
-exports.getBlogs = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user.id).populate({
-    path: 'blogs',
-  });
-  res.status(200).json({
-    status: 'success',
-    data: {
-      blogs: user.blogs,
     },
   });
 });
@@ -156,9 +143,9 @@ exports.getSelfBlogNum = catchAsync(async (req, res, next) => {
 });
 
 exports.getSelfTimeLine = catchAsync(async (req, res, next) => {
-  const blogs = await Blog.find({ belongTo: myId }).select(
-    'title publishAt id'
-  );
+  const blogs = await Blog.find({ belongTo: myId })
+    .select('title publishAt id')
+    .sort('-publishAt');
 
   res.status(200).json({
     status: '200',

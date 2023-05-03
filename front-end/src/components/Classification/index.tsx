@@ -21,28 +21,30 @@ const getColorRgb = (primaryColor: string) => {
 const Classification = () => {
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const classInfoList = getClassificationInfo(menus);
-  let primaryColors: string[];
-  let hoverColors: string[];
+  const [primaryColors, setPrimaryColors] = useState([] as string[]);
+  const [hoverColors, setHoverColors] = useState([] as string[]);
 
   useEffect(() => {
-    primaryColors =
+    const primColors =
       classInfoList && classInfoList.length
         ? classInfoList.map((_, index) => {
             const div = document.getElementById(`classification-tag-${index}`) as HTMLElement;
             return window.getComputedStyle(div).backgroundColor;
           })
         : [];
-    hoverColors =
-      primaryColors && primaryColors.length
-        ? primaryColors.map(color => {
+    const hovColors =
+      primColors && primColors.length
+        ? primColors.map(color => {
             const colorRgb = getColorRgb(color as string);
             return `rgba(${colorRgb[0] - 10},${colorRgb[1] - 10},${colorRgb[2] - 10})`;
           })
         : [];
+    setHoverColors(hovColors);
+    setPrimaryColors(primColors);
   }, []);
 
   return (
-    <div>
+    <div className="clearfix">
       {classInfoList
         ? classInfoList.map((info, index) => {
             return (

@@ -28,10 +28,7 @@ router.use(authController.restrictTo('admin'));
 // 删除对应menu下的blogs（单层）
 router.delete('/delBlogsOfMenu/:blogId', blogController.deleteBlogOfMenu);
 
-router
-  .route('/')
-  .get(blogController.getBlogs) // 获取当前用户所有blogs
-  .post(blogController.addBlog); // 新建博客
+router.route('/').post(blogController.addBlog); // 新建博客
 
 router
   .route('/:id')

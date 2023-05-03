@@ -1,4 +1,7 @@
+@import "@/assets/css/index.scss";
+
 .wrapper {
+  @include unSelectable;
   padding: {
     left: 5px;
     right: 5px;

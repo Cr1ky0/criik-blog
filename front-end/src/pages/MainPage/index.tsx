@@ -19,7 +19,6 @@ const { Content } = Layout;
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setEmoji } from '@/redux/slices/emoji';
-import { setTimeLine } from '@/redux/slices/blog';
 import { setMenuList } from '@/redux/slices/blogMenu';
 
 // gloabal
@@ -29,14 +28,10 @@ const MainPage = () => {
   const dispatch = useAppDispatch();
   const chosenList = useAppSelector(state => state.chosenList.chosenList);
   useEffect(() => {
-    // 这里加载的全是我个人的博客信息
-    // 后续登录后重新获取数据
     // 加载后先把emoji请求回来，后面不再请求了
     dispatch(setEmoji());
     // 请求MyMenu
     dispatch(setMenuList(MY_ID));
-    // 请求timeLine
-    dispatch(setTimeLine());
   }, []);
   return (
     <Layout>

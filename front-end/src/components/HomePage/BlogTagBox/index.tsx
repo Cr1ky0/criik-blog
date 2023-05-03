@@ -1,11 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 
 // css
 import style from './index.module.scss';
 
 // comp
 import BlogInfo from '@/components/Universal/BlogInfo';
-import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 
 // util
 import { getLimitString } from '@/utils';
@@ -13,21 +13,34 @@ import { getLimitString } from '@/utils';
 // interface
 import { BlogTagBoxStatistic } from '@/interface';
 
+// redux
+import { useAppDispatch } from '@/redux';
+import { setSelectedId } from '@/redux/slices/blogMenu';
+
 export interface BlogTagBoxProps {
   children: string;
   title: string;
+  blogId: string;
   statistic: BlogTagBoxStatistic;
 }
 
 // 主页的BlogBox组件
 const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
-  const { children, title, statistic } = props;
+  const { children, title, statistic, blogId } = props;
   const { author, time, views, belongingMenu } = statistic;
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const limit = 400; // 超过400字加`...`
   return (
     <div className={`${style.wrapper} clearfix`}>
       <div className={style.titleWrapper}>
-        <div className={style.title}>
+        <div
+          className={style.title}
+          onClick={() => {
+            dispatch(setSelectedId(blogId));
+            navigate('/blog');
+          }}
+        >
           {title}
           <div className={style.bar}></div>
         </div>
