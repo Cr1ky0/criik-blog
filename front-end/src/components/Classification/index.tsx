@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 // antd
 import { Badge, Tag } from 'antd';
@@ -7,10 +8,14 @@ import { Badge, Tag } from 'antd';
 import style from './index.module.scss';
 
 // redux
-import { useAppSelector } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
 
+import { setSelectedId } from '@/redux/slices/blogMenu';
 //util
-import { getClassificationInfo } from '@/utils';
+import { getClassificationInfo, getSideMenuItem } from '@/utils';
+
+// interface
+import { SideMenuItem } from '@/interface';
 
 const getColorRgb = (primaryColor: string) => {
   const color = primaryColor.split(',');
@@ -19,7 +24,9 @@ const getColorRgb = (primaryColor: string) => {
   });
 };
 const Classification = () => {
+  const navigate = useNavigate();
   const menus = useAppSelector(state => state.blogMenu.menuList);
+  const dispatch = useAppDispatch();
   const classInfoList = getClassificationInfo(menus);
   const [primaryColors, setPrimaryColors] = useState([] as string[]);
   const [hoverColors, setHoverColors] = useState([] as string[]);
@@ -53,6 +60,7 @@ const Classification = () => {
                 key={index}
                 color={info.color}
                 className={style.tag}
+                style={{ marginRight: '15px' }}
                 onMouseEnter={e => {
                   // 这里也不能直接减
                   e.currentTarget.style.backgroundColor = hoverColors[index] as string;
@@ -60,6 +68,13 @@ const Classification = () => {
                 onMouseLeave={e => {
                   // 这里不能直接加，有bug导致最终变白色，需要记录原来的颜色直接赋值
                   e.currentTarget.style.backgroundColor = primaryColors[index] as string;
+                }}
+                onClick={() => {
+                  const item = getSideMenuItem(menus, info.id) as SideMenuItem;
+                  if (item.blogs && item.blogs.length) {
+                    dispatch(setSelectedId(item.blogs[0].id));
+                    navigate('/blog');
+                  }
                 }}
               >
                 <span>{info.title}</span>

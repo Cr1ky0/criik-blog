@@ -14,15 +14,18 @@ import img2 from '@/assets/images/blog-icon.png';
 
 // context
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
+import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // redux
 import { useAppDispatch } from '@/redux';
 import { setChosenList } from '@/redux/slices/chosenList';
 
+// api
+import { getHomePageBlogNum } from '@/api/blog';
+
 // comp
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
-import { getHomePageBlogNum } from '@/api/blog';
-import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+import BlogDetailBox from '@/components/HomePage/BlogDetailBox';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -96,6 +99,7 @@ const HomePage = () => {
         <div className={style.sider}>
           <div>
             <IntroductionBox></IntroductionBox>
+            <BlogDetailBox></BlogDetailBox>
           </div>
         </div>
       </div>

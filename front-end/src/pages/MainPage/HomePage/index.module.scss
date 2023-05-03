@@ -109,12 +109,16 @@
     }
 
     .sider {
-      width: 350px;
+      width: 320px;
       position: relative;
 
       > div {
         position: sticky;
         top: 10vh;
+
+        > div:last-child {
+          margin-top: 2vh;
+        }
       }
     }
   }

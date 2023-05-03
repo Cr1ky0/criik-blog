@@ -186,13 +186,19 @@ export const filterTitle = (text: string) => {
 export const getClassificationInfo: (menus: SideMenuItem[]) => ClassificationInfoObj[] = menus => {
   const list = [] as ClassificationInfoObj[];
   menus.map(menu => {
-    list.push({ title: menu.title, color: menu.color as string, blogNum: menu.blogs ? menu.blogs.length : 0 });
+    list.push({
+      title: menu.title,
+      color: menu.color as string,
+      blogNum: menu.blogs ? menu.blogs.length : 0,
+      id: menu.id,
+    });
     if (menu.children)
       menu.children.map(child => {
         list.push({
           title: child.title,
           color: child.color as string,
           blogNum: child.blogs ? child.blogs.length : 0,
+          id: child.id,
         });
       });
   });

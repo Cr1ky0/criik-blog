@@ -201,4 +201,5 @@ export interface ClassificationInfoObj {
   title: string;
   color: string;
   blogNum: number;
+  id: string;
 }

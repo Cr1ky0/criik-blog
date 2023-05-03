@@ -3,17 +3,27 @@ import React, { useState } from 'react';
 // css
 import style from './index.module.scss';
 
+// antd
+import { Popover } from 'antd';
+
 // comp
 import Classification from '@/components/Classification';
 import BlogTimeLine from '@/components/BlogTimeLine';
 
 // global
 import { THEME_COLOR } from '@/global';
-import { Popover } from 'antd';
+
+// redux
+import { useAppSelector } from '@/redux';
+
+// util
+import { getClassificationInfo } from '@/utils';
 
 const names = ['分类', '文章', '时间轴'];
 const BlogDetailBox = () => {
   const [curChosen, setCurChosen] = useState(0);
+  const timeline = useAppSelector(state => state.blog.timeLine);
+  const menus = useAppSelector(state => state.blogMenu.menuList);
   return (
     <div className={style.wrapper}>
       <div className={style.header}>
@@ -30,7 +40,6 @@ const BlogDetailBox = () => {
                   lastContent.style.height = '0';
                   nowContent.style.height =
                     500 + parseInt(window.getComputedStyle(nowContent.children[0]).height) + 'px';
-                  console.log(500 + window.getComputedStyle(nowContent.children[0]).height + 'px');
                   last.style.backgroundColor = 'rgba(0,0,0,.1)';
                   div.style.backgroundColor = THEME_COLOR;
                   setCurChosen(index);
@@ -52,7 +61,7 @@ const BlogDetailBox = () => {
         <div id="blog-detail-box-content-0">
           <div className={style.statistic}>
             <span className="iconfont">&#xe609;</span>
-            <span>34</span>&nbsp;
+            <span>{getClassificationInfo(menus).length}</span>&nbsp;
             <span>分类</span>
           </div>
           <Classification></Classification>
@@ -68,7 +77,7 @@ const BlogDetailBox = () => {
         <div id="blog-detail-box-content-2">
           <div className={style.statistic}>
             <span className="iconfont">&#xe8c5;</span>
-            <span>34</span>&nbsp;
+            <span>{timeline.length}</span>&nbsp;
             <span>时间轴</span>
           </div>
           <BlogTimeLine></BlogTimeLine>
