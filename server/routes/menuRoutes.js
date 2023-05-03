@@ -4,20 +4,15 @@ const menuController = require('../controllers/menuController');
 
 const router = express.Router();
 
-router
-  .route('/')
-  .get(authController.protect, menuController.getMenusOfUser)
-  .post(
-    authController.protect,
-    authController.restrictTo('admin'),
-    menuController.addMenu
-  );
+// 获取指定用户的menu（因为要展览，不设限了）
+router.route('/:id').get(menuController.getMenusOfUser);
 
 // 权限
 router.use(authController.protect);
-router.use(authController.restrictTo('admin'));
+router.use(authController.restrictTo('admin', 'user'));
 
-router.route('/getAllMenus').get(menuController.getMenus);
+// router.route('/getAllMenus').get(menuController.getMenus);
+router.route('/').post(menuController.addMenu);
 
 router
   .route('/:id')

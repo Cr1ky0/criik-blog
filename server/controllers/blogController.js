@@ -5,24 +5,12 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const filterObj = require('../utils/filterObj');
 
+const myId = '64326421e387110cac9f8ece';
+
 exports.defaultParams = (req, res, next) => {
-  req.query.limit = '10';
+  req.query.limit = '3';
   next();
 };
-
-exports.getAllBlogs = catchAsync(async (req, res, next) => {
-  // 规则都放在query参数内了
-  const features = new APIFeatures(Blog.find(), req.query);
-  const blogs = await features.query;
-
-  res.status(200).json({
-    status: 'success',
-    results: blogs.length,
-    data: {
-      blogs,
-    },
-  });
-});
 
 exports.getBlog = catchAsync(async (req, res, next) => {
   const blog = await Blog.findById(req.params.id);
@@ -74,15 +62,11 @@ exports.updateBlog = catchAsync(async (req, res, next) => {
     'contents',
     'belongingMenu',
     'title',
-    'views',
     'updateAt'
   );
-  const { title, belongingMenu, contents, views } = req.body;
-  if (!views) {
-    if (!belongingMenu) return next(new AppError('请选择分类！', 400));
-    if (!title || !contents)
-      return next(new AppError('请输入标题和内容！', 400));
-  }
+  const { title, belongingMenu, contents } = req.body;
+  if (!belongingMenu) return next(new AppError('请选择分类！', 400));
+  if (!title || !contents) return next(new AppError('请输入标题和内容！', 400));
   const updatedBlog = await Blog.findByIdAndUpdate(
     req.params.id,
     filteredBody,
@@ -100,6 +84,19 @@ exports.updateBlog = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.updateViewOfBlog = catchAsync(async (req, res, next) => {
+  const filteredBody = filterObj(req.body, 'views');
+  await Blog.findByIdAndUpdate(req.params.id, filteredBody, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    status: 'success',
+    data: null,
+  });
+});
+
 exports.deleteBlog = catchAsync(async (req, res, next) => {
   await Blog.findByIdAndUpdate(req.params.id, { active: false });
   res.status(204).json({
@@ -108,7 +105,6 @@ exports.deleteBlog = catchAsync(async (req, res, next) => {
   });
 });
 
-// 删除对应menu下的blog
 exports.deleteBlogOfMenu = catchAsync(async (req, res, next) => {
   await Blog.updateMany(
     { belongingMenu: req.params.blogId },
@@ -124,7 +120,7 @@ exports.deleteBlogOfMenu = catchAsync(async (req, res, next) => {
 exports.getSelfBlogs = catchAsync(async (req, res, next) => {
   const features = new APIFeatures(
     Blog.find({
-      belongTo: '64326421e387110cac9f8ece',
+      belongTo: myId,
     }),
     req.query
   )
@@ -143,12 +139,25 @@ exports.getSelfBlogs = catchAsync(async (req, res, next) => {
 });
 
 exports.getSelfBlogNum = catchAsync(async (req, res, next) => {
-  const blogs = await Blog.find({ belongTo: '64326421e387110cac9f8ece' });
+  const blogs = await Blog.find({ belongTo: myId });
   const { length } = blogs;
   res.status(200).json({
     status: 'success',
     data: {
       length,
+    },
+  });
+});
+
+exports.getSelfTimeLine = catchAsync(async (req, res, next) => {
+  const blogs = await Blog.find({ belongTo: myId }).select(
+    'title publishAt id'
+  );
+
+  res.status(200).json({
+    status: '200',
+    data: {
+      timeLine: blogs,
     },
   });
 });

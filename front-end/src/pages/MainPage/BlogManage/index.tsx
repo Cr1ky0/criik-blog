@@ -18,7 +18,7 @@ import { getSideMenuItem, getTreeSelectList, hasBlog } from '@/utils';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addBlogMenu, setSelectedId, deleteMenu, setHomePageBlogs } from '@/redux/slices/blog';
+import { addBlogMenu, setSelectedId, deleteMenu } from '@/redux/slices/blog';
 import {
   setMenuId,
   setTitle,
@@ -123,7 +123,6 @@ const BlogManage = () => {
           dispatch(setSelectedId(blog.id));
         }
         // 更新主页博客信息
-        dispatch(setHomePageBlogs(curPage));
         dispatch(addBlogMenu(blog as SideMenuItem));
         dispatch(initWriteContent());
         setIsLoading(false);
@@ -153,7 +152,6 @@ const BlogManage = () => {
         // 更新后要重新设置blog信息、删除原blog的menu、添加blog到新的menu
         dispatch(updateCurBlog({ title, belongingMenu: menuId, contents: content, updateAt: Date.now() }));
         // 更新主页博客信息
-        dispatch(setHomePageBlogs(curPage));
         dispatch(deleteMenu(selectedId));
         dispatch(
           addBlogMenu({

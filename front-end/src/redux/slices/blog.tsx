@@ -5,7 +5,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { filterTitle, getOneBlogId } from '@/utils';
 
 // interface
-import { blogObj, SideMenuItem, textContentObj } from '@/interface';
+import { blogObj, SideMenuItem, textContentObj, timeLineObj } from '@/interface';
 
 interface blogInitObj {
   menuList: SideMenuItem[];
@@ -14,9 +14,9 @@ interface blogInitObj {
   writeContent: textContentObj;
   isEdit: boolean; // 标志博客是否处于编辑状态，处于编辑状态则提交按钮变为更新
   views: number;
-  homePageBlogs: blogObj[];
   homePageBlogLength: number;
   curPage: number;
+  timeLine: timeLineObj[];
 }
 
 // 合并了菜单的slice因为无法解决设置了selectedId后设置curBlog延迟的问题
@@ -27,9 +27,9 @@ const initialState: blogInitObj = {
   writeContent: {} as textContentObj,
   isEdit: false, // 标志博客是否处于编辑状态，处于编辑状态则提交按钮变为更新
   views: 0,
-  homePageBlogs: [] as blogObj[],
   homePageBlogLength: 0,
   curPage: 1,
+  timeLine: [] as timeLineObj[],
 };
 
 export const setCurBlog = createAsyncThunk('blog/setCurBlog', async (id: string) => {
@@ -37,8 +37,8 @@ export const setCurBlog = createAsyncThunk('blog/setCurBlog', async (id: string)
   return response.data.data;
 });
 
-export const setMenuList = createAsyncThunk('blog/setMenuList', async () => {
-  const response = await service.get(`/api/menus`);
+export const setMenuList = createAsyncThunk('blog/setMenuList', async (id: string) => {
+  const response = await service.get(`/api/menus/${id}`);
   const menus = response.data.body.menus;
   // 设置一个初始选中项
   const blogId = getOneBlogId(menus) || '';
@@ -50,13 +50,13 @@ export const setMenuList = createAsyncThunk('blog/setMenuList', async () => {
   }
 });
 
-export const setHomePageBlogs = createAsyncThunk('blog/setHomePageBlogs', async (page: number) => {
-  const response = await service.get(`/api/blogs/getSelfBlogs?page=${page}`);
+export const setHomePageBlogNum = createAsyncThunk('blog/setHomePageBlogNum', async () => {
+  const response = await service.get('/api/blogs/getSelfBlogNum');
   return response.data;
 });
 
-export const setHomePageBlogNum = createAsyncThunk('blog/setHomePageBlogNum', async () => {
-  const response = await service.get('/api/blogs/getSelfBlogNum');
+export const setTimeLine = createAsyncThunk('blog/setTimeLine', async () => {
+  const response = await service.get('/api/blogs/getSelfTimeLine');
   return response.data;
 });
 
@@ -225,16 +225,16 @@ const blogSlice = createSlice({
       .addCase(setMenuList.rejected, (state, action) => {
         console.log(action.error.message);
       })
-      .addCase(setHomePageBlogs.fulfilled, (state, action) => {
-        state.homePageBlogs = [...action.payload.data.blogs];
-      })
-      .addCase(setHomePageBlogs.rejected, (state, action) => {
-        console.log(action.error.message);
-      })
       .addCase(setHomePageBlogNum.fulfilled, (state, action) => {
         state.homePageBlogLength = action.payload.data.length;
       })
       .addCase(setHomePageBlogNum.rejected, (state, action) => {
+        console.log(action.error.message);
+      })
+      .addCase(setTimeLine.fulfilled, (state, action) => {
+        state.timeLine = [...action.payload.data.timeLine];
+      })
+      .addCase(setTimeLine.rejected, (state, action) => {
         console.log(action.error.message);
       });
   },

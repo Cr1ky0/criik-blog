@@ -10,12 +10,19 @@ router.get(
   blogController.defaultParams,
   blogController.getSelfBlogs
 );
+// 获取我的博客数量
 router.get('/getSelfBlogNum', blogController.getSelfBlogNum);
+
+// 获取我的时间轴信息
+router.get('/getSelfTimeLine', blogController.getSelfTimeLine);
+
+// 更新博客views
+router.get('/updateViewOfBlog/:id', blogController.updateViewOfBlog);
+
+router.route('/:id').get(blogController.getBlog); // 获取博客
 
 router.use(authController.protect);
 router.use(authController.restrictTo('admin'));
-// 获取所有blog（进行了filter等操作可分页）
-router.route('/getAllBlogs').get(blogController.getAllBlogs);
 
 // 删除对应menu下的blogs（单层）
 router.delete('/delBlogsOfMenu/:blogId', blogController.deleteBlogOfMenu);
@@ -27,7 +34,6 @@ router
 
 router
   .route('/:id')
-  .get(blogController.getBlog) // 获取博客
   .patch(blogController.updateBlog) // 更新博客
   .delete(blogController.deleteBlog); // 删除博客
 module.exports = router;

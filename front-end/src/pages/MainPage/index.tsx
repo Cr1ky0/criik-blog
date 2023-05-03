@@ -19,17 +19,23 @@ const { Content } = Layout;
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setEmoji } from '@/redux/slices/emoji';
-import { setHomePageBlogNum, setHomePageBlogs } from '@/redux/slices/blog';
+import { setMenuList, setTimeLine } from '@/redux/slices/blog';
+
+// gloabal
+import { MY_ID } from '@/global';
 
 const MainPage = () => {
   const dispatch = useAppDispatch();
   const chosenList = useAppSelector(state => state.chosenList.chosenList);
   useEffect(() => {
+    // 这里加载的全是我个人的博客信息
+    // 后续登录后重新获取数据
     // 加载后先把emoji请求回来，后面不再请求了
     dispatch(setEmoji());
-    // 请求第一页blogs
-    dispatch(setHomePageBlogs(1));
-    dispatch(setHomePageBlogNum());
+    // 请求MyMenu
+    dispatch(setMenuList(MY_ID));
+    // 请求timeLine
+    dispatch(setTimeLine());
   }, []);
   return (
     <Layout>

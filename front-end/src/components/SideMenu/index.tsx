@@ -45,11 +45,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, setLoading }) => {
   const [open, setOpen] = useState(false);
   // timer
   const [timer, setTimer] = useState<any>();
-  useEffect(() => {
-    const cookies = new Cookies();
-    const user = cookies.get('user');
-    if (user) dispatch(setMenuList());
-  }, []);
+
   return (
     <div className={style.wrapper} style={styles}>
       {noEdit ? undefined : (

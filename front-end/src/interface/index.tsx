@@ -141,6 +141,13 @@ export interface textContentObj {
   content: string;
 }
 
+export interface timeLineObj {
+  id: string;
+  _id: string;
+  title: string;
+  publishAt: string;
+}
+
 /************ 请求参数 ****************/
 export interface requestOptions {
   id: string;

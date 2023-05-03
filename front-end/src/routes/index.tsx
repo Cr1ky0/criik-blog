@@ -1,8 +1,15 @@
 import React from 'react';
 import MainPage from '@/pages/MainPage';
 import TestPage from '@/pages/MainPage/TestPage';
+
+// home
 import HomePage from '@/pages/MainPage/HomePage';
+import BlogList from '@/pages/MainPage/HomePage/BlogList';
+
+// manage
 import BlogManage from '@/pages/MainPage/BlogManage';
+
+// blog
 import BlogPage from '@/pages/MainPage/BlogPage';
 
 const router = [
@@ -13,6 +20,12 @@ const router = [
       {
         path: '',
         element: <HomePage />,
+        children: [
+          {
+            path: '',
+            element: <BlogList></BlogList>,
+          },
+        ],
       },
       {
         path: 'test',

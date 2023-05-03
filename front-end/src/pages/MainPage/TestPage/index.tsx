@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import BlogToc from '@/components/BlogPage/BlogToc';
-import { useAppSelector } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
 import Classification from '@/components/HomePage/Classification';
+import { setTimeLine } from '@/redux/slices/blog';
 
 const TestPage = () => {
   const testText = `
@@ -14,6 +15,9 @@ const TestPage = () => {
   测试3
 `;
   const curBlog = useAppSelector(state => state.blog.curBlog);
+  const timeLine = useAppSelector(state => state.blog.timeLine);
+  const dispatch = useAppDispatch();
+
   return (
     <div style={{ margin: '20vh', width: '200px', backgroundColor: '#FFF' }}>
       {/*<BlogToc text={testText}></BlogToc>*/}

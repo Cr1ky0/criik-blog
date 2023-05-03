@@ -14,7 +14,7 @@ exports.getMenus = catchAsync(async (req, res, next) => {
 
 exports.getMenusOfUser = catchAsync(async (req, res, next) => {
   // 过滤一下已经populate的子menu
-  const menus = await Menu.find({ belongTo: req.user.id, grade: 1 })
+  const menus = await Menu.find({ belongTo: req.params.id, grade: 1 })
     .populate({ path: 'children' })
     .populate('blogs', '-contents -belongTo -publishAt -likes -views');
   res.status(200).json({

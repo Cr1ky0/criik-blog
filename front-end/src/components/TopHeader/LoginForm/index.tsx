@@ -56,8 +56,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
         close();
         navigate(0);
         setIsLoading(false);
-        // 设置加载menus
-        dispatch(setMenuList());
       },
       content => {
         message.error(content);

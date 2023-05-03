@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import moment from 'moment';
+import Cookies from 'universal-cookie';
 
 // comp
 import BlogInfo from '@/components/Universal/BlogInfo';
 import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 import Comment from '@/components/Comment';
+import BlogToc from '@/components/BlogPage/BlogToc';
 
 // antd
 import { Skeleton, Breadcrumb } from 'antd';
@@ -19,7 +22,6 @@ import { initWriteContent, setAllContent, setCurBlog, setIsEdit, setViews, updat
 
 // utils
 import { getBreadcrumbList, getOneBlogId, getSideMenuItem } from '@/utils';
-import moment from 'moment';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
@@ -27,11 +29,10 @@ import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // api
-import { deleteBlogAjax, updateBlogAjax } from '@/api/blog';
+import { deleteBlogAjax, updateBlogViewAjax } from '@/api/blog';
 
 // interface
 import { SideMenuItem } from '@/interface';
-import BlogToc from '@/components/BlogPage/BlogToc';
 
 interface BlogPageContentProps {
   setLoading: (state: boolean) => void;
@@ -50,11 +51,13 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
   const { title, contents, author, publishAt, belongingMenu, updateAt } = curBlog;
   const icons = useIcons();
   const breadcrumbList = selectedId ? getBreadcrumbList(menus, selectedId, icons) : undefined;
+  const cookies = new Cookies();
+  const user = cookies.get('user');
 
   useEffect(() => {
     // 组件加载一次热度+1
     if (selectedId) {
-      updateBlogAjax(
+      updateBlogViewAjax(
         {
           blogId: selectedId,
           data: {
@@ -112,6 +115,7 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
       }
     );
   };
+
   return (
     <div id="blog-page-content-wrapper" className={`${style.content} clearfix`}>
       {/* 选中状态 */}
@@ -162,47 +166,50 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ loading, setLoading }
                 <div className={style.text}>
                   <ReactMarkdownRender>{contents as string}</ReactMarkdownRender>
                 </div>
-                <div className={style.blogEdit}>
-                  <div>
-                    <div
-                      onClick={() => {
-                        modal.confirm({
-                          title: '提示',
-                          content: '编辑此页会覆盖正在编辑的博客，确定要这么做吗？',
-                          onOk: () => {
-                            handleEdit();
-                          },
-                        });
-                      }}
-                    >
-                      <span className="iconfont">&#xe624;</span>&nbsp;编辑此页
-                    </div>
-                    <div
-                      onClick={() => {
-                        modal.confirm({
-                          title: '提示',
-                          content: '是否删除当前博客？',
-                          onOk: () => {
-                            handleDelete();
-                          },
-                        });
-                      }}
-                    >
-                      <span className="iconfont" style={{ fontSize: '1.1vw' }}>
-                        &#xe604;
-                      </span>
-                      &nbsp;删除博客
-                    </div>
-                  </div>
-                  <div>
+                {/* 博客编辑选项 */}
+                {user ? (
+                  <div className={style.blogEdit}>
                     <div>
-                      上次编辑于：<span>{moment(updateAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                      <div
+                        onClick={() => {
+                          modal.confirm({
+                            title: '提示',
+                            content: '编辑此页会覆盖正在编辑的博客，确定要这么做吗？',
+                            onOk: () => {
+                              handleEdit();
+                            },
+                          });
+                        }}
+                      >
+                        <span className="iconfont">&#xe624;</span>&nbsp;编辑此页
+                      </div>
+                      <div
+                        onClick={() => {
+                          modal.confirm({
+                            title: '提示',
+                            content: '是否删除当前博客？',
+                            onOk: () => {
+                              handleDelete();
+                            },
+                          });
+                        }}
+                      >
+                        <span className="iconfont" style={{ fontSize: '1.1vw' }}>
+                          &#xe604;
+                        </span>
+                        &nbsp;删除博客
+                      </div>
                     </div>
                     <div>
-                      贡献者：<span>{author}</span>
+                      <div>
+                        上次编辑于：<span>{moment(updateAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                      </div>
+                      <div>
+                        贡献者：<span>{author}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : undefined}
                 <div className={style.comment}>
                   <Comment></Comment>
                 </div>
