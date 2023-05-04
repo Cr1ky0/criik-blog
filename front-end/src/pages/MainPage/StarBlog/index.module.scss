@@ -1,0 +1,47 @@
+@import "@/assets/css/index.scss";
+
+.wrapper {
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+
+  > div {
+    width: 900px;
+
+    .options {
+      display: flex;
+      justify-content: center;
+      padding: 20px 0;
+
+      > div {
+        width: 60px;
+        margin: 0 20px;
+        cursor: pointer;
+        transition: all .3s;
+        text-align: center;
+
+        &:hover {
+          color: $THEME_COLOR;
+        }
+
+        @include animationBar();
+      }
+
+      > div:first-child {
+        color: $THEME_COLOR;
+
+        .bar {
+          width: 100%;
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
+  .paginate {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 50px;
+  }
+
+}

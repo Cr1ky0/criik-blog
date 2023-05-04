@@ -20,12 +20,30 @@ import { useAppSelector } from '@/redux';
 // util
 import { getClassificationInfo } from '@/utils';
 
+// api
+import { getCollectedBlogsNum } from '@/api/blog';
+
+// context
+import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+
 const names = ['文章', '分类', '时间轴'];
 const BlogDetailBox = () => {
-  const [curChosen, setCurChosen] = useState(0);
+  const message = useGlobalMessage();
   const timeline = useAppSelector(state => state.blog.timeLine);
   const menus = useAppSelector(state => state.blogMenu.menuList);
-  const blogsNum = useAppSelector(state => state.blog.blogsNum);
+  const [curChosen, setCurChosen] = useState(0);
+  const [collectNum, setCollectNum] = useState(0);
+  useEffect(() => {
+    // 获取收藏数
+    getCollectedBlogsNum().then(
+      response => {
+        setCollectNum(response);
+      },
+      err => {
+        message.error(err.message);
+      }
+    );
+  }, []);
   return (
     <div className={`${style.wrapper} clearfix`}>
       <div className={style.header}>
@@ -62,7 +80,7 @@ const BlogDetailBox = () => {
         <div id="blog-detail-box-content-0" className="clearfix">
           <div className={style.statistic}>
             <span className="iconfont">&#xe86a;</span>
-            <span>{blogsNum}</span>&nbsp;
+            <span>{collectNum}</span>&nbsp;
             <span>收藏</span>
           </div>
           <CollectedBlogs></CollectedBlogs>

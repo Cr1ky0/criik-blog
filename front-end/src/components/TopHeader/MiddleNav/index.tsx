@@ -18,7 +18,7 @@ const MiddleNav = () => {
       <LinkBtn icon="&#xe896;" seq={2} link={'/manage'}>
         管理
       </LinkBtn>
-      <LinkBtn icon="&#xe7df;" seq={3} link={'/test'}>
+      <LinkBtn icon="&#xe7df;" seq={3} link={'/stars'}>
         精选
       </LinkBtn>
     </div>

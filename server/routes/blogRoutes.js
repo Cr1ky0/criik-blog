@@ -11,13 +11,6 @@ router.get(
   blogController.getSelfBlogs
 );
 
-// 获取我个人收藏的博客
-router.get(
-  '/getSelfCollectBlogs',
-  blogController.defaultParams,
-  blogController.getSelfCollectBlogs
-);
-
 // 获取我的博客数量
 router.get('/getSelfBlogNum', blogController.getSelfBlogNum);
 

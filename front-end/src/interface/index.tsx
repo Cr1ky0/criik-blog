@@ -159,6 +159,14 @@ export interface requestOptions {
   fields?: string;
 }
 
+export interface reqOptions {
+  sort?: string;
+  page?: string;
+  limit?: string;
+  fields?: string;
+  options?: string;
+}
+
 /******** HomePage ********/
 // BlogTagBox
 export interface BlogTagBoxStatistic {

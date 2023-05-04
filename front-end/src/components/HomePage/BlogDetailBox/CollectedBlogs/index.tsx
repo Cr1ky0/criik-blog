@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import style from './index.module.scss';
 
 // api
-import { getSelfTop10CollectBlogs } from '@/api/blog';
+import { getSelfBlogsOfCertain } from '@/api/blog';
 
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
@@ -24,7 +24,7 @@ const ShowBlogs = () => {
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState<showBlogObj[]>([]);
   useEffect(() => {
-    getSelfTop10CollectBlogs().then(
+    getSelfBlogsOfCertain({ page: '1', limit: '10', fields: 'id,title', sort: '', options: 'isCollected=true' }).then(
       response => {
         setBlogs(response.data.blogs);
       },

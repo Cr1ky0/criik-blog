@@ -14,6 +14,10 @@ import BlogManage from '@/pages/MainPage/BlogManage';
 import BlogPage from '@/pages/MainPage/BlogPage';
 import BlogContent from '@/pages/MainPage/BlogPage/BlogContent';
 
+// stars
+import StarBlog from '@/pages/MainPage/StarBlog';
+import FilteredBlogs from '@/pages/MainPage/StarBlog/FilteredBlogs';
+
 const router = [
   {
     path: '/',
@@ -50,6 +54,16 @@ const router = [
             <BlogManage />
           </AuthRoute>
         ),
+      },
+      {
+        path: 'stars',
+        element: <StarBlog></StarBlog>,
+        children: [
+          {
+            path: '',
+            element: <FilteredBlogs></FilteredBlogs>,
+          },
+        ],
       },
     ],
   },

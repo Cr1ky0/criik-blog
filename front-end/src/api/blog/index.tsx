@@ -2,7 +2,7 @@ import { catchAsync } from '@/api';
 import service from '@/utils/request';
 
 // interface
-import { addBlogObj, updateBlogObj } from '@/interface';
+import { addBlogObj, reqOptions, updateBlogObj } from '@/interface';
 
 export const addBlogAjax = catchAsync(async (values: addBlogObj) => {
   const response = await service.post('/api/blogs/', values);
@@ -25,16 +25,6 @@ export const deleteBlogOfMenuAjax = catchAsync(async (blogId: string) => {
   return Promise.resolve(response);
 });
 
-export const getSelfTop10CollectBlogs = async () => {
-  const response = await service.get(`/api/blogs/getSelfCollectBlogs?page=1&limit=10&fields=id,title`);
-  return Promise.resolve(response.data);
-};
-
-export const getSelfBlogs = async (page: string) => {
-  const response = await service.get(`/api/blogs/getSelfBlogs?page=${page}`);
-  return Promise.resolve(response.data);
-};
-
 export const getCurBlog = async (id: string) => {
   const response = await service.get(`/api/blogs/${id}`);
   return Promise.resolve(response.data);
@@ -52,5 +42,23 @@ export const updateCollectOfBlogAjax = async (id: string, isCollected: boolean) 
 
 export const updateLikesOfBlogAjax = async (id: string, likes: number) => {
   const response = await service.patch(`/api/blogs/updateLikesOfBlog/${id}`, { likes });
+  return Promise.resolve(response.data);
+};
+
+export const getCollectedBlogsNum = async () => {
+  const response = await service.get('/api/blogs/getSelfBlogs?fields=id&isCollected=true');
+  return Promise.resolve(response.data.data.blogs.length);
+};
+
+export const getSelfBlogsOfCertain = async (option: reqOptions) => {
+  const { page, fields, sort, limit, options } = option;
+  const response = await service.get(
+    '/api/blogs/getSelfBlogs?' +
+      (page ? `page=${page}&` : '') +
+      (fields ? `fields=${fields}&` : '') +
+      (sort ? `sort=${sort}&` : '') +
+      (limit ? `limit=${limit}&` : '') +
+      (options ? `${options}` : '')
+  );
   return Promise.resolve(response.data);
 };

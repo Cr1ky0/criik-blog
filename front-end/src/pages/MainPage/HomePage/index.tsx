@@ -83,7 +83,7 @@ const HomePage = () => {
                       setIsLoading(false);
                     }, 400);
                     // 点击跳转
-                    navigate(`?page=${curPage}`);
+                    navigate(`?page=${page}`);
                     setCurPage(page);
                   }}
                 />
