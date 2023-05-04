@@ -5,7 +5,7 @@ import { Outlet, useNavigate } from 'react-router';
 import style from './index.module.scss';
 
 // antd
-import { Pagination } from 'antd';
+import { Pagination, Skeleton } from 'antd';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
@@ -28,12 +28,19 @@ const StarBlog = () => {
   const blogsNum = useAppSelector(state => state.blog.blogsNum);
   const [curPage, setCurPage] = useState(1);
   const [collectNum, setCollectNum] = useState(0);
-  useEffect(() => {
-    // 初始化设置content和sider高度为视窗高度-TopHeader高度（为了设置滚动，且缩放时能看到全貌）
-    const content = document.getElementById('blog-stars-wrapper') as HTMLElement;
-    content.style.height = window.innerHeight - 50 + 'px';
-  }, [width, window.innerHeight]);
+  const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    dispatch(setChosenList([false, false, false, true]));
+    // 这里延迟展开是因为加载需要时间，不然开始就展开会很卡
+    const timer = setTimeout(() => {
+      const div = document.getElementById('blog-stars-wrapper') as HTMLElement;
+      div.style.height = window.innerHeight - 50 + 'px';
+    }, 300);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [width, window.innerHeight]);
   useEffect(() => {
     // 设置初始选中状态
     const now = document.getElementById(`blog-stars-btn-${chosen}`) as HTMLElement;
@@ -45,7 +52,6 @@ const StarBlog = () => {
     if (chosen === 0) {
       getCollectedBlogsNum().then(res => setCollectNum(res));
     }
-    dispatch(setChosenList([false, false, false, true]));
   }, []);
   return (
     <div id="blog-stars-wrapper" className={`${style.wrapper} clearfix`}>
@@ -71,6 +77,10 @@ const StarBlog = () => {
                     lastBar.style.marginLeft = '50%';
                     dispatch(setChosen(index));
                     navigate(`/stars?filter=${index}`);
+                    setIsLoading(true);
+                    setTimeout(() => {
+                      setIsLoading(false);
+                    }, 400);
                   }
                 }}
               >
@@ -80,23 +90,41 @@ const StarBlog = () => {
             );
           })}
         </div>
-        <div className={style.blogs}>
-          <Outlet />
-        </div>
-        <div className={style.paginate}>
-          <Pagination
-            showSizeChanger={false}
-            showQuickJumper
-            pageSize={10}
-            current={curPage}
-            total={chosen === 0 ? collectNum : blogsNum}
-            onChange={page => {
-              // 点击跳转
-              navigate(`?filter=${chosen}page=${page}`);
-              setCurPage(page);
-            }}
-          />
-        </div>
+
+        {/* loading状态 */}
+        {isLoading ? (
+          <div style={{ padding: '5vh' }}>
+            <Skeleton active />
+            <br />
+            <Skeleton active />
+            <br />
+            <Skeleton active />
+          </div>
+        ) : (
+          <>
+            <div className={style.blogs}>
+              <Outlet />
+            </div>
+            <div className={style.paginate}>
+              <Pagination
+                showSizeChanger={false}
+                showQuickJumper
+                pageSize={10}
+                current={curPage}
+                total={chosen === 0 ? collectNum : blogsNum}
+                onChange={page => {
+                  // 点击跳转
+                  navigate(`?filter=${chosen}page=${page}`);
+                  setIsLoading(true);
+                  setTimeout(() => {
+                    setIsLoading(false);
+                  }, 400);
+                  setCurPage(page);
+                }}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -1,9 +1,11 @@
 @import "@/assets/css/index.scss";
 
 .wrapper {
-  overflow-y: auto;
   display: flex;
   justify-content: center;
+  height: 0;
+  transition: height .5s;
+  overflow-y: auto;
 
   > div {
     width: 900px;
@@ -27,14 +29,6 @@
         @include animationBar();
       }
 
-      //> div:first-child {
-      //  color: $THEME_COLOR;
-      //
-      //  .bar {
-      //    width: 100%;
-      //    margin-left: 0;
-      //  }
-      //}
     }
   }
 
@@ -44,4 +38,13 @@
     padding-bottom: 50px;
   }
 
+}
+
+@keyframes anime {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100vh;
+  }
 }

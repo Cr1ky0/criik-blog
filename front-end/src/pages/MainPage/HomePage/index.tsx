@@ -22,7 +22,6 @@ import { setChosenList } from '@/redux/slices/chosenList';
 // comp
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
 import BlogDetailBox from '@/components/HomePage/BlogDetailBox';
-import { setMyBlogsNum } from '@/redux/slices/blog';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -36,12 +35,12 @@ const HomePage = () => {
     // 这里延迟展开是因为加载需要时间，不然开始就展开会很卡
     const timer = setTimeout(() => {
       const div = document.getElementById('home-page-wrapper') as HTMLElement;
-      div.style.height = '100vh';
-    }, 500);
+      div.style.height = window.innerHeight + 'px';
+    }, 300);
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [width, window.innerHeight]);
 
   return (
     <div id="home-page-wrapper" className={style.wrapper}>
