@@ -21,7 +21,7 @@ const { Content } = Layout;
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setEmoji } from '@/redux/slices/emoji';
 import { setMenuList } from '@/redux/slices/blogMenu';
-import { setMyUser } from '@/redux/slices/user';
+import { setMyBlogsNum } from '@/redux/slices/blog';
 
 // gloabal
 import { MY_ID } from '@/global';
@@ -30,14 +30,12 @@ const MainPage = () => {
   const dispatch = useAppDispatch();
   const chosenList = useAppSelector(state => state.chosenList.chosenList);
   useEffect(() => {
-    // const cookies = new Cookies();
-    // const user = cookies.get('user');
     // 加载后先把emoji请求回来，后面不再请求了
     dispatch(setEmoji());
     // 请求MyMenu
     dispatch(setMenuList(MY_ID));
-    // 请求我的个人信息
-    // if (!user) dispatch(setMyUser());
+    // 获取我的博客数
+    dispatch(setMyBlogsNum());
   }, []);
   return (
     <Layout>

@@ -5,25 +5,29 @@ import { Outlet, useNavigate } from 'react-router';
 import style from './index.module.scss';
 
 // antd
-import { Pagination, Skeleton } from 'antd';
+import { Pagination } from 'antd';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setChosenList } from '@/redux/slices/chosenList';
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
+import { setChosen } from '@/redux/slices/blog';
 
 // global
 import { THEME_COLOR, FONT_COLOR } from '@/global';
+
+// api
+import { getCollectedBlogsNum } from '@/api/blog';
 
 const choseList = ['收藏', '最多点赞', '最多浏览'];
 const StarBlog = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { width } = useViewport();
-  const [chosen, setChosen] = useState(0);
+  const chosen = useAppSelector(state => state.blog.chosen);
+  const blogsNum = useAppSelector(state => state.blog.blogsNum);
   const [curPage, setCurPage] = useState(1);
-  const totalNum = useAppSelector(state => state.blog.blogsNum);
-
+  const [collectNum, setCollectNum] = useState(0);
   useEffect(() => {
     // 初始化设置content和sider高度为视窗高度-TopHeader高度（为了设置滚动，且缩放时能看到全貌）
     const content = document.getElementById('blog-stars-wrapper') as HTMLElement;
@@ -31,6 +35,16 @@ const StarBlog = () => {
   }, [width, window.innerHeight]);
 
   useEffect(() => {
+    // 设置初始选中状态
+    const now = document.getElementById(`blog-stars-btn-${chosen}`) as HTMLElement;
+    now.style.color = THEME_COLOR;
+    const bar = now.getElementsByTagName('div')[1] as HTMLElement;
+    bar.style.width = '100%';
+    bar.style.marginLeft = '0';
+    // 如果为收藏页，获取收藏总数
+    if (chosen === 0) {
+      getCollectedBlogsNum().then(res => setCollectNum(res));
+    }
     dispatch(setChosenList([false, false, false, true]));
   }, []);
   return (
@@ -55,7 +69,7 @@ const StarBlog = () => {
                     const lastBar = last.getElementsByTagName('div')[1] as HTMLElement;
                     lastBar.style.width = '0';
                     lastBar.style.marginLeft = '50%';
-                    setChosen(index);
+                    dispatch(setChosen(index));
                     navigate(`/stars?filter=${index}`);
                   }
                 }}
@@ -75,7 +89,7 @@ const StarBlog = () => {
             showQuickJumper
             pageSize={10}
             current={curPage}
-            total={curPage === 0 ? 10 : totalNum}
+            total={chosen === 0 ? collectNum : blogsNum}
             onChange={page => {
               // 点击跳转
               navigate(`?filter=${chosen}page=${page}`);

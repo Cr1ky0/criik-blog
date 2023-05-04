@@ -32,7 +32,6 @@ const HomePage = () => {
   const [curPage, setCurPage] = useState(1);
   const totalNum = useAppSelector(state => state.blog.blogsNum);
   useEffect(() => {
-    dispatch(setMyBlogsNum());
     dispatch(setChosenList([true, false, false, false]));
     // 这里延迟展开是因为加载需要时间，不然开始就展开会很卡
     const timer = setTimeout(() => {

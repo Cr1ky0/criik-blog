@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 import ShowBlogTagList from '@/components/Universal/ShowBlogTagList';
 
 // api
-import { getSelfBlogsOfCertain } from '@/api/blog';
+import { getCollectedBlogsNum, getSelfBlogsOfCertain } from '@/api/blog';
 
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
@@ -22,7 +22,6 @@ const FilteredBlogs = () => {
   const [searchParams] = useSearchParams();
   const filter = searchParams.get('filter') ? searchParams.get('filter') : 0;
   const option = parseInt(filter as string);
-  console.log(option);
   const page = searchParams.get('page') ? searchParams.get('page') : '1';
   const [blogs, setBlogs] = useState([] as blogObj[]);
   // 请求参数
