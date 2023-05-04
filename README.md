@@ -277,3 +277,4 @@
     - 定义 state
     - useMemo 或 useEffect 内发送请求
     - 请求成功 setState
+25. 可以包裹一个组件实现加载动画

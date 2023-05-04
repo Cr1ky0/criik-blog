@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
 
 // antd
@@ -14,43 +14,38 @@ import img2 from '@/assets/images/blog-icon.png';
 
 // context
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
-import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // redux
-import { useAppDispatch } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
 import { setChosenList } from '@/redux/slices/chosenList';
-
-// api
-import { getHomePageBlogNum } from '@/api/blog';
 
 // comp
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
 import BlogDetailBox from '@/components/HomePage/BlogDetailBox';
+import { setMyBlogsNum } from '@/redux/slices/blog';
 
 const HomePage = () => {
   const navigate = useNavigate();
   const { width } = useViewport();
-  const message = useGlobalMessage();
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [curPage, setCurPage] = useState(1);
-  const [totalNum, setTotalNum] = useState(0);
-  useMemo(() => {
-    getHomePageBlogNum().then(
-      res => {
-        setTotalNum(res.data.length);
-      },
-      err => {
-        message.error(err.message);
-      }
-    );
-  }, []);
+  const totalNum = useAppSelector(state => state.blog.blogsNum);
   useEffect(() => {
+    dispatch(setMyBlogsNum());
     dispatch(setChosenList([true, false, false, false]));
+    // 这里延迟展开是因为加载需要时间，不然开始就展开会很卡
+    const timer = setTimeout(() => {
+      const div = document.getElementById('home-page-wrapper') as HTMLElement;
+      div.style.height = '100vh';
+    }, 500);
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
-    <div className={style.wrapper}>
+    <div id="home-page-wrapper" className={style.wrapper}>
       <Header className={style.backWhite}></Header>
       <div
         className={`${width > 400 ? style.backgroundPhoto : style.backgroundPhotoMobile} clearfix`}
@@ -96,12 +91,14 @@ const HomePage = () => {
             </>
           )}
         </div>
-        <div className={style.sider}>
-          <div>
-            <IntroductionBox></IntroductionBox>
-            <BlogDetailBox></BlogDetailBox>
+        {width > 1138 ? (
+          <div className={style.sider}>
+            <div>
+              <IntroductionBox></IntroductionBox>
+              <BlogDetailBox></BlogDetailBox>
+            </div>
           </div>
-        </div>
+        ) : undefined}
       </div>
     </div>
   );

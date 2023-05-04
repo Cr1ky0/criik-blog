@@ -18,6 +18,8 @@ router.get('/resetEmail/:token', authController.resetEmail);
 
 router.get('/getUserAvatar/:id', userController.getUserAvatar);
 
+router.get('/getMyInfo', userController.getMyInfo);
+
 // 下面所有的routes都要用protect
 router.use(authController.protect);
 // 限制只有管理员权限操作，暂不对外开放
@@ -33,26 +35,15 @@ router.get('/updateLoginState', userController.updateLoginState);
 // 更新个人信息
 router.patch(
   '/updateMe',
-  //   userController.uploadAvatar,
   userController.resizeUserAvatar,
   userController.updateMe
 );
 
 // 删除用户
-router.delete(
-  '/deleteMe',
-  authController.restrictTo('admin'),
-  userController.deleteMe
-);
+router.delete('/deleteMe', userController.deleteMe);
 
-router
-  .route('/')
-  .get(authController.restrictTo('admin'), userController.getAllUsers); // 获取所有用户信息
+router.route('/').get(userController.getAllUsers); // 获取所有用户信息
 
-router
-  .route('/:id')
-  .get(userController.getUser)
-  .patch(userController.updateUser)
-  .delete(userController.deleteUser);
+router.route('/:id').get(userController.getUser);
 
 module.exports = router;

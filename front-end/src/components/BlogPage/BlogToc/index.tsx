@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import style from './index.module.scss';
 import { THEME_COLOR } from '@/global';
@@ -17,21 +17,22 @@ const getTitleList = (text: string) => {
   return newList;
 };
 
-const changeColor = (num1: number, num2: number) => {
-  const num1Div = document.getElementById(`blog-toc-item-${num1}`) as HTMLElement;
-  const num2Div = document.getElementById(`blog-toc-item-${num2}`) as HTMLElement;
-  const num1DivChild = num1Div.firstElementChild as HTMLElement;
-  const num2DivChild = num2Div.firstElementChild as HTMLElement;
-  num1Div.style.borderColor = 'rgba(0, 0, 0, .05)';
-  num1DivChild.style.color = 'rgba(0, 0, 0, .4)';
-  num2Div.style.borderColor = THEME_COLOR;
-  num2DivChild.style.color = THEME_COLOR;
-};
-
 const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
   // md忘记antd有toc可以用了，自己写一遍血亏
   const [curChosen, setCurChosen] = useState(0);
   const textList = getTitleList(text);
+  const changeColor = (num1: number, num2: number) => {
+    const num1Div = document.getElementById(`blog-toc-item-${num1}`) as HTMLElement;
+    const num2Div = document.getElementById(`blog-toc-item-${num2}`) as HTMLElement;
+    if (num1Div && num2Div) {
+      const num1DivChild = num1Div.firstElementChild as HTMLElement;
+      const num2DivChild = num2Div.firstElementChild as HTMLElement;
+      num1Div.style.borderColor = 'rgba(0, 0, 0, .05)';
+      num1DivChild.style.color = 'rgba(0, 0, 0, .4)';
+      num2Div.style.borderColor = THEME_COLOR;
+      num2DivChild.style.color = THEME_COLOR;
+    }
+  };
 
   useEffect(() => {
     const textList = getTitleList(text);
@@ -66,7 +67,7 @@ const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
     const handleScroll = () => {
       tocList.map((toc, index) => {
         // 当滚动高度 >= toc所在位置则改变 - 60 （因为下面-60）
-        if (content.scrollTop >= toc.offsetTop - 60) {
+        if (content.scrollTop >= toc.offsetTop - 60 && textList) {
           changeColor(cur, index);
           cur = index;
         }

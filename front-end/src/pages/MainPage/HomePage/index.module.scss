@@ -5,7 +5,8 @@
   @include setScrollBar(.5vw);
   @include setTop();
   overflow-y: auto;
-  height: 100vh;
+  height: 0;
+  transition: height .5s;
 
   .backgroundPhoto {
     width: 100%;
@@ -124,5 +125,13 @@
   }
 }
 
+@keyframes anime {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100vh;
+  }
+}
 
 

@@ -14,7 +14,7 @@ import MarkdownEditor from '@/components/MarkdownEditor';
 import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 
 // utils
-import { getSideMenuItem, getTreeSelectList, hasBlog } from '@/utils';
+import { filterLT, getSideMenuItem, getTreeSelectList, hasBlog } from '@/utils';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
@@ -32,23 +32,33 @@ import { addBlogAjax, getCurBlog, updateBlogAjax } from '@/api/blog';
 // interface
 import { SideMenuItem } from '@/interface';
 import { setChosenList } from '@/redux/slices/chosenList';
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 const BlogManage = () => {
-  // TODO:后续可以再整个草稿箱
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const modal = useGlobalModal();
+  const message = useGlobalMessage();
+  const dispatch = useAppDispatch();
+  const { width } = useViewport();
   // text info
   const { title, menuId, content, menuTitle } = useAppSelector(state => state.blog.writeContent);
   const isEdit = useAppSelector(state => state.blog.isEdit);
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const icons = useIcons();
-  const message = useGlobalMessage();
   const antdMenus = getTreeSelectList(menus, icons, true);
-  const dispatch = useAppDispatch();
   // 提交按钮loading状态
   const [isLoading, setIsLoading] = useState(false);
   // 预览打开state
   const [open, setOpen] = useState(false);
+  useEffect(() => {
+    // 初始化设置content和sider高度为视窗高度-TopHeader高度（为了设置滚动，且缩放时能看到全貌）
+    const content = document.getElementById('blog-manage-content-wrapper') as HTMLElement;
+    const sider = document.getElementById('blog-manage-sider-wrapper') as HTMLElement;
+    content.style.height = window.innerHeight - 50 + 'px';
+    if (sider) {
+      sider.style.height = window.innerHeight - 50 + 'px';
+    }
+  }, [width, window.innerHeight]);
 
   useEffect(() => {
     dispatch(setChosenList([false, false, true, false]));
@@ -77,7 +87,7 @@ const BlogManage = () => {
                     title,
                     menuId: menu.id,
                     menuTitle: menu.title,
-                    content: contents,
+                    content: filterLT(contents),
                   })
                 );
                 dispatch(setIsEdit(true));
@@ -168,10 +178,17 @@ const BlogManage = () => {
 
   return (
     <div className={`${style.wrapper} clearfix`}>
-      <div className={style.sider}>
-        <SideMenu></SideMenu>
-      </div>
-      <div className={style.content}>
+      {width > 850 ? (
+        <div id="blog-manage-sider-wrapper" className={style.sider}>
+          <SideMenu page="manage"></SideMenu>
+        </div>
+      ) : undefined}
+
+      <div
+        id="blog-manage-content-wrapper"
+        className={style.content}
+        style={width < 850 ? { width: '100%' } : undefined}
+      >
         <div className={style.editState}>
           当前状态：
           <Dropdown menu={{ items, selectable: true, selectedKeys: [isEdit ? '1' : '2'] }}>

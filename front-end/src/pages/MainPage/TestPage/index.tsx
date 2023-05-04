@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 
 import BlogToc from '@/components/BlogPage/BlogToc';
 import { useAppDispatch, useAppSelector } from '@/redux';
-import Classification from '@/components/Classification';
+import Classification from '@/components/HomePage/BlogDetailBox/Classification';
 import { setTimeLine } from '@/redux/slices/blog';
-import BlogTimeLine from '@/components/BlogTimeLine';
+import BlogTimeLine from '@/components/HomePage/BlogDetailBox/BlogTimeLine';
 import BlogDetailBox from '@/components/HomePage/BlogDetailBox';
 
 const TestPage = () => {

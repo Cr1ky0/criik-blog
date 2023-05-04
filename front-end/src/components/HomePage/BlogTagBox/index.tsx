@@ -27,7 +27,7 @@ export interface BlogTagBoxProps {
 // 主页的BlogBox组件
 const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
   const { children, title, statistic, blogId } = props;
-  const { author, time, views, belongingMenu } = statistic;
+  const { author, time, views, belongingMenu, id, isCollected, likes } = statistic;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const limit = 400; // 超过400字加`...`
@@ -49,7 +49,7 @@ const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
       <div className={style.text}>{getLimitString(limit, children)}</div>
       <div className={style.line}></div>
       <div className={`${style.statistics} clearfix`}>
-        <BlogInfo statistics={{ author, time, views, belongingMenu }}></BlogInfo>
+        <BlogInfo statistics={{ author, time, views, belongingMenu, id, isCollected, likes }}></BlogInfo>
       </div>
     </div>
   );

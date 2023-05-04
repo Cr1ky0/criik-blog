@@ -13,6 +13,7 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // interface
 import { blogObj } from '@/interface';
+import { filterLT } from '@/utils';
 
 const BlogList = () => {
   const message = useGlobalMessage();
@@ -22,7 +23,12 @@ const BlogList = () => {
   useEffect(() => {
     getSelfBlogs(page as string).then(
       res => {
-        setBlogs(res.data.blogs);
+        const blogs = res.data.blogs.map((blog: blogObj) => {
+          // 处理后端过滤的<
+          const contents = filterLT(blog.contents as string);
+          return Object.assign({}, blog, { contents });
+        });
+        setBlogs(blogs);
       },
       err => {
         message.error(err.message);
@@ -35,17 +41,20 @@ const BlogList = () => {
       {blogs && blogs.length ? (
         <>
           {blogs.map(blog => {
-            const { id, title, contents, author, publishAt, views, belongingMenu } = blog;
+            const { id, title, contents, author, publishAt, views, belongingMenu, isCollected, likes } = blog;
             return (
               <div key={id} style={{ paddingBottom: '3vh' }}>
                 <BlogTagBox
                   blogId={id}
                   title={title}
                   statistic={{
+                    id,
                     author: author as string,
                     time: moment(publishAt).format('YYYY-MM-DD'),
                     views: views as number,
+                    likes: likes as number,
                     belongingMenu,
+                    isCollected: isCollected as boolean,
                   }}
                 >
                   {contents as string}

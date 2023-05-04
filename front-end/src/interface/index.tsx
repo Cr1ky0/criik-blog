@@ -93,10 +93,12 @@ export interface blogObj {
   id: string;
   title: string;
   belongingMenu: string;
+  isCollected?: boolean;
   author?: string;
   publishAt?: string;
   updateAt?: string;
   contents?: string;
+  likes?: number;
   views?: number;
   belongTo?: string;
 }
@@ -164,6 +166,9 @@ export interface BlogTagBoxStatistic {
   time: string;
   views: number;
   belongingMenu: string;
+  isCollected: boolean;
+  id: string;
+  likes: number;
 }
 
 /******** SideMenu ********/

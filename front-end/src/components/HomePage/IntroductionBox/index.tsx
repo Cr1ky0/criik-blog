@@ -1,15 +1,25 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
 
 // css
 import style from './index.module.scss';
 
 // util
-import { getLimitString } from '@/utils';
+import { getClassificationInfo, getLimitString } from '@/utils';
+
+// comp
 import LinkIcon from './LinkIcon';
 
-// hooks
+// context
+import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import { useAvatar } from '@/components/ContextProvider/AvatarPrivider';
+
+// api
+import { avatarAjax, getMyInfo } from '@/api/user';
+import { userObj } from '@/interface';
+
+// redux
+import { useAppSelector } from '@/redux';
 
 // interface
 export interface IntroductionBoxProps {
@@ -19,32 +29,59 @@ export interface IntroductionBoxProps {
 
 const IntroductionBox: React.FC<IntroductionBoxProps> = props => {
   const { isMobile, styles } = props;
-  const avatar = useAvatar();
+  const message = useGlobalMessage();
+  const blogsNum = useAppSelector(state => state.blog.blogsNum);
+  const menus = useAppSelector(state => state.blogMenu.menuList);
+  const timeline = useAppSelector(state => state.blog.timeLine);
+  const [user, setUser] = useState({} as userObj);
+  const [avatar, setAvatar] = useState(useAvatar());
+  // cookie
   const cookies = new Cookies();
-  const user = cookies.get('user');
+  const curUser = cookies.get('user');
+  // 用户登录后的头像
+  const userAvatar = useAvatar();
   const limit = 40;
+  useEffect(() => {
+    if (!curUser) {
+      // 没有登录用户就请求我的个人信息
+      const getInfo = async () => {
+        const res = await getMyInfo();
+        const user = res.data.user;
+        delete user['_id'];
+        setUser(user);
+        await avatarAjax(user.avatar, response => {
+          const reader = new FileReader();
+          reader.onload = e => {
+            if (e.target) setAvatar(e.target.result as string);
+          };
+          reader.readAsDataURL(response);
+        });
+      };
+      getInfo().catch(err => {
+        message.error(err.message);
+      });
+    } else {
+      setUser(curUser);
+    }
+  }, []);
   return (
     <div className={style.wrapper} style={isMobile ? Object.assign({ boxShadow: 'none' }, styles) : styles}>
       <div className={`${style.intro} clearfix`}>
-        <div className={style.avatar} style={{ backgroundImage: `url(${avatar})` }}></div>
-        <div className={style.username}>{user ? user.name : 'Criiky0'}</div>
-        <div className={style.signature}>{user ? getLimitString(limit, user.brief) : '这个人很懒，没有个性签名~'}</div>
+        <div className={style.avatar} style={{ backgroundImage: `url(${curUser ? userAvatar : avatar})` }}></div>
+        <div className={style.username}>{user.name ? user.name : undefined}</div>
+        <div className={style.signature}>{user.brief ? getLimitString(limit, user.brief) : undefined}</div>
       </div>
       <div className={style.blogInfo}>
         <div>
-          <div>700</div>
-          <div>文章</div>
-        </div>
-        <div>
-          <div>700</div>
+          <div>{getClassificationInfo(menus).length}</div>
           <div>分类</div>
         </div>
         <div>
-          <div>700</div>
-          <div>标签</div>
+          <div>{blogsNum}</div>
+          <div>文章</div>
         </div>
         <div>
-          <div>700</div>
+          <div>{timeline.length}</div>
           <div>时间轴</div>
         </div>
       </div>

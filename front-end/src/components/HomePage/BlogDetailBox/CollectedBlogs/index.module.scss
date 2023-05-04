@@ -1,0 +1,29 @@
+@import "@/assets/css/index.scss";
+
+.wrapper {
+  //display: flex;
+  //justify-content: flex-start;
+  //flex-direction: column;
+
+  .blogTitle {
+    margin: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all .5s;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    font: {
+      size: 20px;
+    }
+
+    > span:last-child {
+      margin-left: 20px;
+    }
+
+    &:hover {
+      color: $THEME_COLOR;
+    }
+  }
+}

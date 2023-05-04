@@ -10,6 +10,14 @@ router.get(
   blogController.defaultParams,
   blogController.getSelfBlogs
 );
+
+// 获取我个人收藏的博客
+router.get(
+  '/getSelfCollectBlogs',
+  blogController.defaultParams,
+  blogController.getSelfCollectBlogs
+);
+
 // 获取我的博客数量
 router.get('/getSelfBlogNum', blogController.getSelfBlogNum);
 
@@ -19,11 +27,17 @@ router.get('/getSelfTimeLine', blogController.getSelfTimeLine);
 // 更新博客views
 router.patch('/updateViewOfBlog/:id', blogController.updateViewOfBlog);
 
+// 更新博客点赞数
+router.patch('/updateLikesOfBlog/:id', blogController.updateLikesOfBlog);
+
 // 获取指定博客
 router.route('/:id').get(blogController.getBlog);
 
 router.use(authController.protect);
 router.use(authController.restrictTo('admin'));
+
+// 更新收藏状态
+router.patch('/updateCollectOfBlog/:id', blogController.updateCollectOfBlog);
 
 // 删除对应menu下的blogs（单层）
 router.delete('/delBlogsOfMenu/:blogId', blogController.deleteBlogOfMenu);

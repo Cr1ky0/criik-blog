@@ -90,6 +90,44 @@ exports.updateViewOfBlog = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.updateCollectOfBlog = catchAsync(async (req, res, next) => {
+  const filteredBody = filterObj(req.body, 'isCollected');
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    req.params.id,
+    filteredBody,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      updatedBlog,
+    },
+  });
+});
+
+exports.updateLikesOfBlog = catchAsync(async (req, res, next) => {
+  const filteredBody = filterObj(req.body, 'likes');
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    req.params.id,
+    filteredBody,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      updatedBlog,
+    },
+  });
+});
+
 exports.deleteBlog = catchAsync(async (req, res, next) => {
   await Blog.findByIdAndUpdate(req.params.id, { active: false });
   res.status(204).json({
@@ -151,6 +189,28 @@ exports.getSelfTimeLine = catchAsync(async (req, res, next) => {
     status: '200',
     data: {
       timeLine: blogs,
+    },
+  });
+});
+
+exports.getSelfCollectBlogs = catchAsync(async (req, res, next) => {
+  const features = new APIFeatures(
+    Blog.find({
+      belongTo: myId,
+      isCollected: true,
+    }),
+    req.query
+  )
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const blogs = await features.query;
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      blogs,
     },
   });
 });

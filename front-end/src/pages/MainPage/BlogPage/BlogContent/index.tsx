@@ -21,7 +21,7 @@ import { setSelectedId, deleteMenu } from '@/redux/slices/blogMenu';
 import { initWriteContent, setAllContent, setIsEdit } from '@/redux/slices/blog';
 
 // utils
-import { filterTitle, getBreadcrumbList, getOneBlogId, getSideMenuItem } from '@/utils';
+import { filterLT, filterTitle, getBreadcrumbList, getOneBlogId, getSideMenuItem } from '@/utils';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
@@ -40,7 +40,7 @@ const BlogContent = () => {
   const modal = useGlobalModal();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
 
@@ -58,8 +58,9 @@ const BlogContent = () => {
     title: '',
     belongingMenu: '',
   });
+
   useEffect(() => {
-    // 设置loading状态
+    let timer: any;
     setLoading(true);
     getCurBlog(selectedId)
       .then(response => {
@@ -72,26 +73,39 @@ const BlogContent = () => {
         const contents = filterTitle(blog.contents);
         const newBlog = Object.assign({}, blog, { contents });
         setCurBlog(newBlog);
-        setLoading(false);
+        timer = setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       })
       .catch(err => {
         message.error(err.message);
-        setLoading(false);
       });
+    return () => {
+      clearTimeout(timer);
+    };
   }, [selectedId]);
 
   const handleEdit = () => {
-    const menu = getSideMenuItem(menus, curBlog.belongingMenu) as SideMenuItem;
-    dispatch(
-      setAllContent({
-        title: curBlog.title,
-        menuId: menu.id,
-        menuTitle: menu.title,
-        content: curBlog.contents,
-      })
+    getCurBlog(selectedId).then(
+      response => {
+        const blog = response.data.blog;
+        const { belongingMenu, contents, title } = blog;
+        const menu = getSideMenuItem(menus, belongingMenu) as SideMenuItem;
+        dispatch(
+          setAllContent({
+            title,
+            menuId: menu.id,
+            menuTitle: menu.title,
+            content: filterLT(contents),
+          })
+        );
+        navigate('/manage');
+        dispatch(setIsEdit(true));
+      },
+      err => {
+        message.error(err.message);
+      }
     );
-    navigate('/manage');
-    dispatch(setIsEdit(true));
   };
   const handleDelete = async () => {
     await deleteBlogAjax(
@@ -155,10 +169,13 @@ const BlogContent = () => {
                   {curBlog.id ? (
                     <BlogInfo
                       statistics={{
+                        id: curBlog.id,
                         author: curBlog.author as string,
                         time: moment(curBlog.publishAt).format('YYYY-MM-DD'),
                         views: curBlog.views as number,
+                        likes: curBlog.likes as number,
                         belongingMenu: curBlog.belongingMenu,
+                        isCollected: curBlog.isCollected as boolean,
                       }}
                     ></BlogInfo>
                   ) : undefined}

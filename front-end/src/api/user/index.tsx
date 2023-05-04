@@ -51,3 +51,8 @@ export const updateMeAjax = catchAsync(async (values: userUpdateObj) => {
   const response = await service.patch('/api/users/updateMe', values);
   return Promise.resolve(response);
 });
+
+export const getMyInfo = async () => {
+  const response = await service.get('/api/users/getMyInfo');
+  return Promise.resolve(response.data);
+};

@@ -16,7 +16,7 @@ const MiddleNav = () => {
         博客
       </LinkBtn>
       <LinkBtn icon="&#xe896;" seq={2} link={'/manage'}>
-        写博客
+        管理
       </LinkBtn>
       <LinkBtn icon="&#xe7df;" seq={3} link={'/test'}>
         精选

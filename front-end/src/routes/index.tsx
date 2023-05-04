@@ -1,6 +1,7 @@
 import React from 'react';
 import MainPage from '@/pages/MainPage';
 import TestPage from '@/pages/MainPage/TestPage';
+import AuthRoute from '@/pages/AuthRoute';
 
 // home
 import HomePage from '@/pages/MainPage/HomePage';
@@ -44,7 +45,11 @@ const router = [
       },
       {
         path: 'manage',
-        element: <BlogManage />,
+        element: (
+          <AuthRoute>
+            <BlogManage />
+          </AuthRoute>
+        ),
       },
     ],
   },

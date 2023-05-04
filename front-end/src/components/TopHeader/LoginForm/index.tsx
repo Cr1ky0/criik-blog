@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import isEmail from 'validator/lib/isEmail';
+import Cookies from 'universal-cookie';
 
 // img
 import img from '@/assets/images/blog-icon.png';
@@ -20,7 +21,10 @@ import { LoginFormData } from '@/interface';
 
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
-import Cookies from 'universal-cookie';
+
+// redux
+import { useAppDispatch } from '@/redux';
+import { setUser } from '@/redux/slices/user';
 
 interface LoginFormProps {
   close: () => void;
@@ -30,6 +34,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const message = useGlobalMessage();
+  const dispatch = useAppDispatch();
   const cookies = new Cookies();
   const login = async (values: LoginFormData) => {
     setIsLoading(true);
@@ -47,6 +52,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
         delete aData.user['_id'];
         cookies.set('user', aData.user, { path: '/' });
         cookies.set('token', token, { path: '/' });
+        dispatch(setUser(aData.user));
         // 关闭窗口
         close();
         navigate(0);
@@ -88,7 +94,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
           </Form.Item>
           <Form.Item>
             <Form.Item noStyle>
-              <a>Sing up</a>
+              <a
+                onClick={() => {
+                  message.success('暂不开放注册~');
+                }}
+              >
+                Sing up
+              </a>
             </Form.Item>
 
             <a className="login-form-forgot">Forgot password</a>

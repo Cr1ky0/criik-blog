@@ -28,9 +28,10 @@ import { SideMenuItem } from '@/interface';
 interface SideMenuProps {
   styles?: CSSProperties;
   noEdit?: boolean;
+  page: 'manage' | 'blog';
 }
 
-const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit }) => {
+const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page }) => {
   const icons = useIcons();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -84,8 +85,10 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit }) => {
             const item = getSideMenuItem(menus, e.key) as SideMenuItem;
             if (!item.grade) {
               dispatch(setSelectedId(e.key));
-              // 更改nav
-              navigate(`/blog`);
+              if (page === 'blog') {
+                // 更改nav
+                navigate(`/blog`);
+              }
             }
           }}
         />

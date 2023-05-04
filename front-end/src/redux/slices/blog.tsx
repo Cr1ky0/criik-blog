@@ -9,6 +9,8 @@ interface blogInitObj {
   writeContent: textContentObj;
   isEdit: boolean; // 标志博客是否处于编辑状态，处于编辑状态则提交按钮变为更新
   timeLine: timeLineObj[];
+  blogsNum: number;
+  likeList: string[]; // 点赞列表，记录当前点赞过的博客
 }
 
 // 合并了菜单的slice因为无法解决设置了selectedId后设置curBlog延迟的问题
@@ -17,6 +19,8 @@ const initialState: blogInitObj = {
   writeContent: {} as textContentObj,
   isEdit: false, // 标志博客是否处于编辑状态，处于编辑状态则提交按钮变为更新
   timeLine: [] as timeLineObj[],
+  blogsNum: 0,
+  likeList: [] as string[],
 };
 
 export const setTimeLine = createAsyncThunk('blog/setTimeLine', async () => {
@@ -24,10 +28,22 @@ export const setTimeLine = createAsyncThunk('blog/setTimeLine', async () => {
   return response.data;
 });
 
+export const setMyBlogsNum = createAsyncThunk('blog/getMyBlogsNum', async () => {
+  const response = await service.get('/api/blogs/getSelfBlogNum');
+  return response.data;
+});
+
 const blogSlice = createSlice({
   name: 'blog',
   initialState,
   reducers: {
+    // likeList
+    addLikeList: (state, action) => {
+      state.likeList = [...state.likeList, action.payload];
+    },
+    removeLikeList: (state, action) => {
+      state.likeList = state.likeList.filter(id => id !== action.payload);
+    },
     // isEdit
     setIsEdit: (state, action) => {
       state.isEdit = action.payload;
@@ -64,10 +80,25 @@ const blogSlice = createSlice({
       })
       .addCase(setTimeLine.rejected, (state, action) => {
         console.log(action.error.message);
+      })
+      .addCase(setMyBlogsNum.fulfilled, (state, action) => {
+        state.blogsNum = action.payload.data.length;
+      })
+      .addCase(setMyBlogsNum.rejected, (state, action) => {
+        console.log(action.error.message);
       });
   },
 });
 
-export const { setIsEdit, setTitle, setMenuTitle, setMenuId, setContent, initWriteContent, setAllContent } =
-  blogSlice.actions;
+export const {
+  addLikeList,
+  removeLikeList,
+  setIsEdit,
+  setTitle,
+  setMenuTitle,
+  setMenuId,
+  setContent,
+  initWriteContent,
+  setAllContent,
+} = blogSlice.actions;
 export default blogSlice.reducer;

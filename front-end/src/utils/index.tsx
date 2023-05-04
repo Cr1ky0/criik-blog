@@ -169,9 +169,14 @@ export const isLike = (likeList: string[], id: string) => {
   return likeList.some(itemId => itemId === id);
 };
 
+// 过滤后端&lt字符
+export const filterLT = (text: string) => {
+  return text.replaceAll('&lt;', '<');
+};
+
 // 过滤blog内容的Title
 export const filterTitle = (text: string) => {
-  const newContents = text.replaceAll('&lt;', '<');
+  const newContents = filterLT(text);
   const titleList = newContents.match(/#(.*)/g);
   let filterContents = newContents;
   if (titleList)

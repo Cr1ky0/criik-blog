@@ -35,10 +35,15 @@ const blogSchema = new mongoose.Schema(
       required: [true, '请输入博客内容'],
     },
     // 点赞数
-    // likes: {
-    //   type: Number,
-    //   default: 0,
-    // },
+    likes: {
+      type: Number,
+      default: 0,
+    },
+    // 是否收藏
+    isCollected: {
+      type: Boolean,
+      default: false,
+    },
     // 浏览次数
     views: {
       type: Number,

@@ -23,7 +23,7 @@ const MobileMenu: React.FC<MobileMenuProps> = props => {
             博客
           </LinkBtn>
           <LinkBtn icon="&#xe896;" seq={2} link={'/manage'} notAnimation={true}>
-            写博客
+            管理
           </LinkBtn>
           <LinkBtn icon="&#xe7df;" seq={3} link={'/stars'} notAnimation={true}>
             精选

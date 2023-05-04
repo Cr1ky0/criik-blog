@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router';
+import Cookies from 'universal-cookie';
 
 // antd
 import { Layout } from 'antd';
@@ -20,6 +21,7 @@ const { Content } = Layout;
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setEmoji } from '@/redux/slices/emoji';
 import { setMenuList } from '@/redux/slices/blogMenu';
+import { setMyUser } from '@/redux/slices/user';
 
 // gloabal
 import { MY_ID } from '@/global';
@@ -28,10 +30,14 @@ const MainPage = () => {
   const dispatch = useAppDispatch();
   const chosenList = useAppSelector(state => state.chosenList.chosenList);
   useEffect(() => {
+    // const cookies = new Cookies();
+    // const user = cookies.get('user');
     // 加载后先把emoji请求回来，后面不再请求了
     dispatch(setEmoji());
     // 请求MyMenu
     dispatch(setMenuList(MY_ID));
+    // 请求我的个人信息
+    // if (!user) dispatch(setMyUser());
   }, []);
   return (
     <Layout>

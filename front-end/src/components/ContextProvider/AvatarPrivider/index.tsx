@@ -12,10 +12,10 @@ interface avatarContextProps {
 
 const avatarContext = createContext(img);
 const AvatarProvider: React.FC<avatarContextProps> = ({ children }) => {
+  const message = useGlobalMessage();
   const [avatar, setAvatar] = useState(img);
   const cookies = new Cookies();
   const user = cookies.get('user');
-  const message = useGlobalMessage();
 
   useEffect(() => {
     if (user)

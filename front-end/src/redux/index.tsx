@@ -1,11 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from '@reduxjs/toolkit';
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
+
+// reducers
 import emoji from './slices/emoji';
 import chosenList from './slices/chosenList';
 import blog from './slices/blog';
 import comments from './slices/comments';
 import blogMenu from '@/redux/slices/blogMenu';
+import user from '@/redux/slices/user';
 
 //持久存储
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
@@ -17,6 +20,7 @@ const reducers = combineReducers({
   blog,
   comments,
   blogMenu,
+  user,
 });
 
 const persistConfig = {

@@ -26,7 +26,7 @@
       background-color: $THEME_COLOR;
     }
 
-    > div:not(:first-child) {
+    > div:not(:nth-child(2)) {
       > span {
         font-size: 18px;
       }
@@ -35,17 +35,16 @@
 
   .content {
     padding: 0 20px;
-    position: relative;
 
     > div:not(:first-child) {
-      opacity: 0;
+      display: none;
     }
 
     > div {
-      position: absolute;
       // 功能区
       @include setScrollBar(5px);
-      transition: opacity .2s;
+      animation: anime .5s;
+      animation-fill-mode: forwards;
 
       > div:last-child {
         height: 500px;
@@ -59,7 +58,7 @@
 
         > span:nth-child(2) {
           margin-left: 10px;
-          font-size: 20px;
+          font-size: 18px;
         }
 
         > span:last-child {
@@ -67,7 +66,14 @@
         }
       }
     }
+  }
+}
 
-
+@keyframes anime {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

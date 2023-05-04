@@ -4,8 +4,9 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const filterObj = require('../utils/filterObj');
 
-// avatar
+const myId = '64326421e387110cac9f8ece';
 
+// avatar
 exports.resizeUserAvatar = catchAsync(async (req, res, next) => {
   if (!req.body.avatar) return next();
   const base64 = req.body.avatar.replace(/^data:image\/\w+;base64,/, '');
@@ -99,21 +100,16 @@ exports.getUser = catchAsync(async (req, res, next) => {
     },
   });
 });
-exports.createUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not yet defined!',
+
+// 获取我个人的信息
+exports.getMyInfo = catchAsync(async (req, res, next) => {
+  const user = await User.findById(myId).select(
+    '-role -newEmail -emailResetTime'
+  );
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+    },
   });
-};
-exports.updateUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not yet defined!',
-  });
-};
-exports.deleteUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not yet defined!',
-  });
-};
+});
