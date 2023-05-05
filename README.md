@@ -1,4 +1,4 @@
-# 全栈 criik-blog（待部署）
+# criik-blog（待部署）
 
 * 仿 VuePress Theme Hope 主题利用 React 进行开发
 * 技术栈：ts + React + antd + nodejs + mongodb
