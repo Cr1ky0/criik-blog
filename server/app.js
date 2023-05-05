@@ -27,7 +27,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'http://localhost:3002'],
   })
 );
 app.options('*', cors());
@@ -69,6 +69,7 @@ app.use(
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
+
 // cookie
 app.use(cookieParser());
 
