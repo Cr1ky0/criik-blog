@@ -1,6 +1,6 @@
 # criik-blog（待部署）
 
-* 仿 VuePress Theme Hope 主题利用 React 进行开发
+* 仿 VuePress Theme Hope 主题风格利用 React 进行开发
 * 技术栈：ts + React + antd + nodejs + mongodb
 * 目前仅作为个人博客使用，支持markdown语法（包括html），支持收藏（个人）、分类、时间轴以及博客管理等功能。游客支持点赞和评论，支持个人信息修改。
 * 目前简单适配了移动端，后续再考虑加一些其他功能，比如草稿箱之类的
