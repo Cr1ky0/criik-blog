@@ -23,7 +23,7 @@ const menuRouter = require('./routes/menuRoutes');
 
 const app = express();
 
-// Implement CORS
+// CORS
 app.use(
   cors({
     credentials: true,
@@ -32,7 +32,6 @@ app.use(
 );
 app.options('*', cors());
 
-// 1) GLOBAL MIDDLEWARES
 // Set security HTTP headers
 app.use(helmet());
 
@@ -41,12 +40,11 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// 限制相同请求次数
-// 1h内请求次数限制100次
+// 限制请求次数
 // const limiter = rateLimit({
-//   max: 100, // 次数
-//   windowMs: 60 * 60 * 1000,
-//   message: 'Too many requests from this IP, please try again in an hour!',
+//   max: 50, // 次数
+//   windowMs: 60 * 1000,
+//   message: '请求数过多，请稍后再试！',
 // });
 
 // 对/api使用limiter中间件
@@ -71,7 +69,6 @@ app.use(
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
-
 // cookie
 app.use(cookieParser());
 
@@ -106,7 +103,7 @@ app.use('/api/menus', menuRouter);
 // none page handle
 app.all('*', (req, res, next) => {
   // next传递err可以被捕获
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+  next(new AppError(`找不到 ${req.originalUrl} 链接!`, 404));
 });
 
 // 全局Error处理中间件

@@ -4,7 +4,7 @@ const menuController = require('../controllers/menuController');
 
 const router = express.Router();
 
-// 获取指定用户的menu（因为要展览，不设限了）
+// 获取指定用户的menu（因为要展览）
 router.route('/:id').get(menuController.getMenusOfUser);
 
 // 权限

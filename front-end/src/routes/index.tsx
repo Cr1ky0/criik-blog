@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
+import { RouteObject } from 'react-router';
 import MainPage from '@/pages/MainPage';
-import TestPage from '@/pages/MainPage/TestPage';
 import AuthRoute from '@/pages/AuthRoute';
 
 // home
@@ -18,50 +18,48 @@ import BlogContent from '@/pages/MainPage/BlogPage/BlogContent';
 import StarBlog from '@/pages/MainPage/StarBlog';
 import FilteredBlogs from '@/pages/MainPage/StarBlog/FilteredBlogs';
 
-const router = [
+export type Routes = {
+  path: string;
+  element: React.LazyExoticComponent<any>;
+  children?: Routes[];
+};
+
+const router: Routes[] = [
   {
     path: '/',
-    element: <MainPage />,
+    element: lazy(() => import('@/pages/MainPage')),
     children: [
       {
         path: '',
-        element: <HomePage />,
+        element: lazy(() => import('@/pages/MainPage/HomePage')),
         children: [
           {
             path: '',
-            element: <BlogList></BlogList>,
+            element: lazy(() => import('@/pages/MainPage/HomePage/BlogList')),
           },
         ],
       },
       {
-        path: 'test',
-        element: <TestPage />,
-      },
-      {
         path: 'blog',
-        element: <BlogPage />,
+        element: lazy(() => import('@/pages/MainPage/BlogPage')),
         children: [
           {
             path: '',
-            element: <BlogContent></BlogContent>,
+            element: lazy(() => import('@/pages/MainPage/BlogPage/BlogContent')),
           },
         ],
       },
       {
         path: 'manage',
-        element: (
-          <AuthRoute>
-            <BlogManage />
-          </AuthRoute>
-        ),
+        element: lazy(() => import('@/pages/MainPage/BlogManage')),
       },
       {
         path: 'stars',
-        element: <StarBlog></StarBlog>,
+        element: lazy(() => import('@/pages/MainPage/StarBlog')),
         children: [
           {
             path: '',
-            element: <FilteredBlogs></FilteredBlogs>,
+            element: lazy(() => import('@/pages/MainPage/StarBlog/FilteredBlogs')),
           },
         ],
       },
@@ -69,4 +67,22 @@ const router = [
   },
 ];
 
-export default router;
+const syncRouter = (table: Routes[]): RouteObject[] => {
+  const routeTable: RouteObject[] = [];
+  table.forEach(route => {
+    routeTable.push({
+      path: route.path,
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          <AuthRoute>
+            <route.element />
+          </AuthRoute>
+        </Suspense>
+      ),
+      children: route.children && syncRouter(route.children),
+    });
+  });
+  return routeTable;
+};
+
+export default syncRouter(router);
