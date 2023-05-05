@@ -18,18 +18,18 @@
     .homeTagWrapper {
       width: 100%;
       text-align: center;
-      color: rgba(255, 255, 255, 0.8);
+      //color: rgba(255, 255, 255, 0.8);
       display: flex;
       flex-direction: column;
-      margin-top: 7vw;
+      margin-top: 25vh;
 
       > div {
         margin: 0 auto;
       }
 
       .homeTagIcon {
-        width: 20vw;
-        height: 20vw;
+        width: 10vw;
+        height: 10vw;
         @include backgroundImgStyle(0);
       }
 
@@ -37,13 +37,13 @@
         width: 100%;
         margin: 10px 0;
         font: {
-          size: 2vw;
+          size: 2.5vw;
           weight: bolder;
         }
       }
 
       > div:last-child {
-        font-size: 1.5vw;
+        font-size: 2vw;
       }
     }
 
@@ -54,11 +54,10 @@
     height: 200px;
     // vh为当前视口的高度单位，1vh为1%
     position: relative;
-    @include backgroundImgStyle(0, cover);
+    @include backgroundImgStyle(0);
 
     .homeTagWrapper {
       text-align: center;
-      color: rgba(255, 255, 255, 0.8);
       position: absolute;
       left: 0;
       right: 0;
@@ -68,10 +67,10 @@
 
 
       .homeTagIcon {
-        width: 100px;
-        height: 100px;
-        margin: 10px auto;
-        @include backgroundImgStyle(0);
+        width: 50px;
+        height: 50px;
+        margin: 30px auto;
+        @include backgroundImgStyle(0, contain);
       }
 
       .homeTag {

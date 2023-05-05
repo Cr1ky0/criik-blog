@@ -1,8 +1,18 @@
 # 全栈 criik-blog（开发中）
 
-仿 VuePress Theme Hope 主题利用 React 进行开发
-<br>
-![图片](./front-end/src/assets/images/show.png)
+* 仿 VuePress Theme Hope 主题利用 React 进行开发
+* 技术栈：ts + React + antd + nodejs + mongodb
+*
+
+目前仅作为个人博客使用，支持markdown语法（包括html），支持收藏（个人）、分类、时间轴以及博客管理等功能，游客支持点赞和评论，支持个人信息修改。<br>
+
+* 目前简单适配了移动端，后续再考虑加一些其他功能，比如草稿箱之类的
+
+![图片](./images/show.png)
+![图片](./images/1.png)
+![图片](./images/2.png)
+![图片](./images/3.png)
+![图片](./images/4.png)
 
 # Sever 端
 
@@ -21,44 +31,45 @@
    exports.getUser = catchAsync(async (req, res, next) => {});
    ```
 5. 错误处理利用 appError + errorController + catchAsync 实现自动错误处理
-   - 基本流程：
-     1. 错误出现时，return next(new AppError(message,status_code))
-     2. 错误被 catch 后由 next 将错误进行传递
-     3. 当传递到全局错误处理中间件时在定义的中间件中进行处理(errorController 中暴露的回调函数)
+    - 基本流程：
+        1. 错误出现时，return next(new AppError(message,status_code))
+        2. 错误被 catch 后由 next 将错误进行传递
+        3. 当传递到全局错误处理中间件时在定义的中间件中进行处理(errorController 中暴露的回调函数)
 6. 使用 config.env 配置一些全局属性，例如开发环境，在不同环境下执行不同代码
 7. 关于数据库加密
-   - 在 mongodb/bin 内的 cfg 文件内设置
-     > security:<br>
-     > authorization: enabled
-   - 打开后重启 mongodb 服务，然后 use admin，进入 admin 数据库进行用户创建
-     ```js
-     db.createUser({
-       user: "criiky0",
-       pwd: "123456",
-       roles: [{ role: "readWrite", db: "criik-blog" }],
-     });
-     db.createUser({
-       user: "criiky0",
-       pwd: "123456",
-       roles: [
-         {
-           role: "readWrite",
-           db: "criik-blog",
-         },
-       ],
-     });
-     ```
-   - 给其他数据库添加验证账户时，非 admin db 使用 readWrite 角色，因为子 db 没有 root 等角色
+    - 在 mongodb/bin 内的 cfg 文件内设置
+      > security:<br>
+      > authorization: enabled
+    - 打开后重启 mongodb 服务，然后 use admin，进入 admin 数据库进行用户创建
+      ```js
+      db.createUser({
+        user: "criiky0",
+        pwd: "123456",
+        roles: [{ role: "readWrite", db: "criik-blog" }],
+      });
+      db.createUser({
+        user: "criiky0",
+        pwd: "123456",
+        roles: [
+          {
+            role: "readWrite",
+            db: "criik-blog",
+          },
+        ],
+      });
+      ```
+    - 给其他数据库添加验证账户时，非 admin db 使用 readWrite 角色，因为子 db 没有 root 等角色
 8. 文件、图片上传
-   - multer+sharp
-   - 一开始用的 multer 为直接上传的图片进行处理，但后面用了 antd 的上传组件
-   - 只能获取到 base64 编码格式的图片，先去掉前缀后将编码转成 buffer，再交给 sharp 处理，用不到 multer
+    - multer+sharp
+    - 一开始用的 multer 为直接上传的图片进行处理，但后面用了 antd 的上传组件
+    - 只能获取到 base64 编码格式的图片，先去掉前缀后将编码转成 buffer，再交给 sharp 处理，用不到 multer
 9. connect-mongo，session 持久化
 10. \*关于 session 和 cookie
     - 使用 express-session 后，一旦设置 session，会向前端发送一个 session_id 的 cookie，在 Set-Cookie 请求头内
     - 如果 Set-Cookie 请求头内的 cookie 设置了 http-only，那么前端无论如何都无法获取到该 cookie（服务器可读 cookie）
     - 那么此时前端如果想在 axios 发送请求时携带该 cookie，需要打开 withCredentials 选项，此时会出现跨域问题
-    - 这里我使用 cors 解决跨域，打开了 withCredentials 仍会出现跨域问题，需要配置 cors 的 credentials:true,同时 origin 设为请求发送端的地址
+    - 这里我使用 cors 解决跨域，打开了 withCredentials 仍会出现跨域问题，需要配置 cors 的 credentials:true,同时 origin
+      设为请求发送端的地址
     - 如果要使用不带 http-only 的 cookie，用 cookie-parser，在配置里面把 httpOnly 关了就行
 
 # 前端
@@ -134,7 +145,8 @@
         import img from '@/assets/images/blog-icon.png'
         style={{ backgroundImage: `url(${img})` }}
    ```
-8. react 内响应式布局见 ViewportProvider 组件（利用 context，全局包裹该组件，获取窗口大小），context 可以让子元素获取传入的 value，该 value 使用 useContext(context 名)即可获得，可以用改特性在 Provider 内部存放一些全局要用的功能和数据
+8. react 内响应式布局见 ViewportProvider 组件（利用 context，全局包裹该组件，获取窗口大小），context 可以让子元素获取传入的
+   value，该 value 使用 useContext(context 名)即可获得，可以用改特性在 Provider 内部存放一些全局要用的功能和数据
 9. 关于滚动条，如过要让一个子元素在其父元素内滚动，需要同时设置其父元素以及自身的高度，而且自身高度要大于父元素，否则无法产生滚动条
 10. 用一个组件存放 antd icons，通过 context 让所有组件能够获取
 11. 使用@reduxjs/toolkit 时利用 redux-persist 持久化的配置
@@ -218,7 +230,9 @@
         });
     ```
 14. react 严格模式包裹 antd 的布局组件会报错，包裹 routes 组件就行
-15. 如果直接在标签上加 style，这时如果状态发生改变，style 被应用，如果该标签有动效 css，则会被覆盖，最好的办法是替换两套 style，然后利用动画进行设置，但是这样巨麻烦，我这里利用原生 js 做动效了，原生 js 设置的不会被覆盖掉，可以有动画，而且保证其展开大小一定是元素包裹大小，如果定义动画就无法知道包裹大小是多少
+15. 如果直接在标签上加 style，这时如果状态发生改变，style 被应用，如果该标签有动效 css，则会被覆盖，最好的办法是替换两套
+    style，然后利用动画进行设置，但是这样巨麻烦，我这里利用原生 js 做动效了，原生 js
+    设置的不会被覆盖掉，可以有动画，而且保证其展开大小一定是元素包裹大小，如果定义动画就无法知道包裹大小是多少
     ```js
         const div = document.getElementById('change-form-box-anime') as HTMLElement;
         // 如果打开就设置为scrollHeight否则为0
@@ -231,7 +245,8 @@
         const FC = forwardRef<HTMLInputElement, ChangeFormBoxProps>((props,ref)=>{})
     ```
 17. 使用 useCallback 时，注意设置 deps，如果内部有 useState 的数据，那么 deps 需要加上该 state 否则内部 state 不会改变。
-18. 关于 antd 的 select 选择器，如果要自定义选项，注意设置 optionLabelProp="value"，意思是每次选择将选项的 value 值回填到选项框内，如果不填此项，默认将 label 回填到选项框内，如果此时 label 是一个 ReactNode 那么就会报错。
+18. 关于 antd 的 select 选择器，如果要自定义选项，注意设置 optionLabelProp="value"，意思是每次选择将选项的 value
+    值回填到选项框内，如果不填此项，默认将 label 回填到选项框内，如果此时 label 是一个 ReactNode 那么就会报错。
 19. redux 异步处理流程
     - 首先，在组件内初始化请求数据并赋值 state
     - 更改或添加数据时，调用封装的 axios 方法
