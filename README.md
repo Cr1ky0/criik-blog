@@ -289,5 +289,4 @@
     - 定义 state
     - useMemo 或 useEffect 内发送请求
     - 请求成功 setState
-25. 可以包裹一个组件实现加载动画
-26. 关于ref，createRef后将结点赋值该ref后可在该组件使用useRef暴露接口在其他组件中使用该ref，一般用来操作dom结点
+25. 关于ref，createRef后将结点赋值该ref后可在该组件使用useRef暴露接口在其他组件中使用该ref，一般用来操作dom结点

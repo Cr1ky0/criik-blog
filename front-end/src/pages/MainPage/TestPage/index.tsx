@@ -7,6 +7,7 @@ import { setTimeLine } from '@/redux/slices/blog';
 import BlogTimeLine from '@/components/HomePage/BlogDetailBox/BlogTimeLine';
 import BlogDetailBox from '@/components/HomePage/BlogDetailBox';
 import LoadingPage from '@/components/LoadingPage';
+import Page404 from '@/components/Page404';
 
 const TestPage = () => {
   const testText = `
@@ -25,7 +26,8 @@ const TestPage = () => {
       {/*<BlogToc text={testText}></BlogToc>*/}
       {/*<Classification></Classification>*/}
       {/*<BlogTimeLine></BlogTimeLine>*/}
-      <LoadingPage></LoadingPage>
+      {/*<LoadingPage></LoadingPage>*/}
+      {/*<Page404></Page404>*/}
       {/*<BlogDetailBox></BlogDetailBox>*/}
     </div>
   );

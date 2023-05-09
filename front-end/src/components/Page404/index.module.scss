@@ -1,0 +1,40 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-color: #FFF;
+  position: relative;
+
+  > div {
+    width: 300px;
+    height: 400px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+
+    .photo {
+      width: 300px;
+      height: 200px;
+      background: {
+        size: cover;
+        repeat: no-repeat;
+      }
+    }
+
+    .tips {
+      text-align: center;
+      line-height: 40px;
+      font-size: 30px;
+    }
+
+    .btn {
+      width: 80px;
+      padding: 20px 0;
+      margin: 0 auto;
+    }
+  }
+
+
+}
