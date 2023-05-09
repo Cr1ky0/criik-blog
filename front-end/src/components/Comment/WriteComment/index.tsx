@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 import { addLength, setComments, setIsLoading } from '@/redux/slices/comments';
 
 // api
-import { addCommentAjax } from '@/api/comment';
+import { addCommentAjax, filterCommentAjax } from '@/api/comment';
 
 const WriteComment = () => {
   const message = useGlobalMessage();
@@ -41,36 +41,50 @@ const WriteComment = () => {
   const handleSubmit = async () => {
     setIsLoading1(true);
     const ref = commentRef.current as HTMLTextAreaElement;
-    await addCommentAjax(
-      {
-        belongingBlog: selectedId,
-        contents: ref.value,
-        userId: user ? user.id : '644c9a90f43dbdb4dc3296f8', // 没登录统一设为匿名账户
-        username: user ? user.name : undefined,
-        brief: user ? user.brief : undefined,
-      },
-      async () => {
-        await message.loadingAsync('提交中...', '提交成功');
-        ref.value = '';
-        dispatch(setIsLoading(true));
-        setTimeout(() => {
-          dispatch(setIsLoading(false));
-        }, 500);
-        dispatch(addLength());
-        dispatch(
-          setComments({
-            id: selectedId,
-            page: curPage,
-            sort: sort === 'time' ? '-publishAt' : '-likes',
-          })
+    try {
+      const res = await filterCommentAjax(ref.value);
+      // 是否违规
+      const data = res.data;
+      const type = data.conclusion_type;
+      const dataObj = data.data[0];
+      if (type.toString() === '1')
+        await addCommentAjax(
+          {
+            belongingBlog: selectedId,
+            contents: ref.value,
+            userId: user ? user.id : '644c9a90f43dbdb4dc3296f8', // 没登录统一设为匿名账户
+            username: user ? user.name : undefined,
+            brief: user ? user.brief : undefined,
+          },
+          async () => {
+            await message.loadingAsync('提交中...', '提交成功');
+            ref.value = '';
+            dispatch(setIsLoading(true));
+            setTimeout(() => {
+              dispatch(setIsLoading(false));
+            }, 500);
+            dispatch(addLength());
+            dispatch(
+              setComments({
+                id: selectedId,
+                page: curPage,
+                sort: sort === 'time' ? '-publishAt' : '-likes',
+              })
+            );
+            setIsLoading1(false);
+          },
+          msg => {
+            message.error(msg);
+            setIsLoading1(false);
+          }
         );
-        setIsLoading1(false);
-      },
-      msg => {
-        message.error(msg);
+      else {
+        message.error(`评论包含敏感词: ${dataObj.words[0]} ,请重新编辑后发送！`);
         setIsLoading1(false);
       }
-    );
+    } catch (err: any) {
+      message.error(err.message);
+    }
   };
 
   return (
