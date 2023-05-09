@@ -2,6 +2,8 @@
 
 .wrapper {
   @include unSelectable;
+  display: block;
+  color: $FONT_COLOR;
   padding: {
     left: 5px;
     right: 5px;

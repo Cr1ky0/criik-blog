@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1899068",
+      "name": "telegram",
+      "font_class": "telegram",
+      "unicode": "e731",
+      "unicode_decimal": 59185
+    },
+    {
+      "icon_id": "4937010",
+      "name": "twitter-circle-fill",
+      "font_class": "twitter-circle-fill",
+      "unicode": "e88a",
+      "unicode_decimal": 59530
+    },
+    {
+      "icon_id": "599902",
+      "name": "邮件",
+      "font_class": "youjian",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
       "icon_id": "4936673",
       "name": "star-fill",
       "font_class": "star-fill",

@@ -86,9 +86,24 @@ const IntroductionBox: React.FC<IntroductionBoxProps> = props => {
         </div>
       </div>
       <div className={`${style.linkBox} clearfix`}>
-        <LinkIcon icon="&#xea0a;"></LinkIcon>
-        <LinkIcon icon="&#xe66a;" styles={{ color: '#5eaade' }}></LinkIcon>
-        <LinkIcon icon="&#xe686;" styles={{ color: '#13227a' }}></LinkIcon>
+        <LinkIcon
+          icon="&#xea0a;"
+          styles={{ color: '#2c3e50' }}
+          content="Github"
+          href="https://github.com/Creekyu"
+        ></LinkIcon>
+        <LinkIcon
+          icon="&#xe66a;"
+          styles={{ color: '#5eaade' }}
+          content="QQ"
+          href="tencent://Message/?Uin=503094716&Menu=yes"
+        ></LinkIcon>
+        <LinkIcon
+          icon="&#xe731;"
+          styles={{ color: '#3397db' }}
+          content="Telegram"
+          href="https://t.me/Criiky0"
+        ></LinkIcon>
       </div>
     </div>
   );

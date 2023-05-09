@@ -58,9 +58,12 @@
 // >
 @media (min-width: $BREAK_POINT) {
   @include universal;
-  > div:first-child {
-    width: 900px;
+  .wrapper {
+    > div:first-child {
+      width: 900px;
+    }
   }
+
 }
 
 @keyframes anime {
