@@ -8,9 +8,10 @@ import BlogInfo from '@/components/Universal/BlogInfo';
 import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 import Comment from '@/components/Comment';
 import BlogToc from '@/components/BlogPage/BlogToc';
+import LoadingComp from '@/components/Universal/LoadingComp';
 
 // antd
-import { Breadcrumb, Skeleton } from 'antd';
+import { Breadcrumb } from 'antd';
 
 // css
 import style from './index.module.scss';
@@ -135,12 +136,8 @@ const BlogContent = () => {
     /* Content加载状态 */
     <>
       {loading ? (
-        <div style={{ width: '100%', height: '100%', paddingRight: '5vw', paddingTop: '5vh' }}>
-          <Skeleton active />
-          <br />
-          <Skeleton active />
-          <br />
-          <Skeleton active />
+        <div style={{ width: '100%', height: '100%', paddingTop: '20vh' }}>
+          <LoadingComp styles={{ backgroundColor: '#FFF' }}></LoadingComp>
         </div>
       ) : (
         <div className={`${style.main} clearfix`}>

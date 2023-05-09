@@ -5,10 +5,11 @@ import { Outlet, useNavigate } from 'react-router';
 import style from './index.module.scss';
 
 // antd
-import { Pagination, Skeleton } from 'antd';
+import { Pagination } from 'antd';
 
 // comp
 import Footer from '@/components/Footer';
+import LoadingComp from '@/components/Universal/LoadingComp';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
@@ -32,6 +33,8 @@ const StarBlog = () => {
   const [curPage, setCurPage] = useState(1);
   const [collectNum, setCollectNum] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  // timer
+  const [timer, setTimer] = useState<any>();
 
   useEffect(() => {
     dispatch(setChosenList([false, false, false, true]));
@@ -68,6 +71,13 @@ const StarBlog = () => {
                 onClick={e => {
                   // 动画
                   if (chosen !== index) {
+                    if (timer) clearTimeout(timer);
+                    setIsLoading(true);
+                    setTimer(
+                      setTimeout(() => {
+                        setIsLoading(false);
+                      }, 400)
+                    );
                     const now = e.currentTarget;
                     now.style.color = THEME_COLOR;
                     const bar = now.getElementsByTagName('div')[1] as HTMLElement;
@@ -80,10 +90,6 @@ const StarBlog = () => {
                     lastBar.style.marginLeft = '50%';
                     dispatch(setChosen(index));
                     navigate(`/stars?filter=${index}`);
-                    setIsLoading(true);
-                    setTimeout(() => {
-                      setIsLoading(false);
-                    }, 400);
                   }
                 }}
               >
@@ -97,11 +103,7 @@ const StarBlog = () => {
         {/* loading状态 */}
         {isLoading ? (
           <div style={{ padding: '5vh' }}>
-            <Skeleton active />
-            <br />
-            <Skeleton active />
-            <br />
-            <Skeleton active />
+            <LoadingComp></LoadingComp>
           </div>
         ) : (
           <>
@@ -119,13 +121,15 @@ const StarBlog = () => {
           current={curPage}
           total={chosen === 0 ? collectNum : blogsNum}
           onChange={page => {
+            if (timer) clearTimeout(timer);
+            setIsLoading(true);
+            setTimer(
+              setTimeout(() => {
+                setIsLoading(false);
+              }, 400)
+            );
             // 点击跳转
             navigate(`?filter=${chosen}page=${page}`);
-            setIsLoading(true);
-            setTimeout(() => {
-              setIsLoading(false);
-            }, 400);
-            setCurPage(page);
           }}
         />
       </div>
