@@ -135,7 +135,7 @@ const BlogContent = () => {
     /* Content加载状态 */
     <>
       {loading ? (
-        <div style={{ width: '100%', height: '100%', paddingRight: '5vw' }}>
+        <div style={{ width: '100%', height: '100%', paddingRight: '5vw', paddingTop: '5vh' }}>
           <Skeleton active />
           <br />
           <Skeleton active />
