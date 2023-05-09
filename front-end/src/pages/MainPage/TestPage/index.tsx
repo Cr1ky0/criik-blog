@@ -6,6 +6,7 @@ import Classification from '@/components/HomePage/BlogDetailBox/Classification';
 import { setTimeLine } from '@/redux/slices/blog';
 import BlogTimeLine from '@/components/HomePage/BlogDetailBox/BlogTimeLine';
 import BlogDetailBox from '@/components/HomePage/BlogDetailBox';
+import LoadingPage from '@/components/LoadingPage';
 
 const TestPage = () => {
   const testText = `
@@ -19,11 +20,13 @@ const TestPage = () => {
   const timeLine = useAppSelector(state => state.blog.timeLine);
   const dispatch = useAppDispatch();
   return (
-    <div style={{ margin: '20vh', width: '300px', backgroundColor: '#FFF' }}>
+    // <div style={{ margin: '20vh', width: '300px', backgroundColor: '#FFF' }}>
+    <div>
       {/*<BlogToc text={testText}></BlogToc>*/}
       {/*<Classification></Classification>*/}
       {/*<BlogTimeLine></BlogTimeLine>*/}
-      <BlogDetailBox></BlogDetailBox>
+      <LoadingPage></LoadingPage>
+      {/*<BlogDetailBox></BlogDetailBox>*/}
     </div>
   );
 };

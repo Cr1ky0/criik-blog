@@ -1,22 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { RouteObject } from 'react-router';
-import MainPage from '@/pages/MainPage';
 import AuthRoute from '@/pages/AuthRoute';
-
-// home
-import HomePage from '@/pages/MainPage/HomePage';
-import BlogList from '@/pages/MainPage/HomePage/BlogList';
-
-// manage
-import BlogManage from '@/pages/MainPage/BlogManage';
-
-// blog
-import BlogPage from '@/pages/MainPage/BlogPage';
-import BlogContent from '@/pages/MainPage/BlogPage/BlogContent';
-
-// stars
-import StarBlog from '@/pages/MainPage/StarBlog';
-import FilteredBlogs from '@/pages/MainPage/StarBlog/FilteredBlogs';
+import LoadingPage from '@/components/LoadingPage';
 
 export type Routes = {
   path: string;
@@ -63,6 +48,10 @@ const router: Routes[] = [
           },
         ],
       },
+      {
+        path: 'test',
+        element: lazy(() => import('@/pages/MainPage/TestPage')),
+      },
     ],
   },
 ];
@@ -73,7 +62,7 @@ const syncRouter = (table: Routes[]): RouteObject[] => {
     routeTable.push({
       path: route.path,
       element: (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingPage></LoadingPage>}>
           <AuthRoute>
             <route.element />
           </AuthRoute>
