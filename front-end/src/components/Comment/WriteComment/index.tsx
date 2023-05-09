@@ -96,7 +96,6 @@ const WriteComment = () => {
         </Popover>
 
         <div className={style.submit}>
-          {/*<Button size="middle">登录</Button>&nbsp;*/}
           <Button type="primary" size="middle" loading={isLoading} onClick={handleSubmit}>
             提交
           </Button>

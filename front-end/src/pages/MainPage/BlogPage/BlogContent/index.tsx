@@ -132,114 +132,114 @@ const BlogContent = () => {
   };
 
   return (
+    /* Content加载状态 */
     <>
-      {
-        /* Content加载状态 */
-        loading ? (
-          <div style={{ width: '100%', height: '100%' }}>
-            <Skeleton active />
-            <br />
-            <Skeleton active />
-            <br />
-            <Skeleton active />
-          </div>
-        ) : (
-          <>
-            <div className={style.blog}>
-              <div className={style.breadCrumb}>
-                <Breadcrumb
-                  items={
-                    breadcrumbList && breadcrumbList.length
-                      ? breadcrumbList.map(item => {
-                          return {
-                            title: (
-                              <>
-                                {item.icon} {item.title}
-                              </>
-                            ),
-                          };
-                        })
-                      : []
-                  }
-                />
+      {loading ? (
+        <div style={{ width: '100%', height: '100%', paddingRight: '5vw' }}>
+          <Skeleton active />
+          <br />
+          <Skeleton active />
+          <br />
+          <Skeleton active />
+        </div>
+      ) : (
+        <div className={`${style.main} clearfix`}>
+          <div className={style.blog}>
+            <div className={style.breadCrumb}>
+              <Breadcrumb
+                items={
+                  breadcrumbList && breadcrumbList.length
+                    ? breadcrumbList.map(item => {
+                        return {
+                          title: (
+                            <>
+                              {item.icon} {item.title}
+                            </>
+                          ),
+                        };
+                      })
+                    : []
+                }
+              />
+            </div>
+            <div className={style.info}>
+              <div className={style.title}>{curBlog.title}</div>
+              <div className={style.blogInfo}>
+                {curBlog.id ? (
+                  <BlogInfo
+                    statistics={{
+                      id: curBlog.id,
+                      author: curBlog.author as string,
+                      time: moment(curBlog.publishAt).format('YYYY-MM-DD'),
+                      views: curBlog.views as number,
+                      likes: curBlog.likes as number,
+                      belongingMenu: curBlog.belongingMenu,
+                      isCollected: curBlog.isCollected as boolean,
+                    }}
+                  ></BlogInfo>
+                ) : undefined}
               </div>
-              <div className={style.info}>
-                <div className={style.title}>{curBlog.title}</div>
-                <div className={style.blogInfo}>
-                  {curBlog.id ? (
-                    <BlogInfo
-                      statistics={{
-                        id: curBlog.id,
-                        author: curBlog.author as string,
-                        time: moment(curBlog.publishAt).format('YYYY-MM-DD'),
-                        views: curBlog.views as number,
-                        likes: curBlog.likes as number,
-                        belongingMenu: curBlog.belongingMenu,
-                        isCollected: curBlog.isCollected as boolean,
+            </div>
+            <div className={style.blogContent}>
+              <div className={style.text}>
+                <ReactMarkdownRender>{curBlog.contents as string}</ReactMarkdownRender>
+              </div>
+              {/* 博客编辑选项 */}
+              {user ? (
+                <div className={style.blogEdit}>
+                  <div>
+                    <div
+                      onClick={() => {
+                        modal.confirm({
+                          title: '提示',
+                          content: '编辑此页会覆盖正在编辑的博客，确定要这么做吗？',
+                          onOk: () => {
+                            handleEdit();
+                          },
+                        });
                       }}
-                    ></BlogInfo>
-                  ) : undefined}
-                </div>
-              </div>
-              <div className={style.blogContent}>
-                <div className={style.text}>
-                  <ReactMarkdownRender>{curBlog.contents as string}</ReactMarkdownRender>
-                </div>
-                {/* 博客编辑选项 */}
-                {user ? (
-                  <div className={style.blogEdit}>
-                    <div>
-                      <div
-                        onClick={() => {
-                          modal.confirm({
-                            title: '提示',
-                            content: '编辑此页会覆盖正在编辑的博客，确定要这么做吗？',
-                            onOk: () => {
-                              handleEdit();
-                            },
-                          });
-                        }}
-                      >
-                        <span className="iconfont">&#xe624;</span>&nbsp;编辑此页
-                      </div>
-                      <div
-                        onClick={() => {
-                          modal.confirm({
-                            title: '提示',
-                            content: '是否删除当前博客？',
-                            onOk: () => {
-                              handleDelete();
-                            },
-                          });
-                        }}
-                      >
-                        <span className="iconfont" style={{ fontSize: '1.1vw' }}>
-                          &#xe604;
-                        </span>
-                        &nbsp;删除博客
-                      </div>
+                    >
+                      <span className="iconfont" style={{ fontSize: '0.8vw' }}>
+                        &#xe624;
+                      </span>
+                      &nbsp;
+                      <span>编辑此页</span>
                     </div>
-                    <div>
-                      <div>
-                        上次编辑于：<span>{moment(curBlog.updateAt).format('YYYY-MM-DD HH:mm:ss')}</span>
-                      </div>
-                      <div>
-                        贡献者：<span>{curBlog.author}</span>
-                      </div>
+                    <div
+                      onClick={() => {
+                        modal.confirm({
+                          title: '提示',
+                          content: '是否删除当前博客？',
+                          onOk: () => {
+                            handleDelete();
+                          },
+                        });
+                      }}
+                    >
+                      <span className="iconfont">&#xe604;</span>&nbsp;
+                      <span>删除博客</span>
                     </div>
                   </div>
-                ) : undefined}
-                <div className={style.comment}>
-                  <Comment></Comment>
+                  <div>
+                    <div>
+                      上次编辑于：<span>{moment(curBlog.updateAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                    </div>
+                    <div>
+                      贡献者：<span>{curBlog.author}</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ) : undefined}
             </div>
-            <div className={style.toc}>
-              {curBlog.id ? <BlogToc text={curBlog.contents as string}></BlogToc> : undefined}
+            <div className={style.comment}>
+              <Comment></Comment>
             </div>
-          </>
-        )
-      }
+          </div>
+          <div className={style.toc}>
+            {curBlog.id ? <BlogToc text={curBlog.contents as string}></BlogToc> : undefined}
+          </div>
+        </div>
+      )}
     </>
   );
 };

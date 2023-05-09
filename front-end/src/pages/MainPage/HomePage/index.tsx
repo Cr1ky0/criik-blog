@@ -64,6 +64,8 @@ const HomePage = () => {
               <Skeleton active />
               <br />
               <Skeleton active />
+              <br />
+              <Skeleton active />
             </div>
           ) : (
             // 路由

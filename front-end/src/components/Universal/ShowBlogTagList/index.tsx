@@ -19,7 +19,7 @@ const ShowBlogTagList: React.FC<ShowBlogTagListProps> = ({ blogs }) => {
           {blogs.map(blog => {
             const { id, title, contents, author, publishAt, views, belongingMenu, isCollected, likes } = blog;
             return (
-              <div key={id} style={{ paddingBottom: '3vh' }}>
+              <div key={id} style={{ paddingBottom: '20px' }}>
                 <BlogTagBox
                   blogId={id}
                   title={title}
@@ -40,7 +40,7 @@ const ShowBlogTagList: React.FC<ShowBlogTagListProps> = ({ blogs }) => {
           })}
         </>
       ) : (
-        <div style={{ fontSize: '20px', textAlign: 'center' }}>当前没有博客...</div>
+        <div style={{ fontSize: '20px', textAlign: 'center' }}></div>
       )}
     </>
   );

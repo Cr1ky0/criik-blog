@@ -179,17 +179,10 @@ const BlogManage = () => {
 
   return (
     <div className={`${style.wrapper} clearfix`}>
-      {width > 850 ? (
-        <div id="blog-manage-sider-wrapper" className={style.sider}>
-          <SideMenu page="manage"></SideMenu>
-        </div>
-      ) : undefined}
-
-      <div
-        id="blog-manage-content-wrapper"
-        className={style.content}
-        style={width < 850 ? { width: '100%' } : undefined}
-      >
+      <div id="blog-manage-sider-wrapper" className={style.sider}>
+        <SideMenu page="manage"></SideMenu>
+      </div>
+      <div id="blog-manage-content-wrapper" className={style.content}>
         <div className={style.editState}>
           当前状态：
           <Dropdown menu={{ items, selectable: true, selectedKeys: [isEdit ? '1' : '2'] }}>
@@ -258,7 +251,7 @@ const BlogManage = () => {
         destroyOnClose
         title="总览"
         placement="right"
-        width="50vw"
+        width={width > 768 ? '50vw' : '75vw'}
         onClose={() => {
           setOpen(false);
         }}

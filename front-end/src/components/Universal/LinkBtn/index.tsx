@@ -17,17 +17,18 @@ interface LinkBtnProps {
   children: string;
   link: To;
   notAnimation?: boolean;
+  onClick?: () => void;
 }
 
 // 该UI组件用于实现链接按钮效果
 const LinkBtn: React.FC<LinkBtnProps> = props => {
-  const { seq, icon, children, link, notAnimation } = props;
+  const { seq, icon, children, link, notAnimation, onClick } = props;
   // redux
   const { chosenList } = useAppSelector(state => state.chosenList);
 
   const contentStyle = { color: THEME_COLOR };
   return (
-    <div className={`${style.wrapper}`}>
+    <div className={`${style.wrapper}`} onClick={onClick}>
       <Link
         className={`${style.content} iconfont`}
         style={chosenList[seq] ? contentStyle : { color: '#666666' }}

@@ -4,6 +4,7 @@
 .wrapper {
   @include setScrollBar(.5vw);
   @include setTop();
+  overflow-x: hidden;
   overflow-y: auto;
   height: 0;
   transition: height .5s;
@@ -93,14 +94,13 @@
     min-height: 100vh;
 
     > div {
-      //background-color: #FFF;
       min-height: 100vh;
       padding: 5vh 0;
     }
 
     .content {
+      margin: 0 20px;
       width: 900px;
-      padding-right: 20px;
 
       .paginate {
         display: flex;

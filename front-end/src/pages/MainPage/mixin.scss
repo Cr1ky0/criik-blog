@@ -11,9 +11,8 @@
 
 }
 
-@mixin setSider($s_width:21vw) {
+@mixin setSider() {
   .sider {
-    width: $s_width;
     z-index: $GRADE_MIDDLE;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
     height: 100%;
@@ -26,10 +25,8 @@
   }
 }
 
-@mixin setContent($c_width:79vw) {
+@mixin setContent() {
   .content {
-    width: $c_width;
-    padding: 0 3vw;
     box-sizing: border-box;
     font: {
       family: Source_Han_Sans_SC_Normal;

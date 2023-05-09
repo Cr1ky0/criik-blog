@@ -12,19 +12,28 @@ const MobileNav = () => {
   const [isInit, setIsInit] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const { width } = useViewport();
+
+  const handleClose = () => {
+    const div = document.getElementById('mobile-menu-wrapper') as HTMLElement;
+    // 这时还没设置isOpen，故isOpen为true表示要关了
+    div.style.height = '0';
+    setIsOpen(false);
+  };
+
+  const handleOpen = () => {
+    const div = document.getElementById('mobile-menu-wrapper') as HTMLElement;
+    div.style.height = window.innerHeight - (document.getElementById('top-header') as HTMLElement).scrollHeight + 'px';
+    setIsOpen(true);
+  };
+
   return (
     <>
       <div className={style.leftNavWrapper}>
         <div
           className={isOpen ? style.leftNavActive : isInit ? style.leftNavInit : style.leftNavNotActive}
           onClick={() => {
-            const div = document.getElementById('mobile-menu-wrapper') as HTMLElement;
-            // 这时还没设置isOpen，故isOpen为true表示要关了
-            if (isOpen) div.style.height = '0';
-            else
-              div.style.height =
-                window.innerHeight - (document.getElementById('top-header') as HTMLElement).scrollHeight + 'px';
-            setIsOpen(!isOpen);
+            if (isOpen) handleClose();
+            else handleOpen();
             if (isInit) setIsInit(false);
           }}
         >
@@ -33,7 +42,7 @@ const MobileNav = () => {
           <div></div>
         </div>
       </div>
-      <MobileMenu isOpen={isOpen}></MobileMenu>
+      <MobileMenu isOpen={isOpen} close={handleClose}></MobileMenu>
       {width > 300 ? <div className={style.middle}>Gezelligheid</div> : undefined}
       <RightNav></RightNav>
     </>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { createContext, createRef, useContext, useEffect, useRef, useState } from 'react';
 import { Outlet } from 'react-router';
 
 // comp
@@ -14,6 +14,9 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 // context
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 import Footer from '@/components/Footer';
+
+// wrapper ref
+const divRef = createRef<HTMLDivElement>();
 
 const BlogPage = () => {
   const { width } = useViewport();
@@ -36,16 +39,10 @@ const BlogPage = () => {
 
   return (
     <div className={`${style.wrapper} clearfix`}>
-      {width > 850 ? (
-        <div id="blog-page-sider-wrapper" className={style.sider}>
-          <SideMenu noEdit={true} page="blog"></SideMenu>
-        </div>
-      ) : undefined}
-      <div
-        id="blog-page-content-wrapper"
-        className={`${style.content} clearfix`}
-        style={width < 850 ? { width: '100%' } : undefined}
-      >
+      <div id="blog-page-sider-wrapper" className={style.sider}>
+        <SideMenu noEdit={true} page="blog"></SideMenu>
+      </div>
+      <div ref={divRef} id="blog-page-content-wrapper" className={`${style.content} clearfix`}>
         {/* 选中状态 */}
         {selectedId ? <Outlet /> : <div style={{ fontSize: '24px' }}>当前没有博客，请添加博客后访问！</div>}
         <Footer></Footer>
@@ -54,3 +51,7 @@ const BlogPage = () => {
   );
 };
 export default BlogPage;
+
+export const useBlogPageContentWrapper = () => {
+  return useRef(divRef);
+};

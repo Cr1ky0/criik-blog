@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import style from './index.module.scss';
 import { THEME_COLOR } from '@/global';
+import { useBlogPageContentWrapper } from '@/pages/MainPage/BlogPage';
 
 interface BlogTocProps {
   text: string;
@@ -34,6 +35,9 @@ const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
     }
   };
 
+  // BlogPage 的Ref
+  const scrollWrapper = useBlogPageContentWrapper().current.current as HTMLElement;
+
   useEffect(() => {
     const textList = getTitleList(text);
     // 初始化重置toc
@@ -56,7 +60,6 @@ const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
 
     // 滚动切换
     // 必须放在内部，不然刷新就没了
-    const content = document.getElementById('blog-page-content-wrapper') as HTMLElement;
     const tocList = textList
       ? textList.map(text => {
           return document.getElementById(text) as HTMLElement;
@@ -67,29 +70,30 @@ const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
     const handleScroll = () => {
       tocList.map((toc, index) => {
         // 当滚动高度 >= toc所在位置则改变 - 60 （因为下面-60）
-        if (content.scrollTop >= toc.offsetTop - 60 && textList) {
+        if (scrollWrapper.scrollTop >= toc.offsetTop - 60 && textList) {
           changeColor(cur, index);
           cur = index;
         }
       });
     };
-    if (content) {
-      content.addEventListener('scroll', handleScroll);
+    if (scrollWrapper) {
+      scrollWrapper.addEventListener('scroll', handleScroll);
       return () => {
-        content.removeEventListener('scroll', handleScroll);
+        scrollWrapper.removeEventListener('scroll', handleScroll);
       };
     }
   }, []);
+
   // 动画
   const handleClick = (last: number, nowChosen: number) => {
     // 缓慢滑动
     const curAnchor = document.getElementById((textList as string[])[nowChosen]) as HTMLElement;
-    const wrapper = document.getElementById('blog-page-content-wrapper') as HTMLElement;
-    wrapper.scrollTo({
+    scrollWrapper.scrollTo({
       top: curAnchor.offsetTop - 60,
       behavior: 'smooth',
     });
   };
+
   return (
     <div className={`${style.wrapper} clearfix`}>
       <div className={style.tocHeader}>

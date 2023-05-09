@@ -4,9 +4,9 @@ $fontColor: rgba(0, 0, 0, .8);
 
 .markdown-body {
   color: $fontColor;
-  line-height: 1.3vw;
+  line-height: 24px;
   font: {
-    size: 1.1vw;
+    size: 18px;
     family: Source_Han_Sans_SC_Normal;
   };
 
@@ -21,16 +21,11 @@ $fontColor: rgba(0, 0, 0, .8);
     cursor: pointer;
     transition: color .3s;
     font: {
-      size: 1.3vw;
-      //weight: bold;
+      size: 24px;
     }
     border: {
       bottom: 1px solid rgba(0, 0, 0, .2);
     };
-
-    //&::before {
-    //  content: " # "
-    //}
 
     &:hover {
       color: $THEME_COLOR;

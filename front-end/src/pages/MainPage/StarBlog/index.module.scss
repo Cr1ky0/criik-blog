@@ -1,43 +1,66 @@
 @import "@/assets/css/index.scss";
 
-.wrapper {
-  height: 0;
-  transition: height .5s;
-  overflow-y: auto;
+@mixin universal() {
+  .wrapper {
+    height: 0;
+    transition: height .5s;
+    overflow-y: auto;
+    position: relative;
 
-  > div:first-child {
-    width: 900px;
-    margin: 0 auto;
+    > div:first-child {
+      min-height: 100vh;
+      margin: 0 auto;
 
-    .options {
-      display: flex;
-      justify-content: center;
-      padding: 20px 0;
+      .options {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
 
-      > div {
-        width: 60px;
-        margin: 0 20px;
-        cursor: pointer;
-        transition: all .3s;
-        text-align: center;
+        > div {
+          width: 60px;
+          margin: 0 20px;
+          cursor: pointer;
+          transition: all .3s;
+          text-align: center;
 
-        &:hover {
-          color: $THEME_COLOR;
+          &:hover {
+            color: $THEME_COLOR;
+          }
+
+          @include animationBar();
         }
 
-        @include animationBar();
       }
+    }
 
+    > div:last-child {
+      position: relative;
+      bottom: 0;
     }
 
     .paginate {
       display: flex;
       justify-content: center;
-      padding-bottom: 50px;
+      padding-bottom: 20px;
     }
+
   }
+}
 
+// <
+@media (max-width: $BREAK_POINT) {
+  @include universal;
+  .wrapper {
+    padding: 0 2vw;
+  }
+}
 
+// >
+@media (min-width: $BREAK_POINT) {
+  @include universal;
+  > div:first-child {
+    width: 900px;
+  }
 }
 
 @keyframes anime {

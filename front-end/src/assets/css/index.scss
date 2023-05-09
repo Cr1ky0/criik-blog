@@ -6,6 +6,7 @@ $BACKGROUND_COLOR: #FFF;
 $GRADE_TOP: 999;
 $GRADE_MIDDLE: 500;
 $GRADE_BOTTOM: 100;
+$BREAK_POINT: 768px;
 
 @mixin unSelectable {
   -webkit-user-select: none;

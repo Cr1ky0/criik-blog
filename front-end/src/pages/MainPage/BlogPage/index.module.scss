@@ -1,35 +1,55 @@
 @import "@/assets/css/index.scss";
 @import "@/pages/MainPage/mixin.scss";
 
-.wrapper {
-  @include setWrapper();
-  @include setSider();
-  @include setContent();
+@mixin universal() {
+  .wrapper {
+    @include setWrapper();
+    @include setSider();
+    @include setContent();
 
-  .loadingAnime {
-    height: 100%;
-    width: 100%;
-    padding: 15vh 20vw;
+    .loadingAnime {
+      height: 100%;
+      width: 100%;
+      padding: 15vh 20vw;
+    }
+
+    .content {
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
   }
+}
+
+//<768
+@media (max-width: $BREAK_POINT) {
+  @include universal;
+  .sider {
+    display: none;
+  }
+  .content {
+    width: 100vw;
+    padding: 0 2vw;
+  }
+}
+
+@media (min-width: $BREAK_POINT) {
+  @include universal;
 
   .content {
-    //display: flex;
-    //justify-content: space-between;
-    overflow-y: auto;
-
-    > div:not(:last-child) {
-      float: left;
-    }
-
-    > div:last-child {
-      clear: both;
-    }
-
+    width: 79vw;
     padding: {
       top: 5vh;
       left: 5vw;
-      right: 5vw;
     }
   }
 
+  .sider {
+    width: 21vw;
+  }
+
+
 }
+
+
+

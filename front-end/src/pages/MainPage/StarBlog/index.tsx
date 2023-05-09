@@ -108,26 +108,26 @@ const StarBlog = () => {
             <div className={style.blogs}>
               <Outlet />
             </div>
-            <div className={style.paginate}>
-              <Pagination
-                showSizeChanger={false}
-                showQuickJumper
-                pageSize={10}
-                current={curPage}
-                total={chosen === 0 ? collectNum : blogsNum}
-                onChange={page => {
-                  // 点击跳转
-                  navigate(`?filter=${chosen}page=${page}`);
-                  setIsLoading(true);
-                  setTimeout(() => {
-                    setIsLoading(false);
-                  }, 400);
-                  setCurPage(page);
-                }}
-              />
-            </div>
           </>
         )}
+      </div>
+      <div className={style.paginate}>
+        <Pagination
+          showSizeChanger={false}
+          showQuickJumper
+          pageSize={10}
+          current={curPage}
+          total={chosen === 0 ? collectNum : blogsNum}
+          onChange={page => {
+            // 点击跳转
+            navigate(`?filter=${chosen}page=${page}`);
+            setIsLoading(true);
+            setTimeout(() => {
+              setIsLoading(false);
+            }, 400);
+            setCurPage(page);
+          }}
+        />
       </div>
       <Footer></Footer>
     </div>

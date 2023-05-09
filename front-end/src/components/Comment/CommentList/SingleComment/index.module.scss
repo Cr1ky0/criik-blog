@@ -68,6 +68,7 @@
       // 右边点赞区
       .likesWrapper {
         float: right;
+        min-width: 50px;
 
         .likes {
           @include likesUni;
