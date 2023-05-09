@@ -59,7 +59,6 @@ const userSchema = new mongoose.Schema(
     // 修改邮箱时的缓存
     newEmail: {
       type: String,
-      default: '',
       lowercase: true,
     },
     // 密码最近更新时间
@@ -77,29 +76,7 @@ const userSchema = new mongoose.Schema(
       default: true,
       select: false,
     },
-    // 关注的用户 (child ref)
-    // subUsers: [
-    //   {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: 'User',
-    //   },
-    // ],
-    // 关注自己的用户 (child ref)
-    // selfSubers: [
-    //   {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: 'User',
-    //   },
-    // ],
-    // 订阅的博客 (child ref)
-    // subBlogs: [
-    //   {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: 'Blog',
-    //   },
-    // ],
   },
-
   {
     toJSON: {
       virtuals: true,

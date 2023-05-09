@@ -49,7 +49,6 @@ const MainPage = () => {
           </React.StrictMode>
         </Content>
       </Layout>
-      {/*<Footer></Footer>*/}
     </Layout>
   );
 };

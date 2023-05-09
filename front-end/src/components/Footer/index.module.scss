@@ -1,0 +1,26 @@
+@import "@/assets/css/index.scss";
+
+.footer {
+  height: $TOP_HEADER_H;
+  background-color: #FFF;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  > div:first-child {
+    .ICP, .github {
+      cursor: pointer;
+      color: $THEME_COLOR;
+      font: {
+        size: 18px;
+      }
+    }
+  }
+
+  .protocol {
+    font: {
+      size: 18px;
+    }
+  }
+
+}

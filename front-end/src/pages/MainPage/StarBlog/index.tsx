@@ -7,6 +7,9 @@ import style from './index.module.scss';
 // antd
 import { Pagination, Skeleton } from 'antd';
 
+// comp
+import Footer from '@/components/Footer';
+
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setChosenList } from '@/redux/slices/chosenList';
@@ -126,6 +129,7 @@ const StarBlog = () => {
           </>
         )}
       </div>
+      <Footer></Footer>
     </div>
   );
 };

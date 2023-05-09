@@ -12,6 +12,7 @@ import style from './index.module.scss';
 import SideMenu from '@/components/SideMenu';
 import MarkdownEditor from '@/components/MarkdownEditor';
 import ReactMarkdownRender from '@/components/ReactMarkdownRender';
+import Footer from '@/components/Footer';
 
 // utils
 import { filterLT, getSideMenuItem, getTreeSelectList, hasBlog } from '@/utils';
@@ -251,6 +252,7 @@ const BlogManage = () => {
             预览
           </Button>
         </div>
+        <Footer></Footer>
       </div>
       <Drawer
         destroyOnClose

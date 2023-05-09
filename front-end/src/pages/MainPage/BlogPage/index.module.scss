@@ -13,11 +13,23 @@
   }
 
   .content {
-    display: flex;
-    justify-content: space-between;
-    padding: 5vh 5vw;
-    height: 95vh;
+    //display: flex;
+    //justify-content: space-between;
     overflow-y: auto;
+
+    > div:not(:last-child) {
+      float: left;
+    }
+
+    > div:last-child {
+      clear: both;
+    }
+
+    padding: {
+      top: 5vh;
+      left: 5vw;
+      right: 5vw;
+    }
   }
 
 }

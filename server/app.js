@@ -69,6 +69,9 @@ app.use(
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', (req, res) => {
+  res.render('/index');
+});
 
 // cookie
 app.use(cookieParser());

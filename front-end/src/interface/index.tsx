@@ -72,6 +72,7 @@ export interface addCommentObj {
   belongingBlog: string;
   contents: string;
   username?: string;
+  userId?: string;
   brief?: string;
 }
 

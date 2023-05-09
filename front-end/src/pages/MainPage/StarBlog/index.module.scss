@@ -1,14 +1,13 @@
 @import "@/assets/css/index.scss";
 
 .wrapper {
-  display: flex;
-  justify-content: center;
   height: 0;
   transition: height .5s;
   overflow-y: auto;
 
-  > div {
+  > div:first-child {
     width: 900px;
+    margin: 0 auto;
 
     .options {
       display: flex;
@@ -30,13 +29,14 @@
       }
 
     }
+
+    .paginate {
+      display: flex;
+      justify-content: center;
+      padding-bottom: 50px;
+    }
   }
 
-  .paginate {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 50px;
-  }
 
 }
 

@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 
 // context
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
+import Footer from '@/components/Footer';
 
 const BlogPage = () => {
   const { width } = useViewport();
@@ -47,6 +48,7 @@ const BlogPage = () => {
       >
         {/* 选中状态 */}
         {selectedId ? <Outlet /> : <div style={{ fontSize: '24px' }}>当前没有博客，请添加博客后访问！</div>}
+        <Footer></Footer>
       </div>
     </div>
   );

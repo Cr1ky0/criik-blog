@@ -8,7 +8,8 @@ const router = express.Router();
 router.post('/login', authController.login);
 
 // 注册
-// router.post('/signup', authController.signup);
+router.post('/signup', authController.signup);
+
 // 更改密码
 // router.post('/forgotPassword', authController.forgotPassword);
 // router.patch('/resetPassword', authController.resetPassword);

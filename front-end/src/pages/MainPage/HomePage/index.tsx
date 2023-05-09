@@ -22,6 +22,7 @@ import { setChosenList } from '@/redux/slices/chosenList';
 // comp
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
 import BlogDetailBox from '@/components/HomePage/BlogDetailBox';
+import Footer from '@/components/Footer';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -98,6 +99,7 @@ const HomePage = () => {
           </div>
         ) : undefined}
       </div>
+      <Footer></Footer>
     </div>
   );
 };
