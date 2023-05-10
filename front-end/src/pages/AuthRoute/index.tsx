@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
-import { Navigate, useLocation } from 'react-router';
-import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+import { useLocation } from 'react-router';
+import Page403 from '@/components/ErrorPage/Page403';
 
 interface AuthRouteProps {
   children: React.ReactNode;
@@ -10,21 +10,9 @@ interface AuthRouteProps {
 const AuthRoute: React.FC<AuthRouteProps> = ({ children }) => {
   const cookies = new Cookies();
   const user = cookies.get('user');
-  const message = useGlobalMessage();
   const location = useLocation();
   const path = location.pathname;
-  return (
-    <>
-      {path !== '/manage' || user ? children : <Navigate to="/" />}
-      {/* message放这里不会报错 */}
-      {path !== '/manage' || user
-        ? undefined
-        : (() => {
-            message.error('请登录后操作');
-            return undefined;
-          })()}
-    </>
-  );
+  return <>{path !== '/manage' || user ? children : <Page403></Page403>}</>;
 };
 
 export default AuthRoute;

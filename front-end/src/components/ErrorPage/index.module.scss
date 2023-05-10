@@ -2,17 +2,13 @@
   width: 100vw;
   height: 100vh;
   background-color: #FFF;
-  position: relative;
 
   > div {
     width: 300px;
     height: 400px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
+    margin: 250px auto;
+    animation: anime 1s forwards;
+    overflow: hidden;
 
     .photo {
       width: 300px;
@@ -26,6 +22,7 @@
     .tips {
       text-align: center;
       line-height: 40px;
+      padding-top: 10px;
       font-size: 30px;
     }
 
@@ -35,6 +32,14 @@
       margin: 0 auto;
     }
   }
+}
 
+@keyframes anime {
+  from {
+    height: 0;
+  }
 
+  to {
+    height: 400px;
+  }
 }

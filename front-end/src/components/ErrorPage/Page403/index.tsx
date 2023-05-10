@@ -5,18 +5,18 @@ import { useNavigate } from 'react-router';
 import { Button } from 'antd';
 
 // css
-import style from './index.module.scss';
+import style from '../index.module.scss';
 
 // img
-import img from '@/assets/images/404.jpg';
+import img from '@/assets/images/403.jpg';
 
-const Page404: React.FC = () => {
+const Page403: React.FC = () => {
   const navigate = useNavigate();
   return (
     <div className={`${style.wrapper} clearfix`}>
       <div>
         <div className={style.photo} style={{ backgroundImage: `url(${img})` }}></div>
-        <div className={style.tips}>页面离家出走了！</div>
+        <div className={style.tips}>没有权限访问~ 403</div>
         <div className={style.btn}>
           <Button
             type="primary"
@@ -31,4 +31,4 @@ const Page404: React.FC = () => {
     </div>
   );
 };
-export default Page404;
+export default Page403;

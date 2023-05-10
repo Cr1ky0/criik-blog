@@ -48,15 +48,15 @@ const router: Routes[] = [
           },
         ],
       },
-      {
-        path: 'test',
-        element: lazy(() => import('@/pages/MainPage/TestPage')),
-      },
+      // {
+      //   path: 'test',
+      //   element: lazy(() => import('@/pages/MainPage/TestPage')),
+      // },
     ],
   },
   {
     path: '*',
-    element: lazy(() => import('@/components/Page404')),
+    element: lazy(() => import('@/components/ErrorPage/Page404')),
   },
 ];
 
