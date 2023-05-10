@@ -129,7 +129,7 @@ const blogMenuSlice = createSlice({
       .addCase(setMenuList.fulfilled, (state, action) => {
         const { menus, blogId } = action.payload;
         state.menuList = [...menus];
-        state.selectedId = blogId;
+        if (!state.selectedId) state.selectedId = blogId;
       })
       .addCase(setMenuList.rejected, (state, action) => {
         console.log(action.error.message);

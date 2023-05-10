@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router';
-import Cookies from 'universal-cookie';
 
 // antd
 import { Layout } from 'antd';
@@ -11,9 +10,6 @@ import style from './index.module.scss';
 
 // 组件
 import TopHeader from '@/components/TopHeader';
-
-// comp
-import Footer from '@/components/Footer';
 
 const { Content } = Layout;
 
