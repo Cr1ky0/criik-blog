@@ -2,7 +2,7 @@ import React from 'react';
 
 // antd
 import type { MenuProps } from 'antd';
-import { Menu, Skeleton, Pagination } from 'antd';
+import { Menu, Pagination } from 'antd';
 
 // css
 import style from './index.module.scss';

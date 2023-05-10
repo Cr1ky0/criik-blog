@@ -11,6 +11,26 @@
       width: 0;
     }
 
+    .infoInput {
+      @include bord;
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      border: {
+        bottom: 1px dashed $BORDER_COLOR;
+        radius: 5px 5px 0 0;
+      }
+
+      > div {
+        width: 50%;
+
+        .input {
+          border: none;
+          box-shadow: none;
+        }
+      }
+    }
+
     .content {
       color: $FONT_COLOR;
       outline: none;
@@ -21,10 +41,7 @@
       border: 1px solid $BORDER_COLOR;
       padding: 2vh;
       resize: none;
-      border: {
-        radius: 1vh 1vh 0 0;
-        bottom: none;
-      }
+      border-top: none;
     }
 
 
@@ -62,15 +79,36 @@
 @media (min-width: $BREAK_POINT) {
   @include universal;
   .wrapper {
+    .infoInput {
+      > div {
+        height: 40px;
+
+        .input {
+          height: 40px;
+        }
+      }
+    }
+
     .content {
       min-height: $COMMENT_H;
     }
+
   }
 }
 
 @media (max-width: $BREAK_POINT) {
   @include universal;
   .wrapper {
+    .infoInput {
+      > div {
+        height: 30px;
+
+        .input {
+          height: 30px;
+        }
+      }
+    }
+
     .content {
       min-height: 150px;
     }

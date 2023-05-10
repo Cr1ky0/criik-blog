@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
 
 // antd
-import { Pagination, Skeleton } from 'antd';
+import { Pagination } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 
 // css
