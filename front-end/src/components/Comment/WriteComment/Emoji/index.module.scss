@@ -1,22 +1,45 @@
 @import '@/assets/css/index.scss';
 
-.wrapper {
-  width: 38vw;
+@mixin universal() {
+  .wrapper {
 
-  li {
-    float: left;
-    font-size: 1.5vw;
-    cursor: pointer;
-    list-style: none;
+    li {
+      float: left;
+      cursor: pointer;
+      list-style: none;
 
-    &:hover {
-      background-color: rgba(0, 0, 0, .1);
-      border: {
-        radius: 0.2vw;
-      };
+      &:hover {
+        background-color: rgba(0, 0, 0, .1);
+        border: {
+          radius: 5px;
+        };
+      }
+
+      // 字体不可选中
+      @include unSelectable;
     }
+  }
+}
 
-    // 字体不可选中
-    @include unSelectable;
+
+@media (min-width: $BREAK_POINT) {
+  @include universal;
+  .wrapper {
+    width: 38vw;
+
+    li {
+      font-size: 1.5vw;
+    }
+  }
+}
+
+@media (max-width: $BREAK_POINT) {
+  @include universal;
+  .wrapper {
+    width: 300px;
+
+    li {
+      font-size: 16px;
+    }
   }
 }

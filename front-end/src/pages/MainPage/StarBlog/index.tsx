@@ -102,9 +102,7 @@ const StarBlog = () => {
 
         {/* loading状态 */}
         {isLoading ? (
-          <div style={{ padding: '5vh' }}>
-            <LoadingComp></LoadingComp>
-          </div>
+          <LoadingComp styles={{ padding: '5vh' }} changeImg={true}></LoadingComp>
         ) : (
           <>
             <div className={style.blogs}>
@@ -128,6 +126,7 @@ const StarBlog = () => {
                 setIsLoading(false);
               }, 400)
             );
+            setCurPage(page);
             // 点击跳转
             navigate(`?filter=${chosen}page=${page}`);
           }}

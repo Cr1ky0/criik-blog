@@ -13,6 +13,7 @@ import SingleComment from '@/components/Comment/CommentList/SingleComment';
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setComments, setCurPage, setIsLoading, setSort } from '@/redux/slices/comments';
+import LoadingComp from '@/components/Universal/LoadingComp';
 
 const items: MenuProps['items'] = [
   {
@@ -41,9 +42,7 @@ const CommentList = () => {
     <>
       {/* 加载状态 */}
       {isLoading ? (
-        <div style={{ marginTop: '5vh' }}>
-          <Skeleton active />
-        </div>
+        <LoadingComp styles={{ marginTop: '5vh' }} changeImg></LoadingComp>
       ) : (
         <div className={`${style.wrapper} clearfix`}>
           <div className={`${style.statistics} clearfix`}>

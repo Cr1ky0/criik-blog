@@ -1,59 +1,81 @@
 @import '@/assets/css/index.scss';
 @import "@/components/Comment/var.scss";
 
-.wrapper {
-  display: block;
-  width: 100%;
 
-  ::-webkit-scrollbar {
-    width: 0;
-  }
-
-  .content {
-    color: $FONT_COLOR;
-    outline: none;
-    box-sizing: border-box;
+@mixin universal() {
+  .wrapper {
+    display: block;
     width: 100%;
-    font-size: 20px;
-    min-height: $COMMENT_H;
-    line-height: 24px;
-    border: 1px solid $BORDER_COLOR;
-    padding: 2vh;
-    resize: none;
-    border: {
-      radius: 1vh 1vh 0 0;
-      bottom: none;
+
+    ::-webkit-scrollbar {
+      width: 0;
     }
-  }
 
-
-  // 下面功能栏
-  .funcBar {
-    border: 1px solid $BORDER_COLOR;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 5px;
-    margin: {
-      top: -2px;
-    }
-    border: {
-      radius: 0 0 1vh 1vh;
-      top: 1px dashed $BORDER_COLOR;
-    };
-
-    .emoji {
-      @include unSelectable;
-      float: left;
-      cursor: pointer;
-
-      &:hover {
-        color: $THEME_COLOR;
+    .content {
+      color: $FONT_COLOR;
+      outline: none;
+      box-sizing: border-box;
+      width: 100%;
+      font-size: 20px;
+      line-height: 24px;
+      border: 1px solid $BORDER_COLOR;
+      padding: 2vh;
+      resize: none;
+      border: {
+        radius: 1vh 1vh 0 0;
+        bottom: none;
       }
     }
 
-    .submit {
-      float: right;
+
+    // 下面功能栏
+    .funcBar {
+      border: 1px solid $BORDER_COLOR;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 5px;
+      margin: {
+        top: -2px;
+      }
+      border: {
+        radius: 0 0 1vh 1vh;
+        top: 1px dashed $BORDER_COLOR;
+      };
+
+      .emoji {
+        @include unSelectable;
+        float: left;
+        cursor: pointer;
+
+        &:hover {
+          color: $THEME_COLOR;
+        }
+      }
+
+      .submit {
+        float: right;
+      }
     }
   }
 }
+
+@media (min-width: $BREAK_POINT) {
+  @include universal;
+  .wrapper {
+    .content {
+      min-height: $COMMENT_H;
+    }
+  }
+}
+
+@media (max-width: $BREAK_POINT) {
+  @include universal;
+  .wrapper {
+    .content {
+      min-height: 150px;
+    }
+  }
+}
+
+
 

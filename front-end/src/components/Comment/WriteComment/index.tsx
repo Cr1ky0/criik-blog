@@ -44,7 +44,7 @@ const WriteComment = () => {
     try {
       const res = await filterCommentAjax(ref.value);
       // 是否违规
-      const data = res.data;
+      const data = res.data.data;
       const type = data.conclusion_type;
       const dataObj = data.data[0];
       if (type.toString() === '1')
@@ -84,9 +84,11 @@ const WriteComment = () => {
       }
     } catch (err: any) {
       message.error(err.message);
+      setIsLoading1(false);
     }
   };
 
+  // TODO:加入评论昵称
   return (
     <div className={`${style.wrapper} clearfix`}>
       <textarea className={style.content} ref={commentRef} name="comment" placeholder="请输入评论" />

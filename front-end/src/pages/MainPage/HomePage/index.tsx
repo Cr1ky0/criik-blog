@@ -23,6 +23,7 @@ import { setChosenList } from '@/redux/slices/chosenList';
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
 import BlogDetailBox from '@/components/HomePage/BlogDetailBox';
 import Footer from '@/components/Footer';
+import LoadingComp from '@/components/Universal/LoadingComp';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -60,13 +61,7 @@ const HomePage = () => {
         <div className={style.content}>
           {/* loading状态 */}
           {isLoading ? (
-            <div style={{ padding: '5vh' }}>
-              <Skeleton active />
-              <br />
-              <Skeleton active />
-              <br />
-              <Skeleton active />
-            </div>
+            <LoadingComp styles={{ padding: '5vh' }}></LoadingComp>
           ) : (
             // 路由
             <>
