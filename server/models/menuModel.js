@@ -62,8 +62,8 @@ menuSchema.virtual('blogs', {
 
 menuSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } })
-    // .populate({ path: 'children' })
-    // .populate('blogs', '-contents -belongTo -publishAt -likes -views')
+    .populate({ path: 'children' })
+    .populate('blogs', '-contents -belongTo -publishAt -likes -views')
     .select('-__v -belongTo');
   next();
 });
