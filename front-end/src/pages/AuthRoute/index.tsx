@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
 import { useLocation } from 'react-router';
-import Page403 from '@/components/ErrorPage/Page403';
+import Page401 from '@/components/ErrorPage/Page401';
 
 interface AuthRouteProps {
   children: React.ReactNode;
@@ -12,7 +12,7 @@ const AuthRoute: React.FC<AuthRouteProps> = ({ children }) => {
   const user = cookies.get('user');
   const location = useLocation();
   const path = location.pathname;
-  return <>{path !== '/manage' || user ? children : <Page403></Page403>}</>;
+  return <>{path !== '/manage' || user ? children : <Page401></Page401>}</>;
 };
 
 export default AuthRoute;
