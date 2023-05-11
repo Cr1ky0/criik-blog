@@ -290,3 +290,7 @@
     - useMemo 或 useEffect 内发送请求
     - 请求成功 setState
 25. 关于ref，createRef后将结点赋值该ref后可在该组件使用useRef暴露接口在其他组件中使用该ref，一般用来操作dom结点
+    - 注意，在使用中如果是子组件使用父组件的ref，无论是利用暴露接口方式还是props传递，初始化都无法获取到父组件的ref
+    - 虽然初始化没法直接得到ref，但是可以在父组件useEffect里设置setState为ref的相关属性，或者添加listener监听该ref的属性
+    - 然后将state传递给子组件，组件就可以获得ref的相关属性了
+26. svg可以用来实现各种动画

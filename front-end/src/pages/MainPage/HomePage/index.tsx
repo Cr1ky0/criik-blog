@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
 
 // antd
@@ -24,6 +24,7 @@ import IntroductionBox from '@/components/HomePage/IntroductionBox';
 import BlogDetailBox from '@/components/HomePage/BlogDetailBox';
 import Footer from '@/components/Footer';
 import LoadingComp from '@/components/Universal/LoadingComp';
+import BackToTopBtn from '@/components/Universal/BackToTopBtn';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -32,6 +33,44 @@ const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [curPage, setCurPage] = useState(1);
   const totalNum = useAppSelector(state => state.blog.blogsNum);
+
+  // Back To Top
+  const wrapper = useRef<HTMLDivElement>(null);
+  const [scrollTop, setScrollTop] = useState<number>(0);
+  const [scrollHeight, setScrollHeight] = useState<number>(0);
+  const childRef = useRef<HTMLDivElement>(null);
+  const backToTop = () => {
+    (wrapper.current as HTMLDivElement).scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+  useEffect(() => {
+    const current = wrapper.current as HTMLDivElement;
+    const child = childRef.current as HTMLDivElement;
+
+    // 初始化防止初始页面直接满进度
+    setScrollHeight(1);
+    setScrollTop(0);
+
+    const handler = () => {
+      // 总滚动大小 = 总滚动高度 - 视图大小
+      if (current.scrollTop !== 0) {
+        child.style.visibility = 'visible';
+        child.style.opacity = '1';
+      } else {
+        child.style.visibility = 'hidden';
+        child.style.opacity = '0';
+      }
+      setScrollHeight(current.scrollHeight - current.offsetHeight);
+      setScrollTop(current.scrollTop);
+    };
+    current.addEventListener('scroll', handler);
+    return () => {
+      current.removeEventListener('scroll', handler);
+    };
+  }, []);
+
   useEffect(() => {
     dispatch(setChosenList([true, false, false, false]));
     // 这里延迟展开是因为加载需要时间，不然开始就展开会很卡
@@ -45,7 +84,7 @@ const HomePage = () => {
   }, [width, window.innerHeight]);
 
   return (
-    <div id="home-page-wrapper" className={style.wrapper}>
+    <div id="home-page-wrapper" className={style.wrapper} ref={wrapper}>
       <Header className={style.backWhite}></Header>
       <div
         className={`${width > 400 ? style.backgroundPhoto : style.backgroundPhotoMobile} clearfix`}
@@ -96,6 +135,7 @@ const HomePage = () => {
           </div>
         ) : undefined}
       </div>
+      <BackToTopBtn ref={childRef} scrollTop={scrollTop} scrollHeight={scrollHeight} onClick={backToTop}></BackToTopBtn>
       <Footer></Footer>
     </div>
   );

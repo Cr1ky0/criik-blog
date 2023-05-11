@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 import ShowBlogTagList from '@/components/Universal/ShowBlogTagList';
 
 // api
-import { getCollectedBlogsNum, getSelfBlogsOfCertain } from '@/api/blog';
+import { getSelfBlogsOfCertain } from '@/api/blog';
 
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';

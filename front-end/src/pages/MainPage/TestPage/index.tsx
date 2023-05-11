@@ -1,35 +1,172 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import BlogToc from '@/components/BlogPage/BlogToc';
-import { useAppDispatch, useAppSelector } from '@/redux';
-import Classification from '@/components/HomePage/BlogDetailBox/Classification';
-import { setTimeLine } from '@/redux/slices/blog';
-import BlogTimeLine from '@/components/HomePage/BlogDetailBox/BlogTimeLine';
-import BlogDetailBox from '@/components/HomePage/BlogDetailBox';
-import LoadingPage from '@/components/LoadingPage';
-import LoadingComp from '@/components/Universal/LoadingComp';
+import BackToTopBtn from '@/components/Universal/BackToTopBtn';
 
 const TestPage = () => {
-  const testText = `
-  # 第一分段 
-  测试1 
-  # 第二分段 
-  测试2 
-  # 第三分段 
-  测试3
-`;
-  const timeLine = useAppSelector(state => state.blog.timeLine);
-  const dispatch = useAppDispatch();
+  const wrapper = useRef<HTMLDivElement>(null);
+  const [scrollTop, setScrollTop] = useState<number>(0);
+  const [scrollHeight, setScrollHeight] = useState<number>(0);
+
+  const backToTop = () => {
+    (wrapper.current as HTMLDivElement).scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+  useEffect(() => {
+    const current = wrapper.current as HTMLDivElement;
+    const handler = () => {
+      // 总滚动大小 = 总滚动高度 - 视图大小
+      // 总滚动大小也放这里设置是因为，有的页面初始化加载时会有loading动画，而loading动画加载会覆盖真正的滚动高度
+      setScrollHeight(current.scrollHeight - current.offsetHeight);
+      setScrollTop(current.scrollTop);
+    };
+    current.addEventListener('scroll', handler);
+    return () => {
+      current.removeEventListener('scroll', handler);
+    };
+  }, []);
   return (
-    // <div style={{ margin: '20vh', width: '300px', backgroundColor: '#FFF' }}>
-    <div>
+    <div
+      style={{
+        width: '100vw',
+        height: '95vh',
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        backgroundColor: '#FFF',
+      }}
+      ref={wrapper}
+    >
+      <div style={{ height: '50px' }}></div>
+      <BackToTopBtn scrollTop={scrollTop} scrollHeight={scrollHeight} onClick={backToTop}></BackToTopBtn>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      <div style={{ wordBreak: 'break-all' }}>AAA</div>
+      {/*<div>*/}
       {/*<BlogToc text={testText}></BlogToc>*/}
       {/*<Classification></Classification>*/}
       {/*<BlogTimeLine></BlogTimeLine>*/}
       {/*<LoadingPage></LoadingPage>*/}
       {/*<Page404></Page404>*/}
       {/*<BlogDetailBox></BlogDetailBox>*/}
-      <LoadingComp></LoadingComp>
+      {/*<LoadingComp></LoadingComp>*/}
     </div>
   );
 };

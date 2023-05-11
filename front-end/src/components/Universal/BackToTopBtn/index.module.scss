@@ -1,0 +1,44 @@
+@import "@/assets/css/index.scss";
+
+@media (min-width: $BREAK_POINT) {
+  .wrapper {
+    position: fixed;
+    background: transparent;
+    bottom: 100px;
+    right: 50px;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .5s;
+
+    > svg {
+      box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+      border: {
+        radius: 50%;
+      };
+    }
+
+    .circle {
+      transition: all .5s;
+      transform-origin: 30px 30px;
+      transform: rotateZ(-90deg);
+    }
+
+
+    .icon {
+      position: absolute;
+      top: 13px;
+      left: 12px;
+      font-size: 35px;
+      color: $THEME_COLOR;
+    }
+  }
+}
+
+@media (max-width: $BREAK_POINT) {
+  .wrapper {
+    display: none;
+  }
+}
+
+
