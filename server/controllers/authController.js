@@ -107,7 +107,6 @@ exports.signup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
-    role: 'admin', // 部署时注册我的账户用到
   });
   createSendToken(newUser, 201, res);
 });

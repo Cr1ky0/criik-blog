@@ -62,6 +62,7 @@ const WriteComment = () => {
             belongingBlog: selectedId,
             contents: comment.value,
             userId: user ? user.id : '644c9a90f43dbdb4dc3296f8', // 没登录统一设为匿名账户
+            // userId: user ? user.id : '645c9fb7311593e1c5b5d759', // 没登录统一设为匿名账户
             username: user ? user.name : username.value ? username.value : undefined,
             brief: user ? user.brief : brief.value ? brief.value : undefined,
           },
