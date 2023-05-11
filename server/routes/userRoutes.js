@@ -8,23 +8,24 @@ const router = express.Router();
 router.post('/login', authController.login);
 
 // 注册
-router.post('/signup', authController.signup);
+// router.post('/signup', authController.signup);
 
 // 更改密码
 // router.post('/forgotPassword', authController.forgotPassword);
 // router.patch('/resetPassword', authController.resetPassword);
 
-// reset邮箱
-router.get('/resetEmail/:token', authController.resetEmail);
-
+// 获取头像
 router.get('/getUserAvatar/:id', userController.getUserAvatar);
 
+// 获取我的信息
 router.get('/getMyInfo', userController.getMyInfo);
 
-// 下面所有的routes都要用protect
+// 限制权限
 router.use(authController.protect);
-// 限制只有管理员权限操作，暂不对外开放
 router.use(authController.restrictTo('admin'));
+
+// reset邮箱
+router.get('/resetEmail/:token', authController.resetEmail);
 
 // 更换邮箱
 router.post('/updateEmail', authController.updateEmail);

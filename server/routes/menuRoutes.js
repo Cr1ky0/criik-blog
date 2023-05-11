@@ -9,7 +9,7 @@ router.route('/:id').get(menuController.getMenusOfUser);
 
 // 权限
 router.use(authController.protect);
-router.use(authController.restrictTo('admin', 'user'));
+router.use(authController.restrictTo('admin'));
 
 // router.route('/getAllMenus').get(menuController.getMenus);
 router.route('/').post(menuController.addMenu);
