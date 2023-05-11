@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
 
 // antd
-import { Pagination, FloatButton } from 'antd';
+import { Pagination } from 'antd';
 
 // css
 import style from './index.module.scss';
