@@ -7,7 +7,6 @@ const handleCastErrorDB = (err) => {
 
 const handleDuplicateFieldsDB = (err) => {
   const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-  console.log(value);
 
   const message = `重复的field值: ${value}. 请使用其他值value!`;
   return new AppError(message, 400);
@@ -63,7 +62,6 @@ module.exports = (err, req, res, next) => {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === 'production') {
     let error = { ...err };
-
     // 不同error类型进行不同操作
     if (error.name === 'CastError') error = handleCastErrorDB(error);
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);
@@ -73,6 +71,7 @@ module.exports = (err, req, res, next) => {
     if (error.name === 'TokenExpiredError') error = handleJWTExpiredError();
 
     // 返回前端
-    sendErrorProd(error, res);
+    if (error.message) sendErrorProd(error, res);
+    else sendErrorProd({ ...error, message: err.message }, res);
   }
 };
