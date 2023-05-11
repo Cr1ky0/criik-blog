@@ -29,10 +29,11 @@ interface SideMenuProps {
   styles?: CSSProperties;
   noEdit?: boolean;
   page: 'manage' | 'blog';
+  closeMenu?: () => void;
 }
 
 // TODO:添加手机版SideMenu
-const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page }) => {
+const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) => {
   const icons = useIcons();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -91,6 +92,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page }) => {
                 navigate(`/blog`);
               }
             }
+            if (closeMenu) closeMenu();
           }}
         />
       ) : (

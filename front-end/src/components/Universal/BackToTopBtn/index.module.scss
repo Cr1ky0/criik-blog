@@ -1,11 +1,9 @@
 @import "@/assets/css/index.scss";
 
-@media (min-width: $BREAK_POINT) {
+@mixin universal() {
   .wrapper {
     position: fixed;
     background: transparent;
-    bottom: 100px;
-    right: 50px;
     cursor: pointer;
     opacity: 0;
     visibility: hidden;
@@ -13,6 +11,7 @@
 
     > svg {
       box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+      fill: rgba(255, 255, 255, .7);
       border: {
         radius: 50%;
       };
@@ -35,9 +34,21 @@
   }
 }
 
-@media (max-width: $BREAK_POINT) {
+
+@media (min-width: $BREAK_POINT) {
+  @include universal;
   .wrapper {
-    display: none;
+    bottom: 100px;
+    right: 50px;
+  }
+}
+
+@media (max-width: $BREAK_POINT) {
+  @include universal;
+  .wrapper {
+    bottom: 120px;
+    right: 50px;
+
   }
 }
 

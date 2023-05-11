@@ -26,7 +26,6 @@ const BackToTopBtn = forwardRef<HTMLDivElement, BackToTopBtnProps>((props, ref) 
             cx="30"
             cy="30"
             r="29"
-            fill="#FFF"
             strokeWidth="3"
             stroke={THEME_COLOR}
             // 当前圆环进度多少=滚动大小/总滚动高度 * 周长，代表滚动了多少

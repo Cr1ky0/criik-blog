@@ -115,7 +115,13 @@ const BlogPage = () => {
         height="70%"
         rootStyle={{ border: 'none', outline: 'none' }}
       >
-        <SideMenu noEdit={true} page="blog"></SideMenu>
+        <SideMenu
+          noEdit={true}
+          page="blog"
+          closeMenu={() => {
+            setOpen(false);
+          }}
+        ></SideMenu>
       </Drawer>
     </div>
   );
