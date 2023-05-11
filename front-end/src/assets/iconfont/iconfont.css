@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4014265 */
-  src: url('iconfont.woff2?t=1683783981907') format('woff2'),
-       url('iconfont.woff?t=1683783981907') format('woff'),
-       url('iconfont.ttf?t=1683783981907') format('truetype');
+  src: url('iconfont.woff2?t=1683795741677') format('woff2'),
+       url('iconfont.woff?t=1683795741677') format('woff'),
+       url('iconfont.ttf?t=1683795741677') format('truetype');
 }
 
 .iconfont {
@@ -13,24 +13,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-huojian:before {
-  content: "\e612";
+.icon-menu:before {
+  content: "\e7f4";
 }
 
 .icon-rocket:before {
   content: "\e7d9";
-}
-
-.icon-huojian1:before {
-  content: "\e627";
-}
-
-.icon-icon-test:before {
-  content: "\e633";
-}
-
-.icon-huojian2:before {
-  content: "\e6fb";
 }
 
 .icon-telegram:before {
@@ -39,10 +27,6 @@
 
 .icon-twitter-circle-fill:before {
   content: "\e88a";
-}
-
-.icon-youjian:before {
-  content: "\e668";
 }
 
 .icon-star-fill:before {

@@ -4,7 +4,7 @@
   background-color: #FFF;
   overflow: hidden;
   animation: show .7s;
-  @include setScrollBar(0.3vw);
+  @include setScrollBar(5px);
   > div {
     float: left;
   }

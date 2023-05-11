@@ -1,6 +1,9 @@
 import React, { createRef, useEffect, useRef, useState } from 'react';
 import { Outlet } from 'react-router';
 
+// antd
+import { Drawer } from 'antd';
+
 // comp
 import SideMenu from '@/components/SideMenu';
 
@@ -23,6 +26,8 @@ const BlogPage = () => {
   const { width } = useViewport();
   const dispatch = useAppDispatch();
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
+  // Mobile Menu Open State
+  const [open, setOpen] = useState(false);
 
   // Back To Top
   const [scrollTop, setScrollTop] = useState<number>(0);
@@ -90,6 +95,28 @@ const BlogPage = () => {
         ></BackToTopBtn>
         <Footer></Footer>
       </div>
+      <div
+        className={style.mobileMenu}
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
+        <div className="iconfont">&#xe7f4;</div>
+      </div>
+      {/* Mobile Menu */}
+      <Drawer
+        placement="top"
+        open={open}
+        maskClosable={true}
+        onClose={() => {
+          setOpen(false);
+        }}
+        destroyOnClose={false}
+        height="70%"
+        rootStyle={{ border: 'none', outline: 'none' }}
+      >
+        <SideMenu noEdit={true} page="blog"></SideMenu>
+      </Drawer>
     </div>
   );
 };

@@ -6,11 +6,11 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "551330",
-      "name": "火箭",
-      "font_class": "huojian",
-      "unicode": "e612",
-      "unicode_decimal": 58898
+      "icon_id": "4767059",
+      "name": "menu",
+      "font_class": "menu",
+      "unicode": "e7f4",
+      "unicode_decimal": 59380
     },
     {
       "icon_id": "587073",
@@ -18,27 +18,6 @@
       "font_class": "rocket",
       "unicode": "e7d9",
       "unicode_decimal": 59353
-    },
-    {
-      "icon_id": "1660740",
-      "name": "火箭",
-      "font_class": "huojian1",
-      "unicode": "e627",
-      "unicode_decimal": 58919
-    },
-    {
-      "icon_id": "1804707",
-      "name": "火箭",
-      "font_class": "icon-test",
-      "unicode": "e633",
-      "unicode_decimal": 58931
-    },
-    {
-      "icon_id": "23359063",
-      "name": "火箭",
-      "font_class": "huojian2",
-      "unicode": "e6fb",
-      "unicode_decimal": 59131
     },
     {
       "icon_id": "1899068",
@@ -53,13 +32,6 @@
       "font_class": "twitter-circle-fill",
       "unicode": "e88a",
       "unicode_decimal": 59530
-    },
-    {
-      "icon_id": "599902",
-      "name": "邮件",
-      "font_class": "youjian",
-      "unicode": "e668",
-      "unicode_decimal": 58984
     },
     {
       "icon_id": "4936673",

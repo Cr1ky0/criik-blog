@@ -1,24 +1,48 @@
 @import "@/assets/css/index.scss";
 
-.footer {
-  height: $TOP_HEADER_H;
-  background-color: #FFF;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  @include unSelectable;
 
-  > div:first-child {
-    .ICP, .github {
-      cursor: pointer;
-      color: $THEME_COLOR;
-      font: {
-        size: 18px;
+@mixin universal() {
+  .footer {
+    height: $TOP_HEADER_H;
+    background-color: #FFF;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    @include unSelectable;
+
+    > div:first-child {
+      .ICP, .github {
+        cursor: pointer;
+        color: $THEME_COLOR;
+      }
+
+      .icon {
+        cursor: pointer;
       }
     }
+  }
+}
 
-    .icon {
-      cursor: pointer;
+@media (max-width: $BREAK_POINT) {
+  @include universal;
+  .ICP, .github {
+    font: {
+      size: 14px;
+    }
+  }
+
+  .protocol {
+    font: {
+      size: 14px;
+    }
+  }
+}
+
+@media (min-width: $BREAK_POINT) {
+  @include universal;
+  .ICP, .github {
+    font: {
+      size: 18px;
     }
   }
 
@@ -27,5 +51,4 @@
       size: 18px;
     }
   }
-
 }
