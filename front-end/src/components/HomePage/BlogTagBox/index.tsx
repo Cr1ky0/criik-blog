@@ -17,6 +17,12 @@ import { BlogTagBoxStatistic } from '@/interface';
 import { useAppDispatch } from '@/redux';
 import { setSelectedId } from '@/redux/slices/blogMenu';
 
+// context
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
+
+// global
+import { BREAK_POINT } from '@/global';
+
 export interface BlogTagBoxProps {
   children: string;
   title: string;
@@ -28,9 +34,10 @@ export interface BlogTagBoxProps {
 const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
   const { children, title, statistic, blogId } = props;
   const { author, time, views, belongingMenu, id, isCollected, likes } = statistic;
+  const { width } = useViewport();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const limit = 400; // 超过400字加`...`
+  const limit = width > BREAK_POINT ? 400 : 200; // 超过400字加`...`
   return (
     <div className={`${style.wrapper} clearfix`}>
       <div className={style.titleWrapper}>
