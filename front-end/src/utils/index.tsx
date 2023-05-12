@@ -30,24 +30,24 @@ export const getAntdIcon: (name: string, antdIcons: AntdIcon[]) => ReactElement 
 };
 
 // 生成SideMenuList对象
-export const generateSideMenuItem = (
-  id: string,
-  title: string,
-  grade?: number,
-  icon?: string,
-  color?: string,
-  belongingMenu?: string
-) => {
-  return {
-    id,
-    _id: id,
-    belongingMenu,
-    title,
-    icon,
-    color,
-    grade,
-  } as SideMenuItem;
-};
+// export const generateSideMenuItem = (
+//   id: string,
+//   title: string,
+//   grade?: number,
+//   icon?: string,
+//   color?: string,
+//   belongingMenu?: string
+// ) => {
+//   return {
+//     id,
+//     _id: id,
+//     belongingMenu,
+//     title,
+//     icon,
+//     color,
+//     grade,
+//   } as SideMenuItem;
+// };
 
 // 根据key获得其在SideMenuList对象
 export const getSideMenuItem: (menus: SideMenuItem[], key: string) => SideMenuItem | undefined = (menus, key) => {
@@ -177,7 +177,8 @@ export const filterLT = (text: string) => {
 // 过滤blog内容的Title
 export const filterTitle = (text: string) => {
   const newContents = filterLT(text);
-  const titleList = newContents.match(/#(.*)/g);
+  const titleList = newContents.match(/#\s+(.*)/g);
+  console.log(titleList);
   let filterContents = newContents;
   if (titleList)
     titleList.map((title: string) => {

@@ -9,7 +9,7 @@ interface BlogTocProps {
 }
 
 const getTitleList = (text: string) => {
-  const textList = text.match(/#(.*)/g);
+  const textList = text.match(/#\s+(.*)/g);
   let newList;
   if (textList)
     newList = textList.map(text => {
