@@ -5,11 +5,11 @@
 * 目前仅作为个人博客使用，支持markdown语法（包括html）、支持数学公式katex、支持收藏（个人）、分类、时间轴以及博客管理等功能、支持个人信息修改。游客支持点赞和评论。
 * 已适配移动端
 
-![](https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/show-pc.png)
-![](https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/show-image%20(1).png)
-![](https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/show-image%20(2).png)
-![](https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/show-image%20(3).png)
-![](https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/show-image%20(4).png)
+![1](https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/show-pc.png)
+![2](https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/show-image%20(1).png)
+![3](https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/show-image%20(2).png)
+![4](https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/show-image%20(3).png)
+![5](https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/show-image%20(4).png)
 
 # Sever 端
 
