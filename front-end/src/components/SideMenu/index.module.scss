@@ -26,6 +26,8 @@
   }
 
   .menu {
+    @include unSelectable;
+
     ul {
       background-color: #FFF !important;
     }

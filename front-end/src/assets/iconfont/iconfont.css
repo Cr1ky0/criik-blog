@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4014265 */
-  src: url('iconfont.woff2?t=1683795741677') format('woff2'),
-       url('iconfont.woff?t=1683795741677') format('woff'),
-       url('iconfont.ttf?t=1683795741677') format('truetype');
+  src: url('iconfont.woff2?t=1683887287260') format('woff2'),
+       url('iconfont.woff?t=1683887287260') format('woff'),
+       url('iconfont.ttf?t=1683887287260') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,54 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-mongodb:before {
+  content: "\e63f";
+}
+
+.icon-ziyuan:before {
+  content: "\e625";
+}
+
+.icon-html5:before {
+  content: "\e602";
+}
+
+.icon-css3:before {
+  content: "\e6a8";
+}
+
+.icon-nodejs:before {
+  content: "\e989";
+}
+
+.icon-git:before {
+  content: "\e61b";
+}
+
+.icon-code:before {
+  content: "\e7fc";
+}
+
+.icon-vue:before {
+  content: "\e69a";
+}
+
+.icon-react:before {
+  content: "\ec77";
+}
+
+.icon-webpack:before {
+  content: "\ed0b";
+}
+
+.icon-javascript:before {
+  content: "\e6f7";
+}
+
+.icon-typescript:before {
+  content: "\ecef";
 }
 
 .icon-menu:before {

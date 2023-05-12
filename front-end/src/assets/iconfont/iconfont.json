@@ -6,6 +6,90 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "3876350",
+      "name": "mongodb",
+      "font_class": "mongodb",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "8448536",
+      "name": "代码管理",
+      "font_class": "ziyuan",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "1423",
+      "name": "html5",
+      "font_class": "html5",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "431679",
+      "name": "css3",
+      "font_class": "css3",
+      "unicode": "e6a8",
+      "unicode_decimal": 59048
+    },
+    {
+      "icon_id": "703205",
+      "name": "nodejs",
+      "font_class": "nodejs",
+      "unicode": "e989",
+      "unicode_decimal": 59785
+    },
+    {
+      "icon_id": "3876176",
+      "name": "git",
+      "font_class": "git",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "4767091",
+      "name": "code",
+      "font_class": "code",
+      "unicode": "e7fc",
+      "unicode_decimal": 59388
+    },
+    {
+      "icon_id": "13744032",
+      "name": "vue",
+      "font_class": "vue",
+      "unicode": "e69a",
+      "unicode_decimal": 59034
+    },
+    {
+      "icon_id": "15378735",
+      "name": "react",
+      "font_class": "react",
+      "unicode": "ec77",
+      "unicode_decimal": 60535
+    },
+    {
+      "icon_id": "15378947",
+      "name": "webpack",
+      "font_class": "webpack",
+      "unicode": "ed0b",
+      "unicode_decimal": 60683
+    },
+    {
+      "icon_id": "15188428",
+      "name": "javascript",
+      "font_class": "javascript",
+      "unicode": "e6f7",
+      "unicode_decimal": 59127
+    },
+    {
+      "icon_id": "15378906",
+      "name": "typescript",
+      "font_class": "typescript",
+      "unicode": "ecef",
+      "unicode_decimal": 60655
+    },
+    {
       "icon_id": "4767059",
       "name": "menu",
       "font_class": "menu",

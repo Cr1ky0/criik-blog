@@ -196,9 +196,7 @@ const BlogContent = () => {
                         });
                       }}
                     >
-                      <span className="iconfont" style={{ fontSize: '0.8vw' }}>
-                        &#xe624;
-                      </span>
+                      <span className={`${style.editPageBtn} iconfont`}>&#xe624;</span>
                       &nbsp;
                       <span>编辑此页</span>
                     </div>
@@ -213,7 +211,8 @@ const BlogContent = () => {
                         });
                       }}
                     >
-                      <span className="iconfont">&#xe604;</span>&nbsp;
+                      <span className={`${style.delPageBtn} iconfont`}>&#xe604;</span>
+                      &nbsp;
                       <span>删除博客</span>
                     </div>
                   </div>

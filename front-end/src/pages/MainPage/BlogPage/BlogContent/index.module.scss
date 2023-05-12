@@ -52,10 +52,19 @@
 
           > div {
             cursor: pointer;
+            padding: 1vh 0;
             font: {
               size: 1.2vw;
             }
-            padding: 1vh 0;
+
+            .editPageBtn {
+              font-size: .9vw;
+              padding-left: .2vw;
+            }
+
+            .delPageBtn {
+              font-size: 1.2vw;
+            }
           }
         }
 
