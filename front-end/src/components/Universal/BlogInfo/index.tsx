@@ -59,7 +59,6 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
       response => {
         if (isAdd) dispatch(addLikeList(id));
         else dispatch(removeLikeList(id));
-        console.log(response.data.updatedBlog.likes);
         setLikesNum(response.data.updatedBlog.likes);
       },
       err => {

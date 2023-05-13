@@ -173,7 +173,6 @@ export const filterLT = (text: string) => {
 export const filterTitle = (text: string) => {
   const newContents = filterLT(text);
   const titleList = newContents.match(/#\s+(.*)/g);
-  console.log(titleList);
   let filterContents = newContents;
   if (titleList)
     titleList.map((title: string) => {
