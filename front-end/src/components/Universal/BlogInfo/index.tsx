@@ -91,7 +91,7 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
       <Popover content="分类标签" trigger="hover" placement="bottom">
         <div className={style.classification}>
           <span className="iconfont">&#xe623;</span>
-          <Tag color={item ? item.color : undefined} style={{ height: '20px', lineHeight: '20px' }}>
+          <Tag color={item ? item.color : undefined} style={{ height: '20px', lineHeight: '20px', fontSize: '14px' }}>
             {item ? item.title : undefined}
           </Tag>
         </div>
