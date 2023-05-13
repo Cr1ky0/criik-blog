@@ -22,7 +22,7 @@ const BlogList = () => {
   const page = search.get('page') ? search.get('page') : '1';
   const [blogs, setBlogs] = useState([] as blogObj[]);
   useEffect(() => {
-    getSelfBlogsOfCertain({ page: page as string }).then(
+    getSelfBlogsOfCertain({ page: page as string, sort: 'publishAt' }).then(
       res => {
         const blogs = res.data.blogs.map((blog: blogObj) => {
           // 处理后端过滤的<
