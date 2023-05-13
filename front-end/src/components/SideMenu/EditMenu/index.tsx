@@ -127,10 +127,10 @@ const EditMenu = () => {
     const ref = tagRef.current as HTMLInputElement;
     setIsLoading(true);
     await updateMenuAjax(
-      { id: curKey, icon: iconValue, title: ref.value },
+      { id: curKey, icon: iconValue, title: ref.value, color: colorValue },
       async () => {
         await message.loadingSuccessAsync('修改中...', '修改成功！');
-        dispatch(editMenu({ id: curKey, title: ref.value, icon: iconValue }));
+        dispatch(editMenu({ id: curKey, title: ref.value, icon: iconValue, color: colorValue }));
         setIsLoading(false);
         setCurTitle(ref.value);
         setCurIcon(iconValue);
@@ -161,6 +161,12 @@ const EditMenu = () => {
           item.children.map(child => {
             deleteMenuAjax(child.id);
             if (child.blogs && child.blogs.length) deleteBlogOfMenuAjax(child.id);
+            // 删除grandChild
+            if (child.children)
+              child.children.map(grandChild => {
+                deleteMenuAjax(grandChild.id);
+                if (grandChild.blogs && grandChild.blogs.length) deleteBlogOfMenuAjax(grandChild.id);
+              });
           });
         await message.loadingAsync('删除中...', '删除成功！');
         // 选择新的id
@@ -193,16 +199,16 @@ const EditMenu = () => {
       return;
     }
     const item = getSideMenuItem(menus, curKey as string) as SideMenuItem;
-    // 当前选择二级菜单时
-    if (item.grade === 2) {
-      message.error('二级分类无法再添加分类标签！');
-      return;
-    }
+    // // 当前选择二级菜单时
+    // if (item.grade === 2) {
+    //   message.error('二级分类无法再添加分类标签！');
+    //   return;
+    // }
     setIsLoading(true);
     await addMenuAjax(
       {
         title: ref.value,
-        grade: item.grade ? item.grade + 1 : 1,
+        grade: (item.grade as number) + 1,
         icon: iconValue,
         color: colorValue,
         parentId: item.id,
@@ -269,9 +275,9 @@ const EditMenu = () => {
           selectedKeys={curKey ? [curKey] : undefined}
           onClick={(_, node) => {
             const item = getSideMenuItem(menus, node.key as string) as SideMenuItem;
-            if (!isEdit && item.grade === 2) {
+            if (!isEdit && item.grade === 3) {
               // 当前选择二级菜单时
-              message.error('二级分类无法再添加分类标签！');
+              message.error('三级分类无法再添加分类标签！');
               return;
             }
             setCurIcon((item as SideMenuItem).icon);

@@ -58,6 +58,18 @@ const blogMenuSlice = createSlice({
                   title,
                   belongingMenu,
                 });
+              } else if (child.children) {
+                child.children.map(grandChild => {
+                  if (grandChild.id === belongingMenu) {
+                    if (!grandChild.blogs) grandChild.blogs = [];
+                    (grandChild.blogs as blogObj[]).push({
+                      id,
+                      _id: id,
+                      title,
+                      belongingMenu,
+                    });
+                  }
+                });
               }
               return child;
             });
@@ -65,7 +77,7 @@ const blogMenuSlice = createSlice({
         }),
       ];
     },
-    // 将新对象插入Menu（Grade<=2）
+    // 将新对象插入Menu
     addMenu: (state, action) => {
       const newMenu = action.payload;
       if (newMenu.grade === 1) {
@@ -76,6 +88,14 @@ const blogMenuSlice = createSlice({
             if (menu.id === newMenu.belongingMenu) {
               if (!menu.children) menu.children = [];
               menu.children.push(newMenu);
+            } else if (menu.children) {
+              menu.children = menu.children.map(child => {
+                if (child.id === newMenu.belongingMenu) {
+                  if (!child.children) child.children = [];
+                  child.children.push(newMenu);
+                }
+                return child;
+              });
             }
             return menu;
           }),
@@ -83,45 +103,60 @@ const blogMenuSlice = createSlice({
       }
     },
     editMenu: (state, action) => {
-      const { id, title, icon } = action.payload;
+      const { id, title, icon, color } = action.payload;
       state.menuList = [
         ...state.menuList.map(menu => {
           if (menu.id === id) {
             menu.title = title;
             menu.icon = icon;
-          } else {
-            if (menu.children)
-              menu.children = menu.children.map(child => {
-                if (child.id === id) {
-                  child.title = title;
-                  child.icon = icon;
-                }
-                return child;
-              });
+            menu.color = color;
+          } else if (menu.children) {
+            menu.children = menu.children.map(child => {
+              if (child.id === id) {
+                child.title = title;
+                child.icon = icon;
+                child.color = color;
+              } else if (child.children) {
+                child.children = child.children.map(grandChild => {
+                  if (grandChild.id === id) {
+                    grandChild.title = title;
+                    grandChild.icon = icon;
+                    grandChild.color = color;
+                  }
+                  return grandChild;
+                });
+              }
+              return child;
+            });
           }
           return menu;
         }),
       ];
     },
     deleteMenu: (state, action) => {
-      const id = action.payload; // 传入删除menu的id（包括blogId）
-      // 删除菜单只有两层，顺便处理第二层的blogs
-      let newList = [
+      const id = action.payload; // 传入删除menu的id（包括对blog删除的处理）
+      // 删除菜单和blogs都有三层
+      state.menuList = [
+        // floor1
         ...state.menuList.filter(menu => {
-          if (menu.children) menu.children = [...menu.children.filter(child => child.id !== id)];
-          if (menu.blogs) menu.blogs = [...menu.blogs.filter(blog => blog.id !== id)];
+          // floor2
+          if (menu.children) {
+            menu.children = menu.children.filter(child => {
+              if (child.blogs) child.blogs = child.blogs.filter(blog => blog.id !== id);
+              // floor3
+              if (child.children) {
+                child.children = child.children.filter(grandChild => {
+                  if (grandChild.blogs) grandChild.blogs = grandChild.blogs.filter(blog => blog.id !== id);
+                  return grandChild.id !== id;
+                });
+              }
+              return child.id !== id;
+            });
+          }
+          if (menu.blogs) menu.blogs = menu.blogs.filter(blog => blog.id !== id);
           return menu.id !== id;
         }),
       ];
-      // 第三层blogs删除
-      newList = newList.map(menu => {
-        if (menu.children)
-          menu.children.map(child => {
-            if (child.blogs) child.blogs = [...child.blogs.filter(blog => blog.id !== id)];
-          });
-        return menu;
-      });
-      state.menuList = newList;
     },
   },
   extraReducers(builder) {

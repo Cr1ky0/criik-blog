@@ -15,7 +15,7 @@ export const deleteMenuAjax = catchAsync(async (id: string) => {
 });
 
 export const updateMenuAjax = catchAsync(async (values: updateMenuObj) => {
-  const { id, title, icon } = values;
-  const response = await service.patch(`/api/menus/${id}`, { title, icon });
+  const { id, title, icon, color } = values;
+  const response = await service.patch(`/api/menus/${id}`, { title, icon, color });
   return Promise.resolve(response);
 });

@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { NotificationPlacement } from 'antd/es/notification/interface';
 import type { MenuProps } from 'antd/es/menu';
-import { getClassificationInfo } from '@/utils';
 
 /******** Ajax ********/
 // LoginForm
@@ -51,6 +50,7 @@ export interface updateMenuObj {
   id: string;
   title: string;
   icon?: string;
+  color?: string;
 }
 
 // blog

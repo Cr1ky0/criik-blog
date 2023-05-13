@@ -271,7 +271,7 @@ export const getDataNodeTree: (menus: SideMenuItem[], icons: AntdIcon[], onlyPar
       menu.id,
       icon[0] ? icon[0].icon : undefined,
       menu.children
-        ? onlyParent && menu.grade === 2
+        ? onlyParent && menu.grade === 3
           ? undefined
           : getDataNodeTree(menu.children, icons, onlyParent)
         : undefined
@@ -309,7 +309,7 @@ export const getTreeSelectList: (menus: SideMenuItem[], icons: AntdIcon[], onlyP
       menu.title,
       icon[0] ? icon[0].icon : undefined,
       menu.children
-        ? onlyParent && menu.grade === 2
+        ? onlyParent && menu.grade === 3
           ? undefined
           : getTreeSelectList(menu.children, icons, onlyParent)
         : undefined

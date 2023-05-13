@@ -1,6 +1,7 @@
 const Menu = require('../models/menuModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const filterObj = require('../utils/filterObj');
 
 exports.getMenus = catchAsync(async (req, res, next) => {
   const menus = await Menu.find();
@@ -23,17 +24,6 @@ exports.getMenusOfUser = catchAsync(async (req, res, next) => {
   });
 });
 
-// exports.getMenuById = catchAsync(async (req, res, next) => {
-//   const menu = await Menu.findById(req.params.id).select('title color');
-
-//   res.status(200).json({
-//     status: 'success',
-//     data: {
-//       menu,
-//     },
-//   });
-// });
-
 exports.addMenu = catchAsync(async (req, res, next) => {
   const { title, icon, parentId, grade, color } = req.body;
   if (!title) return next(new AppError('请输入标题！', 400));
@@ -46,7 +36,6 @@ exports.addMenu = catchAsync(async (req, res, next) => {
     belongingMenu: parentId,
     color,
     icon: icon,
-    isParent: true,
   });
 
   res.status(201).json({
@@ -68,13 +57,12 @@ exports.deleteMenu = catchAsync(async (req, res, next) => {
 });
 
 exports.updateMenu = catchAsync(async (req, res, next) => {
-  const { title, icon } = req.body;
+  const { title, icon, color } = req.body;
   if (!title) return next(new AppError('请输入标题!', 400));
   if (!icon) return next(new AppError('请选择图标！', 400));
-  await Menu.findByIdAndUpdate(req.params.id, {
-    title: req.body.title,
-    icon: req.body.icon,
-  });
+  if (!color) return next(new AppError('请选择标签颜色！', 400));
+  const filteredBody = filterObj(req.body, 'color', 'icon', 'title');
+  await Menu.findByIdAndUpdate(req.params.id, filteredBody);
   res.status(204).json({
     status: 'success',
     data: null,
