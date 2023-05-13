@@ -79,21 +79,16 @@ export const getAllKeyOfSideMenu: (menus: SideMenuItem[]) => string[] = menus =>
 };
 
 // 根据blog id获取其parent链
-export const getBreadcrumbList: (menus: SideMenuItem[], id: string, icons: AntdIcon[]) => BreadCrumbObj[] = (
-  menus,
-  id,
-  icons
-) => {
-  const list = [] as BreadCrumbObj[];
+export const getBreadcrumbList: (
+  menus: SideMenuItem[],
+  id: string,
+  icons: AntdIcon[],
+  list?: BreadCrumbObj[]
+) => BreadCrumbObj[] = (menus, id, icons, list = []) => {
   const blog = getSideMenuItem(menus, id) as SideMenuItem;
-  list.unshift({ title: blog.title, icon: undefined });
+  list.unshift({ title: blog.title, icon: blog.icon ? getAntdIcon(blog.icon as string, icons) : undefined });
   if (blog.belongingMenu) {
-    const parent = getSideMenuItem(menus, blog.belongingMenu) as SideMenuItem;
-    list.unshift({ title: parent.title, icon: getAntdIcon(parent.icon as string, icons) });
-    if (parent.belongingMenu) {
-      const grandParent = getSideMenuItem(menus, parent.belongingMenu) as SideMenuItem;
-      list.unshift({ title: grandParent.title, icon: getAntdIcon(grandParent.icon as string, icons) });
-    }
+    return getBreadcrumbList(menus, blog.belongingMenu, icons, list);
   }
   return list;
 };

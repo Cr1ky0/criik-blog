@@ -10,7 +10,6 @@ interface IconStoreProps {
 // antd icons
 import {
   HomeFilled,
-  CodeFilled,
   BookFilled,
   CalculatorFilled,
   FolderFilled,
@@ -41,7 +40,14 @@ const IconStore: React.FC<IconStoreProps> = props => {
   const { children } = props;
   const [iconList] = useState([
     { name: 'Home', icon: <HomeFilled /> },
-    { name: 'Code', icon: <span className="iconfont">&#xe7fc;</span> },
+    {
+      name: 'Code',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '18px' }}>
+          &#xe7fc;
+        </span>
+      ),
+    },
     { name: 'Book', icon: <BookFilled /> },
     { name: 'Setting', icon: <SettingFilled /> },
     { name: 'Appstore', icon: <AppstoreFilled /> },
@@ -65,17 +71,94 @@ const IconStore: React.FC<IconStoreProps> = props => {
     { name: 'Windows', icon: <WindowsFilled /> },
     { name: 'Apple', icon: <AppleFilled /> },
     { name: 'Github', icon: <GithubFilled /> },
-    { name: '前端', icon: <span className="iconfont">&#xe625;</span> },
-    { name: 'Javascript', icon: <span className="iconfont">&#xe6f7;</span> },
-    { name: 'Typescript', icon: <span className="iconfont">&#xecef;</span> },
-    { name: 'HTML5', icon: <span className="iconfont">&#xe602;</span> },
-    { name: 'CSS3', icon: <span className="iconfont">&#xe6a8;</span> },
-    { name: 'Nodejs', icon: <span className="iconfont">&#xe989;</span> },
-    { name: 'Git', icon: <span className="iconfont">&#xe61b;</span> },
-    { name: 'React', icon: <span className="iconfont">&#xec77;</span> },
-    { name: 'Vue', icon: <span className="iconfont">&#xe69a;</span> },
-    { name: 'Webpack', icon: <span className="iconfont">&#xed0b;</span> },
-    { name: 'MongoDB', icon: <span className="iconfont">&#xe63f;</span> },
+    {
+      name: '前端',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '16px' }}>
+          &#xe625;
+        </span>
+      ),
+    },
+    {
+      name: 'Javascript',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '18px' }}>
+          &#xe6f7;
+        </span>
+      ),
+    },
+    {
+      name: 'Typescript',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '18px' }}>
+          &#xecef;
+        </span>
+      ),
+    },
+    {
+      name: 'HTML5',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '18px' }}>
+          &#xe602;
+        </span>
+      ),
+    },
+    {
+      name: 'CSS3',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '18px' }}>
+          &#xe6a8;
+        </span>
+      ),
+    },
+    {
+      name: 'Nodejs',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '18px' }}>
+          &#xe989;
+        </span>
+      ),
+    },
+    {
+      name: 'Git',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '18px' }}>
+          &#xe61b;
+        </span>
+      ),
+    },
+    {
+      name: 'React',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '18px' }}>
+          &#xec77;
+        </span>
+      ),
+    },
+    {
+      name: 'Vue',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '18px' }}>
+          &#xe69a;
+        </span>
+      ),
+    },
+    {
+      name: 'Webpack',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '18px' }}>
+          &#xed0b;
+        </span>
+      ),
+    },
+    {
+      name: 'MongoDB',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '18px' }}>
+          &#xe63f;
+        </span>
+      ),
+    },
   ]);
   return <iconStoreContext.Provider value={iconList}>{children}</iconStoreContext.Provider>;
 };
