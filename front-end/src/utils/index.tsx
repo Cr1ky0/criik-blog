@@ -227,7 +227,6 @@ function getItem(label: string, key: React.Key, icon?: React.ReactNode, children
 export const getAntdMenus: (menus: SideMenuItem[], icons: AntdIcon[]) => MenuItem[] = (menus, icons) => {
   return menus.map(menu => {
     // 从iconsContext中提取出对应icon Node
-    // const icon = icons.filter(icon => icon.name === menu.icon);
     const icon = getAntdIcon(menu.icon as string, icons);
     // 可能有blog存在
     const newList: MenuItem[] = [];
@@ -241,7 +240,7 @@ export const getAntdMenus: (menus: SideMenuItem[], icons: AntdIcon[]) => MenuIte
       menu.id,
       icon ? icon : undefined,
       (menu.children && menu.children.length) || (menu.blogs && menu.blogs.length)
-        ? ([...getAntdMenus(menu.children ? menu.children : [], icons), ...newList] as MenuItem[])
+        ? ([...newList, ...getAntdMenus(menu.children ? menu.children : [], icons)] as MenuItem[])
         : undefined
     );
   });
