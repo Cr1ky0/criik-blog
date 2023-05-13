@@ -15,12 +15,14 @@ import { filterLT } from '@/utils';
 
 // interface
 import { blogObj } from '@/interface';
+import { useAppSelector } from '@/redux';
 
 const FilteredBlogs = () => {
   const message = useGlobalMessage();
   // params参数
   const [searchParams] = useSearchParams();
-  const filter = searchParams.get('filter') ? searchParams.get('filter') : 0;
+  const chosen = useAppSelector(state => state.blog.chosen);
+  const filter = searchParams.get('filter') ? searchParams.get('filter') : chosen;
   const option = parseInt(filter as string);
   const page = searchParams.get('page') ? searchParams.get('page') : '1';
   const [blogs, setBlogs] = useState([] as blogObj[]);
