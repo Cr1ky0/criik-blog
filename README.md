@@ -3,7 +3,6 @@
 * 仿 VuePress Theme Hope 主题风格利用 React 进行开发
 * 技术栈：ts + React + antd + nodejs + mongodb
 *
-
 目前仅作为个人博客使用，支持markdown语法（包括html）、支持数学公式katex、支持收藏（个人）、分类、时间轴以及博客管理等功能、支持个人信息修改。游客支持点赞和评论(
 有敏感词过滤)。
 
