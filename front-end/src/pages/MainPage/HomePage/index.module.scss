@@ -6,10 +6,11 @@
   @include setTop();
   overflow-x: hidden;
   overflow-y: auto;
-  height: 0;
-  transition: height .5s;
+  //height: 0;
+  //transition: height .5s;
 
   .backgroundPhoto {
+    animation: showAnime .5s;
     width: 100%;
     height: 95vh; // vh为当前视口的高度单位，1vh为1%
     position: relative;
@@ -101,6 +102,10 @@
     .content {
       margin: 0 20px;
       width: 900px;
+
+      .blogList, .paginate {
+        animation: showAnime .5s;
+      }
 
       .paginate {
         display: flex;

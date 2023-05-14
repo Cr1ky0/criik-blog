@@ -3,12 +3,10 @@
 @mixin setWrapper($s_width:21vw,$c_width:79vw) {
   background-color: #FFF;
   overflow: hidden;
-  animation: show .7s;
   @include setScrollBar(5px);
   > div {
     float: left;
   }
-
 }
 
 @mixin setSider() {
@@ -42,11 +40,11 @@
   }
 }
 
-@keyframes show {
+@keyframes anime {
   from {
-    height: 0;
+    opacity: 0;
   }
   to {
-    height: 95vh;
+    opacity: 1;
   }
 }

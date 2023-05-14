@@ -33,6 +33,7 @@ const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [curPage, setCurPage] = useState(1);
   const totalNum = useAppSelector(state => state.blog.blogsNum);
+  const homePhotoWrapper = useRef<HTMLDivElement>(null);
 
   // Back To Top
   const wrapper = useRef<HTMLDivElement>(null);
@@ -73,22 +74,21 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(setChosenList([true, false, false, false]));
+  }, []);
+
+  useEffect(() => {
     // 这里延迟展开是因为加载需要时间，不然开始就展开会很卡
-    const timer = setTimeout(() => {
-      const div = document.getElementById('home-page-wrapper') as HTMLElement;
-      div.style.height = window.innerHeight + 'px';
-    }, 300);
-    return () => {
-      clearTimeout(timer);
-    };
+    const div = wrapper.current as HTMLDivElement;
+    div.style.height = window.innerHeight + 'px';
   }, [width, window.innerHeight]);
 
   return (
-    <div id="home-page-wrapper" className={style.wrapper} ref={wrapper}>
+    <div className={`${style.wrapper} clearfix`} ref={wrapper}>
       <Header className={style.backWhite}></Header>
       <div
         className={`${width > 400 ? style.backgroundPhoto : style.backgroundPhotoMobile} clearfix`}
         style={{ backgroundImage: `url(${img1})` }}
+        ref={homePhotoWrapper}
       >
         <div className={style.homeTagWrapper}>
           <div className={style.homeTagIcon} style={{ backgroundImage: `url(${img2})` }}></div>
@@ -104,7 +104,9 @@ const HomePage = () => {
           ) : (
             // 路由
             <>
-              <Outlet />
+              <div className={style.blogList}>
+                <Outlet />
+              </div>
               <div className={style.paginate}>
                 <Pagination
                   showSizeChanger={false}
@@ -113,6 +115,10 @@ const HomePage = () => {
                   current={curPage}
                   total={totalNum}
                   onChange={page => {
+                    (wrapper.current as HTMLDivElement).scrollTo({
+                      top: parseInt(window.getComputedStyle(homePhotoWrapper.current as HTMLDivElement).height),
+                      behavior: 'smooth',
+                    });
                     setIsLoading(true);
                     setTimeout(() => {
                       setIsLoading(false);

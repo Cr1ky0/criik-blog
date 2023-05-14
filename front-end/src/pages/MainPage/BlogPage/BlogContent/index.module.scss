@@ -4,6 +4,8 @@
 
 @mixin universal() {
   .main {
+    animation: showAnime .5s;
+
     .blog {
       min-height: 100vh;
       margin: {
@@ -15,11 +17,17 @@
         padding: 3vh 0;
 
         li {
-          font-size: 24px;
+          font-size: 20px;
 
           svg {
             height: 20px;
             width: 20px;
+          }
+        }
+
+        li:not(:last-child) {
+          span {
+            color: $THEME_COLOR;
           }
         }
       }
@@ -125,4 +133,5 @@
     display: none;
   }
 }
+
 

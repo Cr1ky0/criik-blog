@@ -76,19 +76,15 @@ const StarBlog = () => {
 
   // 设置初始高度
   useEffect(() => {
-    dispatch(setChosenList([false, false, false, true]));
-    // 这里延迟展开是因为加载需要时间，不然开始就展开会很卡
-    const timer = setTimeout(() => {
-      const div = document.getElementById('blog-stars-wrapper') as HTMLElement;
-      div.style.height = window.innerHeight - 50 + 'px';
-    }, 300);
-    return () => {
-      clearTimeout(timer);
-    };
+    const div = wrapper.current as HTMLDivElement;
+    div.style.height = window.innerHeight - 50 + 'px';
   }, [width, window.innerHeight]);
 
-  // 设置初始选中状态
   useEffect(() => {
+    // 设置初始选中状态
+    dispatch(setChosenList([false, false, false, true]));
+    const div = wrapper.current as HTMLDivElement;
+    div.style.height = window.innerHeight - 50 + 'px';
     const now = document.getElementById(`blog-stars-btn-${chosen}`) as HTMLElement;
     now.style.color = THEME_COLOR;
     const bar = now.getElementsByTagName('div')[1] as HTMLElement;
@@ -101,7 +97,7 @@ const StarBlog = () => {
   }, []);
 
   return (
-    <div id="blog-stars-wrapper" className={`${style.wrapper} clearfix`} ref={wrapper}>
+    <div className={`${style.wrapper} clearfix`} ref={wrapper}>
       <div>
         <div className={style.options}>
           {choseList.map((choice, index) => {
@@ -161,6 +157,10 @@ const StarBlog = () => {
           current={curPage}
           total={chosen === 0 ? collectNum : blogsNum}
           onChange={page => {
+            (wrapper.current as HTMLDivElement).scrollTo({
+              top: 0,
+              behavior: 'smooth',
+            });
             if (timer) clearTimeout(timer);
             setIsLoading(true);
             setTimer(

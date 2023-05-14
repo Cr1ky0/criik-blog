@@ -8,6 +8,19 @@ $GRADE_MIDDLE: 500;
 $GRADE_BOTTOM: 100;
 $BREAK_POINT: 768px;
 
+// 全局浮现动画效果
+@keyframes showAnime {
+  from {
+    opacity: 0;
+    transform: translateY(20%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @mixin unSelectable {
   -webkit-user-select: none;
   -moz-user-select: none;
