@@ -19,7 +19,7 @@ import { filterLT, getSideMenuItem, getTreeSelectList, hasBlog } from '@/utils';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addBlogMenu, setSelectedId, deleteMenu } from '@/redux/slices/blogMenu';
+import { addBlogMenu, setSelectedId, deleteMenu, editBlogMenu } from '@/redux/slices/blogMenu';
 import { setMenuId, setTitle, setMenuTitle, initWriteContent, setIsEdit, setAllContent } from '@/redux/slices/blog';
 
 // context
@@ -49,6 +49,8 @@ const BlogManage = () => {
   const antdMenus = getTreeSelectList(menus, icons, true);
   // 提交按钮loading状态
   const [isLoading, setIsLoading] = useState(false);
+  // 当前正在编辑的id，如果不用的话，编辑中选择其他博客selectedId会改变，修改的博客就变成了其他博客了
+  const [curEditId, setCurEditId] = useState('');
   // 预览打开state
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -78,6 +80,7 @@ const BlogManage = () => {
           title: '提示',
           content: '编辑当前博客会覆盖正在编辑的内容，确定要这么做吗？',
           onOk: () => {
+            setCurEditId(selectedId);
             getCurBlog(selectedId).then(
               response => {
                 const blog = response.data.blog;
@@ -147,7 +150,7 @@ const BlogManage = () => {
     setIsLoading(true);
     await updateBlogAjax(
       {
-        blogId: selectedId,
+        blogId: curEditId,
         data: {
           title,
           belongingMenu: menuId,
@@ -158,11 +161,9 @@ const BlogManage = () => {
       async () => {
         await message.loadingSuccessAsync('更新中...', '更新成功！');
         dispatch(initWriteContent());
-        // 更新主页博客信息
-        dispatch(deleteMenu(selectedId));
         dispatch(
-          addBlogMenu({
-            id: selectedId,
+          editBlogMenu({
+            id: curEditId,
             title,
             belongingMenu: menuId,
           })

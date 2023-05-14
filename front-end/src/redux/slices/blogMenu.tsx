@@ -18,8 +18,8 @@ const initialState: blogMenuInitObj = {
   selectedId: '', // 选的博客id
 };
 
-export const setMenuList = createAsyncThunk('blogMenu/setMenuList', async (id: string) => {
-  const response = await service.get(`/api/menus/${id}`);
+export const setMenuList = createAsyncThunk('blogMenu/setMenuList', async () => {
+  const response = await service.get(`/api/menus/getSelfMenu`);
   const menus = response.data.body.menus;
   // 设置一个初始选中项
   const blogId = getOneBlogId(menus) || '';
@@ -158,6 +158,43 @@ const blogMenuSlice = createSlice({
         }),
       ];
     },
+    editBlogMenu: (state, action) => {
+      const { id, title, belongingMenu } = action.payload;
+      state.menuList = [
+        ...state.menuList.map(menu => {
+          if (menu.blogs)
+            menu.blogs.map(blog => {
+              if (blog.id === id) {
+                blog.title = title;
+                blog.belongingMenu = belongingMenu;
+              }
+            });
+          if (menu.children)
+            menu.children.map(child => {
+              if (child.blogs)
+                child.blogs.map(blog => {
+                  if (blog.id === id) {
+                    blog.title = title;
+                    blog.belongingMenu = belongingMenu;
+                  }
+                });
+              if (child.children)
+                child.children.map(grandChild => {
+                  if (grandChild.blogs)
+                    grandChild.blogs.map(blog => {
+                      if (blog.id === id) {
+                        blog.title = title;
+                        blog.belongingMenu = belongingMenu;
+                      }
+                    });
+                  return grandChild;
+                });
+              return child;
+            });
+          return menu;
+        }),
+      ];
+    },
   },
   extraReducers(builder) {
     builder
@@ -172,5 +209,5 @@ const blogMenuSlice = createSlice({
   },
 });
 
-export const { addMenu, editMenu, deleteMenu, setSelectedId, addBlogMenu } = blogMenuSlice.actions;
+export const { addMenu, editMenu, deleteMenu, setSelectedId, addBlogMenu, editBlogMenu } = blogMenuSlice.actions;
 export default blogMenuSlice.reducer;

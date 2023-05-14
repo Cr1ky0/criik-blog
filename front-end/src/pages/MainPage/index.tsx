@@ -19,9 +19,6 @@ import { setEmoji } from '@/redux/slices/emoji';
 import { setMenuList } from '@/redux/slices/blogMenu';
 import { setMyBlogsNum } from '@/redux/slices/blog';
 
-// gloabal
-import { MY_ID } from '@/global';
-
 const MainPage = () => {
   const dispatch = useAppDispatch();
   const chosenList = useAppSelector(state => state.chosenList.chosenList);
@@ -29,7 +26,7 @@ const MainPage = () => {
     // 加载后先把emoji请求回来，后面不再请求了
     dispatch(setEmoji());
     // 请求MyMenu
-    dispatch(setMenuList(MY_ID));
+    dispatch(setMenuList());
     // 获取我的博客数
     dispatch(setMyBlogsNum());
   }, []);

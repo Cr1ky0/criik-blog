@@ -3,6 +3,8 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const filterObj = require('../utils/filterObj');
 
+const myId = '64326421e387110cac9f8ece';
+
 exports.getMenus = catchAsync(async (req, res, next) => {
   const menus = await Menu.find();
   res.status(200).json({
@@ -66,5 +68,15 @@ exports.updateMenu = catchAsync(async (req, res, next) => {
   res.status(204).json({
     status: 'success',
     data: null,
+  });
+});
+
+exports.getSelfMenu = catchAsync(async (req, res, next) => {
+  const menus = await Menu.find({ belongTo: myId, grade: 1 });
+  res.status(200).json({
+    status: 'success',
+    body: {
+      menus,
+    },
   });
 });

@@ -4,8 +4,8 @@ const menuController = require('../controllers/menuController');
 
 const router = express.Router();
 
-// 获取指定用户的menu（因为要展览）
-router.route('/:id').get(menuController.getMenusOfUser);
+// 获取我的menu
+router.route('/getSelfMenu').get(menuController.getSelfMenu);
 
 // 权限
 router.use(authController.protect);
@@ -16,6 +16,7 @@ router.route('/').post(menuController.addMenu);
 
 router
   .route('/:id')
+  .get(menuController.getMenusOfUser)
   .delete(menuController.deleteMenu)
   .patch(menuController.updateMenu);
 
