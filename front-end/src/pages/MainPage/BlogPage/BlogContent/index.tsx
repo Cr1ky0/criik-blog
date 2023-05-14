@@ -19,7 +19,7 @@ import style from './index.module.scss';
 //redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setSelectedId, deleteMenu } from '@/redux/slices/blogMenu';
-import { initWriteContent, setAllContent, setIsEdit } from '@/redux/slices/blog';
+import { initWriteContent, setAllContent, setCurEditId, setIsEdit } from '@/redux/slices/blog';
 
 // utils
 import { filterLT, filterTitle, getBreadcrumbList, getOneBlogId, getSideMenuItem } from '@/utils';
@@ -87,6 +87,7 @@ const BlogContent = () => {
   }, [selectedId]);
 
   const handleEdit = () => {
+    dispatch(setCurEditId(selectedId));
     getCurBlog(selectedId).then(
       response => {
         const blog = response.data.blog;

@@ -12,6 +12,7 @@ interface blogInitObj {
   blogsNum: number;
   likeList: string[]; // 点赞列表，记录当前点赞过的博客
   chosen: number; // 精选页面chosen
+  curEditId: string; // 当前正在编辑的id
 }
 
 // 合并了菜单的slice因为无法解决设置了selectedId后设置curBlog延迟的问题
@@ -23,6 +24,7 @@ const initialState: blogInitObj = {
   blogsNum: 0,
   likeList: [] as string[],
   chosen: 0,
+  curEditId: '',
 };
 
 export const setTimeLine = createAsyncThunk('blog/setTimeLine', async () => {
@@ -39,6 +41,9 @@ const blogSlice = createSlice({
   name: 'blog',
   initialState,
   reducers: {
+    setCurEditId: (state, action) => {
+      state.curEditId = action.payload;
+    },
     // chosen
     setChosen: (state, action) => {
       state.chosen = action.payload;
@@ -97,6 +102,7 @@ const blogSlice = createSlice({
 });
 
 export const {
+  setCurEditId,
   setChosen,
   addLikeList,
   removeLikeList,

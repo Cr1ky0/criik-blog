@@ -6,6 +6,8 @@ import { Drawer } from 'antd';
 
 // comp
 import SideMenu from '@/components/SideMenu';
+import BackToTopBtn from '@/components/Universal/BackToTopBtn';
+import Footer from '@/components/Footer';
 
 // css
 import style from './index.module.scss';
@@ -16,8 +18,6 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 
 // context
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
-import Footer from '@/components/Footer';
-import BackToTopBtn from '@/components/Universal/BackToTopBtn';
 
 // wrapper ref
 const divRef = createRef<HTMLDivElement>();

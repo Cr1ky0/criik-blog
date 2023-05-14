@@ -19,21 +19,29 @@ import { filterLT, getSideMenuItem, getTreeSelectList, hasBlog } from '@/utils';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addBlogMenu, setSelectedId, deleteMenu, editBlogMenu } from '@/redux/slices/blogMenu';
-import { setMenuId, setTitle, setMenuTitle, initWriteContent, setIsEdit, setAllContent } from '@/redux/slices/blog';
+import { addBlogMenu, setSelectedId, editBlogMenu } from '@/redux/slices/blogMenu';
+import { setChosenList } from '@/redux/slices/chosenList';
+import {
+  setMenuId,
+  setTitle,
+  setMenuTitle,
+  initWriteContent,
+  setIsEdit,
+  setAllContent,
+  setCurEditId,
+} from '@/redux/slices/blog';
 
 // context
 import { useIcons } from '@/components/ContextProvider/IconStore';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // api
 import { addBlogAjax, getCurBlog, updateBlogAjax } from '@/api/blog';
 
 // interface
 import { SideMenuItem } from '@/interface';
-import { setChosenList } from '@/redux/slices/chosenList';
-import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 const BlogManage = () => {
   const menus = useAppSelector(state => state.blogMenu.menuList);
@@ -44,13 +52,13 @@ const BlogManage = () => {
   // text info
   const { title, menuId, content, menuTitle } = useAppSelector(state => state.blog.writeContent);
   const isEdit = useAppSelector(state => state.blog.isEdit);
+  const curEditId = useAppSelector(state => state.blog.curEditId);
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const icons = useIcons();
   const antdMenus = getTreeSelectList(menus, icons, true);
   // 提交按钮loading状态
   const [isLoading, setIsLoading] = useState(false);
   // 当前正在编辑的id，如果不用的话，编辑中选择其他博客selectedId会改变，修改的博客就变成了其他博客了
-  const [curEditId, setCurEditId] = useState('');
   // 预览打开state
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -80,7 +88,7 @@ const BlogManage = () => {
           title: '提示',
           content: '编辑当前博客会覆盖正在编辑的内容，确定要这么做吗？',
           onOk: () => {
-            setCurEditId(selectedId);
+            dispatch(setCurEditId(selectedId));
             getCurBlog(selectedId).then(
               response => {
                 const blog = response.data.blog;
