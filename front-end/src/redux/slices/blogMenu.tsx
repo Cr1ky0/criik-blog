@@ -22,7 +22,8 @@ export const setMenuList = createAsyncThunk('blogMenu/setMenuList', async () => 
   const response = await service.get(`/api/menus/getSelfMenu`);
   const menus = response.data.body.menus;
   // 设置一个初始选中项
-  const blogId = getOneBlogId(menus) || '';
+  let blogId = getOneBlogId(menus) || '';
+  if (menus[0].blogs[0]) blogId = menus[0].blogs[0].id;
   return { menus, blogId };
 });
 

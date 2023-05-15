@@ -2,6 +2,43 @@
 
 $fontColor: rgba(0, 0, 0, .8);
 
+// func-bar-wrapper
+.syntax-highlighter-func-bar-wrapper{
+  height: 30px;
+  position: absolute;
+  top:20px;
+  right:40px;
+}
+
+// 代码块语言标记
+.syntax-highlighter-code-language{
+  @include unSelectable;
+  float:left;
+  font-size: 16px;
+  line-height: 30px;
+  color:rgba(0,0,0,.4);
+}
+
+// copy btn
+.syntax-highlighter-copy-btn{
+  float:left;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .3s;
+  margin-right: 5px;
+  color:rgba(0,0,0,.4);
+  border:{
+    radius: 5px;
+  }
+  &:hover{
+    background-color: #d8e9f6 !important;
+    color:$fontColor;
+  }
+}
+
 .markdown-body {
   color: $fontColor;
   line-height: 40px;
