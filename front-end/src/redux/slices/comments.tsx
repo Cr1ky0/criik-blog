@@ -56,6 +56,9 @@ const commentsSlice = createSlice({
         } else return comment;
       });
     },
+    deleteComment: (state, action) => {
+      state.commentList = state.commentList.filter(comment => comment.id !== action.payload);
+    },
     addLikeId: (state, action) => {
       state.likeList = [action.payload, ...state.likeList];
     },
@@ -75,6 +78,7 @@ const commentsSlice = createSlice({
               likes: comment.likes,
               time: moment(comment.publishAt).format('YYYY-MM-DD HH:mm:ss'),
               username: comment.username,
+              userRole: comment.userRole,
               brief: comment.brief,
               userId: comment.belongingUser,
             };
@@ -93,6 +97,6 @@ const commentsSlice = createSlice({
   },
 });
 
-export const { setCurPage, setIsLoading, setSort, addLength, updateComment, addLikeId, delLikeId } =
+export const { setCurPage, setIsLoading, setSort, addLength, updateComment, addLikeId, delLikeId, deleteComment } =
   commentsSlice.actions;
 export default commentsSlice.reducer;

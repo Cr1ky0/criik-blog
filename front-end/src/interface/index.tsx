@@ -73,6 +73,7 @@ export interface addCommentObj {
   contents: string;
   username?: string;
   userId?: string;
+  userRole: string;
   brief?: string;
 }
 
@@ -123,6 +124,7 @@ export interface commentObj {
   time: string;
   likes: number;
   contents: string;
+  userRole: string;
   userId: string;
 }
 
@@ -133,6 +135,7 @@ export interface commentApiObj {
   publishAt: string;
   belongingUser: string;
   belongingBlog: string;
+  userRole: string;
   username: string;
   brief: string;
 }

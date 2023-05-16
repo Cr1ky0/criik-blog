@@ -13,17 +13,20 @@ import { avatarAjax, getAvatarOfUser } from '@/api/user';
 
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 
 // img
 import img from '@/assets/images/default.png';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addLikeId, delLikeId, updateComment } from '@/redux/slices/comments';
+import { addLikeId, delLikeId, updateComment, deleteComment } from '@/redux/slices/comments';
 
 // util
 import { isLike } from '@/utils';
-import { updateCommentAjax } from '@/api/comment';
+
+//api
+import { updateCommentAjax, deleteCommentAjax } from '@/api/comment';
 
 export interface SingleCommentProps {
   info: commentObj;
@@ -31,8 +34,9 @@ export interface SingleCommentProps {
 
 const SingleComment: React.FC<SingleCommentProps> = props => {
   const { info } = props;
+  const modal = useGlobalModal();
   const message = useGlobalMessage();
-  const { contents, username, brief, time, userId, likes, id } = info;
+  const { contents, username, brief, time, userId, likes, id, userRole } = info;
   // 利用likeList判断当前评论的id是否在其中来记录点赞状态
   const likeList = useAppSelector(state => state.comments.likeList);
   const isChosen = isLike(likeList, id);
@@ -88,6 +92,8 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
     }
   };
 
+  // TODO:增加删除评论功能
+
   return (
     <li className={`${style.wrapper} clearfix`}>
       <div className={`${style.infoWrapper} clearfix`}>
@@ -96,21 +102,48 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
           <div className={style.infoBox}>
             <div className={style.username}>{username}</div>
             <div className={style.tags}>
-              {user && user.role === 'admin' ? <Tag color="red">管理员</Tag> : <Tag color="blue">游客</Tag>}
+              {userRole === 'admin' ? <Tag color="red">管理员</Tag> : <Tag color="blue">游客</Tag>}
             </div>
             <div className={style.time}>{time}</div>
           </div>
-          <div className={style.likesWrapper}>
-            {isChosen ? (
-              <div className={`${style.likesOnChosen} iconfont`} onClick={handleClick}>
-                &#xeca2;
+          <div className={style.rightFuncBox}>
+            <div className={style.likesWrapper}>
+              {isChosen ? (
+                <div className={`${style.likesOnChosen} iconfont`} onClick={handleClick}>
+                  &#xeca2;
+                </div>
+              ) : (
+                <div className={`${style.likes} iconfont`} onClick={handleClick}>
+                  &#xeca1;
+                </div>
+              )}
+              <div className={`${style.likesNum}`}>{likes}</div>
+            </div>
+            {user && user.role === 'admin' ? (
+              <div
+                className={`${style.delComment} iconfont`}
+                onClick={() => {
+                  modal.confirm({
+                    title: '提示',
+                    content: '是否删除该评论？',
+                    onOk: async () => {
+                      await deleteCommentAjax(
+                        id,
+                        () => {
+                          message.success('删除成功');
+                        },
+                        msg => {
+                          message.error(msg);
+                        }
+                      );
+                      dispatch(deleteComment(id));
+                    },
+                  });
+                }}
+              >
+                &#xe604;
               </div>
-            ) : (
-              <div className={`${style.likes} iconfont`} onClick={handleClick}>
-                &#xeca1;
-              </div>
-            )}
-            <div className={`${style.likesNum}`}>{likes}</div>
+            ) : undefined}
           </div>
         </div>
         <div className={style.signature}>{brief}</div>

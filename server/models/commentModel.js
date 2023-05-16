@@ -39,6 +39,10 @@ const commentSchema = new mongoose.Schema({
     default: '匿名',
     maxLength: [20, '用户名最多20个字符，请修改后提交！'],
   },
+  userRole: {
+    type: String,
+    default: 'visitor',
+  },
   brief: {
     type: String,
     default: '这个人很懒，没有个人简介！',

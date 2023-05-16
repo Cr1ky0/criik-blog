@@ -14,6 +14,11 @@ export const updateCommentAjax = catchAsync(async (data: updateCommentObj) => {
   return Promise.resolve(response);
 });
 
+export const deleteCommentAjax = catchAsync(async (id: string) => {
+  const response = service.delete(`/api/comments/${id}`);
+  return Promise.resolve(response);
+});
+
 export const filterCommentAjax = async (content: string) => {
   const response = axios.post(
     `https://api.itapi.cn/api/badword/query?key=yntVzCBul4AXFA1sdbHX9qmOiC&word=${content ? content : ''}`

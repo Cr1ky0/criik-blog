@@ -65,34 +65,55 @@
         }
       }
 
-      // 右边点赞区
-      .likesWrapper {
-        float: right;
-        min-width: 50px;
+      // 右边功能区
+      .rightFuncBox {
+        @include unSelectable;
 
-        .likes {
-          @include likesUni;
+        > div {
+          float: right;
+        }
+
+        .likesWrapper {
+          float: right;
+          min-width: 50px;
+
+          .likes {
+            @include likesUni;
+
+            &:hover {
+              color: $THEME_COLOR;
+            }
+          }
+
+          .likesOnChosen {
+            @include likesUni;
+            color: #ff0000;
+          }
+
+          .likesNum {
+            float: left;
+            margin: {
+              right: 2px;
+            }
+            font: {
+              size: 20px;
+            }
+          }
+        }
+
+        .delComment {
+          font-size: 20px;
+          line-height: 22px;
+          margin-right: 5px;
+          cursor: pointer;
 
           &:hover {
             color: $THEME_COLOR;
           }
         }
-
-        .likesOnChosen {
-          @include likesUni;
-          color: #ff0000;
-        }
-
-        .likesNum {
-          float: left;
-          margin: {
-            right: 2px;
-          }
-          font: {
-            size: 20px;
-          }
-        }
       }
+
+
     }
 
     .signature {

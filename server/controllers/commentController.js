@@ -50,7 +50,8 @@ exports.getCommentsOfBlog = catchAsync(async (req, res, next) => {
 });
 
 exports.addComment = catchAsync(async (req, res, next) => {
-  const { contents, belongingBlog, username, brief, userId } = req.body;
+  const { contents, belongingBlog, username, brief, userId, userRole } =
+    req.body;
   if (!contents) {
     return next(new AppError('请输入内容！', 400));
   }
@@ -59,10 +60,10 @@ exports.addComment = catchAsync(async (req, res, next) => {
     belongingUser: userId,
     belongingBlog: belongingBlog,
     username: username || '匿名',
+    userRole: userRole || 'visitor',
     brief: brief || '这个人很懒，没有个性签名！',
     publishAt: Date.now(),
   });
-
   res.status(201).json({
     status: 'success',
     data: {
@@ -72,11 +73,6 @@ exports.addComment = catchAsync(async (req, res, next) => {
 });
 
 exports.updateComment = catchAsync(async (req, res, next) => {
-  //   const comment = await Comment.findById(req.params.id);
-  //   if (comment.belongingUser.toString() !== req.user.id) {
-  //     return next(new AppError('不属于该用户评论的无法更新！', 403));
-  //   }
-
   // 目前仅设置更新likes数量
   const filteredBody = filterObj(req.body, 'likes');
   const updatedComment = await Comment.findByIdAndUpdate(
@@ -97,12 +93,6 @@ exports.updateComment = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteComment = catchAsync(async (req, res, next) => {
-  const comment = await Comment.findById(req.params.id);
-
-  if (comment.belongingUser.toString() !== req.user.id) {
-    return next(new AppError('不属于该用户评论的无法删除！', 403));
-  }
-
   await Comment.findByIdAndUpdate(req.params.id, { active: false });
   res.status(204).json({
     status: 'success',
