@@ -19,6 +19,9 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 // context
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
+// util
+import { backToTop, throttle } from '@/utils/backToTopUtil';
+
 // wrapper ref
 const divRef = createRef<HTMLDivElement>();
 
@@ -29,17 +32,11 @@ const BlogPage = () => {
   // Mobile Menu Open State
   const [open, setOpen] = useState(false);
 
-  // TODO:回顶部按钮有性能问题，待解决
   // Back To Top
   const [scrollTop, setScrollTop] = useState<number>(0);
   const [scrollHeight, setScrollHeight] = useState<number>(0);
   const childRef = useRef<HTMLDivElement>(null);
-  const backToTop = () => {
-    (divRef.current as HTMLDivElement).scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
+
   useEffect(() => {
     const current = divRef.current as HTMLDivElement;
     const child = childRef.current as HTMLDivElement;
@@ -48,21 +45,11 @@ const BlogPage = () => {
     setScrollHeight(1);
     setScrollTop(0);
 
-    const handler = () => {
-      // 总滚动大小 = 总滚动高度 - 视图大小
-      if (current.scrollTop !== 0) {
-        child.style.visibility = 'visible';
-        child.style.opacity = '1';
-      } else {
-        child.style.visibility = 'hidden';
-        child.style.opacity = '0';
-      }
-      setScrollHeight(current.scrollHeight - current.offsetHeight);
-      setScrollTop(current.scrollTop);
-    };
-    current.addEventListener('scroll', handler);
+    // 节流函数
+    const throttleFunc = throttle(current, child, setScrollHeight, setScrollTop);
+    current.addEventListener('scroll', throttleFunc);
     return () => {
-      current.removeEventListener('scroll', handler);
+      current.removeEventListener('scroll', throttleFunc);
     };
   }, []);
 
@@ -92,7 +79,9 @@ const BlogPage = () => {
           ref={childRef}
           scrollTop={scrollTop}
           scrollHeight={scrollHeight}
-          onClick={backToTop}
+          onClick={() => {
+            backToTop(divRef.current as HTMLDivElement);
+          }}
         ></BackToTopBtn>
         <Footer></Footer>
       </div>

@@ -65,21 +65,39 @@ const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
           return document.getElementById(text) as HTMLElement;
         })
       : [];
-    // 这里不用curChosen,有bug
-    let cur = 0;
-    const handleScroll = () => {
-      tocList.map((toc, index) => {
-        // 当滚动高度 >= toc所在位置则改变 - 60 （因为下面-60）
-        if (scrollWrapper.scrollTop >= toc.offsetTop - 60 && textList) {
-          changeColor(cur, index);
-          cur = index;
-        }
-      });
-    };
-    if (scrollWrapper) {
-      scrollWrapper.addEventListener('scroll', handleScroll);
+
+    // 这里要用防抖而不是节流，因为判断的是最终状态
+    const debounce = () => {
+      let timer: any;
+      // 这里不用curChosen,有bug
+      let cur = 0;
       return () => {
-        scrollWrapper.removeEventListener('scroll', handleScroll);
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+          // 逻辑处理
+          if (tocList && tocList.length) {
+            if (scrollWrapper.scrollTop <= tocList[0].offsetTop) {
+              changeColor(cur, 0);
+              cur = 0;
+            } else {
+              tocList.map((toc, index) => {
+                // 当滚动高度 >= toc所在位置则改变 - 60 （因为下面-60）
+                if (scrollWrapper.scrollTop >= toc.offsetTop - 60 && textList) {
+                  changeColor(cur, index);
+                  cur = index;
+                }
+              });
+            }
+          }
+        }, 300);
+      };
+    };
+    const debounceFunc = debounce();
+
+    if (scrollWrapper) {
+      scrollWrapper.addEventListener('scroll', debounceFunc);
+      return () => {
+        scrollWrapper.removeEventListener('scroll', debounceFunc);
       };
     }
   }, []);

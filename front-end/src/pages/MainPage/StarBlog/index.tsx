@@ -24,6 +24,9 @@ import { THEME_COLOR, FONT_COLOR } from '@/global';
 import { getCollectedBlogsNum } from '@/api/blog';
 import BackToTopBtn from '@/components/Universal/BackToTopBtn';
 
+// util
+import { backToTop, throttle } from '@/utils/backToTopUtil';
+
 const choseList = ['收藏', '最多点赞', '最多浏览'];
 const StarBlog = () => {
   const dispatch = useAppDispatch();
@@ -42,12 +45,7 @@ const StarBlog = () => {
   const [scrollTop, setScrollTop] = useState<number>(0);
   const [scrollHeight, setScrollHeight] = useState<number>(0);
   const childRef = useRef<HTMLDivElement>(null);
-  const backToTop = () => {
-    (wrapper.current as HTMLDivElement).scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
+
   useEffect(() => {
     const current = wrapper.current as HTMLDivElement;
     const child = childRef.current as HTMLDivElement;
@@ -56,21 +54,11 @@ const StarBlog = () => {
     setScrollHeight(1);
     setScrollTop(0);
 
-    const handler = () => {
-      // 总滚动大小 = 总滚动高度 - 视图大小
-      if (current.scrollTop !== 0) {
-        child.style.visibility = 'visible';
-        child.style.opacity = '1';
-      } else {
-        child.style.visibility = 'hidden';
-        child.style.opacity = '0';
-      }
-      setScrollHeight(current.scrollHeight - current.offsetHeight);
-      setScrollTop(current.scrollTop);
-    };
-    current.addEventListener('scroll', handler);
+    // 节流函数
+    const throttleFunc = throttle(current, child, setScrollHeight, setScrollTop);
+    current.addEventListener('scroll', throttleFunc);
     return () => {
-      current.removeEventListener('scroll', handler);
+      current.removeEventListener('scroll', throttleFunc);
     };
   }, []);
 
@@ -174,7 +162,14 @@ const StarBlog = () => {
           }}
         />
       </div>
-      <BackToTopBtn ref={childRef} scrollTop={scrollTop} scrollHeight={scrollHeight} onClick={backToTop}></BackToTopBtn>
+      <BackToTopBtn
+        ref={childRef}
+        scrollTop={scrollTop}
+        scrollHeight={scrollHeight}
+        onClick={() => {
+          backToTop(wrapper.current as HTMLDivElement);
+        }}
+      ></BackToTopBtn>
       <Footer></Footer>
     </div>
   );
