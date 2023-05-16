@@ -4,7 +4,10 @@ import axios from 'axios';
 // interface
 import { EmojiObj } from '@/interface';
 
-const URL = 'http://localhost:3002/';
+// global
+import { BASE_URL } from '@/global';
+
+const URL = BASE_URL;
 const initialState = {
   emojiList: [] as EmojiObj[],
 };

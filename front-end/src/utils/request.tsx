@@ -1,10 +1,10 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { message } from 'antd';
+import { BASE_URL } from '@/global';
 
 const service = axios.create({
   timeout: 5000,
-  baseURL: 'http://localhost:3002',
+  baseURL: BASE_URL,
 });
 
 // 都用json发数据
@@ -49,9 +49,9 @@ service.interceptors.response.use(
         case 404:
           break;
         // 429 请求数过多
-        case 429:
-          message.error('短时间内请求数过多，请稍后再试');
-          break;
+        // case 429:
+        //   message.error('短时间内请求数过多，请稍后再试');
+        //   break;
         // 其他错误，仍然其他地方处理
         default:
           break;
