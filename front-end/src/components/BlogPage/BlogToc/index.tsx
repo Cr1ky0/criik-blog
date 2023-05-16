@@ -65,8 +65,7 @@ const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
           return document.getElementById(text) as HTMLElement;
         })
       : [];
-
-    // 这里要用防抖而不是节流，因为判断的是最终状态
+    // 这里要用防抖而不是节流，因为判断的是最终状态（不过必须滚动完才设置状态）
     const debounce = () => {
       let timer: any;
       // 这里不用curChosen,有bug
