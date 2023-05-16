@@ -68,14 +68,11 @@
       // 右边功能区
       .rightFuncBox {
         @include unSelectable;
-
-        > div {
-          float: right;
-        }
+        display: flex;
+        justify-content: center;
 
         .likesWrapper {
-          float: right;
-          min-width: 50px;
+          min-width: 40px;
 
           .likes {
             @include likesUni;

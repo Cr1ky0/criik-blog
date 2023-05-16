@@ -105,18 +105,6 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
             <div className={style.time}>{time}</div>
           </div>
           <div className={style.rightFuncBox}>
-            <div className={style.likesWrapper}>
-              {isChosen ? (
-                <div className={`${style.likesOnChosen} iconfont`} onClick={handleClick}>
-                  &#xeca2;
-                </div>
-              ) : (
-                <div className={`${style.likes} iconfont`} onClick={handleClick}>
-                  &#xeca1;
-                </div>
-              )}
-              <div className={`${style.likesNum}`}>{likes}</div>
-            </div>
             {user && user.role === 'admin' ? (
               <div
                 className={`${style.delComment} iconfont`}
@@ -143,6 +131,18 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
                 &#xe604;
               </div>
             ) : undefined}
+            <div className={style.likesWrapper}>
+              {isChosen ? (
+                <div className={`${style.likesOnChosen} iconfont`} onClick={handleClick}>
+                  &#xeca2;
+                </div>
+              ) : (
+                <div className={`${style.likes} iconfont`} onClick={handleClick}>
+                  &#xeca1;
+                </div>
+              )}
+              <span className={`${style.likesNum}`}>{likes}</span>
+            </div>
           </div>
         </div>
         <div className={style.signature}>{brief}</div>
