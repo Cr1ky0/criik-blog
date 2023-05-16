@@ -2,60 +2,101 @@
 
 $LINE_COLOR: rgba(0, 0, 0, 0.2);
 
-.wrapper {
-  @include boxShadow;
-  color: $FONT_COLOR;
-  background-color: rgba(254, 254, 254);
-  box-sizing: content-box;
-  padding: 1vw;
-  position: relative;
+@mixin universal() {
+  .wrapper {
+    @include boxShadow;
+    color: $FONT_COLOR;
+    background-color: rgba(254, 254, 254);
+    box-sizing: content-box;
+    padding: 1vw;
+    position: relative;
 
-  border: {
-    radius: 7px;
+    border: {
+      radius: 7px;
+    }
+
+    .titleWrapper {
+      display: flex;
+      justify-content: space-between;
+
+      .title {
+        @include animationBar();
+        cursor: pointer;
+        // 限制单行加...
+        word-break: break-all;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .pin {
+        @include unSelectable;
+        font-size: 20px;
+        position: absolute;
+        right: 3px;
+        top: 3px;
+        color: $THEME_COLOR;
+      }
+    }
+
+    .text {
+      word-break: break-all;
+      overflow: hidden;
+    }
+
+    .line {
+      margin: 5px;
+      height: 1px;
+      background-color: $LINE_COLOR;
+    }
+
+    .statistics {
+      padding-top: 3px;
+      @include unSelectable;
+    }
   }
+}
 
+
+@media (max-width: $BREAK_POINT) {
+  @include universal;
   .titleWrapper {
-    display: flex;
-    justify-content: space-between;
+    padding: {
+      bottom: 0;
+      top: 5px;
+      left: 5px;
+      right: 5px;
+    }
+
+    .title {
+      font-size: 18px;
+    }
+  }
+  .text {
+    font-size: 14px;
+    line-height: 18px;
+    padding: {
+      top: 0;
+      left: 5px;
+      right: 5px;
+      bottom: 5px;
+    }
+  }
+}
+
+@media (min-width: $BREAK_POINT) {
+  @include universal;
+  .titleWrapper {
     padding: 5px;
 
     .title {
-      @include animationBar();
-      cursor: pointer;
       font-size: 24px;
-      // 限制单行加...
-      word-break: break-all;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .pin {
-      @include unSelectable;
-      font-size: 20px;
-      position: absolute;
-      right: 3px;
-      top: 3px;
-      color: $THEME_COLOR;
     }
   }
 
   .text {
-    word-break: break-all;
+    padding: 5px;
     font-size: 18px;
     line-height: 24px;
-    overflow: hidden;
-    padding: 5px;
-  }
-
-  .line {
-    margin: 5px;
-    height: 1px;
-    background-color: $LINE_COLOR;
-  }
-
-  .statistics {
-    padding-top: 3px;
-    @include unSelectable;
   }
 }

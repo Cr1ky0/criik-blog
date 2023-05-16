@@ -2,95 +2,126 @@
 
 $fontColor: rgba(0, 0, 0, .8);
 
-// func-bar-wrapper
-.syntax-highlighter-func-bar-wrapper{
-  height: 30px;
-  position: absolute;
-  top:20px;
-  right:40px;
-}
-
-// 代码块语言标记
-.syntax-highlighter-code-language{
-  @include unSelectable;
-  float:left;
-  font-size: 16px;
-  line-height: 30px;
-  color:rgba(0,0,0,.4);
-}
-
-// copy btn
-.syntax-highlighter-copy-btn{
-  float:left;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  cursor: pointer;
-  transition: all .3s;
-  margin-right: 5px;
-  color:rgba(0,0,0,.4);
-  border:{
-    radius: 5px;
-  }
-  &:hover{
-    background-color: #d8e9f6 !important;
-    color:$fontColor;
-  }
-}
-
-.markdown-body {
-  color: $fontColor;
-  line-height: 40px;
-  font: {
-    size: 20px;
-    family: Source_Han_Sans_SC_Normal;
-  };
-
-  pre {
-    padding: 0;
-    margin: 0;
-    background-color: transparent;
-
-    * {
-      background-color: #ecf4fa !important;
-    }
+@mixin universal() {
+  // func-bar-wrapper
+  .syntax-highlighter-func-bar-wrapper {
+    height: 30px;
+    position: absolute;
+    top: 20px;
+    right: 40px;
   }
 
-  h1 {
-    padding: 10px 0;
+  // 代码块语言标记
+  .syntax-highlighter-code-language {
+    @include unSelectable;
+    float: left;
+    font-size: 16px;
+    line-height: 30px;
+    color: rgba(0, 0, 0, .4);
+  }
+
+  // copy btn
+  .syntax-highlighter-copy-btn {
+    float: left;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
     cursor: pointer;
-    transition: color .3s;
-    font: {
-      size: 24px;
-    }
+    transition: all .3s;
+    margin-right: 5px;
+    color: rgba(0, 0, 0, .4);
     border: {
-      bottom: 1px solid rgba(0, 0, 0, .2);
-    };
-
-    &:hover {
-      color: $THEME_COLOR;
-    }
-  }
-
-  li {
-    &::marker {
-      font-size: 15px;
-    }
-
-    a {
-      color: $THEME_COLOR;
-      transition: all .2s;
-    }
-  }
-
-  blockquote {
-    padding: 10px;
-    background-color: #eef9fd;
-    border: {
-      left: 5px solid #4cb3d4;
       radius: 5px;
     }
+
+    &:hover {
+      background-color: #d8e9f6 !important;
+      color: $fontColor;
+    }
+  }
+
+  .markdown-body {
+    color: $fontColor;
+    line-height: 40px;
+    font: {
+      size: 20px;
+      family: Source_Han_Sans_SC_Normal;
+    };
+
+    pre {
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+
+      * {
+        background-color: #ecf4fa !important;
+      }
+    }
+
+    h1 {
+      padding: 10px 0;
+      cursor: pointer;
+      transition: color .3s;
+      font: {
+        size: 24px;
+      }
+      border: {
+        bottom: 1px solid rgba(0, 0, 0, .2);
+      };
+
+      &:hover {
+        color: $THEME_COLOR;
+      }
+    }
+
+    li {
+      &::marker {
+        font-size: 15px;
+      }
+
+      a {
+        color: $THEME_COLOR;
+        transition: all .2s;
+      }
+    }
+
+    blockquote {
+      padding: 10px;
+      background-color: #eef9fd;
+      border: {
+        left: 5px solid #4cb3d4;
+        radius: 5px;
+      }
+    }
   }
 }
+
+@media (min-width: $BREAK_POINT) {
+  @include universal;
+}
+
+@media (max-width: $BREAK_POINT) {
+  @include universal;
+
+  .markdown-body {
+    line-height: 18px;
+    font: {
+      size: 12px;
+    };
+
+    li {
+      &::marker {
+        font-size: 12px;
+      }
+    }
+
+    blockquote {
+      padding: 5px;
+    }
+  }
+}
+
+
+
 

@@ -48,6 +48,9 @@ const commentsSlice = createSlice({
     addLength: state => {
       state.length = state.length + 1;
     },
+    decLength: state => {
+      state.length -= 1;
+    },
     updateComment: (state, action) => {
       const { id, data } = action.payload;
       state.commentList = state.commentList.map(comment => {
@@ -97,6 +100,15 @@ const commentsSlice = createSlice({
   },
 });
 
-export const { setCurPage, setIsLoading, setSort, addLength, updateComment, addLikeId, delLikeId, deleteComment } =
-  commentsSlice.actions;
+export const {
+  setCurPage,
+  setIsLoading,
+  setSort,
+  addLength,
+  updateComment,
+  addLikeId,
+  delLikeId,
+  deleteComment,
+  decLength,
+} = commentsSlice.actions;
 export default commentsSlice.reducer;

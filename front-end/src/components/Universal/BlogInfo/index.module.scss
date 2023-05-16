@@ -1,39 +1,93 @@
 @import "@/assets/css/index.scss";
 
-.wrapper {
-  @include unSelectable;
-  color: rgba(0, 0, 0, .5);
-  font: {
-    family: Source_Han_Sans_SC_Normal;
-    size: 18px;
+@mixin universal() {
+  .wrapper {
+    @include unSelectable;
+    color: rgba(0, 0, 0, .5);
+    font: {
+      family: Source_Han_Sans_SC_Normal;
+    }
+
+    > div {
+      cursor: pointer;
+      float: left;
+      padding: 3px;
+
+      > span {
+        margin-right: 6px;
+      }
+    }
+
+    .author {
+      transition: all 0.3s;
+
+      &:hover {
+        color: $THEME_COLOR;
+      }
+    }
+
+
+    .like {
+      float: right;
+      margin-right: 5px;
+    }
+
+    .collection {
+      float: right;
+    }
+
   }
+}
 
-  > div {
-    cursor: pointer;
-    float: left;
-    padding: 3px;
+@media (max-width: $BREAK_POINT) {
+  @include universal;
+  .wrapper {
+    font: {
+      size: 12px;
+    }
 
-    > span {
-      margin-right: 6px;
-      font-size: 18px;
+    > div {
+      > span {
+        font-size: 13px;
+      }
+    }
+
+    .classification {
+      padding: {
+        left: 2px;
+        right: 0;
+        bottom: 0;
+        top: 0;
+      }
+
+      .tag {
+        height: 18px;
+        line-height: 18px;
+        font-size: 13px;
+      }
     }
   }
+}
 
-  .author {
-    transition: all 0.3s;
+@media (min-width: $BREAK_POINT) {
+  @include universal;
+  .wrapper {
+    font: {
+      size: 18px;
+    }
 
-    &:hover {
-      color: $THEME_COLOR;
+    > div {
+      > span {
+        font-size: 18px;
+      }
+    }
+
+    .classification {
+      .tag {
+        height: 20px;
+        line-height: 20px;
+        font-size: 14px;
+      }
     }
   }
-
-  .like {
-    float: right;
-    margin-right: 5px;
-  }
-
-  .collection {
-    float: right;
-  }
-
 }

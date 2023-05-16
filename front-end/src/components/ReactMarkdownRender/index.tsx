@@ -18,7 +18,13 @@ SyntaxHighlighter.registerLanguage('jsx', jsx);
 // css
 import 'github-markdown-css';
 import './index.scss';
+
+// context
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+
+// global
+import { BREAK_POINT } from '@/global';
 
 interface ReactMarkdownWrapperProps {
   children: string;
@@ -26,6 +32,7 @@ interface ReactMarkdownWrapperProps {
 
 const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) => {
   let count = 0;
+  const { width } = useViewport();
   return (
     <ReactMarkdown
       className="markdown-body"
@@ -52,7 +59,7 @@ const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) 
           // 这里利用原生js在代码块右上角插入一个代码所用语言的提示块和copy btn
           useEffect(() => {
             const codeBox = document.getElementsByClassName('syntax-highlighter-wrapper');
-            if (codeBox[count] && match) {
+            if (codeBox[count] && match && width > BREAK_POINT) {
               const parent = codeBox[count].parentElement as HTMLElement;
               parent.style.position = 'relative';
               // wrapper

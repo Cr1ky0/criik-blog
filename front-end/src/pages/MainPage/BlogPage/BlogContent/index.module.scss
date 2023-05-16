@@ -122,7 +122,7 @@
 }
 
 // <1000
-@media (max-width: 1000px) {
+@media (max-width: 1000px) and (max-width: $BREAK_POINT) {
   @include universal;
   .blog {
     width: 100%;
@@ -131,6 +131,44 @@
 
   .toc {
     display: none;
+  }
+}
+
+@media (max-width: $BREAK_POINT) {
+  @include universal;
+  .toc {
+    display: none;
+  }
+
+  .main {
+    .blog {
+      width: 100%;
+      padding: 0 2vw;
+
+      .breadCrumb {
+        padding: 2vh 0;
+
+        li {
+          font-size: 16px;
+
+          svg {
+            height: 16px;
+            width: 16px;
+          }
+        }
+      }
+
+      .info {
+        padding: {
+          bottom: 2vh;
+        }
+
+        .title {
+          font-size: 30px;
+        }
+      }
+
+    }
   }
 }
 

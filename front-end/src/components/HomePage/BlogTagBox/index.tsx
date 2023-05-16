@@ -37,7 +37,7 @@ const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
   const { width } = useViewport();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const limit = width > BREAK_POINT ? 400 : 200; // 超过400字加`...`
+  const limit = width > BREAK_POINT ? 400 : 200;
   return (
     <div className={`${style.wrapper} clearfix`}>
       <div className={style.titleWrapper}>

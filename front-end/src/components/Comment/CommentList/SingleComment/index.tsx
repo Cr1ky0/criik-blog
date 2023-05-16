@@ -20,7 +20,7 @@ import img from '@/assets/images/default.png';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addLikeId, delLikeId, updateComment, deleteComment } from '@/redux/slices/comments';
+import { addLikeId, delLikeId, updateComment, deleteComment, decLength } from '@/redux/slices/comments';
 
 // util
 import { isLike } from '@/utils';
@@ -92,8 +92,6 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
     }
   };
 
-  // TODO:增加删除评论功能
-
   return (
     <li className={`${style.wrapper} clearfix`}>
       <div className={`${style.infoWrapper} clearfix`}>
@@ -137,6 +135,7 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
                         }
                       );
                       dispatch(deleteComment(id));
+                      dispatch(decLength());
                     },
                   });
                 }}
