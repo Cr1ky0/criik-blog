@@ -16,7 +16,7 @@
 
 # Sever 端
 
-1. 实际上整体是以链式结构进行的，调用 next 实际是调用下一个中间件，每一个中间件都处于链条中的一环，是有先后顺序的
+1. express实际上整体是以链式结构进行的，调用 next 实际是调用下一个中间件，每一个中间件都处于链条中的一环，是有先后顺序的
 2. 利用 protect 中间件，在验证过程中在 req 中存放 user，后续操作可从 req 中读取 user 来保证此次操作必定是针对该用户的操作
 3. 利用 setTimeout 来设置 session 销毁时间
 4. 对 async 函数进行封装
@@ -145,8 +145,7 @@
         import img from '@/assets/images/blog-icon.png'
         style={{ backgroundImage: `url(${img})` }}
    ```
-8. react 内响应式布局见 ViewportProvider 组件（利用 context，全局包裹该组件，获取窗口大小），context 可以让子元素获取传入的
-   value，该 value 使用 useContext(context 名)即可获得，可以用改特性在 Provider 内部存放一些全局要用的功能和数据
+8. react 内响应式布局见 ViewportProvider 组件（利用 context，全局包裹该组件，获取窗口大小），context 可以让子元素获取传入的value，该 value 使用 useContext(context 名)即可获得，可以用改特性在 Provider 内部存放一些全局要用的功能和数据
 9. 关于滚动条，如过要让一个子元素在其父元素内滚动，需要同时设置其父元素以及自身的高度，而且自身高度要大于父元素，否则无法产生滚动条
 10. 用一个组件存放 antd icons，通过 context 让所有组件能够获取
 11. 使用@reduxjs/toolkit 时利用 redux-persist 持久化的配置
@@ -253,17 +252,15 @@
     - axios 方法成功后后端返回新的对象
     - 更新 state，将新对象通过 actions 添加到 state 内
     - 只需要给 action 传新数据就行，剩余逻辑全部在 reducer 内完成
-20. 关于 antd 的全局 message，我是这么设置的
-    - 先弄个 context 封装一下 message 的方法
-    - 针对加载型消息，antd 的 message 本身提供 promise 调用，直接在消息完毕后 return 一个 fullfiled 状态的 Promise
-    - 在处理业务逻辑的时候，await 调用消息方法，后面放消息结束后的操作即可（比如状态更新啥的）
-    - 当然，message 要放在 axios 请求成功后的回调里面
-21. 利用 moment 包处理 date 类型数据
-22. 如何处理需要在组件加载后才能获取到的数据（如标签样式）
+20. 关于 antd 的全局 message，直接用context封装一个provider
+21. antd的motal也可以封装context，confirm方法可以再封装一个onOk回调，指定确认后的回调
+22. 利用 moment 包处理 date 类型数据
+23. 如何处理需要在组件加载后才能获取到的数据（如标签样式）
     ```js
         // 在组件内声明变量，在useEffect内获取相应结点的样式
         // 注意：不能直接在组件内获取标签结点，因为初始化时结点还没渲染，无法获取
         // 而根据组件生命周期可知，在render后useEffect内函数才调用，因此可以获取到对应标签结点
+        // 但是要及其注意：不要在useEffect里设置要用于页面渲染的一些state否则会无限循环
         const [primaryColors, setPrimaryColors] = useState([] as string[]);
         const [hoverColors, setHoverColors] = useState([] as string[]);
 
@@ -287,16 +284,16 @@
         }, []);
     ```
 
-23. useMemo 在 render 前执行
-24. 组件初始化通过 ajax 初始化数据步骤
+24. useMemo 在 render 前执行
+25. 组件初始化通过 ajax 初始化数据步骤
     - 定义 state
     - useMemo 或 useEffect 内发送请求
     - 请求成功 setState
-25. 关于ref，createRef后将结点赋值该ref后可在该组件使用useRef暴露接口在其他组件中使用该ref，一般用来操作dom结点
+26. 关于ref，createRef后将结点赋值该ref后可在该组件使用useRef暴露接口在其他组件中使用该ref，一般用来操作dom结点
     - 注意，在使用中如果是子组件使用父组件的ref，无论是利用暴露接口方式还是props传递，初始化都无法获取到父组件的ref
     - 虽然初始化没法直接得到ref，但是可以在父组件useEffect里设置setState为ref的相关属性，或者添加listener监听该ref的属性
     - 然后将state传递给子组件，组件就可以获得ref的相关属性了
-26. svg可以用来实现各种动画
+27. svg可以用来实现各种动画
 
 # 部署
 
