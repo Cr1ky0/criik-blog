@@ -81,12 +81,6 @@ app.use(
   })
 );
 
-// Serving static files
-app.use(express.static(path.join(__dirname, 'public')));
-app.get('/', (req, res) => {
-  res.render('/index');
-});
-
 // cookie
 app.use(cookieParser());
 
@@ -118,10 +112,15 @@ app.use('/api/blogs', blogRouter);
 app.use('/api/comments', commentRouter);
 app.use('/api/menus', menuRouter);
 
-// none page handle
-app.all('*', (req, res, next) => {
-  // next传递err可以被捕获
-  next(new AppError(`找不到 ${req.originalUrl} 链接!`, 404));
+// Serving static files
+app.use(express.static(path.join(__dirname, 'public')));
+// 这里解决刷新后BrowserRouter导致的链接丢失问题
+// 实际上这里将全部非法链接指向index页面，然后由index页面去处理路由（前端做了404page，后端就不用处理404了）
+// 一定要放到routes后面，不然路由直接匹配上了
+app.get('/*', (req, res) => {
+  return res.sendFile(
+    path.join(path.resolve(path.dirname('')), './public', 'index.html')
+  );
 });
 
 // 全局Error处理中间件

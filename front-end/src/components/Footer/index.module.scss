@@ -5,9 +5,6 @@
   .footer {
     height: $TOP_HEADER_H;
     background-color: #FFF;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
     @include unSelectable;
 
     > div:first-child {
@@ -25,30 +22,45 @@
 
 @media (max-width: $BREAK_POINT) {
   @include universal;
-  .ICP, .github {
-    font: {
-      size: 14px;
-    }
-  }
+  .footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
 
-  .protocol {
-    font: {
-      size: 14px;
+    .ICP, .protocol {
+      font-size: 12px;
+    }
+
+    .github {
+      font: {
+        size: 14px;
+      }
     }
   }
 }
 
 @media (min-width: $BREAK_POINT) {
   @include universal;
-  .ICP, .github {
-    font: {
-      size: 18px;
-    }
-  }
+  .footer {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 
-  .protocol {
-    font: {
-      size: 18px;
+    .ICP {
+      font-size: 16px;
+    }
+
+    .github {
+      font: {
+        size: 18px;
+      }
+    }
+
+    .protocol {
+      font: {
+        size: 18px;
+      }
     }
   }
 }

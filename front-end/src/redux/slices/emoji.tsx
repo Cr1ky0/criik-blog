@@ -15,7 +15,7 @@ const initialState = {
 // async
 // 这里只发送请求不处理数据，数据在extraReducer内处理
 export const setEmoji = createAsyncThunk('emoji/setEmoji', async () => {
-  const response = await axios.get(`${URL}emoji.json`);
+  const response = await axios.get(`${URL}/emoji.json`);
   return response.data;
 });
 

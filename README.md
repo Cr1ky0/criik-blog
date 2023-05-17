@@ -1,11 +1,12 @@
-# criik-blog （备案中）
+# criik-blog
 
+* 网址：https://www.criiky0.top
 * 仿 VuePress Theme Hope 主题风格利用 React 进行开发
 * 技术栈：ts + React + antd + nodejs + mongodb
 * 目前仅作为个人博客使用，支持markdown语法（包括html）、支持数学公式katex、支持收藏（个人）、分类、时间轴以及博客管理等功能、支持个人信息修改。
 * 游客支持点赞和评论(有敏感词过滤)。
-
 * 已适配移动端
+
 
 ![1](./images/show-pc.png)
 ![2](./images/show-image%20(1).png)
@@ -296,3 +297,38 @@
     - 虽然初始化没法直接得到ref，但是可以在父组件useEffect里设置setState为ref的相关属性，或者添加listener监听该ref的属性
     - 然后将state传递给子组件，组件就可以获得ref的相关属性了
 26. svg可以用来实现各种动画
+
+# 部署
+
+1. 在markdown从图床加载图片的过程以及前端发送ajax请求的过程中，由于我使用了helmet插件，配置了安全策略，需要设置ContentSecurityPolicy（CSP）策略以将对应链接请求的内容放行
+
+```js
+    app.use(
+        helmet({
+            // 解决解决NotSameOriginAfterDefaultedToSameOriginByCoep问题
+            crossOriginEmbedderPolicy: {policy: 'credentialless'},
+            contentSecurityPolicy: {
+                directives: {
+                    'img-src': [
+                        "'self'",
+                        'data:',
+                        '图床地址', // 图床
+                    ],
+                    'connect-src': ["'self'", '域名地址'] // ajax请求
+                },
+            },
+        })
+    );
+```
+
+2. React-Router推荐使用BrowserRouter作为路由，但是该路由在部署后刷新页面会导致链接丢失，这是因为刷新后通过链接向服务器发送请求，而不是像点击跳转一样由浏览器来对链接进行处理，因此会找不到链接，处理方法就是在后端将所有未匹配页面均指向index.html
+
+```js
+    // Serving static files
+    app.use(express.static(path.join(__dirname, 'public')));
+    // 这里解决刷新后BrowserRouter导致的链接丢失问题
+    app.get('/*', (req, res) => {
+        return res.sendFile(path.join(path.resolve(path.dirname('')), './public', 'index.html'));
+    });
+
+```
