@@ -1,4 +1,24 @@
-@import "../../assets/css/index";
+@import "@/assets/css/index.scss";
+
+@mixin mobileMenu() {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  width: 60px;
+  height: 60px;
+  background-color: rgba(255, 255, 255, .7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+  border: {
+    radius: 50%;
+  };
+
+  > div:first-child {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    font-size: 28px;
+  }
+}
 
 @mixin setWrapper($s_width:21vw,$c_width:79vw) {
   background-color: #FFF;

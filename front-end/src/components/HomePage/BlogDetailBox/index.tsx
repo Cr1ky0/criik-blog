@@ -26,8 +26,13 @@ import { getCollectedBlogsNum } from '@/api/blog';
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
+interface BlogDetailBoxProps {
+  isMobile?: boolean;
+}
+
 const names = ['文章', '分类', '时间轴'];
-const BlogDetailBox = () => {
+
+const BlogDetailBox: React.FC<BlogDetailBoxProps> = ({ isMobile }) => {
   const message = useGlobalMessage();
   const timeline = useAppSelector(state => state.blog.timeLine);
   const menus = useAppSelector(state => state.blogMenu.menuList);
@@ -45,7 +50,7 @@ const BlogDetailBox = () => {
     );
   }, []);
   return (
-    <div className={`${style.wrapper} clearfix`}>
+    <div className={`${style.wrapper} clearfix ${isMobile ? '' : style.wrapperOnShadow}`}>
       <div className={style.header}>
         {names.map((name, index) => {
           return (

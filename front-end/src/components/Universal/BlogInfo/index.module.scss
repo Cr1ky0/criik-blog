@@ -10,9 +10,6 @@
       float: left;
       padding: 3px;
 
-      > span {
-        margin-right: 6px;
-      }
     }
 
     .author {
@@ -65,12 +62,12 @@
     }
 
     .like {
-      float: left;
+      float: right;
       margin-right: 5px;
     }
 
     .collection {
-      float: left;
+      float: right;
     }
   }
 }
@@ -85,6 +82,7 @@
     > div {
       > span {
         font-size: 18px;
+        margin-right: 6px;
       }
     }
 

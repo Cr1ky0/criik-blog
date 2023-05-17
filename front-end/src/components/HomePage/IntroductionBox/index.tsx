@@ -19,7 +19,8 @@ import { avatarAjax, getMyInfo } from '@/api/user';
 import { userObj } from '@/interface';
 
 // redux
-import { useAppSelector } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
+import { setTimeLine } from '@/redux/slices/blog';
 
 // interface
 export interface IntroductionBoxProps {
@@ -33,6 +34,7 @@ const IntroductionBox: React.FC<IntroductionBoxProps> = props => {
   const blogsNum = useAppSelector(state => state.blog.blogsNum);
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const timeline = useAppSelector(state => state.blog.timeLine);
+  const dispatch = useAppDispatch();
   const [user, setUser] = useState({} as userObj);
   const [avatar, setAvatar] = useState(useAvatar());
   // cookie
@@ -41,6 +43,9 @@ const IntroductionBox: React.FC<IntroductionBoxProps> = props => {
   // 用户登录后的头像
   const userAvatar = useAvatar();
   const limit = 40;
+  useEffect(() => {
+    dispatch(setTimeLine());
+  }, []);
   useEffect(() => {
     if (!curUser) {
       // 没有登录用户就请求我的个人信息

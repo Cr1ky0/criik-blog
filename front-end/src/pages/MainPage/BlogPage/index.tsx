@@ -102,7 +102,7 @@ const BlogPage = () => {
           setOpen(false);
         }}
         destroyOnClose={false}
-        height="70%"
+        height="100%"
         rootStyle={{ border: 'none', outline: 'none' }}
       >
         <SideMenu

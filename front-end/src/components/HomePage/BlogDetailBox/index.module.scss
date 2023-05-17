@@ -1,7 +1,10 @@
 @import "@/assets/css/index.scss";
 
-.wrapper {
+.wrapperOnShadow {
   @include boxShadow;
+}
+
+.wrapper {
   border-radius: 5px;
   background-color: #FFF;
   padding-bottom: 20px;

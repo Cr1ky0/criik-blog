@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
 
 // antd
-import { Pagination } from 'antd';
+import { Drawer, Pagination } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 
 // css
@@ -28,6 +28,7 @@ import BackToTopBtn from '@/components/Universal/BackToTopBtn';
 
 // util
 import { backToTop, throttle } from '@/utils/backToTopUtil';
+import SideMenu from '@/components/SideMenu';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -37,6 +38,8 @@ const HomePage = () => {
   const [curPage, setCurPage] = useState(1);
   const totalNum = useAppSelector(state => state.blog.blogsNum);
   const homePhotoWrapper = useRef<HTMLDivElement>(null);
+  // Mobile Menu Open State
+  const [open, setOpen] = useState(false);
 
   // Back To Top
   const wrapper = useRef<HTMLDivElement>(null);
@@ -74,7 +77,7 @@ const HomePage = () => {
     <div className={`${style.wrapper} clearfix`} ref={wrapper}>
       <Header className={style.backWhite}></Header>
       <div
-        className={`${width > 400 ? style.backgroundPhoto : style.backgroundPhotoMobile} clearfix`}
+        className={`${style.backgroundPhoto} clearfix`}
         style={{ backgroundImage: `url(${img1})` }}
         ref={homePhotoWrapper}
       >
@@ -137,6 +140,28 @@ const HomePage = () => {
           backToTop(wrapper.current as HTMLDivElement);
         }}
       ></BackToTopBtn>
+      <div
+        className={style.mobileMenu}
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
+        <div className="iconfont">&#xe7f4;</div>
+      </div>
+      {/* Mobile Menu */}
+      <Drawer
+        placement="top"
+        open={open}
+        maskClosable={true}
+        onClose={() => {
+          setOpen(false);
+        }}
+        destroyOnClose={false}
+        height="100%"
+        rootStyle={{ border: 'none', outline: 'none' }}
+      >
+        <BlogDetailBox isMobile></BlogDetailBox>
+      </Drawer>
       <Footer></Footer>
     </div>
   );
