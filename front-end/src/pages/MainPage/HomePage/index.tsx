@@ -10,7 +10,7 @@ import style from './index.module.scss';
 
 // img
 import img1 from '@/assets/images/home.jpg';
-import img2 from '@/assets/images/blog-icon.png';
+import img2 from '@/assets/images/blog-icon.webp';
 
 // context
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
@@ -80,7 +80,7 @@ const HomePage = () => {
       >
         <div className={style.homeTagWrapper}>
           <div className={style.homeTagIcon} style={{ backgroundImage: `url(${img2})` }}></div>
-          <div className={style.homeTag}>Criik-Blog</div>
+          <div className={style.homeTag}>Criiky0</div>
           <div>Always Be Yourself and Never Compromise to the Life</div>
         </div>
       </div>

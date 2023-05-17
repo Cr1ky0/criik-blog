@@ -20,10 +20,12 @@
     .homeTagWrapper {
       width: 100%;
       text-align: center;
-      //color: rgba(255, 255, 255, 0.8);
       display: flex;
       flex-direction: column;
       margin-top: 25vh;
+      font: {
+        family: cursive;
+      }
 
       > div {
         margin: 0 auto;

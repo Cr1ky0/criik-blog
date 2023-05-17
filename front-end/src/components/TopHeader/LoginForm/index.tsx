@@ -4,7 +4,7 @@ import isEmail from 'validator/lib/isEmail';
 import Cookies from 'universal-cookie';
 
 // img
-import img from '@/assets/images/blog-icon.png';
+import img from '@/assets/images/blog-icon.webp';
 
 // antd
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
