@@ -1,9 +1,6 @@
 import React from 'react';
 import MDEditor from '@uiw/react-md-editor';
 
-// comp
-// import ReactMarkdownRender from '@/components/ReactMarkdownRender';
-
 // css
 import style from './index.module.scss';
 import './editor.scss';
@@ -26,11 +23,6 @@ const MarkdownEditor = () => {
           }}
         />
       </div>
-      {/* 预览字数多时会卡顿暂时不提供实时预览 */}
-      {/*<div className={style.preview}>*/}
-      {/*  <div className={style.previewTips}>预览</div>*/}
-      {/*  <ReactMarkdownRender>{preview}</ReactMarkdownRender>*/}
-      {/*</div>*/}
     </div>
   );
 };

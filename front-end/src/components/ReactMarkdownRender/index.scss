@@ -105,6 +105,7 @@ $fontColor: rgba(0, 0, 0, .8);
   @include universal;
 
   .markdown-body {
+    background-color: #FFF;
     line-height: 18px;
     font: {
       size: 12px;
