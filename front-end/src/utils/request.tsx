@@ -56,13 +56,7 @@ service.interceptors.response.use(
         default:
           break;
       }
-
-      // 全局提示（提示由后端提供）
-      // await message.error(error.response.data.message);
       return Promise.reject(error.response);
-      // 直接输出全局提示然后中断Promise
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      // return new Promise(() => {});
     }
   }
 );

@@ -64,7 +64,10 @@ exports.updateMenu = catchAsync(async (req, res, next) => {
   if (!icon) return next(new AppError('请选择图标！', 400));
   if (!color) return next(new AppError('请选择标签颜色！', 400));
   const filteredBody = filterObj(req.body, 'color', 'icon', 'title');
-  await Menu.findByIdAndUpdate(req.params.id, filteredBody);
+  await Menu.findByIdAndUpdate(req.params.id, filteredBody, {
+    new: true,
+    runValidators: true,
+  });
   res.status(204).json({
     status: 'success',
     data: null,

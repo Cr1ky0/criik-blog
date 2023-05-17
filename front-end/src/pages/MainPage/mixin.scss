@@ -26,9 +26,6 @@
 @mixin setContent() {
   .content {
     box-sizing: border-box;
-    font: {
-      family: Source_Han_Sans_SC_Normal;
-    }
   }
 }
 

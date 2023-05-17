@@ -16,7 +16,7 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 
 // img
-import img from '@/assets/images/default.png';
+import img from '@/assets/images/default.webp';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';

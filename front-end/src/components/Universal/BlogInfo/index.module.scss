@@ -4,9 +4,6 @@
   .wrapper {
     @include unSelectable;
     color: rgba(0, 0, 0, .5);
-    font: {
-      family: Source_Han_Sans_SC_Normal;
-    }
 
     > div {
       cursor: pointer;

@@ -50,8 +50,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ close }) => {
         await message.loadingSuccessAsync('登录中...', '登陆成功！');
         // 设置token
         delete aData.user['_id'];
-        cookies.set('user', aData.user, { path: '/' });
-        cookies.set('token', token, { path: '/' });
+        // 设置cookie持续时间90天
+        const expires = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
+        cookies.set('user', aData.user, { path: '/', expires });
+        cookies.set('token', token, { path: '/', expires });
         dispatch(setUser(aData.user));
         // 关闭窗口
         close();

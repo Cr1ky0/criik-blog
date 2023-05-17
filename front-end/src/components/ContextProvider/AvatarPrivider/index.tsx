@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie';
 import { avatarAjax } from '@/api/user';
 
 // default.png
-import img from '@/assets/images/default.png';
+import img from '@/assets/images/default.webp';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 interface avatarContextProps {

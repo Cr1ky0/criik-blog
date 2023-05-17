@@ -8,13 +8,12 @@ const cookieParser = require('cookie-parser');
 
 // 安全相关插件
 // const rateLimit = require('express-rate-limit');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 
 // 应用相关
-const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
 const blogRouter = require('./routes/blogRoutes');
@@ -33,21 +32,27 @@ app.use(
 app.options('*', cors());
 
 // Set security HTTP headers
-app.use(
-  helmet({
-    // 解决解决NotSameOriginAfterDefaultedToSameOriginByCoep问题
-    crossOriginEmbedderPolicy: { policy: 'credentialless' },
-    contentSecurityPolicy: {
-      directives: {
-        'img-src': [
-          "'self'",
-          'data:',
-          'criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com',
-        ],
-      },
-    },
-  })
-);
+// app.use(
+//   helmet({
+//     // 解决解决NotSameOriginAfterDefaultedToSameOriginByCoep问题
+//     crossOriginEmbedderPolicy: { policy: 'credentialless' },
+//     contentSecurityPolicy: {
+//       directives: {
+//         'img-src': [
+//           "'self'",
+//           'data:',
+//           'blob:',
+//           'criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com',
+//         ],
+//         'connect-src': [
+//           "'self'",
+//           'https://www.criiky0.top',
+//           'https://api.itapi.cn/api/badword/',
+//         ],
+//       },
+//     },
+//   })
+// );
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {

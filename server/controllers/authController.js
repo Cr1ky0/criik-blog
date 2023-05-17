@@ -30,6 +30,7 @@ const createSendToken = (user, statusCode, res) => {
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000 // 将天转化为毫秒
     ),
     httpOnly: true,
+    secure: true,
   };
 
   // 仅在生产环境下设置secure属性

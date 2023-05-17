@@ -20,6 +20,15 @@ router.get('/getUserAvatar/:id', userController.getUserAvatar);
 // 获取我的信息
 router.get('/getMyInfo', userController.getMyInfo);
 
+// 更新个人信息
+router.patch(
+  '/updateMe',
+  authController.protect,
+  authController.restrictTo('admin', 'user'),
+  userController.resizeUserAvatar,
+  userController.updateMe
+);
+
 // 限制权限
 router.use(authController.protect);
 router.use(authController.restrictTo('admin'));
@@ -33,13 +42,6 @@ router.post('/sendLinkToNewEmail', authController.sendLinkToNewEmail);
 
 router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/updateLoginState', userController.updateLoginState);
-
-// 更新个人信息
-router.patch(
-  '/updateMe',
-  userController.resizeUserAvatar,
-  userController.updateMe
-);
 
 // 删除用户
 router.delete('/deleteMe', userController.deleteMe);
