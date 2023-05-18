@@ -28,7 +28,6 @@ import BackToTopBtn from '@/components/Universal/BackToTopBtn';
 
 // util
 import { backToTop, throttle } from '@/utils/backToTopUtil';
-import SideMenu from '@/components/SideMenu';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -67,8 +66,8 @@ const HomePage = () => {
     dispatch(setChosenList([true, false, false, false]));
   }, []);
 
+  // 这里只会触发修改高度，其他组件不会重新渲染
   useEffect(() => {
-    // 这里延迟展开是因为加载需要时间，不然开始就展开会很卡
     const div = wrapper.current as HTMLDivElement;
     div.style.height = window.innerHeight + 'px';
   }, [width, window.innerHeight]);

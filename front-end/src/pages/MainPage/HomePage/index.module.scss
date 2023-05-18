@@ -59,6 +59,10 @@
           animation: showAnime .5s;
         }
 
+        .blogList {
+          min-height: 100vh;
+        }
+
         .paginate {
           display: flex;
           justify-content: space-around;

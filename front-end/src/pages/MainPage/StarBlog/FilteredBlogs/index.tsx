@@ -46,7 +46,7 @@ const FilteredBlogs = () => {
         message.error(err.message);
       }
     );
-  }, [page, option]);
+  }, []);
   return <ShowBlogTagList blogs={blogs}></ShowBlogTagList>;
 };
 export default FilteredBlogs;

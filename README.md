@@ -7,7 +7,6 @@
 * 游客支持点赞和评论(有敏感词过滤)。
 * 已适配移动端
 
-
 ![1](./images/show-pc.png)
 ![2](./images/show-image%20(1).png)
 ![3](./images/show-image%20(2).png)
@@ -145,7 +144,8 @@
         import img from '@/assets/images/blog-icon.png'
         style={{ backgroundImage: `url(${img})` }}
    ```
-8. react 内响应式布局见 ViewportProvider 组件（利用 context，全局包裹该组件，获取窗口大小），context 可以让子元素获取传入的value，该 value 使用 useContext(context 名)即可获得，可以用改特性在 Provider 内部存放一些全局要用的功能和数据
+8. react 内响应式布局见 ViewportProvider 组件（利用 context，全局包裹该组件，获取窗口大小），context 可以让子元素获取传入的value，该
+   value 使用 useContext(context 名)即可获得，可以用改特性在 Provider 内部存放一些全局要用的功能和数据
 9. 关于滚动条，如过要让一个子元素在其父元素内滚动，需要同时设置其父元素以及自身的高度，而且自身高度要大于父元素，否则无法产生滚动条
 10. 用一个组件存放 antd icons，通过 context 让所有组件能够获取
 11. 使用@reduxjs/toolkit 时利用 redux-persist 持久化的配置
@@ -260,7 +260,6 @@
         // 在组件内声明变量，在useEffect内获取相应结点的样式
         // 注意：不能直接在组件内获取标签结点，因为初始化时结点还没渲染，无法获取
         // 而根据组件生命周期可知，在render后useEffect内函数才调用，因此可以获取到对应标签结点
-        // 但是要及其注意：不要在useEffect里设置要用于页面渲染的一些state否则会无限循环
         const [primaryColors, setPrimaryColors] = useState([] as string[]);
         const [hoverColors, setHoverColors] = useState([] as string[]);
 
@@ -301,31 +300,32 @@
 
 ```js
     app.use(
-        helmet({
-            // 解决解决NotSameOriginAfterDefaultedToSameOriginByCoep问题
-            crossOriginEmbedderPolicy: {policy: 'credentialless'},
-            contentSecurityPolicy: {
-                directives: {
-                    'img-src': [
-                        "'self'",
-                        'data:',
-                        '图床地址', // 图床
-                    ],
-                    'connect-src': ["'self'", '域名地址'] // ajax请求
-                },
+    helmet({
+        // 解决解决NotSameOriginAfterDefaultedToSameOriginByCoep问题
+        crossOriginEmbedderPolicy: {policy: 'credentialless'},
+        contentSecurityPolicy: {
+            directives: {
+                'img-src': [
+                    "'self'",
+                    'data:',
+                    '图床地址', // 图床
+                ],
+                'connect-src': ["'self'", '域名地址'] // ajax请求
             },
-        })
-    );
+        },
+    })
+);
 ```
 
-2. React-Router推荐使用BrowserRouter作为路由，但是该路由在部署后刷新页面会导致链接丢失，这是因为刷新后通过链接向服务器发送请求，而不是像点击跳转一样由浏览器来对链接进行处理，因此会找不到链接，处理方法就是在后端将所有未匹配页面均指向index.html
+2.
+React-Router推荐使用BrowserRouter作为路由，但是该路由在部署后刷新页面会导致链接丢失，这是因为刷新后通过链接向服务器发送请求，而不是像点击跳转一样由浏览器来对链接进行处理，因此会找不到链接，处理方法就是在后端将所有未匹配页面均指向index.html
 
 ```js
     // Serving static files
-    app.use(express.static(path.join(__dirname, 'public')));
-    // 这里解决刷新后BrowserRouter导致的链接丢失问题
-    app.get('/*', (req, res) => {
-        return res.sendFile(path.join(path.resolve(path.dirname('')), './public', 'index.html'));
-    });
+app.use(express.static(path.join(__dirname, 'public')));
+// 这里解决刷新后BrowserRouter导致的链接丢失问题
+app.get('/*', (req, res) => {
+    return res.sendFile(path.join(path.resolve(path.dirname('')), './public', 'index.html'));
+});
 
 ```
