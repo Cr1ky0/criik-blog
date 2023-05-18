@@ -1,4 +1,4 @@
-// 拦截器已经错误处理，像登录这样失败有其他错误处理操作的不用改封装
+// 封装错误处理
 export const catchAsync =
   (fn: any) => async (values?: unknown, success?: (data?: any) => void, error?: (content: string) => void) => {
     // success error分别指定success和error的回调
