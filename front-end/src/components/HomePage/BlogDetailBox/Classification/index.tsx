@@ -12,10 +12,13 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 
 import { setSelectedId } from '@/redux/slices/blogMenu';
 //util
-import { getClassificationInfo, getSideMenuItem } from '@/utils';
+import { getClassificationInfo, getOneBlogFromMenu, getSideMenuItem } from '@/utils';
 
 // interface
 import { SideMenuItem } from '@/interface';
+
+// context
+import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 const getColorRgb = (primaryColor: string) => {
   const color = primaryColor.split(',');
@@ -25,6 +28,7 @@ const getColorRgb = (primaryColor: string) => {
 };
 const Classification = () => {
   const navigate = useNavigate();
+  const message = useGlobalMessage();
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const dispatch = useAppDispatch();
   const classInfoList = getClassificationInfo(menus);
@@ -71,9 +75,12 @@ const Classification = () => {
                 }}
                 onClick={() => {
                   const item = getSideMenuItem(menus, info.id) as SideMenuItem;
-                  if (item.blogs && item.blogs.length) {
-                    dispatch(setSelectedId(item.blogs[0].id));
+                  const blogId = getOneBlogFromMenu(item);
+                  if (blogId) {
+                    dispatch(setSelectedId(blogId));
                     navigate('/blog');
+                  } else {
+                    message.success('当前分类下暂时没有博客哦~');
                   }
                 }}
               >

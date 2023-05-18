@@ -182,14 +182,17 @@ export const filterTitle = (text: string) => {
   return filterContents;
 };
 
-// 获取所有menu的Title,Color以及其下的博客数量
+// 获取菜单的Title,Color以及其下的分类和博客数量
+const getBlogClassName = (menu: SideMenuItem) => {
+  return menu.blogs ? (menu.children ? menu.blogs.length + menu.children.length : menu.blogs.length) : 0;
+};
 export const getClassificationInfo: (menus: SideMenuItem[]) => ClassificationInfoObj[] = menus => {
   const list = [] as ClassificationInfoObj[];
   menus.map(menu => {
     list.push({
       title: menu.title,
       color: menu.color as string,
-      blogNum: menu.blogs ? menu.blogs.length : 0,
+      blogNum: getBlogClassName(menu),
       id: menu.id,
     });
     if (menu.children)
@@ -197,12 +200,24 @@ export const getClassificationInfo: (menus: SideMenuItem[]) => ClassificationInf
         list.push({
           title: child.title,
           color: child.color as string,
-          blogNum: child.blogs ? child.blogs.length : 0,
+          blogNum: getBlogClassName(child),
           id: child.id,
         });
       });
   });
   return list;
+};
+
+// 从该菜单获取一个blogId，没有则返回false
+export const getOneBlogFromMenu: (menu: SideMenuItem) => string = menu => {
+  let id = '';
+  if (menu.blogs && menu.blogs.length) id = menu.blogs[0].id;
+  else if (menu.children) {
+    menu.children.forEach(child => {
+      if (child.blogs && child.blogs.length) id = child.blogs[0].id;
+    });
+  }
+  return id;
 };
 
 /**************** 列表生成 *****************/
