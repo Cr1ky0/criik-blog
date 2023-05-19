@@ -167,6 +167,14 @@ const IconStore: React.FC<IconStoreProps> = props => {
         </span>
       ),
     },
+    {
+      name: '字符串',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '18px' }}>
+          &#xe6bd;
+        </span>
+      ),
+    },
   ]);
   return <iconStoreContext.Provider value={iconList}>{children}</iconStoreContext.Provider>;
 };

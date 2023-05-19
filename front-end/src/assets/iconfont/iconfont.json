@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1789457",
+      "name": "字符串数据集",
+      "font_class": "zifuchuanshujuji",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    },
+    {
       "icon_id": "34349359",
       "name": "数组",
       "font_class": "shuzu",

@@ -6,14 +6,9 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
-// import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-// import { coy } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx';
-
-// 加入其他语言渲染
-SyntaxHighlighter.registerLanguage('jsx', jsx);
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+// import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 // css
 import 'github-markdown-css';
@@ -59,7 +54,7 @@ const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) 
           // 这里利用原生js在代码块右上角插入一个代码所用语言的提示块和copy btn
           useEffect(() => {
             const codeBox = document.getElementsByClassName('syntax-highlighter-wrapper');
-            if (codeBox[count] && match && width > BREAK_POINT) {
+            if (codeBox[count] && match) {
               const parent = codeBox[count].parentElement as HTMLElement;
               parent.style.position = 'relative';
               // wrapper
@@ -84,7 +79,12 @@ const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) 
             };
           }, []);
           return !inline && match ? (
-            <SyntaxHighlighter {...props} style={oneLight} language={match[1]} className="syntax-highlighter-wrapper">
+            <SyntaxHighlighter
+              {...props}
+              style={vscDarkPlus}
+              language={match[1]}
+              className="syntax-highlighter-wrapper"
+            >
               {String(children).replace(/\n$/, '')}
             </SyntaxHighlighter>
           ) : (

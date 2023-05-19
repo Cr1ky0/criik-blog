@@ -7,16 +7,21 @@ $fontColor: rgba(0, 0, 0, .8);
   .syntax-highlighter-func-bar-wrapper {
     height: 30px;
     position: absolute;
-    top: 20px;
-    right: 40px;
+    top: 17px;
+    right: 0;
   }
 
   // 代码块语言标记
   .syntax-highlighter-code-language {
     @include unSelectable;
     float: left;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 30px;
+    height: 100%;
+    padding: {
+      right: 10px;
+      left: 5px;
+    }
     color: rgba(0, 0, 0, .4);
   }
 
@@ -24,12 +29,11 @@ $fontColor: rgba(0, 0, 0, .8);
   .syntax-highlighter-copy-btn {
     float: left;
     width: 30px;
-    height: 30px;
+    height: 100%;
     line-height: 30px;
     text-align: center;
     cursor: pointer;
     transition: all .3s;
-    margin-right: 5px;
     color: rgba(0, 0, 0, .4);
     border: {
       radius: 5px;
@@ -76,10 +80,6 @@ $fontColor: rgba(0, 0, 0, .8);
     }
 
     li {
-      &::marker {
-        font-size: 15px;
-      }
-
       a {
         color: $THEME_COLOR;
         transition: all .2s;
@@ -99,17 +99,70 @@ $fontColor: rgba(0, 0, 0, .8);
 
 @media (min-width: $BREAK_POINT) {
   @include universal;
+  .markdown-body {
+    li::marker {
+      font-size: 18px;
+    }
+
+    pre {
+      ::-webkit-scrollbar {
+        height: 10px;
+      }
+
+      code {
+        font-size: 18px !important;
+      }
+
+      span {
+        font-size: 18px !important;
+      }
+    }
+  }
 }
 
 @media (max-width: $BREAK_POINT) {
   @include universal;
+  // func-bar-wrapper
+  .syntax-highlighter-func-bar-wrapper {
+    height: 20px;
+  }
 
+  // 代码块语言标记
+  .syntax-highlighter-code-language {
+    line-height: 20px;
+    padding: 0 5px;
+    font-size: 12px;
+  }
+  // copy btn
+  .syntax-highlighter-copy-btn {
+    width: 20px;
+    line-height: 20px;
+    font-size: 14px;
+  }
   .markdown-body {
     background-color: #FFF;
     line-height: 18px;
     font: {
       size: 12px;
     };
+
+    li::marker {
+      font-size: 12px;
+    }
+
+    pre {
+      ::-webkit-scrollbar {
+        height: 5px;
+      }
+
+      code {
+        font-size: 12px !important;
+      }
+
+      span {
+        font-size: 12px !important;
+      }
+    }
 
     li {
       &::marker {
