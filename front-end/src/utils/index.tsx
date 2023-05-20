@@ -68,12 +68,12 @@ export const getSideMenuItem: (menus: SideMenuItem[], key: string) => SideMenuIt
   }
 };
 
-// 获取所有menu的key（可展开层）
+// 获取第一层展开的key
 export const getAllKeyOfSideMenu: (menus: SideMenuItem[]) => string[] = menus => {
   const keys: string[] = [];
   menus.map(menu => {
     keys.push(menu.id);
-    if (menu.children) menu.children.map(child => keys.push(child.id));
+    // if (menu.children) menu.children.map(child => keys.push(child.id));
   });
   return keys;
 };
