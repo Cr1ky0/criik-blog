@@ -71,7 +71,7 @@
 
 // 媒体查询
 // <
-@media (max-width: $BREAK_POINT) {
+@media (width <= $BREAK_POINT) {
   @include universal;
   .sider {
     display: none;
@@ -82,7 +82,7 @@
 }
 
 // >
-@media (min-width: $BREAK_POINT) {
+@media (width > $BREAK_POINT) {
   @include universal;
   .sider {
     width: 21vw;

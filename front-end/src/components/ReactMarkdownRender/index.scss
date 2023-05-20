@@ -87,8 +87,13 @@ $fontColor: rgba(0, 0, 0, .8);
     }
 
     blockquote {
-      padding: 10px;
       background-color: #eef9fd;
+      padding: {
+        top: 10px;
+        bottom: 10px;
+        right: 10px;
+        left: 15px;
+      }
       border: {
         left: 5px solid #4cb3d4;
         radius: 5px;
@@ -168,10 +173,6 @@ $fontColor: rgba(0, 0, 0, .8);
       &::marker {
         font-size: 12px;
       }
-    }
-
-    blockquote {
-      padding: 5px;
     }
   }
 }

@@ -137,7 +137,7 @@ const BlogContent = () => {
     /* Content加载状态 */
     <>
       {loading ? (
-        <div style={{ width: '100%', height: '100%', paddingTop: '20vh' }}>
+        <div style={{ width: '100%', height: '100%', paddingTop: '20vh', overflow: 'hidden', minHeight: '120vh' }}>
           <LoadingComp styles={{ backgroundColor: '#FFF' }}></LoadingComp>
         </div>
       ) : (

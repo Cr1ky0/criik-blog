@@ -51,10 +51,15 @@
     align-items: center;
 
     .ICInfo {
+      font-size: 12px;
       display: flex;
       justify-content: space-between;
       flex-direction: column;
       align-items: center;
+    }
+
+    .protocol {
+      font-size: 12px;
     }
   }
 }

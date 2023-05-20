@@ -27,7 +27,6 @@ interface ReactMarkdownWrapperProps {
 
 const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) => {
   let count = 0;
-  const { width } = useViewport();
   return (
     <ReactMarkdown
       className="markdown-body"
@@ -72,6 +71,9 @@ const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) 
               copyBtn.innerHTML = '&#xe706;';
               copyBtn.addEventListener('click', handleClick);
               wrapper.insertAdjacentElement('afterbegin', copyBtn);
+              // 修改一般字体颜色
+              const child = codeBox[count].getElementsByTagName('code')[0];
+              child.style.color = 'rgb(150,150,150)';
               count += 1;
             }
             return () => {

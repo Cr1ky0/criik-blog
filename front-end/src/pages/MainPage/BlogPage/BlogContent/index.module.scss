@@ -122,20 +122,7 @@
 
 }
 
-// <1000
-@media (max-width: 1000px) and (max-width: $BREAK_POINT) {
-  @include universal;
-  .blog {
-    width: 100%;
-    padding-right: 5vw;
-  }
-
-  .toc {
-    display: none;
-  }
-}
-
-@media (max-width: $BREAK_POINT) {
+@media (max-width: 1000px) {
   @include universal;
   .toc {
     display: none;
