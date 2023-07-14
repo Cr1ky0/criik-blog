@@ -33,7 +33,7 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import { deleteBlogAjax, getCurBlog, updateBlogViewAjax } from '@/api/blog';
 
 // interface
-import { SideMenuItem, blogObj } from '@/interface';
+import { SideMenuItem, BlogObj } from '@/interface';
 
 const BlogContent = () => {
   const icons = useIcons();
@@ -53,7 +53,7 @@ const BlogContent = () => {
   const user = cookies.get('user');
 
   // curBlog
-  const [curBlog, setCurBlog] = useState<blogObj>({
+  const [curBlog, setCurBlog] = useState<BlogObj>({
     id: '',
     _id: '',
     title: '',

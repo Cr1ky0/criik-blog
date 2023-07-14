@@ -10,21 +10,21 @@ export interface LoginFormData {
 }
 
 // userPswObj
-export interface userPswObj {
+export interface UserPswObj {
   oldPassword?: string;
   password?: string;
   passwordConfirm?: string;
 }
 
 // userUpdate
-export interface userUpdateObj {
+export interface UserUpdateObj {
   name?: string;
   brief?: string;
   avatar?: unknown;
 }
 
 // userInfo
-export interface userObj {
+export interface UserObj {
   name: string;
   email: string;
   brief: string;
@@ -33,20 +33,20 @@ export interface userObj {
 }
 
 // email
-export interface emailObj {
+export interface EmailObj {
   code?: string;
   newEmail?: string;
 }
 
 // menu
-export interface addMenuObj {
+export interface AddMenuObj {
   title: string;
   grade: number;
   parentId?: string;
   icon: string;
 }
 
-export interface updateMenuObj {
+export interface UpdateMenuObj {
   id: string;
   title: string;
   icon?: string;
@@ -54,7 +54,7 @@ export interface updateMenuObj {
 }
 
 // blog
-export interface addBlogObj {
+export interface AddBlogObj {
   belongingMenu: string;
   title: string;
   contents: string;
@@ -62,13 +62,13 @@ export interface addBlogObj {
   views?: string;
 }
 
-export interface updateBlogObj {
+export interface UpdateBlogObj {
   blogId: string;
-  data: addBlogObj;
+  data: AddBlogObj;
 }
 
 // comments
-export interface addCommentObj {
+export interface AddCommentObj {
   belongingBlog: string;
   contents: string;
   username?: string;
@@ -77,9 +77,19 @@ export interface addCommentObj {
   brief?: string;
 }
 
-export interface updateCommentObj {
+export interface UpdateCommentObj {
   id: string;
   likes: number;
+}
+
+// reply
+export interface AddReplyObj {
+  belongingComment: string;
+  contents: string;
+  username?: string;
+  userId?: string;
+  userRole: string;
+  brief?: string;
 }
 
 /******** redux ********/
@@ -90,7 +100,7 @@ export interface EmojiObj {
 }
 
 // blog（和菜单里的blogs项通用）
-export interface blogObj {
+export interface BlogObj {
   _id: string;
   id: string;
   title: string;
@@ -114,10 +124,10 @@ export interface SideMenuItem {
   icon?: string;
   color?: string;
   children?: SideMenuItem[];
-  blogs?: blogObj[];
+  blogs?: BlogObj[];
 }
 
-export interface commentObj {
+export interface CommentObj {
   id: string;
   username: string;
   brief: string;
@@ -128,7 +138,19 @@ export interface commentObj {
   userId: string;
 }
 
-export interface commentApiObj {
+export interface CommentListObj {
+  replys: ReplyApiObj[];
+  id: string;
+  username: string;
+  brief: string;
+  time: string;
+  likes: number;
+  contents: string;
+  userRole: string;
+  userId: string;
+}
+
+export interface CommentApiObj {
   _id: string;
   contents: string;
   likes: number;
@@ -137,17 +159,30 @@ export interface commentApiObj {
   belongingBlog: string;
   userRole: string;
   username: string;
+  replys: ReplyApiObj[];
   brief: string;
 }
 
-export interface textContentObj {
+export interface ReplyApiObj {
+  _id: string;
+  contents: string;
+  likes: number;
+  publishAt: string;
+  belongingUser: string;
+  belongingComment: string;
+  userRole: string;
+  username: string;
+  brief: string;
+}
+
+export interface TextContentObj {
   title: string;
   menuId: string; // 所属分类Id
   menuTitle: string;
   content: string;
 }
 
-export interface timeLineObj {
+export interface TimeLineObj {
   id: string;
   _id: string;
   title: string;
@@ -155,7 +190,7 @@ export interface timeLineObj {
 }
 
 /************ 请求参数 ****************/
-export interface requestOptions {
+export interface RequestOptions {
   id: string;
   sort?: string;
   page?: number;
@@ -163,7 +198,7 @@ export interface requestOptions {
   fields?: string;
 }
 
-export interface reqOptions {
+export interface ReqOptions {
   sort?: string;
   page?: string;
   limit?: string;

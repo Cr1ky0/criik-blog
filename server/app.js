@@ -19,6 +19,7 @@ const userRouter = require('./routes/userRoutes');
 const blogRouter = require('./routes/blogRoutes');
 const commentRouter = require('./routes/commentRoutes');
 const menuRouter = require('./routes/menuRoutes');
+const replyCommentRouter = require('./routes/replyCommentRoutes');
 
 const app = express();
 
@@ -116,6 +117,7 @@ app.use('/api/users', userRouter);
 app.use('/api/blogs', blogRouter);
 app.use('/api/comments', commentRouter);
 app.use('/api/menus', menuRouter);
+app.use('/api/reply', replyCommentRouter);
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));

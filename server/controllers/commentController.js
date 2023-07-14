@@ -10,7 +10,7 @@ exports.defaultParams = (req, res, next) => {
   next();
 };
 
-exports.getCommentNum = catchAsync(async (req, res, next) => {
+exports.getCommentNum = catchAsync(async (req, res) => {
   const comments = await Comment.find({ belongingBlog: req.params.blogId });
   const { length } = comments;
   res.status(200).json({
@@ -21,7 +21,7 @@ exports.getCommentNum = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getComment = catchAsync(async (req, res, next) => {
+exports.getComment = catchAsync(async (req, res) => {
   const comment = await Comment.findById(req.params.id);
 
   res.status(200).json({
@@ -32,9 +32,9 @@ exports.getComment = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getCommentsOfBlog = catchAsync(async (req, res, next) => {
+exports.getCommentsOfBlog = catchAsync(async (req, res) => {
   const features = new APIFeatures(
-    Comment.find({ belongingBlog: req.params.id }),
+    Comment.find({ belongingBlog: req.params.id }).populate('replys'),
     req.query
   )
     .filter()
@@ -74,7 +74,7 @@ exports.addComment = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.updateComment = catchAsync(async (req, res, next) => {
+exports.updateComment = catchAsync(async (req, res) => {
   // 目前仅设置更新likes数量
   const filteredBody = filterObj(req.body, 'likes');
   const updatedComment = await Comment.findByIdAndUpdate(
@@ -94,7 +94,7 @@ exports.updateComment = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteComment = catchAsync(async (req, res, next) => {
+exports.deleteComment = catchAsync(async (req, res) => {
   await Comment.findByIdAndUpdate(req.params.id, { active: false });
   res.status(204).json({
     status: 'success',
@@ -102,11 +102,21 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getComments = catchAsync(async (req, res, next) => {
+exports.getComments = catchAsync(async (req, res) => {
   const comments = await Comment.find();
 
   res.status(200).json({
     status: 'success',
     data: comments,
+  });
+});
+
+exports.getReplysById = catchAsync(async (req, res) => {
+  const comment = await Comment.findById(req.params.id).populate('replys');
+  const { replys } = comment;
+
+  res.status(200).json({
+    status: 'success',
+    data: replys,
   });
 });

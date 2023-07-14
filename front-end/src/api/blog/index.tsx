@@ -2,14 +2,14 @@ import { catchAsync } from '@/api';
 import service from '@/utils/request';
 
 // interface
-import { addBlogObj, reqOptions, updateBlogObj } from '@/interface';
+import { AddBlogObj, ReqOptions, UpdateBlogObj } from '@/interface';
 
-export const addBlogAjax = catchAsync(async (values: addBlogObj) => {
+export const addBlogAjax = catchAsync(async (values: AddBlogObj) => {
   const response = await service.post('/api/blogs/', values);
   return Promise.resolve(response.data);
 });
 
-export const updateBlogAjax = catchAsync(async (values: updateBlogObj) => {
+export const updateBlogAjax = catchAsync(async (values: UpdateBlogObj) => {
   const { blogId, data } = values;
   const response = await service.patch(`/api/blogs/${blogId}`, data);
   return Promise.resolve(response);
@@ -50,7 +50,7 @@ export const getCollectedBlogsNum = async () => {
   return Promise.resolve(response.data.data.blogs.length);
 };
 
-export const getSelfBlogsOfCertain = async (option: reqOptions) => {
+export const getSelfBlogsOfCertain = async (option: ReqOptions) => {
   const { page, fields, sort, limit, options } = option;
   const response = await service.get(
     '/api/blogs/getSelfBlogs?' +

@@ -3,7 +3,7 @@ import { ReactElement } from 'react';
 // interface
 import {
   AntdIcon,
-  blogObj,
+  BlogObj,
   BreadCrumbObj,
   ClassificationInfoObj,
   MenuItem,
@@ -56,7 +56,7 @@ export const getSideMenuItem: (menus: SideMenuItem[], key: string) => SideMenuIt
   for (let i = 0; i < menus.length; i += 1) {
     const menu = menus[i];
     if (menu.blogs) {
-      const filter = (menu.blogs as blogObj[]).filter(blog => blog.id === key);
+      const filter = (menu.blogs as BlogObj[]).filter(blog => blog.id === key);
       if (filter && filter.length) return filter[0];
     }
     if (menu.children) {

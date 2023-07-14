@@ -5,10 +5,10 @@ import moment from 'moment';
 import BlogTagBox from '@/components/HomePage/BlogTagBox';
 
 // interface
-import { blogObj } from '@/interface';
+import { BlogObj } from '@/interface';
 
 interface ShowBlogTagListProps {
-  blogs: blogObj[];
+  blogs: BlogObj[];
 }
 
 const ShowBlogTagList: React.FC<ShowBlogTagListProps> = ({ blogs }) => {

@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie';
 import { catchAsync } from '@/api';
 
 // interface
-import { emailObj, LoginFormData, userUpdateObj, userPswObj } from '@/interface';
+import { EmailObj, LoginFormData, UserUpdateObj, UserPswObj } from '@/interface';
 
 export const loginAjax = catchAsync(async (values: LoginFormData) => {
   const response = await service.post('/api/users/login', values);
@@ -32,7 +32,7 @@ export const getAvatarOfUser = catchAsync(async (id: string) => {
   return Promise.resolve(response);
 });
 
-export const updateMyPswAjax = catchAsync(async (values: userPswObj) => {
+export const updateMyPswAjax = catchAsync(async (values: UserPswObj) => {
   const response = await service.patch('/api/users/updateMyPassword', values);
   return Promise.resolve(response);
 });
@@ -42,12 +42,12 @@ export const sendCodeAjax = catchAsync(async () => {
   return Promise.resolve(response);
 });
 
-export const updateEmailAjax = catchAsync(async (values: emailObj) => {
+export const updateEmailAjax = catchAsync(async (values: EmailObj) => {
   const response = await service.post('/api/users/sendLinkToNewEmail', values);
   return Promise.resolve(response);
 });
 
-export const updateMeAjax = catchAsync(async (values: userUpdateObj) => {
+export const updateMeAjax = catchAsync(async (values: UserUpdateObj) => {
   const response = await service.patch('/api/users/updateMe', values);
   return Promise.resolve(response);
 });

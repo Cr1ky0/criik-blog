@@ -2,13 +2,13 @@ import service from '@/utils/request';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // interface
-import { blogObj, textContentObj, timeLineObj } from '@/interface';
+import { BlogObj, TextContentObj, TimeLineObj } from '@/interface';
 
 interface blogInitObj {
-  primBlog: blogObj;
-  writeContent: textContentObj;
+  primBlog: BlogObj;
+  writeContent: TextContentObj;
   isEdit: boolean; // 标志博客是否处于编辑状态，处于编辑状态则提交按钮变为更新
-  timeLine: timeLineObj[];
+  timeLine: TimeLineObj[];
   blogsNum: number;
   likeList: string[]; // 点赞列表，记录当前点赞过的博客
   chosen: number; // 精选页面chosen
@@ -17,10 +17,10 @@ interface blogInitObj {
 
 // 合并了菜单的slice因为无法解决设置了selectedId后设置curBlog延迟的问题
 const initialState: blogInitObj = {
-  primBlog: {} as blogObj,
-  writeContent: {} as textContentObj,
+  primBlog: {} as BlogObj,
+  writeContent: {} as TextContentObj,
   isEdit: false, // 标志博客是否处于编辑状态，处于编辑状态则提交按钮变为更新
-  timeLine: [] as timeLineObj[],
+  timeLine: [] as TimeLineObj[],
   blogsNum: 0,
   likeList: [] as string[],
   chosen: 0,

@@ -1,0 +1,148 @@
+@import "@/assets/css/index.scss";
+@import "@/components/Comment/var.scss";
+
+@mixin likesUni {
+  @include unSelectable;
+  cursor: pointer;
+  float: left;
+  margin: {
+    right: 2px;
+  }
+  font: {
+    size: 22px;
+  }
+}
+
+.wrapper {
+  @include setScrollBar(0);
+  list-style: none;
+  color: $FONT_COLOR;
+  margin-left: 55px;
+  position: relative;
+  border-left: 1px solid rgba(0, 0, 0, .02);
+  padding: {
+    left: 5px;
+    top: 20px;
+    bottom: 20px;
+  }
+
+  .infoWrapper {
+    .avatar {
+      @include backgroundImgStyle;
+      float: left;
+      width: 50px;
+      height: 50px;
+      border: 1px solid rgba(0, 0, 0, .1);
+      margin: {
+        right: 10px;
+      }
+    }
+
+    .info {
+      display: flex;
+      justify-content: space-between;
+
+      // 左边info
+      .infoBox {
+        .username {
+          color: $THEME_COLOR;
+          float: left;
+          font: {
+            size: 20px;
+            weight: bold;
+          }
+          margin: {
+            right: 5px;
+          }
+        }
+
+        .tags {
+          float: left;
+          margin: {
+            top: 1px;
+          }
+        }
+
+        .time {
+          float: left;
+          line-height: 22px;
+          font-size: 14px;
+          color: $FONT_COLOR_2;
+        }
+      }
+
+      // 右边功能区
+      .rightFuncBox {
+        @include unSelectable;
+        display: flex;
+        justify-content: center;
+
+        .likesWrapper {
+          min-width: 40px;
+
+          .likes {
+            @include likesUni;
+
+            &:hover {
+              color: $THEME_COLOR;
+            }
+          }
+
+          .likesOnChosen {
+            @include likesUni;
+            color: #ff0000;
+          }
+
+          .likesNum {
+            float: left;
+            margin: {
+              right: 2px;
+            }
+            font: {
+              size: 20px;
+            }
+          }
+        }
+
+        .delComment {
+          font-size: 20px;
+          line-height: 22px;
+          margin-right: 5px;
+          cursor: pointer;
+
+          &:hover {
+            color: $THEME_COLOR;
+          }
+        }
+      }
+
+
+    }
+
+    .signature {
+      display: flex;
+      line-height: 20px;
+      font-size: 14px;
+      color: $FONT_COLOR_2;
+      margin-top: 5px;
+    }
+  }
+
+  .comment {
+    @include setScrollBar(0);
+    width: 80%;
+    //max-height: $COMMENT_H;
+    //overflow-y: auto;
+    word-break: break-all;
+    font: {
+      size: 16px;
+    }
+    line-height: 20px;
+    margin: {
+      top: 20px;
+    }
+    margin: {
+      left: 60px;
+    }
+  }
+}

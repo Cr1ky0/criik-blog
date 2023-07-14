@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import service from '@/utils/request';
-import { commentObj, commentApiObj, requestOptions } from '@/interface';
+import { CommentListObj, CommentApiObj, RequestOptions } from '@/interface';
 import moment from 'moment';
 
 interface commentsState {
-  commentList: commentObj[];
+  commentList: CommentListObj[];
   curPage: number;
   isLoading: boolean;
   length: number;
@@ -13,7 +13,7 @@ interface commentsState {
 }
 
 const initialState: commentsState = {
-  commentList: [] as commentObj[],
+  commentList: [] as CommentListObj[],
   curPage: 1,
   isLoading: false,
   length: 0,
@@ -21,7 +21,7 @@ const initialState: commentsState = {
   likeList: [],
 };
 
-export const setComments = createAsyncThunk('comments/setComments', async (options: requestOptions) => {
+export const setComments = createAsyncThunk('comments/setComments', async (options: RequestOptions) => {
   const { id, page, sort } = options;
   const response = await service.get(`/api/comments/${id}?page=${page}&sort=${sort ? sort : ''}`);
   return response.data;
@@ -36,6 +36,7 @@ const commentsSlice = createSlice({
   name: 'comments',
   initialState,
   reducers: {
+    // comments
     setCurPage: (state, action) => {
       state.curPage = action.payload;
     },
@@ -68,13 +69,36 @@ const commentsSlice = createSlice({
     delLikeId: (state, action) => {
       state.likeList = state.likeList.filter(id => action.payload !== id);
     },
+
+    // replys
+    delReply: (state, action) => {
+      const { id, belongingComment } = action.payload;
+      state.commentList = state.commentList.map(comment => {
+        if (comment.id === belongingComment)
+          return Object.assign({}, comment, { replys: comment.replys.filter(reply => reply._id !== id) });
+        else return comment;
+      });
+    },
+    updateReply: (state, action) => {
+      const { id, belongingComment, data } = action.payload;
+      state.commentList = state.commentList.map(comment => {
+        if (comment.id === belongingComment) {
+          return Object.assign({}, comment, {
+            replys: comment.replys.map(reply => {
+              if (reply._id === id) return Object.assign({}, reply, data);
+              else return reply;
+            }),
+          });
+        } else return comment;
+      });
+    },
   },
   extraReducers(builder) {
     builder
       .addCase(setComments.fulfilled, (state, action) => {
         const comments = action.payload.data.comments;
         if (comments.length)
-          state.commentList = comments.map((comment: commentApiObj) => {
+          state.commentList = comments.map((comment: CommentApiObj) => {
             return {
               id: comment._id,
               contents: comment.contents,
@@ -83,6 +107,7 @@ const commentsSlice = createSlice({
               username: comment.username,
               userRole: comment.userRole,
               brief: comment.brief,
+              replys: comment.replys,
               userId: comment.belongingUser,
             };
           });
@@ -110,5 +135,7 @@ export const {
   delLikeId,
   deleteComment,
   decLength,
+  delReply,
+  updateReply,
 } = commentsSlice.actions;
 export default commentsSlice.reducer;

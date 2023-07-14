@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
+import moment from 'moment/moment';
 
 // antd
 import { Tag } from 'antd';
@@ -8,7 +9,7 @@ import { Tag } from 'antd';
 import style from './index.module.scss';
 
 // interface
-import { CommentObj } from '@/interface';
+import { ReplyApiObj } from '@/interface';
 
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
@@ -19,24 +20,33 @@ import img from '@/assets/images/default.webp';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addLikeId, delLikeId, updateComment, deleteComment, decLength } from '@/redux/slices/comments';
+import { addLikeId, delLikeId, delReply, updateComment, updateReply } from '@/redux/slices/comments';
 
 // util
 import { isLike } from '@/utils';
 
 //api
 import { avatarAjax, getAvatarOfUser } from '@/api/user';
-import { updateCommentAjax, deleteCommentAjax } from '@/api/comment';
+import { updateReplyAjax, deleteReplyAjax } from '@/api/reply';
 
-export interface SingleCommentProps {
-  info: CommentObj;
+export interface SingleReplyProps {
+  reply: ReplyApiObj;
 }
 
-const SingleComment: React.FC<SingleCommentProps> = props => {
-  const { info } = props;
+const SingleComment: React.FC<SingleReplyProps> = ({ reply }) => {
   const modal = useGlobalModal();
   const message = useGlobalMessage();
-  const { contents, username, brief, time, userId, likes, id, userRole } = info;
+  const {
+    contents,
+    username,
+    brief,
+    publishAt,
+    belongingUser: userId,
+    likes,
+    _id: id,
+    userRole,
+    belongingComment,
+  } = reply;
   // 利用likeList判断当前评论的id是否在其中来记录点赞状态
   const likeList = useAppSelector(state => state.comments.likeList);
   const isChosen = isLike(likeList, id);
@@ -51,12 +61,11 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
       title: '提示',
       content: '是否删除该评论？',
       onOk: async () => {
-        await deleteCommentAjax(
+        await deleteReplyAjax(
           id,
           () => {
             message.success('删除成功');
-            dispatch(deleteComment(id));
-            dispatch(decLength());
+            dispatch(delReply({ id, belongingComment }));
           },
           msg => {
             message.error(msg);
@@ -90,11 +99,11 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
   const handleClick = async () => {
     if (!isChosen) {
       dispatch(addLikeId(id));
-      await updateCommentAjax(
+      await updateReplyAjax(
         { id, likes: likes + 1 },
         data => {
           const updatedComment = data.data.updatedComment;
-          dispatch(updateComment({ id, data: { likes: updatedComment.likes } }));
+          dispatch(updateReply({ id, belongingComment, data: { likes: updatedComment.likes } }));
         },
         msg => {
           message.error(msg);
@@ -102,11 +111,11 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
       );
     } else {
       dispatch(delLikeId(id));
-      await updateCommentAjax(
+      await updateReplyAjax(
         { id, likes: likes - 1 },
         data => {
           const updatedComment = data.data.updatedComment;
-          dispatch(updateComment({ id, data: { likes: updatedComment.likes } }));
+          dispatch(updateReply({ id, belongingComment, data: { likes: updatedComment.likes } }));
         },
         msg => {
           message.error(msg);
@@ -116,7 +125,7 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
   };
 
   return (
-    <li className={`${style.wrapper} clearfix`}>
+    <div className={`${style.wrapper} clearfix`}>
       <div className={`${style.infoWrapper} clearfix`}>
         <div className={style.avatar} style={{ backgroundImage: `url(${avatar})` }}></div>
         <div className={style.info}>
@@ -125,7 +134,7 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
             <div className={style.tags}>
               {userRole === 'admin' ? <Tag color="red">管理员</Tag> : <Tag color="blue">游客</Tag>}
             </div>
-            <div className={style.time}>{time}</div>
+            <div className={style.time}>{moment(publishAt).format('YYYY-MM-DD HH:mm:ss')}</div>
           </div>
           <div className={style.rightFuncBox}>
             {user && user.role === 'admin' ? (
@@ -150,7 +159,7 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
         <div className={style.signature}>{brief}</div>
       </div>
       <div className={style.comment}>{contents}</div>
-    </li>
+    </div>
   );
 };
 

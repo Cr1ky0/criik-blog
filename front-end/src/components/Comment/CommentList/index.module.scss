@@ -37,13 +37,14 @@
   }
 
   .comments {
-    > li:not(:last-child)::after {
+    > div:not(:last-child)::after {
       content: " ";
       display: block;
       height: 1px;
       width: 80%;
       margin: 40px auto;
-      background-color: rgba(0, 0, 0, .05);
+      background-color: rgba(0, 0, 0, .02);
+
     }
   }
 

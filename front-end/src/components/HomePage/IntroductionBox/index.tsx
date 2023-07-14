@@ -16,7 +16,7 @@ import { useAvatar } from '@/components/ContextProvider/AvatarPrivider';
 
 // api
 import { avatarAjax, getMyInfo } from '@/api/user';
-import { userObj } from '@/interface';
+import { UserObj } from '@/interface';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
@@ -35,7 +35,7 @@ const IntroductionBox: React.FC<IntroductionBoxProps> = props => {
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const timeline = useAppSelector(state => state.blog.timeLine);
   const dispatch = useAppDispatch();
-  const [user, setUser] = useState({} as userObj);
+  const [user, setUser] = useState({} as UserObj);
   const [avatar, setAvatar] = useState(useAvatar());
   // cookie
   const cookies = new Cookies();

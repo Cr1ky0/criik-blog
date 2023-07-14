@@ -14,7 +14,7 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import { filterLT } from '@/utils';
 
 // interface
-import { blogObj } from '@/interface';
+import { BlogObj } from '@/interface';
 import { useAppSelector } from '@/redux';
 
 const FilteredBlogs = () => {
@@ -25,7 +25,7 @@ const FilteredBlogs = () => {
   const filter = searchParams.get('filter') ? searchParams.get('filter') : chosen;
   const option = parseInt(filter as string);
   const page = searchParams.get('page') ? searchParams.get('page') : '1';
-  const [blogs, setBlogs] = useState([] as blogObj[]);
+  const [blogs, setBlogs] = useState([] as BlogObj[]);
   // 请求参数
   const options = [
     { page: page as string, limit: '10', fields: '', sort: '', options: 'isCollected=true' },
@@ -35,7 +35,7 @@ const FilteredBlogs = () => {
   useEffect(() => {
     getSelfBlogsOfCertain(options[option]).then(
       res => {
-        const blogs = res.data.blogs.map((blog: blogObj) => {
+        const blogs = res.data.blogs.map((blog: BlogObj) => {
           // 处理后端过滤的<
           const contents = filterLT(blog.contents as string);
           return Object.assign({}, blog, { contents });

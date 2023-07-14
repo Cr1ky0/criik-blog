@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { userObj } from '@/interface';
+import { UserObj } from '@/interface';
 import service from '@/utils/request';
 
 interface userInitObj {
-  user: userObj;
+  user: UserObj;
 }
 
 const initialState: userInitObj = {
-  user: {} as userObj,
+  user: {} as UserObj,
 };
 
 export const setMyUser = createAsyncThunk('user/setMyUser', async () => {

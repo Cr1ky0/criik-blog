@@ -5,7 +5,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getOneBlogId } from '@/utils';
 
 // interface
-import { blogObj, SideMenuItem } from '@/interface';
+import { BlogObj, SideMenuItem } from '@/interface';
 
 interface blogMenuInitObj {
   menuList: SideMenuItem[];
@@ -42,7 +42,7 @@ const blogMenuSlice = createSlice({
         ...state.menuList.map(menu => {
           if (menu.id === belongingMenu) {
             if (!menu.blogs) menu.blogs = [];
-            (menu.blogs as blogObj[]).push({
+            (menu.blogs as BlogObj[]).push({
               id,
               _id: id,
               title,
@@ -53,7 +53,7 @@ const blogMenuSlice = createSlice({
             menu.children.map(child => {
               if (child.id === belongingMenu) {
                 if (!child.blogs) child.blogs = [];
-                (child.blogs as blogObj[]).push({
+                (child.blogs as BlogObj[]).push({
                   id,
                   _id: id,
                   title,
@@ -63,7 +63,7 @@ const blogMenuSlice = createSlice({
                 child.children.map(grandChild => {
                   if (grandChild.id === belongingMenu) {
                     if (!grandChild.blogs) grandChild.blogs = [];
-                    (grandChild.blogs as blogObj[]).push({
+                    (grandChild.blogs as BlogObj[]).push({
                       id,
                       _id: id,
                       title,

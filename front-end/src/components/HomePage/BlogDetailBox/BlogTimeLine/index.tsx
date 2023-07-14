@@ -14,12 +14,12 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 import { setTimeLine } from '@/redux/slices/blog';
 
 // interface
-import { timeLineObj } from '@/interface';
+import { TimeLineObj } from '@/interface';
 import { useNavigate } from 'react-router';
 import { setSelectedId } from '@/redux/slices/blogMenu';
 
 // 生成带年份分类的时间轴对象
-const generateTimeLine = (timeline: timeLineObj[], handleClick: MouseEventHandler) => {
+const generateTimeLine = (timeline: TimeLineObj[], handleClick: MouseEventHandler) => {
   // timeLine[] 已经按时间新到旧排序
   if (timeline && timeline.length) {
     const list = [];
