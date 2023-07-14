@@ -16,7 +16,6 @@ router
   .route('/:id')
   .get(commentController.defaultParams, commentController.getCommentsOfBlog)
   .patch(commentController.updateComment); // 更新评论（用于更新likes）
-router.get('/getReplysOfComment/:id', commentController.getReplysById);
 
 router.use(authController.protect, authController.restrictTo('admin'));
 // 获取所有评论

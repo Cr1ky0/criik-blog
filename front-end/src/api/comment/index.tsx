@@ -19,11 +19,6 @@ export const deleteCommentAjax = catchAsync(async (id: string) => {
   return Promise.resolve(response);
 });
 
-export const getReplysOfComment = catchAsync(async (id: string) => {
-  const response = service.get(`/api/comments/getReplysOfComment/${id}`);
-  return Promise.resolve(response);
-});
-
 export const filterCommentAjax = async (content: string) => {
   const response = axios.post(
     `https://api.itapi.cn/api/badword/query?key=yntVzCBul4AXFA1sdbHX9qmOiC&word=${content ? content : ''}`

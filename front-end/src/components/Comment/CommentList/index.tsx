@@ -102,7 +102,7 @@ const CommentList = () => {
               onSelect={onSelect}
             />
           </div>
-          <ul className={style.comments}>
+          <div className={style.comments}>
             {comments.length
               ? comments.map(comment => {
                   return (
@@ -113,7 +113,7 @@ const CommentList = () => {
                   );
                 })
               : undefined}
-          </ul>
+          </div>
           <div className={style.paginate}>
             <Pagination current={curPage} defaultPageSize={5} total={length} onChange={onChange} />
           </div>

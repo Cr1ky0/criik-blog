@@ -76,6 +76,7 @@
 
           .likes {
             @include likesUni;
+            transition: all .3s;
 
             &:hover {
               color: $THEME_COLOR;
@@ -103,10 +104,15 @@
           line-height: 22px;
           margin-right: 5px;
           cursor: pointer;
+          transition: all .3s;
 
           &:hover {
             color: $THEME_COLOR;
           }
+        }
+
+        .replyComment {
+          @extend .delComment;
         }
       }
 
@@ -139,4 +145,10 @@
       left: 60px;
     }
   }
+
+  .writeComment {
+    padding-top: 20px;
+    overflow: hidden;
+  }
+
 }

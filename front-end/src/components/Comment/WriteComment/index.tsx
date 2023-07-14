@@ -15,12 +15,17 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addLength, setComments, setIsLoading } from '@/redux/slices/comments';
+import { addLength, setComments, setIsLoading, addReply } from '@/redux/slices/comments';
 
 // api
 import { addCommentAjax, filterCommentAjax } from '@/api/comment';
+import { addReplyAjax } from '@/api/reply';
 
-const WriteComment = () => {
+interface WriteCommentProps {
+  belongingComment?: string;
+}
+
+const WriteComment: React.FC<WriteCommentProps> = ({ belongingComment }) => {
   const message = useGlobalMessage();
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const userNameRef = useRef<InputRef>(null);
@@ -40,6 +45,7 @@ const WriteComment = () => {
     setIsOpen(false);
   }, []);
 
+  // 正常提交
   const handleSubmit = async () => {
     setIsLoading1(true);
     const comment = commentRef.current as HTMLTextAreaElement;
@@ -57,37 +63,63 @@ const WriteComment = () => {
       const type = data.conclusion_type;
       const dataObj = data.data[0];
       if (type.toString() === '1')
-        await addCommentAjax(
-          {
-            belongingBlog: selectedId,
-            contents: comment.value,
-            userId: user ? user.id : undefined,
-            brief: user ? user.brief : brief.value ? brief.value : undefined,
-            username: user ? user.name : username.value ? username.value : '匿名',
-            userRole: user ? user.role : 'visitor',
-          },
-          async () => {
-            await message.loadingAsync('提交中...', '提交成功');
-            comment.value = '';
-            dispatch(setIsLoading(true));
-            setTimeout(() => {
-              dispatch(setIsLoading(false));
-            }, 500);
-            dispatch(addLength());
-            dispatch(
-              setComments({
-                id: selectedId,
-                page: curPage,
-                sort: sort === 'time' ? '-publishAt' : '-likes',
-              })
-            );
-            setIsLoading1(false);
-          },
-          msg => {
-            message.error(msg);
-            setIsLoading1(false);
-          }
-        );
+        if (belongingComment)
+          await addReplyAjax(
+            {
+              belongingComment,
+              contents: comment.value,
+              userId: user ? user.id : undefined,
+              brief: user ? user.brief : brief.value ? brief.value : undefined,
+              username: user ? user.name : username.value ? username.value : '匿名',
+              userRole: user ? user.role : 'visitor',
+            },
+            async data => {
+              await message.loadingAsync('提交中...', '提交成功');
+              comment.value = '';
+              dispatch(setIsLoading(true));
+              setTimeout(() => {
+                dispatch(setIsLoading(false));
+              }, 500);
+              dispatch(addReply({ belongingComment, newReply: data.data.reply }));
+              setIsLoading1(false);
+            },
+            msg => {
+              message.error(msg);
+              setIsLoading1(false);
+            }
+          );
+        else
+          await addCommentAjax(
+            {
+              belongingBlog: selectedId,
+              contents: comment.value,
+              userId: user ? user.id : undefined,
+              brief: user ? user.brief : brief.value ? brief.value : undefined,
+              username: user ? user.name : username.value ? username.value : '匿名',
+              userRole: user ? user.role : 'visitor',
+            },
+            async () => {
+              await message.loadingAsync('提交中...', '提交成功');
+              comment.value = '';
+              dispatch(setIsLoading(true));
+              setTimeout(() => {
+                dispatch(setIsLoading(false));
+              }, 500);
+              dispatch(addLength());
+              dispatch(
+                setComments({
+                  id: selectedId,
+                  page: curPage,
+                  sort: sort === 'time' ? '-publishAt' : '-likes',
+                })
+              );
+              setIsLoading1(false);
+            },
+            msg => {
+              message.error(msg);
+              setIsLoading1(false);
+            }
+          );
       else {
         message.error(`评论包含敏感词: ${dataObj.words[0]} ,请重新编辑后发送！`);
         setIsLoading1(false);
@@ -130,7 +162,7 @@ const WriteComment = () => {
 
         <div className={style.submit}>
           <Button type="primary" size="middle" loading={isLoading} onClick={handleSubmit}>
-            提交
+            {belongingComment ? '回复' : '提交'}
           </Button>
         </div>
       </div>

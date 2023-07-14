@@ -110,13 +110,3 @@ exports.getComments = catchAsync(async (req, res) => {
     data: comments,
   });
 });
-
-exports.getReplysById = catchAsync(async (req, res) => {
-  const comment = await Comment.findById(req.params.id).populate('replys');
-  const { replys } = comment;
-
-  res.status(200).json({
-    status: 'success',
-    data: replys,
-  });
-});

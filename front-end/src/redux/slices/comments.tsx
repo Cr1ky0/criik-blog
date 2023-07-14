@@ -92,6 +92,15 @@ const commentsSlice = createSlice({
         } else return comment;
       });
     },
+    addReply: (state, action) => {
+      const { belongingComment, newReply } = action.payload;
+      state.commentList = state.commentList.map(comment => {
+        if (comment.id === belongingComment) {
+          comment.replys = [...comment.replys, newReply];
+        }
+        return comment;
+      });
+    },
   },
   extraReducers(builder) {
     builder
@@ -137,5 +146,6 @@ export const {
   decLength,
   delReply,
   updateReply,
+  addReply,
 } = commentsSlice.actions;
 export default commentsSlice.reducer;

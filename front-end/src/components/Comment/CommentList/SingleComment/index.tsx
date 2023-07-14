@@ -28,6 +28,9 @@ import { isLike } from '@/utils';
 import { avatarAjax, getAvatarOfUser } from '@/api/user';
 import { updateCommentAjax, deleteCommentAjax } from '@/api/comment';
 
+// comp
+import WriteComment from '@/components/Comment/WriteComment';
+
 export interface SingleCommentProps {
   info: CommentObj;
 }
@@ -45,6 +48,8 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
   // cookies
   const cookies = new Cookies();
   const user = cookies.get('user');
+
+  const [replyOpen, setReplyOpen] = useState(false);
 
   const handleDel = () => {
     modal.confirm({
@@ -116,7 +121,7 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
   };
 
   return (
-    <li className={`${style.wrapper} clearfix`}>
+    <div className={`${style.wrapper} clearfix`}>
       <div className={`${style.infoWrapper} clearfix`}>
         <div className={style.avatar} style={{ backgroundImage: `url(${avatar})` }}></div>
         <div className={style.info}>
@@ -145,12 +150,26 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
               )}
               <span className={`${style.likesNum}`}>{likes}</span>
             </div>
+            <div
+              className={`${style.replyComment} iconfont`}
+              onClick={() => {
+                setReplyOpen(!replyOpen);
+              }}
+            >
+              &#xe82e;
+            </div>
           </div>
         </div>
         <div className={style.signature}>{brief}</div>
       </div>
       <div className={style.comment}>{contents}</div>
-    </li>
+      {/* reply */}
+      {replyOpen ? (
+        <div className={style.writeComment}>
+          <WriteComment belongingComment={id}></WriteComment>
+        </div>
+      ) : undefined}
+    </div>
   );
 };
 
