@@ -20,9 +20,6 @@ import { addLength, setComments, setIsLoading } from '@/redux/slices/comments';
 // api
 import { addCommentAjax, filterCommentAjax } from '@/api/comment';
 
-// global
-import { ANONYMOUS_USER_ID } from '@/global';
-
 const WriteComment = () => {
   const message = useGlobalMessage();
   const commentRef = useRef<HTMLTextAreaElement>(null);
@@ -64,8 +61,8 @@ const WriteComment = () => {
           {
             belongingBlog: selectedId,
             contents: comment.value,
+            userId: user ? user.id : undefined,
             brief: user ? user.brief : brief.value ? brief.value : undefined,
-            userId: user ? user.id : ANONYMOUS_USER_ID, // 没登录统一设为匿名账户
             username: user ? user.name : username.value ? username.value : '匿名',
             userRole: user ? user.role : 'visitor',
           },

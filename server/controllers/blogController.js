@@ -1,10 +1,9 @@
 const Blog = require('../models/blogModel');
+const User = require('../models/userModel');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const filterObj = require('../utils/filterObj');
-
-const myId = '64326421e387110cac9f8ece';
 
 exports.defaultParams = (req, res, next) => {
   req.query.limit = '10';
@@ -149,9 +148,10 @@ exports.deleteBlogOfMenu = catchAsync(async (req, res, next) => {
 });
 
 exports.getSelfBlogs = catchAsync(async (req, res, next) => {
+  const id = await User.getAdminUserId();
   const features = new APIFeatures(
     Blog.find({
-      belongTo: myId,
+      belongTo: id,
     }),
     req.query
   )
@@ -170,7 +170,8 @@ exports.getSelfBlogs = catchAsync(async (req, res, next) => {
 });
 
 exports.getSelfBlogNum = catchAsync(async (req, res, next) => {
-  const blogs = await Blog.find({ belongTo: myId });
+  const id = await User.getAdminUserId();
+  const blogs = await Blog.find({ belongTo: id });
   const { length } = blogs;
   res.status(200).json({
     status: 'success',
@@ -181,7 +182,8 @@ exports.getSelfBlogNum = catchAsync(async (req, res, next) => {
 });
 
 exports.getSelfTimeLine = catchAsync(async (req, res, next) => {
-  const blogs = await Blog.find({ belongTo: myId })
+  const id = await User.getAdminUserId();
+  const blogs = await Blog.find({ belongTo: id })
     .select('title publishAt id')
     .sort('-publishAt');
 

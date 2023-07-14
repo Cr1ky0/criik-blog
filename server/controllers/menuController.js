@@ -2,8 +2,7 @@ const Menu = require('../models/menuModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const filterObj = require('../utils/filterObj');
-
-const myId = '64326421e387110cac9f8ece';
+const User = require('../models/userModel');
 
 exports.getMenus = catchAsync(async (req, res, next) => {
   const menus = await Menu.find();
@@ -75,7 +74,8 @@ exports.updateMenu = catchAsync(async (req, res, next) => {
 });
 
 exports.getSelfMenu = catchAsync(async (req, res, next) => {
-  const menus = await Menu.find({ belongTo: myId, grade: 1 });
+  const id = await User.getAdminUserId();
+  const menus = await Menu.find({ belongTo: id, grade: 1 });
   res.status(200).json({
     status: 'success',
     body: {

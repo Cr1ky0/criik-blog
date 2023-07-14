@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import Cookies from 'universal-cookie';
+import { useNavigate } from 'react-router';
+
 // css
 import style from './index.module.scss';
 
 // comp
 import Information from '@/components/TopHeader/Information';
-import ChangeInfo from '@/components/TopHeader/ChangeInfo';
 
 // antd
 import { Dropdown, Drawer } from 'antd';
@@ -21,8 +22,8 @@ import { BREAK_POINT } from '@/global';
 
 const Avatar = () => {
   const [openInfomation, setOpenInfomation] = useState(false);
-  const [openChangeInfo, setOpenChangeInfo] = useState(false);
   const message = useGlobalMessage();
+  const navigate = useNavigate();
   const avatar = useAvatar();
   const { width } = useViewport();
   const cookies = new Cookies();
@@ -30,9 +31,6 @@ const Avatar = () => {
 
   const onCloseInfo = useCallback(() => {
     setOpenInfomation(false);
-  }, []);
-  const onCloseChangeInfo = useCallback(() => {
-    setOpenChangeInfo(false);
   }, []);
   const items: MenuProps['items'] = [
     {
@@ -53,13 +51,26 @@ const Avatar = () => {
         <div
           style={{ padding: '5px 10px' }}
           onClick={() => {
-            setOpenChangeInfo(!openInfomation);
+            navigate('/backstage/info');
           }}
         >
           修改信息
         </div>
       ),
       key: '1',
+    },
+    {
+      label: (
+        <div
+          style={{ padding: '5px 10px' }}
+          onClick={() => {
+            navigate('/backstage/comment');
+          }}
+        >
+          评论管理
+        </div>
+      ),
+      key: '2',
     },
   ];
   return (
@@ -79,18 +90,6 @@ const Avatar = () => {
             destroyOnClose
           >
             <Information></Information>
-          </Drawer>
-
-          <Drawer
-            title="Change Information"
-            style={{ border: 'none' }}
-            width={width > BREAK_POINT ? '400px' : '100vw'}
-            placement={width > BREAK_POINT ? 'right' : 'left'}
-            onClose={onCloseChangeInfo}
-            open={openChangeInfo}
-            destroyOnClose
-          >
-            <ChangeInfo></ChangeInfo>
           </Drawer>
         </>
       ) : (

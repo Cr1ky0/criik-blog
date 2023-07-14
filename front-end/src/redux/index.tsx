@@ -9,6 +9,7 @@ import blog from './slices/blog';
 import comments from './slices/comments';
 import blogMenu from '@/redux/slices/blogMenu';
 import user from '@/redux/slices/user';
+import backstage from '@/redux/slices/backstage';
 
 //持久存储
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
@@ -21,6 +22,7 @@ const reducers = combineReducers({
   comments,
   blogMenu,
   user,
+  backstage,
 });
 
 const persistConfig = {

@@ -1,0 +1,67 @@
+@import "@/assets/css/index.scss";
+
+@mixin universal() {
+  .topBlank {
+    width: 100%;
+    height: $TOP_HEADER_H;
+    background-color: #FFF;
+  }
+
+  .wrapper {
+    height: 100vh;
+
+
+    .logo {
+      @include unSelectable;
+      width: 80%;
+      height: 45px;
+      line-height: 45px;
+      margin: 20px auto;
+      font-size: 24px;
+      text-align: center;
+      overflow: hidden;
+      border: {
+        radius: 5px;
+      };
+    }
+
+    .logOut {
+      cursor: pointer;
+      float: right;
+      padding-right: 10px;
+      transition: all .3s;
+
+      &:hover {
+        color: $THEME_COLOR;
+      }
+    }
+
+    .avatar {
+      float: right;
+      padding-right: 10px;
+      cursor: pointer;
+
+      .font {
+        @include unSelectable;
+      }
+    }
+
+    .back {
+      float: right;
+      padding-right: 20px;
+    }
+  }
+}
+
+@media (width > $BREAK_POINT) {
+  @include universal;
+  .content {
+    padding: 24px;
+    min-height: 280px;
+    overflow-y: auto;
+  }
+}
+
+@media (width<=$BREAK_POINT) {
+  @include universal;
+}

@@ -46,6 +46,7 @@ $fontColor: rgba(0, 0, 0, .8);
   }
 
   .markdown-body {
+    background-color: #FFF !important;
     color: $fontColor;
     line-height: 40px;
     font: {

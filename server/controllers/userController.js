@@ -4,8 +4,6 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const filterObj = require('../utils/filterObj');
 
-const myId = '64326421e387110cac9f8ece';
-
 // avatar
 exports.resizeUserAvatar = catchAsync(async (req, res, next) => {
   if (!req.body.avatar) return next();
@@ -103,7 +101,8 @@ exports.getUser = catchAsync(async (req, res, next) => {
 
 // 获取我个人的信息
 exports.getMyInfo = catchAsync(async (req, res, next) => {
-  const user = await User.findById(myId).select(
+  const id = await User.getAdminUserId();
+  const user = await User.findById(id).select(
     '-role -newEmail -emailResetTime'
   );
   res.status(200).json({

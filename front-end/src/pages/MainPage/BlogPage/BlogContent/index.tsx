@@ -74,12 +74,14 @@ const BlogContent = () => {
         const contents = filterTitle(blog.contents);
         const newBlog = Object.assign({}, blog, { contents });
         setCurBlog(newBlog);
-        timer = setTimeout(() => {
-          setLoading(false);
-        }, 1000);
       })
       .catch(err => {
         message.error(err.message);
+      })
+      .finally(() => {
+        timer = setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       });
     return () => {
       clearTimeout(timer);

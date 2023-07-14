@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
 
 // antd
@@ -45,7 +45,7 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
   const cookies = new Cookies();
   const user = cookies.get('user');
   // 获取当前评论用户的头像
-  useMemo(() => {
+  useEffect(() => {
     const getUserAvatarById = async (id: string) => {
       const res = await getAvatarOfUser(id);
       await avatarAjax(

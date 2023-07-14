@@ -85,10 +85,6 @@ const IntroductionBox: React.FC<IntroductionBoxProps> = props => {
           <div>{blogsNum}</div>
           <div>文章</div>
         </div>
-        <div>
-          <div>{timeline.length}</div>
-          <div>时间轴</div>
-        </div>
       </div>
       <div className={`${style.linkBox} clearfix`}>
         <LinkIcon

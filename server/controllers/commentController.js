@@ -1,4 +1,5 @@
 const Comment = require('../models/commentModel');
+const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const filterObj = require('../utils/filterObj');
@@ -55,9 +56,10 @@ exports.addComment = catchAsync(async (req, res, next) => {
   if (!contents) {
     return next(new AppError('请输入内容！', 400));
   }
+  const user = await User.getAnonymousUserId();
   const newComment = await Comment.create({
     contents,
-    belongingUser: userId,
+    belongingUser: userId || user,
     belongingBlog: belongingBlog,
     username: username || '匿名',
     userRole: userRole || 'visitor',
@@ -97,5 +99,14 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
   res.status(204).json({
     status: 'success',
     data: null,
+  });
+});
+
+exports.getComments = catchAsync(async (req, res, next) => {
+  const comments = await Comment.find();
+
+  res.status(200).json({
+    status: 'success',
+    data: comments,
   });
 });

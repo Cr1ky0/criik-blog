@@ -1,0 +1,15 @@
+@import "@/assets/css/index.scss";
+
+@media (width > $BREAK_POINT) {
+  .wrapper {
+
+    width: 50%;
+  }
+}
+
+@media (width < $BREAK_POINT) {
+  .wrapper {
+    width: 90%;
+    padding-top: 2vh;
+  }
+}

@@ -48,6 +48,24 @@ const router: Routes[] = [
           },
         ],
       },
+      {
+        path: 'backstage',
+        element: lazy(() => import('@/pages/MainPage/BackStage')),
+        children: [
+          {
+            path: '',
+            element: lazy(() => import('@/pages/MainPage/BackStage/EditInfo')),
+          },
+          {
+            path: 'info',
+            element: lazy(() => import('@/pages/MainPage/BackStage/EditInfo')),
+          },
+          {
+            path: 'comment',
+            element: lazy(() => import('@/pages/MainPage/BackStage/EditComment')),
+          },
+        ],
+      },
       // {
       //   path: 'test',
       //   element: lazy(() => import('@/pages/MainPage/TestPage')),

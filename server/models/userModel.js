@@ -86,6 +86,19 @@ const userSchema = new mongoose.Schema(
     },
   }
 );
+
+// 查找管理员ID
+userSchema.statics.getAdminUserId = async function () {
+  const user = await this.findOne({ role: 'admin' }, '_id');
+  return user._id;
+};
+
+// 查找匿名用户
+userSchema.statics.getAnonymousUserId = async function () {
+  const user = await this.findOne({ role: { $ne: 'admin' } }, '_id');
+  return user._id;
+};
+
 // virtual props
 // 自己的博客
 userSchema.virtual('blogs', {
