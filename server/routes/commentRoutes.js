@@ -18,8 +18,9 @@ router
   .patch(commentController.updateComment); // 更新评论（用于更新likes）
 
 router.use(authController.protect, authController.restrictTo('admin'));
-// 获取所有评论
-router.route('/:id').delete(commentController.deleteComment); // 删除评论
-router.route('/').get(commentController.getComments);
+router
+  .route('/:id')
+  .get(commentController.getAllCommentsOfBlog)
+  .delete(commentController.deleteComment); // 删除评论
 
 module.exports = router;

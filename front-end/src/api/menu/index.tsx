@@ -19,3 +19,8 @@ export const updateMenuAjax = catchAsync(async (values: UpdateMenuObj) => {
   const response = await service.patch(`/api/menus/${id}`, { title, icon, color });
   return Promise.resolve(response);
 });
+
+export const getMenuAjax = async (id: string) => {
+  const response = await service.get(`/api/menus/getMenuById/${id}`);
+  return Promise.resolve(response);
+};

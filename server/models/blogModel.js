@@ -15,16 +15,6 @@ const blogSchema = new mongoose.Schema(
       required: true,
       ref: 'Menu',
     },
-    // // 分类菜单名
-    // menuTitle: {
-    //   type: String,
-    //   required: true,
-    // },
-    // // 分类菜单颜色
-    // menuColor: {
-    //   type: String,
-    //   required: true,
-    // },
     author: {
       type: String,
       required: [true, '博客需要有作者！'],
@@ -64,6 +54,11 @@ const blogSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User',
     },
+    // 评论数量
+    commentCount: {
+      type: Number,
+      default: 0,
+    },
     active: {
       type: Boolean,
       default: true,
@@ -85,7 +80,7 @@ blogSchema.virtual('comments', {
 });
 
 // 中间件
-blogSchema.pre(/^(find)/, function (next) {
+blogSchema.pre(/^(find)|(populate)/, function (next) {
   this.find({ active: { $ne: false } }).select('-__v'); // 不能添加和其他表有关联的属性
   next();
 });

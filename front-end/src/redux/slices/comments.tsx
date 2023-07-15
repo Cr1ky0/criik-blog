@@ -118,6 +118,7 @@ const commentsSlice = createSlice({
               brief: comment.brief,
               replys: comment.replys,
               userId: comment.belongingUser,
+              belongingBlog: comment.belongingBlog,
             };
           });
         else state.commentList = []; // 解决切换bug，不是异步的问题，是忘记在没有评论时修改state了

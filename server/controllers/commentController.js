@@ -110,3 +110,12 @@ exports.getComments = catchAsync(async (req, res) => {
     data: comments,
   });
 });
+
+exports.getAllCommentsOfBlog = catchAsync(async (req, res) => {
+  const comments = await Comment.find({ belongingBlog: req.params.id });
+
+  res.status(200).json({
+    status: 'success',
+    data: comments,
+  });
+});

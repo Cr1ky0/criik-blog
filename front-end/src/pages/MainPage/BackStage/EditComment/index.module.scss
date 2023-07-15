@@ -1,0 +1,19 @@
+.wrapper {
+  width: 90%;
+  height: 90%;
+  overflow-y: auto;
+}
+
+.comments {
+  background-color: #FFF;
+
+  > div:not(:last-child)::after {
+    content: " ";
+    display: block;
+    height: 1px;
+    width: 80%;
+    margin: 30px auto;
+    background-color: rgba(0, 0, 0, .03);
+
+  }
+}

@@ -11,6 +11,9 @@ router.get(
   blogController.getSelfBlogs
 );
 
+// 获取指定博客
+router.get('/getBlog/:id', blogController.getBlog);
+
 // 获取我的博客数量
 router.get('/getSelfBlogNum', blogController.getSelfBlogNum);
 
@@ -23,11 +26,15 @@ router.patch('/updateViewOfBlog/:id', blogController.updateViewOfBlog);
 // 更新博客点赞数
 router.patch('/updateLikesOfBlog/:id', blogController.updateLikesOfBlog);
 
-// 获取指定博客
-router.route('/:id').get(blogController.getBlog);
+// 更新博客评论数
+router.patch('/plusCommentCount/:id', blogController.plusCommentCount);
+router.patch('/decreaseCommentCount/:id', blogController.decreaseCommentCount);
 
 router.use(authController.protect);
 router.use(authController.restrictTo('admin'));
+
+// 重置所有blogs的commentCount
+router.patch('/syncCommentCount', blogController.syncCommentCount);
 
 // 更新收藏状态
 router.patch('/updateCollectOfBlog/:id', blogController.updateCollectOfBlog);
@@ -41,4 +48,14 @@ router
   .route('/:id')
   .patch(blogController.updateBlog) // 更新博客
   .delete(blogController.deleteBlog); // 删除博客
+
+// 获取有评论的博客
+router.get('/getBlogsWithComments', blogController.getBlogWithComments);
+
+// 获取有评论的博客数量
+router.get(
+  '/getBlogsWithCommentsCount',
+  blogController.getBlogWithCommentsCount
+);
+
 module.exports = router;

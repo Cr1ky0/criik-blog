@@ -14,6 +14,9 @@ router.use(authController.restrictTo('admin'));
 // router.route('/getAllMenus').get(menuController.getMenus);
 router.route('/').post(menuController.addMenu);
 
+// 获取指定id的Menu
+router.get('/getMenuById/:id', menuController.getMenuById);
+
 router
   .route('/:id')
   .get(menuController.getMenusOfUser)

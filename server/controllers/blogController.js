@@ -10,7 +10,7 @@ exports.defaultParams = (req, res, next) => {
   next();
 };
 
-exports.getBlog = catchAsync(async (req, res, next) => {
+exports.getBlog = catchAsync(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
 
   res.status(200).json({
@@ -67,6 +67,28 @@ exports.updateBlog = catchAsync(async (req, res, next) => {
     data: {
       updatedBlog,
     },
+  });
+});
+
+exports.plusCommentCount = catchAsync(async (req, res) => {
+  const blog = await Blog.findById(req.params.id);
+  blog.commentCount += 1;
+  await blog.save();
+
+  res.status(200).json({
+    status: 'success',
+    data: {},
+  });
+});
+
+exports.decreaseCommentCount = catchAsync(async (req, res) => {
+  const blog = await Blog.findById(req.params.id);
+  blog.commentCount -= 1;
+  await blog.save();
+
+  res.status(200).json({
+    status: 'success',
+    data: {},
   });
 });
 
@@ -188,9 +210,54 @@ exports.getSelfTimeLine = catchAsync(async (req, res, next) => {
     .sort('-publishAt');
 
   res.status(200).json({
-    status: '200',
+    status: 'success',
     data: {
       timeLine: blogs,
     },
+  });
+});
+
+exports.getBlogWithComments = catchAsync(async (req, res) => {
+  const features = new APIFeatures(
+    Blog.find({ commentCount: { $gt: 0 } }).populate('comments'),
+    req.query
+  )
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const blogs = await features.query;
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      blogs,
+    },
+  });
+});
+
+exports.getBlogWithCommentsCount = catchAsync(async (req, res) => {
+  const count = await Blog.count({ commentCount: { $gt: 0 } });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      count,
+    },
+  });
+});
+
+// 更新所有blog的commentCount为当前comments的长度
+exports.syncCommentCount = catchAsync(async (req, res) => {
+  const blogs = await Blog.find().populate('comments');
+
+  blogs.forEach((blog) => {
+    blog.commentCount = blog.comments.length;
+    blog.save();
+  });
+
+  res.status(200).json({
+    status: 'success',
+    data: {},
   });
 });

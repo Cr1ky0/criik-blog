@@ -57,3 +57,15 @@ exports.deleteComment = catchAsync(async (req, res) => {
     data: null,
   });
 });
+
+exports.delReplysOfComment = catchAsync(async (req, res) => {
+  await ReplyComment.updateMany(
+    { belongingComment: req.params.id },
+    { active: false }
+  );
+
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});

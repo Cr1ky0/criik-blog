@@ -112,6 +112,7 @@ export interface BlogObj {
   contents?: string;
   likes?: number;
   views?: number;
+  commentCount?: number;
   belongTo?: string;
 }
 
@@ -127,16 +128,16 @@ export interface SideMenuItem {
   blogs?: BlogObj[];
 }
 
-export interface CommentObj {
-  id: string;
-  username: string;
-  brief: string;
-  time: string;
-  likes: number;
-  contents: string;
-  userRole: string;
-  userId: string;
-}
+// export interface CommentObj {
+//   id: string;
+//   username: string;
+//   brief: string;
+//   time: string;
+//   likes: number;
+//   contents: string;
+//   userRole: string;
+//   userId: string;
+// }
 
 export interface CommentListObj {
   replys: ReplyApiObj[];
@@ -148,6 +149,7 @@ export interface CommentListObj {
   contents: string;
   userRole: string;
   userId: string;
+  belongingBlog: string;
 }
 
 export interface CommentApiObj {

@@ -14,6 +14,17 @@ exports.getMenus = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getMenuById = catchAsync(async (req, res) => {
+  const menu = await Menu.findById(req.params.id);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      menu,
+    },
+  });
+});
+
 exports.getMenusOfUser = catchAsync(async (req, res, next) => {
   // 过滤一下已经populate的子menu
   const menus = await Menu.find({ belongTo: req.params.id, grade: 1 });

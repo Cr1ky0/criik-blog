@@ -8,7 +8,7 @@ import { Tag } from 'antd';
 import style from './index.module.scss';
 
 // interface
-import { CommentObj } from '@/interface';
+import { CommentListObj } from '@/interface';
 
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
@@ -30,16 +30,19 @@ import { updateCommentAjax, deleteCommentAjax } from '@/api/comment';
 
 // comp
 import WriteComment from '@/components/Comment/WriteComment';
+import { delReplysOfCommentAjax } from '@/api/reply';
+import { decreaseCommentCountAjax } from '@/api/blog';
 
 export interface SingleCommentProps {
-  info: CommentObj;
+  info: CommentListObj;
+  noLikes?: boolean;
 }
 
 const SingleComment: React.FC<SingleCommentProps> = props => {
-  const { info } = props;
+  const { info, noLikes } = props;
   const modal = useGlobalModal();
   const message = useGlobalMessage();
-  const { contents, username, brief, time, userId, likes, id, userRole } = info;
+  const { contents, username, brief, time, userId, likes, id, userRole, belongingBlog } = info;
   // 利用likeList判断当前评论的id是否在其中来记录点赞状态
   const likeList = useAppSelector(state => state.comments.likeList);
   const isChosen = isLike(likeList, id);
@@ -58,7 +61,9 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
       onOk: async () => {
         await deleteCommentAjax(
           id,
-          () => {
+          async () => {
+            await delReplysOfCommentAjax(id);
+            await decreaseCommentCountAjax(belongingBlog);
             message.success('删除成功');
             dispatch(deleteComment(id));
             dispatch(decLength());
@@ -138,18 +143,20 @@ const SingleComment: React.FC<SingleCommentProps> = props => {
                 &#xe604;
               </div>
             ) : undefined}
-            <div className={style.likesWrapper}>
-              {isChosen ? (
-                <div className={`${style.likesOnChosen} iconfont`} onClick={handleClick}>
-                  &#xeca2;
-                </div>
-              ) : (
-                <div className={`${style.likes} iconfont`} onClick={handleClick}>
-                  &#xeca1;
-                </div>
-              )}
-              <span className={`${style.likesNum}`}>{likes}</span>
-            </div>
+            {noLikes ? undefined : (
+              <div className={style.likesWrapper}>
+                {isChosen ? (
+                  <div className={`${style.likesOnChosen} iconfont`} onClick={handleClick}>
+                    &#xeca2;
+                  </div>
+                ) : (
+                  <div className={`${style.likes} iconfont`} onClick={handleClick}>
+                    &#xeca1;
+                  </div>
+                )}
+                <span className={`${style.likesNum}`}>{likes}</span>
+              </div>
+            )}
             <div
               className={`${style.replyComment} iconfont`}
               onClick={() => {

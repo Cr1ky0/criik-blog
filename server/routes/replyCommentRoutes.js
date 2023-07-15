@@ -14,4 +14,10 @@ router.route('/:id').patch(replyCommentController.updateComment);
 router.use(authController.protect, authController.restrictTo('admin'));
 router.route('/:id').delete(replyCommentController.deleteComment);
 
+// 删除对应评论下的reply，id为所属评论的id
+router.delete(
+  '/delReplysOfComment/:id',
+  replyCommentController.delReplysOfComment
+);
+
 module.exports = router;

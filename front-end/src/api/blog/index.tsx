@@ -26,7 +26,7 @@ export const deleteBlogOfMenuAjax = catchAsync(async (blogId: string) => {
 });
 
 export const getCurBlog = async (id: string) => {
-  const response = await service.get(`/api/blogs/${id}`);
+  const response = await service.get(`/api/blogs/getBlog/${id}`);
   return Promise.resolve(response.data);
 };
 
@@ -44,6 +44,33 @@ export const updateLikesOfBlogAjax = async (id: string, likes: number) => {
   const response = await service.patch(`/api/blogs/updateLikesOfBlog/${id}`, { likes });
   return Promise.resolve(response.data);
 };
+
+export const plusCommentCountAjax = async (id: string) => {
+  const response = await service.patch(`/api/blogs/plusCommentCount/${id}`);
+  return Promise.resolve(response.data);
+};
+
+export const decreaseCommentCountAjax = async (id: string) => {
+  const response = await service.patch(`/api/blogs/decreaseCommentCount/${id}`);
+  return Promise.resolve(response.data);
+};
+
+export const getBlogsWithCommentsAjax = catchAsync(async (option: ReqOptions) => {
+  const { page, fields, sort, limit, options } = option;
+  const response = await service.get(
+    '/api/blogs/getBlogsWithComments?' +
+      (page ? `page=${page}&` : '') +
+      (fields ? `fields=${fields}&` : '') +
+      (sort ? `sort=${sort}&` : '') +
+      (limit ? `limit=${limit}&` : '') +
+      (options ? `${options}` : '')
+  );
+  return Promise.resolve(response.data);
+});
+export const getBlogsWithCommentsCountAjax = catchAsync(async () => {
+  const response = await service.get('/api/blogs/getBlogsWithCommentsCount');
+  return Promise.resolve(response.data);
+});
 
 export const getCollectedBlogsNum = async () => {
   const response = await service.get('/api/blogs/getSelfBlogs?fields=id&isCollected=true');

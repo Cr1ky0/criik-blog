@@ -20,7 +20,7 @@ import img from '@/assets/images/default.webp';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addLikeId, delLikeId, delReply, updateComment, updateReply } from '@/redux/slices/comments';
+import { addLikeId, delLikeId, delReply, updateReply } from '@/redux/slices/comments';
 
 // util
 import { isLike } from '@/utils';
@@ -31,9 +31,10 @@ import { updateReplyAjax, deleteReplyAjax } from '@/api/reply';
 
 export interface SingleReplyProps {
   reply: ReplyApiObj;
+  noLikes?: boolean;
 }
 
-const SingleComment: React.FC<SingleReplyProps> = ({ reply }) => {
+const SingleComment: React.FC<SingleReplyProps> = ({ reply, noLikes }) => {
   const modal = useGlobalModal();
   const message = useGlobalMessage();
   const {
@@ -142,18 +143,20 @@ const SingleComment: React.FC<SingleReplyProps> = ({ reply }) => {
                 &#xe604;
               </div>
             ) : undefined}
-            <div className={style.likesWrapper}>
-              {isChosen ? (
-                <div className={`${style.likesOnChosen} iconfont`} onClick={handleClick}>
-                  &#xeca2;
-                </div>
-              ) : (
-                <div className={`${style.likes} iconfont`} onClick={handleClick}>
-                  &#xeca1;
-                </div>
-              )}
-              <span className={`${style.likesNum}`}>{likes}</span>
-            </div>
+            {noLikes ? undefined : (
+              <div className={style.likesWrapper}>
+                {isChosen ? (
+                  <div className={`${style.likesOnChosen} iconfont`} onClick={handleClick}>
+                    &#xeca2;
+                  </div>
+                ) : (
+                  <div className={`${style.likes} iconfont`} onClick={handleClick}>
+                    &#xeca1;
+                  </div>
+                )}
+                <span className={`${style.likesNum}`}>{likes}</span>
+              </div>
+            )}
           </div>
         </div>
         <div className={style.signature}>{brief}</div>
