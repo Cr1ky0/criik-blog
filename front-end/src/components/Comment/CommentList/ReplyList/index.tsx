@@ -16,10 +16,12 @@ interface ReplyListProps {
 
 const ReplyList: React.FC<ReplyListProps> = ({ comment, noLikes }) => {
   return (
-    <div className={style.wrapper} style={comment.replys.length ? { paddingTop: 30 } : undefined}>
-      {comment.replys.map(reply => {
-        return <SingleReply key={reply._id} reply={reply} noLikes={noLikes}></SingleReply>;
-      })}
+    <div className={style.wrapper} style={comment.replys && comment.replys.length ? { paddingTop: 30 } : undefined}>
+      {comment.replys
+        ? comment.replys.map(reply => {
+            return <SingleReply key={reply._id} reply={reply} noLikes={noLikes}></SingleReply>;
+          })
+        : undefined}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 
 // antd
-import { EditOutlined, CommentOutlined } from '@ant-design/icons';
+import { EditOutlined, CommentOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 
@@ -23,6 +23,7 @@ type MenuItem = Required<MenuProps>['items'][number];
 const items: MenuItem[] = [
   getItem('个人信息', 'info', <EditOutlined />),
   getItem('评论管理', 'comment', <CommentOutlined />),
+  getItem('博客管理', 'blog', <UnorderedListOutlined />),
 ];
 
 const ManageMenu = () => {

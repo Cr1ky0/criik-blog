@@ -72,6 +72,19 @@ const Avatar = () => {
       ),
       key: '2',
     },
+    {
+      label: (
+        <div
+          style={{ padding: '5px 10px' }}
+          onClick={() => {
+            navigate('/backstage/blog');
+          }}
+        >
+          博客管理
+        </div>
+      ),
+      key: '3',
+    },
   ];
   return (
     <>

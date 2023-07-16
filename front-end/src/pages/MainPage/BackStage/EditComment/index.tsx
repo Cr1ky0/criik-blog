@@ -142,20 +142,22 @@ const EditComment: React.FC = () => {
 
   // 原形式
   const BackStageCommentList = (record: any) => {
-    const commentsList = record.comments.map((comment: CommentApiObj) => {
-      return {
-        replys: comment.replys,
-        id: comment._id,
-        username: comment.username,
-        brief: comment.brief,
-        time: moment(comment.publishAt).format('YYYY-MM-DD HH:mm:ss'),
-        likes: comment.likes,
-        contents: comment.contents,
-        userRole: comment.userRole,
-        userId: comment.belongingUser,
-        belongingBlog: comment.belongingBlog,
-      };
-    });
+    const commentsList = record.comments
+      .map((comment: CommentApiObj) => {
+        return {
+          replys: comment.replys,
+          id: comment._id,
+          username: comment.username,
+          brief: comment.brief,
+          time: moment(comment.publishAt).format('YYYY-MM-DD HH:mm:ss'),
+          likes: comment.likes,
+          contents: comment.contents,
+          userRole: comment.userRole,
+          userId: comment.belongingUser,
+          belongingBlog: comment.belongingBlog,
+        };
+      })
+      .reverse();
 
     return (
       <div className={style.comments}>

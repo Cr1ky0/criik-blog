@@ -64,6 +64,10 @@ const router: Routes[] = [
             path: 'comment',
             element: lazy(() => import('@/pages/MainPage/BackStage/EditComment')),
           },
+          {
+            path: 'blog',
+            element: lazy(() => import('@/pages/MainPage/BackStage/BlogManage')),
+          },
         ],
       },
       // {

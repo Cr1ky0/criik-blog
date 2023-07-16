@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router';
 
 // antd
@@ -19,16 +19,25 @@ import { BREAK_POINT } from '@/global';
 // comp
 import ManageMenu from '@/components/BackStage/ManageMenu';
 
+// redux
+import { setChosenList } from '@/redux/slices/chosenList';
+import { useAppDispatch } from '@/redux';
+
 const BackStage: React.FC = () => {
+  const dispatch = useAppDispatch();
   const { width } = useViewport();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  useEffect(() => {
+    dispatch(setChosenList([false, false, false, false]));
+  }, []);
+
   return (
     <>
       <Layout>
-        <Header className={style.topBlank}></Header>
+        {/*<Header className={style.topBlank}></Header>*/}
         <Layout className={style.wrapper}>
           <Sider trigger={null} collapsible collapsed={width < BREAK_POINT} width="15vw" theme="light">
             <div className={style.logo}>
