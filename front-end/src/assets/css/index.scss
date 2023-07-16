@@ -7,6 +7,14 @@ $GRADE_TOP: 999;
 $GRADE_MIDDLE: 500;
 $GRADE_BOTTOM: 100;
 $BREAK_POINT: 768px;
+$MAX_WIDTH: 1100px;
+
+@mixin onHover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+  position: relative;
+  z-index: $GRADE_TOP;
+}
+
 
 // 全局浮现动画效果
 @keyframes showAnime {

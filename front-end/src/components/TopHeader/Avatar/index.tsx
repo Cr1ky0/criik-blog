@@ -85,6 +85,58 @@ const Avatar = () => {
       ),
       key: '3',
     },
+    {
+      label: (
+        <div
+          style={{ padding: '5px 10px' }}
+          onClick={() => {
+            navigate('/backstage/photo');
+          }}
+        >
+          添加照片
+        </div>
+      ),
+      key: '4',
+    },
+    {
+      label: (
+        <div
+          style={{ padding: '5px 10px' }}
+          onClick={() => {
+            navigate('/backstage/editPhoto', { state: 'now' });
+          }}
+        >
+          编辑照片
+        </div>
+      ),
+      key: '5',
+    },
+    {
+      label: (
+        <div
+          style={{ padding: '5px 10px' }}
+          onClick={() => {
+            navigate('/backstage/oss');
+          }}
+        >
+          OSS管理
+        </div>
+      ),
+      key: '6',
+    },
+    {
+      label: (
+        <div
+          style={{ padding: '5px 10px' }}
+          onClick={() => {
+            navigate('/backstage/smtp');
+          }}
+        >
+          SMTP管理
+        </div>
+      ),
+      key: '7',
+    },
   ];
   return (
     <>

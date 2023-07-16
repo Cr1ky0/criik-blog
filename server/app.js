@@ -20,6 +20,9 @@ const blogRouter = require('./routes/blogRoutes');
 const commentRouter = require('./routes/commentRoutes');
 const menuRouter = require('./routes/menuRoutes');
 const replyCommentRouter = require('./routes/replyCommentRoutes');
+const OSSPolicyRoutes = require('./routes/OSSPolicyRoutes');
+const imagesRoutes = require('./routes/imagesRoutes');
+const emailRoutes = require('./routes/emailRoutes');
 
 const app = express();
 
@@ -118,6 +121,9 @@ app.use('/api/blogs', blogRouter);
 app.use('/api/comments', commentRouter);
 app.use('/api/menus', menuRouter);
 app.use('/api/reply', replyCommentRouter);
+app.use('/api/policy', OSSPolicyRoutes);
+app.use('/api/images', imagesRoutes);
+app.use('/api/email', emailRoutes);
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));

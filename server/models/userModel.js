@@ -87,6 +87,13 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+// 照片归属
+userSchema.virtual('images', {
+  ref: 'Image', // 关联表
+  foreignField: 'belongTo', // 外键
+  localField: '_id', // 关联属性
+});
+
 // 查找管理员ID
 userSchema.statics.getAdminUserId = async function () {
   const user = await this.findOne({ role: 'admin' }, '_id');

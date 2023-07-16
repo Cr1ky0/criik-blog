@@ -14,6 +14,8 @@ export interface messageObj {
   loadingSuccessAsync: (loading: string, content: string) => void;
   error: (content: string) => void;
   warning: (content: string) => void;
+  loading: (content: string) => void;
+  destroy: () => void;
   holder: React.ReactNode;
 }
 
@@ -33,6 +35,12 @@ const messageContext = createContext<messageObj>({
   error: content => {
     message.error(content);
   },
+  loading: content => {
+    message.loading(content);
+  },
+  destroy: () => {
+    message.destroy();
+  },
   holder: <></>,
 });
 
@@ -45,9 +53,20 @@ const MessageProvider: React.FC<messageProviderProps> = ({ children }) => {
   };
   const [messageApi, contextHolder] = message.useMessage(config);
 
+  const destroy = () => {
+    messageApi.destroy();
+  };
+
   const success = (content: string) => {
     messageApi.open({
       type: 'success',
+      content,
+    });
+  };
+
+  const loading = (content: string) => {
+    messageApi.open({
+      type: 'loading',
       content,
     });
   };
@@ -92,7 +111,16 @@ const MessageProvider: React.FC<messageProviderProps> = ({ children }) => {
 
   return (
     <messageContext.Provider
-      value={{ success, error, warning, loadingAsync, loadingSuccessAsync, holder: contextHolder }}
+      value={{
+        success,
+        error,
+        warning,
+        loadingAsync,
+        loadingSuccessAsync,
+        destroy,
+        loading,
+        holder: contextHolder,
+      }}
     >
       {contextHolder}
       {children}
@@ -103,6 +131,7 @@ const MessageProvider: React.FC<messageProviderProps> = ({ children }) => {
 export default MessageProvider;
 
 export const useGlobalMessage = () => {
-  const { success, error, warning, loadingAsync, loadingSuccessAsync, holder } = useContext(messageContext);
-  return { success, error, warning, loadingAsync, loadingSuccessAsync, holder };
+  const { success, error, warning, loadingAsync, loadingSuccessAsync, destroy, loading, holder } =
+    useContext(messageContext);
+  return { success, error, warning, loadingAsync, loadingSuccessAsync, destroy, loading, holder };
 };

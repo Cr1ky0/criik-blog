@@ -15,11 +15,11 @@ const MiddleNav = () => {
       <LinkBtn icon="&#xe60e;" seq={1} link={'/blog'}>
         博客
       </LinkBtn>
-      <LinkBtn icon="&#xe896;" seq={2} link={'/manage'}>
-        管理
-      </LinkBtn>
-      <LinkBtn icon="&#xe7df;" seq={3} link={'/stars'}>
+      <LinkBtn icon="&#xe7df;" seq={2} link={'/stars'}>
         精选
+      </LinkBtn>
+      <LinkBtn icon="&#xe612;" seq={3} link={'/photo'}>
+        相册
       </LinkBtn>
     </div>
   );

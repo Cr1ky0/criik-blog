@@ -78,9 +78,6 @@ const BlogManage = () => {
     }
   }, [width, window.innerHeight]);
 
-  useEffect(() => {
-    dispatch(setChosenList([false, false, true, false]));
-  }, []);
   // 编辑状态菜单
   const items: MenuProps['items'] = [
     {

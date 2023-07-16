@@ -35,8 +35,8 @@ const router: Routes[] = [
         ],
       },
       {
-        path: 'manage',
-        element: lazy(() => import('@/pages/MainPage/BlogManage')),
+        path: 'photo',
+        element: lazy(() => import('@/pages/MainPage/PhotoTimeLine')),
       },
       {
         path: 'stars',
@@ -68,12 +68,30 @@ const router: Routes[] = [
             path: 'blog',
             element: lazy(() => import('@/pages/MainPage/BackStage/BlogManage')),
           },
+          {
+            path: 'photo',
+            element: lazy(() => import('@/pages/MainPage/BackStage/AddPhoto')),
+          },
+          {
+            path: 'editPhoto',
+            element: lazy(() => import('@/pages/MainPage/BackStage/EditPhoto')),
+            children: [
+              {
+                path: '',
+                element: lazy(() => import('@/pages/MainPage/BackStage/EditPhoto/EditCertain')),
+              },
+            ],
+          },
+          {
+            path: 'oss',
+            element: lazy(() => import('@/pages/MainPage/BackStage/EditOSS')),
+          },
+          {
+            path: 'smtp',
+            element: lazy(() => import('@/pages/MainPage/BackStage/EditSMTP')),
+          },
         ],
       },
-      // {
-      //   path: 'test',
-      //   element: lazy(() => import('@/pages/MainPage/TestPage')),
-      // },
     ],
   },
   {

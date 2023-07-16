@@ -70,7 +70,7 @@ const StarBlog = () => {
 
   useEffect(() => {
     // 设置初始选中状态
-    dispatch(setChosenList([false, false, false, true]));
+    dispatch(setChosenList([false, false, true, false]));
     const div = wrapper.current as HTMLDivElement;
     div.style.height = window.innerHeight - 50 + 'px';
     const now = document.getElementById(`blog-stars-btn-${chosen}`) as HTMLElement;
