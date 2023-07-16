@@ -8,8 +8,9 @@
   }
 
   .wrapper {
-    height: 100vh;
-
+    .content {
+      overflow-y: auto;
+    }
 
     .logo {
       @include unSelectable;

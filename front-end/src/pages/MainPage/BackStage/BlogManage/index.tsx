@@ -20,7 +20,6 @@ import { filterLT, getSideMenuItem, getTreeSelectList, hasBlog } from '@/utils';
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { addBlogMenu, setSelectedId, editBlogMenu } from '@/redux/slices/blogMenu';
-import { setChosenList } from '@/redux/slices/chosenList';
 import { setSelectKey } from '@/redux/slices/backstage';
 import {
   setMenuId,

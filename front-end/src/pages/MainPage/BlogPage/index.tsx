@@ -63,6 +63,15 @@ const BlogPage = () => {
     }
   }, [width, window.innerHeight]);
 
+  // 切换博客时滚动至top
+  useEffect(() => {
+    const content = document.getElementById('blog-page-content-wrapper') as HTMLElement;
+    content.scrollTo({
+      top: 0,
+      behavior: 'smooth', // 使用平滑滚动
+    });
+  }, [selectedId]);
+
   useEffect(() => {
     dispatch(setChosenList([false, true, false, false]));
   }, []);

@@ -23,11 +23,11 @@ const MobileMenu: React.FC<MobileMenuProps> = props => {
           <LinkBtn icon="&#xe60e;" seq={1} link={'/blog'} notAnimation={true} onClick={close}>
             博客
           </LinkBtn>
-          <LinkBtn icon="&#xe896;" seq={2} link={'/manage'} notAnimation={true} onClick={close}>
-            管理
-          </LinkBtn>
-          <LinkBtn icon="&#xe7df;" seq={3} link={'/stars'} notAnimation={true} onClick={close}>
+          <LinkBtn icon="&#xe7df;" seq={2} link={'/stars'} notAnimation={true} onClick={close}>
             精选
+          </LinkBtn>
+          <LinkBtn icon="&#xe612;" seq={3} link={'/photo'} notAnimation={true} onClick={close}>
+            相册
           </LinkBtn>
         </div>
         <div className={style.introWrapper}>
