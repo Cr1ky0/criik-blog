@@ -13,13 +13,16 @@ const getTitleList = (text: string) => {
   const codeBlocksRemoved = text.replace(/```[^`]*```|~~~[^~]*~~~/gs, '');
 
   // Find titles
-  const titles = codeBlocksRemoved.match(/^(#{1,6})(?:\s+)(.*)$/gm);
-  let newList;
-  if (titles)
-    newList = titles.map(text => {
-      return text.split('#')[1].split('<')[0].trim();
-    });
-  return newList;
+  const titles = codeBlocksRemoved.match(/^(#{1,})(?:\s+)(.*)$/gm);
+
+  const filterList = titles
+    ? titles.map(title => {
+        return title.replace(/^[#]+/g, '').trim();
+      })
+    : [];
+  return filterList.map(title => {
+    return title.split('<')[0].trim();
+  });
 };
 
 const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
