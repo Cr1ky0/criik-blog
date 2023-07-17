@@ -9,7 +9,6 @@ import { Header } from 'antd/es/layout/layout';
 import style from './index.module.scss';
 
 // img
-import img1 from '@/assets/images/home.jpg';
 import img2 from '@/assets/images/blog-icon.webp';
 
 // context
@@ -40,11 +39,23 @@ const HomePage = () => {
   // Mobile Menu Open State
   const [open, setOpen] = useState(false);
 
+  // photo
+  const [backgroundImage, setBackgroundImage] = useState(null);
+
   // Back To Top
   const wrapper = useRef<HTMLDivElement>(null);
   const [scrollTop, setScrollTop] = useState<number>(0);
   const [scrollHeight, setScrollHeight] = useState<number>(0);
   const childRef = useRef<HTMLDivElement>(null);
+
+  // 导入随机背景图片
+  useEffect(() => {
+    const randomNumber = Math.floor(Math.random() * 11) + 1;
+
+    import(`@/assets/images/homephoto-${randomNumber}.png`).then(imageModule => {
+      if (!backgroundImage) setBackgroundImage(imageModule.default);
+    });
+  }, []);
 
   useEffect(() => {
     const current = wrapper.current as HTMLDivElement;
@@ -77,7 +88,7 @@ const HomePage = () => {
       <Header className={style.backWhite}></Header>
       <div
         className={`${style.backgroundPhoto} clearfix`}
-        style={{ backgroundImage: `url(${img1})` }}
+        style={{ backgroundImage: `url(${backgroundImage})` }}
         ref={homePhotoWrapper}
       >
         <div className={style.homeTagWrapper}>

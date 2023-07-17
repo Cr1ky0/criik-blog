@@ -103,7 +103,7 @@ const BlogContent = () => {
             content: filterLT(contents),
           })
         );
-        navigate('/manage');
+        navigate('/backstage/blog');
         dispatch(setIsEdit(true));
       },
       err => {

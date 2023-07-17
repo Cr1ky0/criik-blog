@@ -169,7 +169,7 @@ const EditCertain = () => {
       },
       res => {
         const p = page ? parseInt(page) : 1;
-        if (!res.data.images.length && p > 1) navigate(`/manage/edit?page=${p - 1}`, { state: classification });
+        if (!res.data.images.length && p > 1) navigate(`/backstage/editPhoto?page=${p - 1}`, { state: classification });
         setPhotos(res.data.images);
       },
       content => {

@@ -61,6 +61,7 @@ $fontColor: rgba(0, 0, 0, .8);
 
       * {
         background-color: #ecf4fa !important;
+        //background-color: #282c34 !important;
       }
     }
 
@@ -88,7 +89,8 @@ $fontColor: rgba(0, 0, 0, .8);
     }
 
     blockquote {
-      background-color: #eef9fd;
+      //background-color: #eef9fd;
+      background-color: #e6f6e6;
       padding: {
         top: 10px;
         bottom: 10px;
@@ -96,7 +98,8 @@ $fontColor: rgba(0, 0, 0, .8);
         left: 15px;
       }
       border: {
-        left: 5px solid #4cb3d4;
+        //left: 5px solid #4cb3d4;
+        left: 5px solid #009400;
         radius: 5px;
       }
     }

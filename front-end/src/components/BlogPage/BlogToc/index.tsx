@@ -9,10 +9,14 @@ interface BlogTocProps {
 }
 
 const getTitleList = (text: string) => {
-  const textList = text.match(/#\s+(.*)/g);
+  // Delete code blocks
+  const codeBlocksRemoved = text.replace(/```[^`]*```|~~~[^~]*~~~/gs, '');
+
+  // Find titles
+  const titles = codeBlocksRemoved.match(/^(#{1,6})(?:\s+)(.*)$/gm);
   let newList;
-  if (textList)
-    newList = textList.map(text => {
+  if (titles)
+    newList = titles.map(text => {
       return text.split('#')[1].split('<')[0].trim();
     });
   return newList;
