@@ -188,13 +188,18 @@ export const filterLT = (text: string) => {
 // 过滤blog内容的Title
 export const filterTitle = (text: string) => {
   const newContents = filterLT(text);
-  const titleList = newContents.match(/#\s+(.*)/g);
+  // Delete code blocks
+  const codeBlocksRemoved = newContents.replace(/```[^`]*```|~~~[^~]*~~~/gs, '');
+  // Find titles
+  const titleList = codeBlocksRemoved.match(/^(#{1,})(?:\s+)(.*)$/gm);
+
   let filterContents = newContents;
-  if (titleList)
+  if (titleList) {
     titleList.map((title: string) => {
-      const filteredTitle = title.split('#')[1].trim();
+      const filteredTitle = title.split(/^(#{1,})/)[2].trim();
       filterContents = filterContents.replace(title, `${title}<span id="${filteredTitle}"></span>`);
     });
+  }
   return filterContents;
 };
 

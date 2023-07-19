@@ -7,8 +7,7 @@ import Cookies from 'universal-cookie';
 import BlogInfo from '@/components/Universal/BlogInfo';
 import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 import Comment from '@/components/Comment';
-import BlogToc from '@/components/BlogPage/BlogToc';
-import LoadingComp from '@/components/Universal/LoadingComp';
+import BlogToc2 from '@/components/BlogPage/BlogToc2';
 
 // antd
 import { Breadcrumb } from 'antd';
@@ -41,9 +40,10 @@ const BlogContent = () => {
   const modal = useGlobalModal();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
+  const fadeOut = useAppSelector(state => state.progressbar.fadeOut);
 
   // 获取面包屑列表
   const breadcrumbList = selectedId ? getBreadcrumbList(menus, selectedId, icons) : [];
@@ -62,7 +62,7 @@ const BlogContent = () => {
 
   useEffect(() => {
     let timer: any;
-    setLoading(true);
+    // setLoading(true);
     getCurBlog(selectedId)
       .then(response => {
         // 加载一次热度+1
@@ -77,12 +77,12 @@ const BlogContent = () => {
       })
       .catch(err => {
         message.error(err.message);
-      })
-      .finally(() => {
-        timer = setTimeout(() => {
-          setLoading(false);
-        }, 1000);
       });
+    // .finally(() => {
+    //   timer = setTimeout(() => {
+    //     setLoading(false);
+    //   }, 1000);
+    // });
     return () => {
       clearTimeout(timer);
     };
@@ -138,107 +138,111 @@ const BlogContent = () => {
   return (
     /* Content加载状态 */
     <>
-      {loading ? (
-        <div style={{ width: '100%', height: '100%', paddingTop: '20vh', overflow: 'hidden', minHeight: '120vh' }}>
-          <LoadingComp styles={{ backgroundColor: '#FFF' }}></LoadingComp>
-        </div>
-      ) : (
-        <div className={`${style.main} clearfix`}>
-          <div className={style.blog}>
-            <div className={style.breadCrumb}>
-              <Breadcrumb
-                items={
-                  breadcrumbList && breadcrumbList.length
-                    ? breadcrumbList.map(item => {
-                        return {
-                          title: (
-                            <>
-                              {item.icon} {item.title}
-                            </>
-                          ),
-                        };
-                      })
-                    : []
-                }
-              />
-            </div>
-            <div className={style.info}>
-              <div className={style.title}>{curBlog.title}</div>
-              <div className={style.blogInfo}>
-                {curBlog.id ? (
-                  <BlogInfo
-                    statistics={{
-                      id: curBlog.id,
-                      author: curBlog.author as string,
-                      time: moment(curBlog.publishAt).format('YYYY-MM-DD'),
-                      views: curBlog.views as number,
-                      likes: curBlog.likes as number,
-                      belongingMenu: curBlog.belongingMenu,
-                      isCollected: curBlog.isCollected as boolean,
-                    }}
-                  ></BlogInfo>
-                ) : undefined}
-              </div>
-            </div>
-            <div className={style.blogContent}>
-              <div className={style.text}>
-                <ReactMarkdownRender>{curBlog.contents as string}</ReactMarkdownRender>
-              </div>
-              {/* 博客编辑选项 */}
-              {user ? (
-                <div className={style.blogEdit}>
-                  <div>
-                    <div
-                      onClick={() => {
-                        modal.confirm({
-                          title: '提示',
-                          content: '编辑此页会覆盖正在编辑的博客，确定要这么做吗？',
-                          onOk: () => {
-                            handleEdit();
-                          },
-                        });
-                      }}
-                    >
-                      <span className={`${style.editPageBtn} iconfont`}>&#xe624;</span>
-                      &nbsp;
-                      <span>编辑此页</span>
-                    </div>
-                    <div
-                      onClick={() => {
-                        modal.confirm({
-                          title: '提示',
-                          content: '是否删除当前博客？',
-                          onOk: () => {
-                            handleDelete();
-                          },
-                        });
-                      }}
-                    >
-                      <span className={`${style.delPageBtn} iconfont`}>&#xe604;</span>
-                      &nbsp;
-                      <span>删除博客</span>
-                    </div>
-                  </div>
-                  <div>
-                    <div>
-                      上次编辑于：<span>{moment(curBlog.updateAt).format('YYYY-MM-DD HH:mm:ss')}</span>
-                    </div>
-                    <div>
-                      贡献者：<span>{curBlog.author}</span>
-                    </div>
-                  </div>
-                </div>
+      {/*{loading ? (*/}
+      {/*  <div style={{ width: '100%', height: '100%', paddingTop: '20vh', overflow: 'hidden', minHeight: '120vh' }}>*/}
+      {/*    <LoadingComp styles={{ backgroundColor: '#FFF' }}></LoadingComp>*/}
+      {/*  </div>*/}
+      {/*) : (*/}
+      <div
+        className={`${style.main} clearfix ${
+          fadeOut ? 'animate__animated animate__fadeOut' : 'animate__animated animate__fadeIn animate__delay-1s'
+        }`}
+      >
+        <div className={style.blog}>
+          <div className={style.breadCrumb}>
+            <Breadcrumb
+              items={
+                breadcrumbList && breadcrumbList.length
+                  ? breadcrumbList.map(item => {
+                      return {
+                        title: (
+                          <>
+                            {item.icon} {item.title}
+                          </>
+                        ),
+                      };
+                    })
+                  : []
+              }
+            />
+          </div>
+          <div className={style.info}>
+            <div className={style.title}>{curBlog.title}</div>
+            <div className={style.blogInfo}>
+              {curBlog.id ? (
+                <BlogInfo
+                  statistics={{
+                    id: curBlog.id,
+                    author: curBlog.author as string,
+                    time: moment(curBlog.publishAt).format('YYYY-MM-DD'),
+                    views: curBlog.views as number,
+                    likes: curBlog.likes as number,
+                    belongingMenu: curBlog.belongingMenu,
+                    isCollected: curBlog.isCollected as boolean,
+                  }}
+                ></BlogInfo>
               ) : undefined}
             </div>
-            <div className={style.comment}>
-              <Comment></Comment>
-            </div>
           </div>
-          <div className={style.toc}>
-            {curBlog.id ? <BlogToc text={curBlog.contents as string}></BlogToc> : undefined}
+          <div className={style.blogContent}>
+            <div className={style.text}>
+              <ReactMarkdownRender>{curBlog.contents as string}</ReactMarkdownRender>
+            </div>
+            {/* 博客编辑选项 */}
+            {user ? (
+              <div className={style.blogEdit}>
+                <div>
+                  <div
+                    onClick={() => {
+                      modal.confirm({
+                        title: '提示',
+                        content: '编辑此页会覆盖正在编辑的博客，确定要这么做吗？',
+                        onOk: () => {
+                          handleEdit();
+                        },
+                      });
+                    }}
+                  >
+                    <span className={`${style.editPageBtn} iconfont`}>&#xe624;</span>
+                    &nbsp;
+                    <span>编辑此页</span>
+                  </div>
+                  <div
+                    onClick={() => {
+                      modal.confirm({
+                        title: '提示',
+                        content: '是否删除当前博客？',
+                        onOk: () => {
+                          handleDelete();
+                        },
+                      });
+                    }}
+                  >
+                    <span className={`${style.delPageBtn} iconfont`}>&#xe604;</span>
+                    &nbsp;
+                    <span>删除博客</span>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    上次编辑于：<span>{moment(curBlog.updateAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                  </div>
+                  <div>
+                    贡献者：<span>{curBlog.author}</span>
+                  </div>
+                </div>
+              </div>
+            ) : undefined}
+          </div>
+          <div className={style.comment}>
+            <Comment></Comment>
           </div>
         </div>
-      )}
+        <div className={style.toc}>
+          {curBlog.id ? <BlogToc2 text={curBlog.contents as string}></BlogToc2> : undefined}
+        </div>
+      </div>
+      {/*)}*/}
     </>
   );
 };

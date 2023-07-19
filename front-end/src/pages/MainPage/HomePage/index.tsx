@@ -32,7 +32,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const { width } = useViewport();
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [curPage, setCurPage] = useState(1);
   const totalNum = useAppSelector(state => state.blog.blogsNum);
   const homePhotoWrapper = useRef<HTMLDivElement>(null);
@@ -84,8 +84,7 @@ const HomePage = () => {
   }, [width, window.innerHeight]);
 
   return (
-    <div className={`${style.wrapper} clearfix`} ref={wrapper}>
-      <Header className={style.backWhite}></Header>
+    <div className={`${style.wrapper} clearfix  animate__animated animate__fadeInUp`} ref={wrapper}>
       <div
         className={`${style.backgroundPhoto} clearfix`}
         style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -100,7 +99,7 @@ const HomePage = () => {
       <div className={style.main}>
         <div className={style.content}>
           {/* loading状态 */}
-          {isLoading ? (
+          {loading ? (
             <LoadingComp styles={{ padding: '5vh' }}></LoadingComp>
           ) : (
             // 路由
@@ -120,9 +119,9 @@ const HomePage = () => {
                       top: parseInt(window.getComputedStyle(homePhotoWrapper.current as HTMLDivElement).height),
                       behavior: 'smooth',
                     });
-                    setIsLoading(true);
+                    setLoading(true);
                     setTimeout(() => {
-                      setIsLoading(false);
+                      setLoading(false);
                     }, 400);
                     // 点击跳转
                     navigate(`?page=${page}`);

@@ -4,22 +4,19 @@ import React, { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-// import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
+// import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 // css
 import 'github-markdown-css';
 import './index.scss';
 
 // context
-import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
-
-// global
-import { BREAK_POINT } from '@/global';
 
 interface ReactMarkdownWrapperProps {
   children: string;
@@ -80,6 +77,7 @@ const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) 
               removeEventListener('click', handleClick);
             };
           }, []);
+
           return !inline && match ? (
             <SyntaxHighlighter
               {...props}

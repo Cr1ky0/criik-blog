@@ -21,6 +21,7 @@ import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // util
 import { backToTop, throttle } from '@/utils/backToTopUtil';
+import { setIsLoading } from '@/redux/slices/progressbar';
 
 // wrapper ref
 const divRef = createRef<HTMLDivElement>();
@@ -74,6 +75,8 @@ const BlogPage = () => {
 
   useEffect(() => {
     dispatch(setChosenList([false, true, false, false]));
+    // 打开滚动条
+    dispatch(setIsLoading(true));
   }, []);
 
   return (

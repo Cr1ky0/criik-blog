@@ -3,9 +3,19 @@
 
 @mixin universal() {
   .wrapper {
+    height: 100%;
     @include setWrapper();
     //@include setSider();
     //@include setContent();
+
+    .sider {
+      overflow-y: auto;
+      padding-bottom: 50px;
+
+      &::-webkit-scrollbar {
+        width: 0;
+      }
+    }
 
     .content {
       padding-left: 10px;
@@ -81,10 +91,10 @@
 @media (width > $BREAK_POINT) {
   @include universal;
   .sider {
-    width: 20vw;
+    width: 15vw;
   }
 
   .content {
-    width: 61vw;
+    width: 66vw;
   }
 }

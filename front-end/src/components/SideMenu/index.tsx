@@ -15,6 +15,7 @@ import EditMenu from '@/components/SideMenu/EditMenu';
 // redux
 import { useAppSelector, useAppDispatch } from '@/redux';
 import { setSelectedId } from '@/redux/slices/blogMenu';
+import { setFadeOut, setIsLoading } from '@/redux/slices/progressbar';
 
 // context
 import { useIcons } from '../ContextProvider/IconStore';
@@ -42,6 +43,9 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   // 预览展开state
   const [open, setOpen] = useState(false);
+
+  // 可操作标志
+  const [opt, setOpt] = useState(true);
 
   return (
     <div className={style.wrapper} style={styles}>
@@ -83,15 +87,31 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
           selectedKeys={[selectedId]}
           // handle select
           onClick={e => {
-            const item = getSideMenuItem(menus, e.key) as SideMenuItem;
-            if (!item.grade) {
-              dispatch(setSelectedId(e.key));
-              if (page === 'blog') {
-                // 更改nav
-                navigate(`/blog`);
+            if (opt) {
+              // 触发事件
+              const item = getSideMenuItem(menus, e.key) as SideMenuItem;
+              if (!item.grade) {
+                // 操作标志置为false，不可继续操作
+                setOpt(false);
+                // 打开进度条
+                dispatch(setIsLoading(true));
+                // 1s后打开FadeOut
+                setTimeout(() => {
+                  dispatch(setFadeOut(true));
+                }, 1000);
+                setTimeout(() => {
+                  // 1.5s后执行操作并关闭FadeOut
+                  dispatch(setFadeOut(false));
+                  dispatch(setSelectedId(e.key));
+                  // 重置可操作标志
+                  setOpt(true);
+                  if (page === 'blog') {
+                    navigate(`/blog`);
+                  }
+                }, 1500);
               }
+              if (closeMenu) closeMenu();
             }
-            if (closeMenu) closeMenu();
           }}
         />
       ) : (

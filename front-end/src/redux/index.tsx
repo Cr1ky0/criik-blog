@@ -10,6 +10,7 @@ import comments from './slices/comments';
 import blogMenu from '@/redux/slices/blogMenu';
 import user from '@/redux/slices/user';
 import backstage from '@/redux/slices/backstage';
+import progressbar from '@/redux/slices/progressbar';
 
 //持久存储
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
@@ -23,6 +24,7 @@ const reducers = combineReducers({
   blogMenu,
   user,
   backstage,
+  progressbar,
 });
 
 const persistConfig = {

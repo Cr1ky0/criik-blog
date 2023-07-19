@@ -1,0 +1,36 @@
+@import "@/assets/css/index.scss";
+/* wrapper for the progress bar */
+.progressBar {
+  width: 100%;
+  height: 2px;
+  background-color: #f3f3f3;
+  overflow: hidden;
+}
+
+/* the progress bar itself */
+.progress {
+  height: 100%;
+  background-color: $THEME_COLOR;
+  width: 0;
+  transition: width 2s linear;
+  animation-name: loading;
+  animation-duration: 1s;
+}
+
+/* define animation keyframes */
+@keyframes loading {
+  0% {
+    width: 0;
+  }
+  50% {
+    width: 15%;
+  }
+  /* pause at 25% */
+  90% {
+    width: 25%;
+  }
+  /* still paused */
+  100% {
+    width: 100%;
+  }
+}

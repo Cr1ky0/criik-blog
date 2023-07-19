@@ -1,0 +1,22 @@
+@import "@/assets/css/index.scss";
+
+.tocHeader {
+  @include unSelectable;
+  margin: {
+    bottom: 10px;
+    left: 10px;
+  }
+
+  > span:first-child {
+    font: {
+      size: 16px;
+      weight: bold;
+    }
+  }
+
+  > span:last-child {
+    font: {
+      size: 14px;
+    }
+  }
+}
