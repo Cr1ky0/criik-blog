@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import style from './index.module.scss';
 
 // antd
-import { Popover } from 'antd';
+import { Tooltip } from 'antd';
 
 // comp
 import Classification from '@/components/HomePage/BlogDetailBox/Classification';
@@ -54,7 +54,7 @@ const BlogDetailBox: React.FC<BlogDetailBoxProps> = ({ isMobile }) => {
       <div className={style.header}>
         {names.map((name, index) => {
           return (
-            <Popover content={name} trigger="hover" placement="top" key={index}>
+            <Tooltip title={name} trigger="hover" placement="top" key={index}>
               <div
                 id={`blog-detail-box-btn-${index}`}
                 onClick={() => {
@@ -77,7 +77,7 @@ const BlogDetailBox: React.FC<BlogDetailBoxProps> = ({ isMobile }) => {
                   <span className="iconfont">&#xe8c5;</span>
                 )}
               </div>
-            </Popover>
+            </Tooltip>
           );
         })}
       </div>

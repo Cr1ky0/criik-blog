@@ -85,10 +85,10 @@
         }
       }
     }
+  }
 
-    .mobileMenu {
-      @include mobileMenu();
-    }
+  .mobileMenu {
+    @include mobileMenu();
   }
 }
 

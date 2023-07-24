@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie';
 import style from './index.module.scss';
 
 // antd
-import { Popover, Tag } from 'antd';
+import { Tag, Tooltip } from 'antd';
 
 // interface
 import { BlogTagBoxStatistic } from '@/interface';
@@ -69,61 +69,59 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
 
   return (
     <div className={`${style.wrapper} clearfix`}>
-      <Popover content="作者信息" trigger="hover" placement="bottom">
+      <Tooltip title="作者信息" trigger="hover" placement="bottom">
         <div>
           <span className="iconfont">&#xe72e;</span>
           <span className={style.author}>{author}</span>
         </div>
-      </Popover>
-      <Popover content="发布时间" trigger="hover" placement="bottom">
+      </Tooltip>
+      <Tooltip title="发布时间" trigger="hover" placement="bottom">
         <div className={style.time}>
           <span className="iconfont">&#xe632;</span>
           {time}
         </div>
-      </Popover>
-      <Popover content="浏览量" trigger="hover" placement="bottom">
+      </Tooltip>
+      <Tooltip title="浏览量" trigger="hover" placement="bottom">
         <div className={style.views}>
           <span className="iconfont">&#xe66c;</span>
           {views}
         </div>
-      </Popover>
-      <Popover content="分类标签" trigger="hover" placement="bottom">
+      </Tooltip>
+      <Tooltip title="分类标签" trigger="hover" placement="bottom">
         <div className={style.classification}>
           <span className="iconfont">&#xe623;</span>
           <Tag className={style.tag} color={item ? item.color : undefined}>
             {item ? item.title : undefined}
           </Tag>
         </div>
-      </Popover>
-      <Popover content="点赞" trigger="hover" placement="bottom">
-        {/* 收藏标志 */}
-        {isLiked(likeList, id) ? (
-          <div
-            className={style.like}
-            onClick={() => {
-              handleLike('decrease');
-            }}
-          >
-            <span className="iconfont" style={{ color: '#FF0000' }}>
-              &#xeca2;
-            </span>
-            <span>{likesNum}</span>
-          </div>
-        ) : (
-          <div
-            className={style.like}
-            onClick={() => {
-              handleLike('add');
-            }}
-          >
-            <span className="iconfont">&#xeca1;</span>
-            <span>{likesNum}</span>
-          </div>
-        )}
-      </Popover>
+      </Tooltip>
+      {/* 收藏标志 */}
+      {isLiked(likeList, id) ? (
+        <div
+          className={style.like}
+          onClick={() => {
+            handleLike('decrease');
+          }}
+        >
+          <span className="iconfont" style={{ color: '#FF0000' }}>
+            &#xeca2;
+          </span>
+          <span>{likesNum}</span>
+        </div>
+      ) : (
+        <div
+          className={style.like}
+          onClick={() => {
+            handleLike('add');
+          }}
+        >
+          <span className="iconfont">&#xeca1;</span>
+          <span>{likesNum}</span>
+        </div>
+      )}
       {/* User在才能点赞 */}
       {user ? (
-        <Popover content="收藏" trigger="hover" placement="bottom">
+        <Tooltip title="收藏" trigger="hover" placement="bottom">
           <div className={style.collection} onClick={handleCollect}>
             {/* 收藏标志 */}
             {collected ? (
@@ -140,7 +138,7 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
               </>
             )}
           </div>
-        </Popover>
+        </Tooltip>
       ) : undefined}
     </div>
   );

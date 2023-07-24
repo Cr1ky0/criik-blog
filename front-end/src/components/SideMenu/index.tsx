@@ -93,8 +93,11 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
               if (!item.grade) {
                 // 操作标志置为false，不可继续操作
                 setOpt(false);
-                // 打开进度条
-                dispatch(setIsLoading(true));
+                // 如果先前打开了滚动条要先关闭
+                dispatch(setIsLoading(false));
+                setTimeout(() => {
+                  dispatch(setIsLoading(true));
+                }, 50);
                 // 1s后打开FadeOut
                 setTimeout(() => {
                   dispatch(setFadeOut(true));

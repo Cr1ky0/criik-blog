@@ -3,7 +3,6 @@ import { Outlet, useNavigate } from 'react-router';
 
 // antd
 import { Drawer, Pagination } from 'antd';
-import { Header } from 'antd/es/layout/layout';
 
 // css
 import style from './index.module.scss';
@@ -28,7 +27,6 @@ import BackToTopBtn from '@/components/Universal/BackToTopBtn';
 // util
 import { backToTop, throttle } from '@/utils/backToTopUtil';
 import { setIsLoading } from '@/redux/slices/progressbar';
-import ProgressBar from '@/components/ProgressBar';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -95,62 +93,79 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className={`${style.wrapper} clearfix  animate__animated animate__fadeInUp animate__delay-1s`} ref={wrapper}>
-      <div
-        className={`${style.backgroundPhoto} clearfix`}
-        style={{ backgroundImage: `url(${backgroundImage})` }}
-        ref={homePhotoWrapper}
-      >
-        <div className={style.homeTagWrapper}>
-          <div className={style.homeTagIcon} style={{ backgroundImage: `url(${img2})` }}></div>
-          <div className={style.homeTag}>Criiky0</div>
-          <div>Always Be Yourself and Never Compromise to the Life</div>
-        </div>
-      </div>
-      <div className={style.main}>
-        <div className={style.content}>
-          {/* loading状态 */}
-          {loading ? (
-            <LoadingComp styles={{ padding: '5vh' }}></LoadingComp>
-          ) : (
-            // 路由
-            <>
-              <div className={style.blogList}>
-                <Outlet />
-              </div>
-              <div className={style.paginate}>
-                <Pagination
-                  showSizeChanger={false}
-                  showQuickJumper
-                  pageSize={10}
-                  current={curPage}
-                  total={totalNum}
-                  onChange={page => {
-                    (wrapper.current as HTMLDivElement).scrollTo({
-                      top: parseInt(window.getComputedStyle(homePhotoWrapper.current as HTMLDivElement).height),
-                      behavior: 'smooth',
-                    });
-                    setLoading(true);
-                    setTimeout(() => {
-                      setLoading(false);
-                    }, 400);
-                    // 点击跳转
-                    navigate(`?page=${page}`);
-                    setCurPage(page);
-                  }}
-                />
-              </div>
-            </>
-          )}
-        </div>
-        {width > 1138 ? (
-          <div className={style.sider}>
-            <div>
-              <IntroductionBox></IntroductionBox>
-              <BlogDetailBox></BlogDetailBox>
-            </div>
+    <>
+      <div className={`${style.wrapper} clearfix  animate__animated animate__fadeInUp animate__delay-1s`} ref={wrapper}>
+        <div
+          className={`${style.backgroundPhoto} clearfix`}
+          style={{ backgroundImage: `url(${backgroundImage})` }}
+          ref={homePhotoWrapper}
+        >
+          <div className={style.homeTagWrapper}>
+            <div className={style.homeTagIcon} style={{ backgroundImage: `url(${img2})` }}></div>
+            <div className={style.homeTag}>Criiky0</div>
+            <div>Always Be Yourself and Never Compromise to the Life</div>
           </div>
-        ) : undefined}
+        </div>
+        <div className={style.main}>
+          <div className={style.content}>
+            {/* loading状态 */}
+            {loading ? (
+              <LoadingComp styles={{ padding: '5vh' }}></LoadingComp>
+            ) : (
+              // 路由
+              <>
+                <div className={style.blogList}>
+                  <Outlet />
+                </div>
+                <div className={style.paginate}>
+                  <Pagination
+                    showSizeChanger={false}
+                    showQuickJumper
+                    pageSize={10}
+                    current={curPage}
+                    total={totalNum}
+                    onChange={page => {
+                      (wrapper.current as HTMLDivElement).scrollTo({
+                        top: parseInt(window.getComputedStyle(homePhotoWrapper.current as HTMLDivElement).height),
+                        behavior: 'smooth',
+                      });
+                      setLoading(true);
+                      setTimeout(() => {
+                        setLoading(false);
+                      }, 400);
+                      // 点击跳转
+                      navigate(`?page=${page}`);
+                      setCurPage(page);
+                    }}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+          {width > 1138 ? (
+            <div className={style.sider}>
+              <div>
+                <IntroductionBox></IntroductionBox>
+                <BlogDetailBox></BlogDetailBox>
+              </div>
+            </div>
+          ) : undefined}
+        </div>
+        {/* Mobile Menu */}
+        <Drawer
+          placement="top"
+          open={open}
+          maskClosable={true}
+          onClose={() => {
+            setOpen(false);
+          }}
+          destroyOnClose={false}
+          height="100%"
+          rootStyle={{ border: 'none', outline: 'none' }}
+        >
+          <BlogDetailBox isMobile></BlogDetailBox>
+        </Drawer>
+        <Footer></Footer>
       </div>
       <BackToTopBtn
         ref={childRef}
@@ -168,22 +183,7 @@ const HomePage = () => {
       >
         <div className="iconfont">&#xe7f4;</div>
       </div>
-      {/* Mobile Menu */}
-      <Drawer
-        placement="top"
-        open={open}
-        maskClosable={true}
-        onClose={() => {
-          setOpen(false);
-        }}
-        destroyOnClose={false}
-        height="100%"
-        rootStyle={{ border: 'none', outline: 'none' }}
-      >
-        <BlogDetailBox isMobile></BlogDetailBox>
-      </Drawer>
-      <Footer></Footer>
-    </div>
+    </>
   );
 };
 export default HomePage;
