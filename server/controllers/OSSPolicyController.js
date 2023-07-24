@@ -4,9 +4,6 @@ const catchAsync = require('../utils/catchAsync');
 const OSSClient = require('../utils/OSSClient');
 const OSSModel = require('../models/OSSModel');
 
-// 初始化
-OSSModel.getInstance();
-
 exports.setConfig = catchAsync(async (req, res) => {
   const { region, accessKeyId, accessKeySecret, bucket, callbackUrl, dir } =
     req.body;

@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 
 // antd
-import { Modal, Timeline } from 'antd';
-import { ClockCircleOutlined } from '@ant-design/icons';
+import { Modal, Timeline, Spin } from 'antd';
+import { ClockCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 
 // css
 import style from './index.module.scss';
@@ -31,6 +31,7 @@ import Footer from '@/components/Footer';
 
 // redux
 import { setChosenList } from '@/redux/slices/chosenList';
+import { setIsLoading } from '@/redux/slices/progressbar';
 
 // 生成带年份分类的时间轴对象
 const generateTimeLine = (timeline: ImgObj[], handlePreview: (src: string) => void) => {
@@ -89,6 +90,7 @@ const TimeLine = () => {
   const [photos, setPhotos] = useState<ImgObj[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [photoLoad, setPhotoLoad] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const wrapper = useRef<HTMLDivElement>(null);
@@ -96,30 +98,55 @@ const TimeLine = () => {
     setPreviewOpen(true);
     setPreviewImage(src);
   };
-  const handleClick = () => {
-    getPhotos(
-      {
-        page: page + 1,
-        limit: 10,
-        fields: '',
-        sort: '-photoTime',
-      },
-      async res => {
-        if (!res.data.images.length) {
-          message.error('没有更多照片了！');
-          return new Promise(() => {
-            // pass
-          });
-        }
-        await message.loadingAsync('加载中...', '加载成功！');
-        setPhotos([...photos, ...res.data.images]);
-        setPage(page + 1);
-      },
-      content => {
-        message.error(content);
-      }
-    );
-  };
+
+  // 滚动事件
+  useEffect(() => {
+    // 防抖
+    const debounce = (delay: number, container: HTMLDivElement) => {
+      let timer: any = null;
+      // 参数放内层，因为是要用到点击事件的值，如果放在外层函数无法获取
+      return () => {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+          // 触发事件
+          const { scrollTop, clientHeight, scrollHeight } = container;
+          const threshold = scrollHeight - clientHeight - 90;
+          if (scrollTop >= threshold) {
+            getPhotos(
+              {
+                page: page + 1,
+                limit: 10,
+                fields: '',
+                sort: '-photoTime',
+              },
+              async res => {
+                if (res.data.images.length) {
+                  setPhotoLoad(true);
+                  setTimeout(() => {
+                    setPhotoLoad(false);
+                    setPhotos([...photos, ...res.data.images]);
+                    setPage(page + 1);
+                  }, 500);
+                }
+              },
+              content => {
+                setPhotoLoad(false);
+                message.error(content);
+              }
+            );
+          }
+        }, delay);
+      };
+    };
+
+    const container = wrapper.current as HTMLDivElement;
+    const handleScroll = debounce(500, container);
+    container.addEventListener('scroll', handleScroll);
+
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, [page, photos]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -150,10 +177,19 @@ const TimeLine = () => {
     );
   }, []);
 
+  /// 打开滚动条
+  useEffect(() => {
+    // 如果先前打开了滚动条要先关闭
+    dispatch(setIsLoading(false));
+    setTimeout(() => {
+      dispatch(setIsLoading(true));
+    }, 50);
+  }, []);
+
   return (
     <div className={`${style.wrapper} clearfix`} ref={wrapper}>
       <TopDisplay img={img}></TopDisplay>
-      <div className={style.content}>
+      <div className={`${style.content}`}>
         <div className={loading ? 'loading-active' : 'loading-not-active'}>
           {photos.length ? (
             <Timeline mode="alternate" items={generateTimeLine(photos, handlePreview)} />
@@ -161,9 +197,8 @@ const TimeLine = () => {
             <div className={style.noTimeLine}>当前没有相片轴~</div>
           )}
         </div>
-        <div className={style.load} onClick={handleClick}>
-          <span className="iconfont">&#xe66e;</span>&nbsp;
-          <span>加载更多</span>
+        <div className={photoLoad ? style.load : style.loadHide}>
+          <Spin indicator={<LoadingOutlined style={{ fontSize: 70 }} spin />} />
         </div>
       </div>
       <Footer></Footer>
@@ -182,5 +217,4 @@ const TimeLine = () => {
     </div>
   );
 };
-
 export default TimeLine;

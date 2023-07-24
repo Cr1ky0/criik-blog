@@ -27,6 +27,8 @@ import BackToTopBtn from '@/components/Universal/BackToTopBtn';
 
 // util
 import { backToTop, throttle } from '@/utils/backToTopUtil';
+import { setIsLoading } from '@/redux/slices/progressbar';
+import ProgressBar from '@/components/ProgressBar';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -83,8 +85,17 @@ const HomePage = () => {
     div.style.height = window.innerHeight + 'px';
   }, [width, window.innerHeight]);
 
+  // 打开滚动条
+  useEffect(() => {
+    // 如果先前打开了滚动条要先关闭
+    dispatch(setIsLoading(false));
+    setTimeout(() => {
+      dispatch(setIsLoading(true));
+    }, 50);
+  }, []);
+
   return (
-    <div className={`${style.wrapper} clearfix  animate__animated animate__fadeInUp`} ref={wrapper}>
+    <div className={`${style.wrapper} clearfix  animate__animated animate__fadeInUp animate__delay-1s`} ref={wrapper}>
       <div
         className={`${style.backgroundPhoto} clearfix`}
         style={{ backgroundImage: `url(${backgroundImage})` }}

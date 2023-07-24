@@ -8,6 +8,7 @@ import { Drawer } from 'antd';
 import SideMenu from '@/components/SideMenu';
 import BackToTopBtn from '@/components/Universal/BackToTopBtn';
 import Footer from '@/components/Footer';
+import ProgressBar from '@/components/ProgressBar';
 
 // css
 import style from './index.module.scss';
@@ -73,10 +74,18 @@ const BlogPage = () => {
     });
   }, [selectedId]);
 
+  // 导航按钮变色
   useEffect(() => {
     dispatch(setChosenList([false, true, false, false]));
-    // 打开滚动条
-    dispatch(setIsLoading(true));
+  }, []);
+
+  // 打开滚动条
+  useEffect(() => {
+    // 如果先前打开了滚动条要先关闭
+    dispatch(setIsLoading(false));
+    setTimeout(() => {
+      dispatch(setIsLoading(true));
+    }, 50);
   }, []);
 
   return (

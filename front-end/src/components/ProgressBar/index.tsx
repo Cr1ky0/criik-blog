@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+// 进度条
+import { CSSTransition } from 'react-transition-group';
 
 // css
 import style from './index.module.scss';
@@ -7,29 +10,29 @@ import style from './index.module.scss';
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setIsLoading } from '@/redux/slices/progressbar';
 
-let timer: string | number | NodeJS.Timeout | undefined;
 const ProgressBar = () => {
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(state => state.progressbar.isLoading);
-  return (
-    <div
-      className={style.progressBar}
-      style={{
-        display: isLoading
-          ? (() => {
-              // 1s后自动关闭
-              if (timer) clearTimeout(timer);
-              timer = setTimeout(() => {
-                dispatch(setIsLoading(false));
-              }, 1000);
+  const [key, setKey] = useState(0);
 
-              return 'block';
-            })()
-          : 'none',
-      }}
-    >
-      <div className={style.progress}></div>
-    </div>
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        dispatch(setIsLoading(false));
+      }, 1000);
+    }
+  }, []);
+
+  useEffect(() => {
+    setKey(prevKey => prevKey + 1);
+  }, [isLoading]);
+
+  return (
+    <CSSTransition key={key} in={isLoading} timeout={1000} classNames="fade" unmountOnExit>
+      <div className={style.progressBar}>
+        <div className={style.progress}></div>
+      </div>
+    </CSSTransition>
   );
 };
 

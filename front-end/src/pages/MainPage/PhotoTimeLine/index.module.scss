@@ -7,18 +7,25 @@
 
     > div:not(:last-child) {
       margin: 40px auto;
-      animation: showAnime 1s;
+    }
+
+    > div:first-child {
+      opacity: 0;
+      animation: showAnime 1s .2s;
+      animation-fill-mode: forwards;
+    }
+
+    > div:not(:first-child) {
+      animation: showAnime 1s .5s;
+      animation-fill-mode: forwards;
     }
 
     .content {
       background: #FFF;
       box-sizing: border-box;
       margin-bottom: 50px;
+      opacity: 0;
 
-
-      > ul, > div:not(:first-child) {
-        animation: showAnime 1.5s;
-      }
 
       .year {
         color: $FONT_COLOR;
@@ -60,23 +67,13 @@
     }
 
     .load {
-      padding: 20px 0;
-      @include unSelectable;
-      cursor: pointer;
+      padding: 40px 0;
       display: flex;
       justify-content: center;
-      transition: all .3s;
-      border: {
-        radius: 5px;
-      };
+    }
 
-      &:hover {
-        background: rgba(0, 0, 0, .1);
-      }
-
-      > span:first-child {
-        font-size: 14px;
-      }
+    .loadHide {
+      display: none;
     }
   }
 }
