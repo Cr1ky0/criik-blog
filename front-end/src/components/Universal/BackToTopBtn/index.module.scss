@@ -19,16 +19,12 @@
 
     .circle {
       transition: all .5s;
-      transform-origin: 30px 30px;
       transform: rotateZ(-90deg);
     }
 
 
     .icon {
       position: absolute;
-      top: 13px;
-      left: 12px;
-      font-size: 35px;
       color: $THEME_COLOR;
     }
   }
@@ -38,6 +34,17 @@
 @media (min-width: $BREAK_POINT) {
   @include universal;
   .wrapper {
+
+    .circle {
+      transform-origin: 30px 30px;
+    }
+
+    .icon {
+      top: 13px;
+      left: 12px;
+      font-size: 35px;
+    }
+
     bottom: 100px;
     right: 50px;
   }
@@ -46,6 +53,17 @@
 @media (max-width: $BREAK_POINT) {
   @include universal;
   .wrapper {
+
+    .circle {
+      transform-origin: 22.5px 22.5px;
+    }
+
+    .icon {
+      top: 10px;
+      left: 10.5px;
+      font-size: 25px;
+    }
+
     bottom: 120px;
     right: 50px;
 
