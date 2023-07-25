@@ -11,15 +11,17 @@ interface BlogTocProps {
 }
 
 const getTitleList = (text: string) => {
-  // Delete code blocks
-  const codeBlocksRemoved = text.replace(/```[^`]*```|~~~[^~]*~~~/gs, '');
+  // 移除被```或者~~~包围的代码块内容
+  const removedCodeblocks = text.replace(/(```|~~~)[\s\S]*?\1/g, '');
 
-  // Find titles
-  const titles = codeBlocksRemoved.match(/^(#{1,})(?:\s+)(.*)$/gm);
+  // 提取包含1~n个#号的标题内容
+  const headings = removedCodeblocks.match(/(^|\n)(#{1,}[^#\n].*)/g);
+  // 移除标题前的换行符
+  const titles = headings ? headings.map(line => line.trim()) : [];
 
   const filterList = titles
     ? titles.map(title => {
-        return title.replace(/^[#]+/g, '').trim();
+        return title.replace(/^#+/g, '').trim();
       })
     : [];
   return filterList.map(title => {

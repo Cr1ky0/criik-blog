@@ -18,7 +18,7 @@ const Comment = () => {
     dispatch(setComments({ id: selectedId, page: 1 }));
     dispatch(setCurPage(1));
     dispatch(setLength(selectedId));
-  }, []);
+  }, [selectedId]);
   return (
     <div className={style.wrapper}>
       <WriteComment></WriteComment>

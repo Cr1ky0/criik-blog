@@ -188,15 +188,19 @@ export const filterLT = (text: string) => {
 // 过滤blog内容的Title
 export const filterTitle = (text: string) => {
   const newContents = filterLT(text);
-  // Delete code blocks
-  const codeBlocksRemoved = newContents.replace(/```[^`]*```|~~~[^~]*~~~/gs, '');
-  // Find titles
-  const titleList = codeBlocksRemoved.match(/^(#{1,})(?:\s+)(.*)$/gm);
+
+  // 移除被```或者~~~包围的代码块内容
+  const removedCodeblocks = newContents.replace(/(```|~~~)[\s\S]*?\1/g, '');
+
+  // 提取包含1~n个#号的标题内容
+  const headings = removedCodeblocks.match(/(^|\n)(#{1,}[^#\n].*)/g);
+  // 移除标题前的换行符
+  const titleList = headings ? headings.map(line => line.trim()) : [];
 
   let filterContents = newContents;
   if (titleList) {
     titleList.map((title: string) => {
-      const filteredTitle = title.split(/^(#{1,})/)[2].trim();
+      const filteredTitle = title.trim().split(/^(#+)/)[2].trim();
       filterContents = filterContents.replace(title, `${title}<span id="${filteredTitle}"></span>`);
     });
   }
