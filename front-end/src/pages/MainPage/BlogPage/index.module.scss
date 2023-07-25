@@ -18,9 +18,7 @@
       overflow-x: hidden;
     }
 
-    .mobileMenu {
-      @include mobileMenu();
-    }
+
   }
 }
 
@@ -33,6 +31,10 @@
   .content {
     width: 100vw;
     padding: 0 2vw;
+  }
+
+  .mobileMenu {
+    @include mobileMenu(45px, 45px);
   }
 }
 

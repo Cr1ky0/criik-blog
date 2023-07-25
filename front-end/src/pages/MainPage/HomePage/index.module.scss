@@ -86,10 +86,6 @@
       }
     }
   }
-
-  .mobileMenu {
-    @include mobileMenu();
-  }
 }
 
 @media (max-width: $BREAK_POINT) {
@@ -105,6 +101,10 @@
         @include backgroundImgStyle(0);
       }
     }
+  }
+
+  .mobileMenu {
+    @include mobileMenu(45px, 45px);
   }
 }
 
