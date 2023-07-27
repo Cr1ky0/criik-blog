@@ -1,5 +1,5 @@
 import service from '@/utils/request';
-import { catchAsync } from '@/api';
+import { catchAsync, improvedCatchAsync } from '@/api';
 
 // interface
 import { AddMenuObj, UpdateMenuObj } from '@/interface';
@@ -24,3 +24,13 @@ export const getMenuAjax = async (id: string) => {
   const response = await service.get(`/api/menus/getMenuById/${id}`);
   return Promise.resolve(response);
 };
+
+export const getSelfMenu = improvedCatchAsync(async () => {
+  const response = await service.get(`/api/menus/getSelfMenu`);
+  return Promise.resolve(response);
+});
+
+export const changeSort = improvedCatchAsync(async (idList: string[]) => {
+  const response = await service.patch(`/api/menus/changeSort`, { idList });
+  return Promise.resolve(response);
+});

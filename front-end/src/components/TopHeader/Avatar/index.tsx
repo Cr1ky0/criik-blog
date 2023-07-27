@@ -90,13 +90,26 @@ const Avatar = () => {
         <div
           style={{ padding: '5px 10px' }}
           onClick={() => {
+            navigate('/backstage/editmenu');
+          }}
+        >
+          菜单管理
+        </div>
+      ),
+      key: '4',
+    },
+    {
+      label: (
+        <div
+          style={{ padding: '5px 10px' }}
+          onClick={() => {
             navigate('/backstage/photo');
           }}
         >
           添加照片
         </div>
       ),
-      key: '4',
+      key: '5',
     },
     {
       label: (
@@ -109,7 +122,7 @@ const Avatar = () => {
           编辑照片
         </div>
       ),
-      key: '5',
+      key: '6',
     },
     {
       label: (
@@ -122,7 +135,7 @@ const Avatar = () => {
           OSS管理
         </div>
       ),
-      key: '6',
+      key: '7',
     },
     {
       label: (
@@ -135,7 +148,7 @@ const Avatar = () => {
           SMTP管理
         </div>
       ),
-      key: '7',
+      key: '8',
     },
   ];
   return (

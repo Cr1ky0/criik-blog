@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 import {
   EditOutlined,
   CommentOutlined,
-  UnorderedListOutlined,
+  BookOutlined,
   CloudDownloadOutlined,
   MailOutlined,
   PlusSquareOutlined,
@@ -13,6 +13,7 @@ import {
   StarOutlined,
   PushpinOutlined,
   FieldTimeOutlined,
+  MenuOutlined,
   FolderOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
@@ -35,7 +36,8 @@ type MenuItem = Required<MenuProps>['items'][number];
 const items: MenuItem[] = [
   getItem('个人信息', 'info', <EditOutlined />),
   getItem('评论管理', 'comment', <CommentOutlined />),
-  getItem('博客管理', 'blog', <UnorderedListOutlined />),
+  getItem('博客管理', 'blog', <BookOutlined />),
+  getItem('菜单管理', 'editmenu', <MenuOutlined />),
   getItem('添加照片', 'photo', <PlusSquareOutlined />),
   getItem('编辑照片', 'editPhoto', <PictureOutlined />, [
     getItem('即时上传', 'now', <PushpinOutlined />),

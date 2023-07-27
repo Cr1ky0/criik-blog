@@ -1,0 +1,78 @@
+@import "@/assets/css/index.scss";
+
+$BORDER_COLOR: #fafafa;
+
+@mixin trStyle() {
+  background-color: #FFF;
+  width: 100%;
+
+  > td:not(:first-child) {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: center;
+    border-bottom: 1px solid $BORDER_COLOR;
+  }
+
+  td {
+    padding: 16px;
+    line-height: 22px;
+  }
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+
+  .head {
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+
+    > th {
+      background-color: $BORDER_COLOR;
+      padding: 16px;
+      line-height: 22px;
+      font-weight: bold;
+      text-align: start;
+      vertical-align: center;
+      position: relative;
+    }
+
+    > th:first-child {
+      width: 54px;
+    }
+
+    > th:not(:first-child):not(:nth-child(2))::before {
+      content: '';
+      height: 22.4px;
+      border-right: 1px solid rgba(0, 0, 0, .05);
+      position: absolute;
+      left: -1px;
+    }
+  }
+
+  .tr {
+    @include trStyle;
+    transition: background-color .3s;
+
+    &:hover {
+      background-color: $BORDER_COLOR;
+    }
+  }
+
+  .childTr {
+    @include trStyle;
+  }
+
+  .expandBtn {
+    font-size: 18px;
+    text-align: center;
+    vertical-align: center;
+    transition: color .3s;
+    cursor: pointer;
+
+    &:hover {
+      color: $THEME_COLOR;
+    }
+  }
+}

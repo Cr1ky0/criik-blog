@@ -90,12 +90,16 @@ const router: Routes[] = [
             path: 'smtp',
             element: lazy(() => import('@/pages/MainPage/BackStage/EditSMTP')),
           },
+          {
+            path: 'editmenu',
+            element: lazy(() => import('@/pages/MainPage/BackStage/EditMenu')),
+          },
         ],
       },
-      // {
-      //   path: 'test',
-      //   element: lazy(() => import('@/pages/MainPage/TestPage')),
-      // },
+      {
+        path: 'test',
+        element: lazy(() => import('@/pages/MainPage/TestPage')),
+      },
     ],
   },
   {

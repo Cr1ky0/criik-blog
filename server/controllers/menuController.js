@@ -4,6 +4,70 @@ const catchAsync = require('../utils/catchAsync');
 const filterObj = require('../utils/filterObj');
 const User = require('../models/userModel');
 
+// 初始化menu的createAt字段
+exports.initCreateAtOfMenu = catchAsync(async (req, res) => {
+  await Menu.updateMany({}, { createAt: Date.now() });
+  res.status(200).json({
+    status: 'success',
+    data: {},
+  });
+});
+
+// 初始化menu的sort字段
+exports.initSortOfMenus = catchAsync(async (req, res) => {
+  Menu.find({ grade: 1 })
+    .sort({ createAt: 1 })
+    .then((result) => {
+      result.map((obj, index) => {
+        obj.sort = index;
+        obj.save();
+        // 二级菜单处理
+        Menu.find({ belongingMenu: obj.id })
+          .sort({ createAt: 1 })
+          .then((secMenus) => {
+            secMenus.map((secObj, secIndex) => {
+              secObj.sort = secIndex;
+              secObj.save();
+              // 三级菜单处理
+              Menu.find({ belongingMenu: secObj.id })
+                .sort({ createAt: 1 })
+                .then((thiMenus) => {
+                  thiMenus.map((thiObj, thiIndex) => {
+                    thiObj.sort = thiIndex;
+                    thiObj.save();
+                    return null;
+                  });
+                });
+              return null;
+            });
+          });
+        return null;
+      });
+    });
+
+  res.status(200).json({
+    status: 'success',
+    data: {},
+  });
+});
+
+// 前端传回一个id数组，根据id数组顺序修改相应id的sort字段
+exports.changeSort = catchAsync(async (req, res, next) => {
+  const { idList } = req.body;
+  // eslint-disable-next-line array-callback-return
+  idList.map((id, index) => {
+    Menu.findByIdAndUpdate(id, { sort: index }).then(
+      () => new Promise(() => {}),
+      (err) => next(new AppError(`排序失败：${err.message}`, 400))
+    );
+  });
+
+  res.status(200).json({
+    status: 'success',
+    data: {},
+  });
+});
+
 exports.getMenus = catchAsync(async (req, res, next) => {
   const menus = await Menu.find();
   res.status(200).json({
@@ -15,7 +79,11 @@ exports.getMenus = catchAsync(async (req, res, next) => {
 });
 
 exports.getMenuById = catchAsync(async (req, res) => {
-  const menu = await Menu.findById(req.params.id);
+  const menu = await Menu.findById(req.params.id)
+    .populate({
+      path: 'children',
+    })
+    .populate('blogs', '-contents -belongTo -likes -views');
 
   res.status(200).json({
     status: 'success',
@@ -41,6 +109,10 @@ exports.addMenu = catchAsync(async (req, res, next) => {
   if (!title) return next(new AppError('请输入标题！', 400));
   if (!icon) return next(new AppError('请选择图标！', 400));
   if (!color) return next(new AppError('请选择标签颜色！', 400));
+  const maxSort = await Menu.find({ belongingMenu: parentId })
+    .sort({ sort: -1 })
+    .select('_id sort')
+    .limit(1);
   const menu = await Menu.create({
     title: title,
     grade: grade,
@@ -48,6 +120,7 @@ exports.addMenu = catchAsync(async (req, res, next) => {
     belongingMenu: parentId,
     color,
     icon: icon,
+    sort: maxSort[0] ? maxSort[0].sort + 1 : 0,
   });
 
   res.status(201).json({
@@ -86,7 +159,24 @@ exports.updateMenu = catchAsync(async (req, res, next) => {
 
 exports.getSelfMenu = catchAsync(async (req, res, next) => {
   const id = await User.getAdminUserId();
-  const menus = await Menu.find({ belongTo: id, grade: 1 });
+  const menus = await Menu.find({ belongTo: id, grade: 1 })
+    .populate({
+      path: 'children',
+      options: { sort: 'sort' },
+      populate: [
+        {
+          path: 'children',
+          options: { sort: 'sort' },
+          populate: [
+            { path: 'children' },
+            { path: 'blogs', select: '-contents -belongTo -likes -views' },
+          ],
+        },
+        { path: 'blogs', select: '-contents -belongTo -likes -views' },
+      ],
+    })
+    .populate('blogs', '-contents -belongTo -likes -views')
+    .sort('sort');
   res.status(200).json({
     status: 'success',
     body: {

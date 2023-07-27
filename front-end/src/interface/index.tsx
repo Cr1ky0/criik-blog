@@ -121,6 +121,7 @@ export interface SideMenuItem {
   _id: string;
   title: string;
   grade?: number;
+  sort?: number;
   belongingMenu?: string;
   icon?: string;
   color?: string;

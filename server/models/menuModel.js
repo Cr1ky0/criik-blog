@@ -25,6 +25,10 @@ const menuSchema = new mongoose.Schema(
       type: Number,
       default: 1,
     },
+    // 当前菜单排序
+    sort: {
+      type: Number,
+    },
     // 所属父菜单
     belongingMenu: {
       type: mongoose.Schema.ObjectId,
@@ -34,6 +38,11 @@ const menuSchema = new mongoose.Schema(
     belongTo: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
+    },
+    // 创建时间
+    createAt: {
+      type: Date,
+      default: Date.now(),
     },
   },
   {
@@ -62,10 +71,8 @@ menuSchema.virtual('blogs', {
 
 menuSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } })
-    .populate({ path: 'children' })
-    .sort('-publishAt')
-    .populate('blogs', '-contents -belongTo -likes -views')
-    .sort('-publishAt')
+    // .populate({ path: 'children' })
+    // .populate('blogs', '-contents -belongTo -likes -views')
     .select('-__v -belongTo');
   next();
 });
