@@ -1,17 +1,15 @@
+# 2023-7-28
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>最近重构了一些功能，添加了照片墙、菜单管理、拖拽排序等等功能，修缮了一下样式，之前写的屎山代码不想改了。
+
 # criik-blog
 
 * 网址：https://www.criiky0.top
 * 仿 VuePress Theme Hope 主题风格利用 React 进行开发
 * 技术栈：ts + React + antd + nodejs + mongodb
-* 目前仅作为个人博客使用，支持markdown语法（包括html）、支持数学公式katex、支持收藏（个人）、分类、时间轴以及博客管理等功能、支持个人信息修改。
+* 目前仅作为个人博客使用，支持markdown语法（包括html）、支持数学公式Latex、支持收藏（个人）、分类、时间轴以及博客管理等功能、支持个人信息修改。
 * 游客支持点赞和评论(有敏感词过滤)。
 * 已适配移动端
-
-![1](./images/show-pc.png)
-![2](./images/show-image%20(1).png)
-![3](./images/show-image%20(2).png)
-![4](./images/show-image%20(3).png)
-![5](./images/show-image%20(4).png)
 
 # Sever 端
 
@@ -318,6 +316,7 @@
 ```
 
 2.
+
 React-Router推荐使用BrowserRouter作为路由，但是该路由在部署后刷新页面会导致链接丢失，这是因为刷新后通过链接向服务器发送请求，而不是像点击跳转一样由浏览器来对链接进行处理，因此会找不到链接，处理方法就是在后端将所有未匹配页面均指向index.html
 
 ```js
