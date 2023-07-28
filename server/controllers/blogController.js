@@ -41,12 +41,17 @@ exports.addBlog = catchAsync(async (req, res, next) => {
   const { title, belongingMenu, contents } = req.body;
   if (!belongingMenu) return next(new AppError('请选择分类！', 400));
   if (!title || !contents) return next(new AppError('请输入标题和内容！', 400));
+  const maxSort = await Blog.find({ belongingMenu: belongingMenu })
+    .sort({ sort: -1 })
+    .select('_id sort')
+    .limit(1);
   const newBlog = await Blog.create({
     title,
     belongingMenu,
     contents,
     belongTo: req.user.id,
     author: req.user.name,
+    sort: maxSort[0] ? maxSort[0].sort + 1 : 0,
     publishAt: Date.now(),
   });
 
