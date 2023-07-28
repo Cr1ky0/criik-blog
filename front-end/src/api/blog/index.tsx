@@ -1,4 +1,4 @@
-import { catchAsync } from '@/api';
+import { catchAsync, improvedCatchAsync } from '@/api';
 import service from '@/utils/request';
 
 // interface
@@ -89,3 +89,8 @@ export const getSelfBlogsOfCertain = async (option: ReqOptions) => {
   );
   return Promise.resolve(response.data);
 };
+
+export const changeSortOfBlog = improvedCatchAsync(async (idList: string[]) => {
+  const response = await service.patch('/api/blogs/changeSort', { idList });
+  return Promise.resolve(response);
+});

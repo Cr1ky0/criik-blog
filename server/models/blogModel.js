@@ -59,6 +59,10 @@ const blogSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    // 排序属性
+    sort: {
+      type: Number,
+    },
     active: {
       type: Boolean,
       default: true,

@@ -112,6 +112,7 @@ export interface BlogObj {
   contents?: string;
   likes?: number;
   views?: number;
+  sort?: number;
   commentCount?: number;
   belongTo?: string;
 }

@@ -57,8 +57,7 @@ exports.changeSort = catchAsync(async (req, res, next) => {
   // eslint-disable-next-line array-callback-return
   idList.map((id, index) => {
     Menu.findByIdAndUpdate(id, { sort: index }).then(
-      () => new Promise(() => {}),
-      (err) => next(new AppError(`排序失败：${err.message}`, 400))
+      () => new Promise(() => {})
     );
   });
 
@@ -169,13 +168,25 @@ exports.getSelfMenu = catchAsync(async (req, res, next) => {
           options: { sort: 'sort' },
           populate: [
             { path: 'children' },
-            { path: 'blogs', select: '-contents -belongTo -likes -views' },
+            {
+              path: 'blogs',
+              select: '-contents -belongTo -likes -views',
+              options: { sort: 'sort' },
+            },
           ],
         },
-        { path: 'blogs', select: '-contents -belongTo -likes -views' },
+        {
+          path: 'blogs',
+          select: '-contents -belongTo -likes -views',
+          options: { sort: 'sort' },
+        },
       ],
     })
-    .populate('blogs', '-contents -belongTo -likes -views')
+    .populate({
+      path: 'blogs',
+      select: '-contents -belongTo -likes -views',
+      options: { sort: 'sort' },
+    })
     .sort('sort');
   res.status(200).json({
     status: 'success',

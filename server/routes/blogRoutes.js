@@ -33,6 +33,9 @@ router.patch('/decreaseCommentCount/:id', blogController.decreaseCommentCount);
 router.use(authController.protect);
 router.use(authController.restrictTo('admin'));
 
+// 根据idList排序
+router.patch('/changeSort', blogController.changeSort);
+
 // 重置所有blogs的commentCount
 router.patch('/syncCommentCount', blogController.syncCommentCount);
 

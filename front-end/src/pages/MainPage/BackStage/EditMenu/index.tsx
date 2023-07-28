@@ -16,47 +16,101 @@ import style from './index.module.scss';
 
 // api
 import { changeSort, getSelfMenu } from '@/api/menu';
+import { changeSortOfBlog } from '@/api/blog';
 
 //interface
-import { SideMenuItem } from '@/interface';
+import { SideMenuItem, BlogObj } from '@/interface';
 
 // provider
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+
+// redux
 import { useAppDispatch } from '@/redux';
 import { setSelectKey } from '@/redux/slices/backstage';
 
-interface DataType {
+interface MenuType {
   key: string;
   title: string;
   grade: number;
   color: string;
   sort: number;
+  icon: string;
   child: SideMenuItem[];
+  blogs: BlogObj[];
 }
 
-interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
-  data: DataType;
+interface BlogType {
+  key: string;
+  title: string;
+  sort: number;
 }
 
-const generateData = (
-  key: string,
-  title: string,
-  grade: number,
-  color: string,
-  sort: number,
-  child: SideMenuItem[]
-) => {
-  return { key, title, grade, color, sort, child };
+interface MenuRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
+  data: MenuType;
+}
+
+interface BlogRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
+  data: BlogType;
+}
+
+const generateMenuData = (data: SideMenuItem) => {
+  return {
+    key: data.id,
+    title: data.title,
+    grade: data.grade,
+    color: data.color,
+    sort: data.sort,
+    icon: data.icon,
+    child: data.children,
+    blogs: data.blogs,
+  } as MenuType;
 };
 
-const Row: React.FC<RowProps> = ({ data }) => {
+const generateBlogData = (data: BlogObj) => {
+  return { key: data.id, title: data.title, sort: data.sort } as BlogType;
+};
+
+// 单个博客行
+const BlogRow: React.FC<BlogRowProps> = ({ data }) => {
+  const { key, title, sort } = data;
+
+  // dnd
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: key,
+  });
+  const styles: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform && { ...transform, scaleY: 1 }),
+    transition,
+    cursor: 'move',
+    ...(isDragging ? { position: 'relative', zIndex: 9999 } : {}),
+  };
+
+  return (
+    <tr ref={setNodeRef} className={style.tr} style={styles} {...attributes} {...listeners}>
+      <td></td>
+      <td>{title}</td>
+      <td>{sort || 0}</td>
+      <td>action</td>
+    </tr>
+  );
+};
+
+// 单个菜单行
+const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
   const msg = useGlobalMessage();
-  const { key, title, grade, color, sort, child } = data;
-  const [dataSource, setDataSource] = useState<DataType[]>(
+  const { key, title, grade, color, sort, icon, child, blogs } = data;
+  const [menuData, setMenuData] = useState<MenuType[]>(
     child.map(item => {
-      return generateData(item.id, item.title, item.grade!, item.color!, item.sort!, item.children!);
+      return generateMenuData(item);
     })
   );
+
+  const [blogData, setBlogData] = useState<BlogType[]>(
+    blogs.map((blog: BlogObj) => {
+      return generateBlogData(blog);
+    })
+  );
+
   const [isChange, setIsChange] = useState(false);
   // 展开子表
   const [childOpen, setChildOpen] = useState(false);
@@ -81,7 +135,7 @@ const Row: React.FC<RowProps> = ({ data }) => {
   );
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (active.id !== over?.id) {
-      setDataSource(prev => {
+      setMenuData(prev => {
         const activeIndex = prev.findIndex(i => i.key === active.id);
         const overIndex = prev.findIndex(i => i.key === over?.id);
         return arrayMove(prev, activeIndex, overIndex);
@@ -90,10 +144,21 @@ const Row: React.FC<RowProps> = ({ data }) => {
     setIsChange(true);
   };
 
-  // 顺序改变后进行操作
+  const onDragEndOfBlog = ({ active, over }: DragEndEvent) => {
+    if (active.id !== over?.id) {
+      setBlogData(prev => {
+        const activeIndex = prev.findIndex(i => i.key === active.id);
+        const overIndex = prev.findIndex(i => i.key === over?.id);
+        return arrayMove(prev, activeIndex, overIndex);
+      });
+    }
+    setIsChange(true);
+  };
+
+  // 菜单顺序改变后进行操作
   useEffect(() => {
     if (isChange) {
-      const idList = dataSource.map(data => {
+      const idList = menuData.map(data => {
         return data.key;
       });
       changeSort(
@@ -107,13 +172,33 @@ const Row: React.FC<RowProps> = ({ data }) => {
       );
       setIsChange(false);
     }
-  }, [dataSource]);
+  }, [menuData]);
+
+  // 博客顺序改变后进行操作
+  useEffect(() => {
+    if (isChange) {
+      const idList = blogData.map(data => {
+        return data.key;
+      });
+      changeSortOfBlog(
+        idList,
+        () => {
+          // pass
+        },
+        err => {
+          msg.error(err);
+        }
+      );
+      setIsChange(false);
+    }
+  }, [blogData]);
 
   return (
     <>
+      {/* 父菜单内容 */}
       <tr className={style.tr} ref={setNodeRef} style={styles} {...attributes} {...listeners}>
         <td>
-          {child.length ? (
+          {child.length || blogs.length ? (
             <div
               className={style.expandBtn}
               onClick={() => {
@@ -130,29 +215,76 @@ const Row: React.FC<RowProps> = ({ data }) => {
           <Tag color={color}>{color}</Tag>
         </td>
         <td>{sort}</td>
+        <td>{icon}</td>
+        <td>操作</td>
       </tr>
+      {/* 单个父菜单的博客 */}
       {childOpen ? (
         <tr className={style.childTr}>
-          <td colSpan={5} style={{ padding: 0, paddingLeft: 54 }}>
-            <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
+          <td colSpan={7} style={{ padding: 0, paddingLeft: 54 }}>
+            <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEndOfBlog}>
               <SortableContext
                 // rowKey array
-                items={dataSource.map(i => i.key)}
+                items={blogData.map(i => i.key)}
                 strategy={verticalListSortingStrategy}
               >
                 <table className={style.table}>
                   <thead>
                     <tr className={style.head}>
                       <th></th>
-                      <th>菜单标题</th>
-                      <th>菜单层级</th>
-                      <th>标签颜色</th>
-                      <th>排序顺序</th>
+                      <th colSpan={3} style={{ textAlign: 'center' }}>
+                        博客列表
+                      </th>
+                    </tr>
+                    <tr className={style.head}>
+                      <th></th>
+                      <th>博客标题</th>
+                      <th>排序值</th>
+                      <th>操作</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {dataSource.map(item => {
-                      return <Row key={item.key} data={item}></Row>;
+                    {blogData.map(blog => {
+                      return <BlogRow key={blog.key} data={blog}></BlogRow>;
+                    })}
+                  </tbody>
+                </table>
+              </SortableContext>
+            </DndContext>
+          </td>
+        </tr>
+      ) : undefined}
+      {/* 单个父菜单的子菜单 */}
+      {childOpen ? (
+        <tr className={style.childTr}>
+          <td colSpan={7} style={{ padding: 0, paddingLeft: 54 }}>
+            <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
+              <SortableContext
+                // rowKey array
+                items={menuData.map(i => i.key)}
+                strategy={verticalListSortingStrategy}
+              >
+                <table className={style.table}>
+                  <thead>
+                    <tr className={style.head}>
+                      <th></th>
+                      <th colSpan={6} style={{ textAlign: 'center' }}>
+                        菜单列表
+                      </th>
+                    </tr>
+                    <tr className={style.head}>
+                      <th></th>
+                      <th>菜单标题</th>
+                      <th>菜单层级</th>
+                      <th>标签颜色</th>
+                      <th>菜单图标</th>
+                      <th>排序值</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {menuData.map(item => {
+                      return <MenuRow key={item.key} data={item}></MenuRow>;
                     })}
                   </tbody>
                 </table>
@@ -168,7 +300,7 @@ const Row: React.FC<RowProps> = ({ data }) => {
 // 总组件
 const App: React.FC = () => {
   const msg = useGlobalMessage();
-  const [dataSource, setDataSource] = useState<DataType[]>([]);
+  const [menuData, setMenuData] = useState<MenuType[]>([]);
   const [isChange, setIsChange] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -184,7 +316,7 @@ const App: React.FC = () => {
 
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (active.id !== over?.id) {
-      setDataSource(prev => {
+      setMenuData(prev => {
         const activeIndex = prev.findIndex(i => i.key === active.id);
         const overIndex = prev.findIndex(i => i.key === over?.id);
         return arrayMove(prev, activeIndex, overIndex);
@@ -200,7 +332,7 @@ const App: React.FC = () => {
   // 顺序改变后进行操作
   useEffect(() => {
     if (isChange) {
-      const idList = dataSource.map(data => {
+      const idList = menuData.map(data => {
         return data.key;
       });
       changeSort(
@@ -214,15 +346,15 @@ const App: React.FC = () => {
       );
       setIsChange(false);
     }
-  }, [dataSource]);
+  }, [menuData]);
 
   useEffect(() => {
     getSelfMenu(
       '',
       res => {
-        setDataSource(
+        setMenuData(
           res.body.menus.map((item: SideMenuItem) => {
-            return generateData(item.id, item.title, item.grade!, item.color!, item.sort!, item.children!);
+            return generateMenuData(item);
           })
         );
       },
@@ -236,22 +368,24 @@ const App: React.FC = () => {
     <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
       <SortableContext
         // rowKey array
-        items={dataSource.map(i => i.key)}
+        items={menuData.map(i => i.key)}
         strategy={verticalListSortingStrategy}
       >
-        <table className={style.table}>
+        <table className={style.table} style={{ overflow: 'hidden', borderRadius: '8px 8px 0 0' }}>
           <thead>
             <tr className={style.head}>
               <th></th>
               <th>菜单标题</th>
               <th>菜单层级</th>
               <th>标签颜色</th>
-              <th>排序顺序</th>
+              <th>菜单图标</th>
+              <th>排序值</th>
+              <th>操作</th>
             </tr>
           </thead>
           <tbody>
-            {dataSource.map(item => {
-              return <Row key={item.key} data={item}></Row>;
+            {menuData.map(item => {
+              return <MenuRow key={item.key} data={item}></MenuRow>;
             })}
           </tbody>
         </table>

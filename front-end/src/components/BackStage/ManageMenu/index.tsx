@@ -54,6 +54,7 @@ const ManageMenu = () => {
   const selectKey = useAppSelector(state => state.backstage.selectKey);
   return (
     <Menu
+      style={{ border: 'none' }}
       theme="light"
       selectedKeys={[selectKey]}
       mode="inline"

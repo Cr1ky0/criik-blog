@@ -10,6 +10,23 @@ exports.defaultParams = (req, res, next) => {
   next();
 };
 
+// 根据idList排序
+exports.changeSort = catchAsync(async (req, res, next) => {
+  const { idList } = req.body;
+  // eslint-disable-next-line array-callback-return
+  idList.map((id, index) => {
+    console.log(index);
+    Blog.findByIdAndUpdate(id, { sort: index }).then(
+      () => new Promise(() => {})
+    );
+  });
+
+  res.status(200).json({
+    status: 'success',
+    data: {},
+  });
+});
+
 exports.getBlog = catchAsync(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
 
