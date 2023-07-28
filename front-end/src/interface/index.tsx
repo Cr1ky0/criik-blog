@@ -48,7 +48,7 @@ export interface AddMenuObj {
 
 export interface UpdateMenuObj {
   id: string;
-  title: string;
+  title?: string;
   icon?: string;
   color?: string;
 }

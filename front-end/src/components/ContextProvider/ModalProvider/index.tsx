@@ -7,6 +7,7 @@ import { Modal } from 'antd';
 interface ConfigObj {
   title: string;
   content: React.ReactNode;
+  centered?: boolean;
   onOk?: () => void;
   onCancel?: () => void;
 }

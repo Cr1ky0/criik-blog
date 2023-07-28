@@ -15,7 +15,6 @@ exports.changeSort = catchAsync(async (req, res, next) => {
   const { idList } = req.body;
   // eslint-disable-next-line array-callback-return
   idList.map((id, index) => {
-    console.log(index);
     Blog.findByIdAndUpdate(id, { sort: index }).then(
       () => new Promise(() => {})
     );

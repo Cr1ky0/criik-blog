@@ -171,7 +171,6 @@ const BlogManage = () => {
       },
       async () => {
         await message.loadingSuccessAsync('更新中...', '更新成功！');
-        navigate(0);
         dispatch(initWriteContent());
         dispatch(
           editBlogMenu({
@@ -182,6 +181,7 @@ const BlogManage = () => {
         );
         dispatch(setIsEdit(false));
         setIsLoading(false);
+        navigate(0);
       },
       content => {
         message.error(content);

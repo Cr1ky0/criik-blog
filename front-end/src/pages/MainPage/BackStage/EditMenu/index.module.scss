@@ -77,3 +77,39 @@ $BORDER_COLOR: #fafafa;
     }
   }
 }
+
+.actionBtn {
+  > div {
+    float: left;
+    line-height: 22px;
+    margin: 0 2px;
+    transition: color .3s;
+    cursor: pointer;
+  }
+
+  > div:first-child {
+    font-size: 18px;
+
+    &:hover {
+      color: red;
+    }
+  }
+
+  > div:nth-child(2) {
+    &:hover {
+      color: $THEME_COLOR
+    }
+  }
+
+
+}
+
+.editBtn {
+  font-size: 12px;
+  cursor: pointer;
+  transition: color .3s;
+
+  &:hover {
+    color: $THEME_COLOR;
+  }
+}

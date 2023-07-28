@@ -140,11 +140,7 @@ exports.deleteMenu = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.updateMenu = catchAsync(async (req, res, next) => {
-  const { title, icon, color } = req.body;
-  if (!title) return next(new AppError('请输入标题!', 400));
-  if (!icon) return next(new AppError('请选择图标！', 400));
-  if (!color) return next(new AppError('请选择标签颜色！', 400));
+exports.updateMenu = catchAsync(async (req, res) => {
   const filteredBody = filterObj(req.body, 'color', 'icon', 'title');
   await Menu.findByIdAndUpdate(req.params.id, filteredBody, {
     new: true,

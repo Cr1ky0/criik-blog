@@ -10,12 +10,16 @@ import { BlogObj, SideMenuItem } from '@/interface';
 interface blogMenuInitObj {
   menuList: SideMenuItem[];
   selectedId: string; // 选的博客id
+  deleteKey: string;
+  delKind: 'menu' | 'blog';
 }
 
 // 合并了菜单的slice因为无法解决设置了selectedId后设置curBlog延迟的问题
 const initialState: blogMenuInitObj = {
   menuList: [] as SideMenuItem[],
   selectedId: '', // 选的博客id
+  deleteKey: '', // EditMenu中删除的id，可以是blog也可以是menu
+  delKind: 'menu', // EditMenu中删除的种类
 };
 
 export const setMenuList = createAsyncThunk('blogMenu/setMenuList', async () => {
@@ -31,6 +35,14 @@ const blogMenuSlice = createSlice({
   name: 'blogMenu',
   initialState,
   reducers: {
+    // deleteKey
+    setDeleteKey: (state, action) => {
+      state.deleteKey = action.payload;
+    },
+    // delKind
+    setDelKind: (state, action) => {
+      state.delKind = action.payload;
+    },
     // selectedId
     setSelectedId: (state, action) => {
       state.selectedId = action.payload;
@@ -210,5 +222,6 @@ const blogMenuSlice = createSlice({
   },
 });
 
-export const { addMenu, editMenu, deleteMenu, setSelectedId, addBlogMenu, editBlogMenu } = blogMenuSlice.actions;
+export const { setDeleteKey, setDelKind, addMenu, editMenu, deleteMenu, setSelectedId, addBlogMenu, editBlogMenu } =
+  blogMenuSlice.actions;
 export default blogMenuSlice.reducer;

@@ -29,29 +29,9 @@ import { deleteBlogOfMenuAjax } from '@/api/blog';
 import { SideMenuItem } from '@/interface';
 import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 
-// 颜色选项
-const colorList = [
-  'magenta',
-  'red',
-  'volcano',
-  'orange',
-  'gold',
-  'lime',
-  'green',
-  'cyan',
-  'blue',
-  'geekblue',
-  'purple',
-];
+// global
+import { colorChoseList } from '@/global';
 
-const colorChoseList = colorList.map(color => ({
-  value: color,
-  label: (
-    <>
-      <Tag color={color}>{color}</Tag>
-    </>
-  ),
-}));
 const EditMenu = () => {
   const dispatch = useAppDispatch();
   const menus = useAppSelector(state => state.blogMenu.menuList);
@@ -267,7 +247,6 @@ const EditMenu = () => {
         <Tree
           showLine
           showIcon
-          defaultExpandAll
           switcherIcon={<DownOutlined />}
           defaultCheckedKeys={[defaultCheck.key]}
           defaultSelectedKeys={[defaultCheck.key]}

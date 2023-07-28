@@ -6,6 +6,7 @@ const menuSchema = new mongoose.Schema(
     title: {
       type: String,
       required: [true, '博客必须拥有标题'],
+      maxlength: [50, '超出最大标题限制，请修改后提交'],
     },
     // 图标（对应前端的图标库）
     icon: String,
