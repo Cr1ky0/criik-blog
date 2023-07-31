@@ -4,6 +4,7 @@
 
 @mixin universal() {
   .main {
+    opacity: 0;
 
     .blog {
       min-height: 100vh;
@@ -164,21 +165,6 @@
   }
 }
 
-.showAnime {
-  animation-name: showAnime;
-  animation-duration: 1s;
-  animation-fill-mode: both;
-}
 
-@keyframes showAnime {
-  from {
-    opacity: 0;
-    transform: translateY(20%);
-  }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 

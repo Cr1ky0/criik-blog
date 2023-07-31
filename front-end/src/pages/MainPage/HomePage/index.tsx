@@ -94,7 +94,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div className={`${style.wrapper} clearfix  animate__animated animate__fadeInUp animate__delay-1s`} ref={wrapper}>
+      <div className={`${style.wrapper} clearfix  show-anime-delay-1s`} ref={wrapper}>
         <div
           className={`${style.backgroundPhoto} clearfix`}
           style={{ backgroundImage: `url(${backgroundImage})` }}

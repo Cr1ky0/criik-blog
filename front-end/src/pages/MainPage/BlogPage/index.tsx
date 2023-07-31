@@ -90,7 +90,7 @@ const BlogPage = () => {
 
   return (
     <div className={`${style.wrapper} clearfix`}>
-      <div id="blog-page-sider-wrapper" className={style.sider}>
+      <div id="blog-page-sider-wrapper" className={`${style.sider} showAnime`}>
         <SideMenu noEdit={true} page="blog"></SideMenu>
       </div>
       <div ref={divRef} id="blog-page-content-wrapper" className={`${style.content} clearfix`}>

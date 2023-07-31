@@ -12,9 +12,8 @@
   height: 100%;
   background-color: $THEME_COLOR;
   width: 0;
-  transition: width 2s linear;
   animation-name: loading;
-  animation-duration: 1s;
+  animation-duration: .7s;
 }
 
 /* define animation keyframes */

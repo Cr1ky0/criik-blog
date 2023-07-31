@@ -134,9 +134,10 @@ const BlogContent = () => {
   return (
     <>
       <div
-        className={`${style.main} clearfix ${
-          fadeOut ? 'animate__animated animate__fadeOut' : 'animate__animated animate__fadeIn animate__delay-1s'
-        }`}
+        // className={`${style.main} clearfix ${
+        //   fadeOut ? 'animate__animated animate__fadeOut' : 'animate__animated animate__fadeIn animate__delay-1s'
+        // }`}
+        className={`${style.main} clearfix ${fadeOut ? style.hideAnime : style.showAnime}`}
       >
         <div className={style.blog}>
           <div className={style.breadCrumb}>

@@ -98,12 +98,12 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
                 setTimeout(() => {
                   dispatch(setIsLoading(true));
                 }, 50);
-                // 1s后打开FadeOut
+                // .7s后打开FadeOut（FadeOut动画开始，持续时间ns）
                 setTimeout(() => {
                   dispatch(setFadeOut(true));
-                }, 1000);
+                }, 750);
                 setTimeout(() => {
-                  // 1.5s后执行操作并关闭FadeOut
+                  // 1.4s后执行操作（1+ns）并取消fadeOut（FadeIn动画执行）
                   dispatch(setFadeOut(false));
                   dispatch(setSelectedId(e.key));
                   // 重置可操作标志
@@ -111,7 +111,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
                   if (page === 'blog') {
                     navigate(`/blog`);
                   }
-                }, 1500);
+                }, 1250);
               }
               if (closeMenu) closeMenu();
             }
