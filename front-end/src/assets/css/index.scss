@@ -32,6 +32,13 @@ $MAX_WIDTH: 1100px;
   animation-timing-function: ease-out;
 }
 
+.show-anime-no-delay {
+  opacity: 0;
+  animation: showAnime .7s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+}
+
 .hideAnime {
   opacity: 1;
   animation: hideAnime .5s;

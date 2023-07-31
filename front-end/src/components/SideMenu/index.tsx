@@ -88,32 +88,36 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
           // handle select
           onClick={e => {
             if (opt) {
-              // 触发事件
-              const item = getSideMenuItem(menus, e.key) as SideMenuItem;
-              if (!item.grade) {
-                // 操作标志置为false，不可继续操作
-                setOpt(false);
-                // 如果先前打开了滚动条要先关闭
-                dispatch(setIsLoading(false));
-                setTimeout(() => {
-                  dispatch(setIsLoading(true));
-                }, 50);
-                // .7s后打开FadeOut（FadeOut动画开始，持续时间ns）
-                setTimeout(() => {
-                  dispatch(setFadeOut(true));
-                }, 750);
-                setTimeout(() => {
-                  // 1.4s后执行操作（1+ns）并取消fadeOut（FadeIn动画执行）
-                  dispatch(setFadeOut(false));
-                  dispatch(setSelectedId(e.key));
-                  // 重置可操作标志
-                  setOpt(true);
-                  if (page === 'blog') {
-                    navigate(`/blog`);
-                  }
-                }, 1250);
+              if (!noEdit) {
+                dispatch(setSelectedId(e.key));
+              } else {
+                // 触发事件
+                const item = getSideMenuItem(menus, e.key) as SideMenuItem;
+                if (!item.grade) {
+                  // 操作标志置为false，不可继续操作
+                  setOpt(false);
+                  // 如果先前打开了滚动条要先关闭
+                  dispatch(setIsLoading(false));
+                  setTimeout(() => {
+                    dispatch(setIsLoading(true));
+                  }, 50);
+                  // .7s后打开FadeOut（FadeOut动画开始，持续时间ns）
+                  setTimeout(() => {
+                    dispatch(setFadeOut(true));
+                  }, 750);
+                  setTimeout(() => {
+                    // 1.4s后执行操作（1+ns）并取消fadeOut（FadeIn动画执行）
+                    dispatch(setFadeOut(false));
+                    dispatch(setSelectedId(e.key));
+                    // 重置可操作标志
+                    setOpt(true);
+                    if (page === 'blog') {
+                      navigate(`/blog`);
+                    }
+                  }, 1250);
+                }
+                if (closeMenu) closeMenu();
               }
-              if (closeMenu) closeMenu();
             }
           }}
         />

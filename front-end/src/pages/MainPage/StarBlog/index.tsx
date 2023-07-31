@@ -131,7 +131,7 @@ const StarBlog = () => {
           <LoadingComp styles={{ padding: '5vh' }} changeImg={true}></LoadingComp>
         ) : (
           <>
-            <div className={style.blogs}>
+            <div className={`${style.blogs} show-anime-no-delay`}>
               <Outlet />
             </div>
           </>
