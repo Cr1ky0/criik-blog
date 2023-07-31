@@ -40,7 +40,6 @@ const BlogContent = () => {
   const modal = useGlobalModal();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  // const [loading, setLoading] = useState(true);
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const fadeOut = useAppSelector(state => state.progressbar.fadeOut);
@@ -78,11 +77,6 @@ const BlogContent = () => {
       .catch(err => {
         message.error(err.message);
       });
-    // .finally(() => {
-    //   timer = setTimeout(() => {
-    //     setLoading(false);
-    //   }, 1000);
-    // });
     return () => {
       clearTimeout(timer);
     };
@@ -135,14 +129,10 @@ const BlogContent = () => {
     );
   };
 
+  // TODO:博客页面样式
+
   return (
-    /* Content加载状态 */
     <>
-      {/*{loading ? (*/}
-      {/*  <div style={{ width: '100%', height: '100%', paddingTop: '20vh', overflow: 'hidden', minHeight: '120vh' }}>*/}
-      {/*    <LoadingComp styles={{ backgroundColor: '#FFF' }}></LoadingComp>*/}
-      {/*  </div>*/}
-      {/*) : (*/}
       <div
         className={`${style.main} clearfix ${
           fadeOut ? 'animate__animated animate__fadeOut' : 'animate__animated animate__fadeIn animate__delay-1s'
@@ -242,7 +232,6 @@ const BlogContent = () => {
           {curBlog.id ? <BlogToc2 text={curBlog.contents as string}></BlogToc2> : undefined}
         </div>
       </div>
-      {/*)}*/}
     </>
   );
 };

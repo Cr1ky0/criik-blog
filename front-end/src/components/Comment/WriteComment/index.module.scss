@@ -36,8 +36,8 @@
       outline: none;
       box-sizing: border-box;
       width: 100%;
-      font-size: 20px;
-      line-height: 24px;
+      font-size: 16px;
+      line-height: 20px;
       border: 1px solid $BORDER_COLOR;
       padding: 2vh;
       resize: none;
@@ -81,10 +81,10 @@
   .wrapper {
     .infoInput {
       > div {
-        height: 40px;
+        height: 35px;
 
         .input {
-          height: 40px;
+          height: 35px;
         }
       }
     }
@@ -93,6 +93,11 @@
       min-height: $COMMENT_H;
     }
 
+    .emoji {
+      > span {
+        font-size: 32px;
+      }
+    }
   }
 }
 
@@ -101,16 +106,22 @@
   .wrapper {
     .infoInput {
       > div {
-        height: 30px;
+        height: 25px;
 
         .input {
-          height: 30px;
+          height: 25px;
         }
       }
     }
 
     .content {
-      min-height: 150px;
+      min-height: 100px;
+    }
+
+    .emoji {
+      > span {
+        font-size: 25px;
+      }
     }
   }
 }

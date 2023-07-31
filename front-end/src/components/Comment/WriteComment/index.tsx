@@ -12,15 +12,19 @@ import Emoji from './Emoji';
 
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { addLength, setComments, setIsLoading, addReply } from '@/redux/slices/comments';
 
 // api
-import { addCommentAjax, filterCommentAjax } from '@/api/comment';
+import { addCommentAjax } from '@/api/comment';
 import { addReplyAjax } from '@/api/reply';
 import { plusCommentCountAjax } from '@/api/blog';
+
+// global
+import { BREAK_POINT } from '@/global';
 
 interface WriteCommentProps {
   belongingComment?: string;
@@ -28,6 +32,7 @@ interface WriteCommentProps {
 
 const WriteComment: React.FC<WriteCommentProps> = ({ belongingComment }) => {
   const message = useGlobalMessage();
+  const { width } = useViewport();
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const userNameRef = useRef<InputRef>(null);
   const userBriefRef = useRef<InputRef>(null);
@@ -156,15 +161,18 @@ const WriteComment: React.FC<WriteCommentProps> = ({ belongingComment }) => {
               setIsOpen(!isOpen);
             }}
           >
-            <span className="iconfont" style={{ fontSize: '32px' }}>
-              &#xe618;
-            </span>
+            <span className="iconfont">&#xe618;</span>
           </div>
         </Popover>
 
         <div className={style.submit}>
-          <Button type="primary" size="middle" loading={isLoading} onClick={handleSubmit}>
-            {belongingComment ? '回复' : '提交'}
+          <Button
+            type="primary"
+            size={width > BREAK_POINT ? 'middle' : 'small'}
+            loading={isLoading}
+            onClick={handleSubmit}
+          >
+            {belongingComment ? '回复' : '评论'}
           </Button>
         </div>
       </div>

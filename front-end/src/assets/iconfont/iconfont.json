@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "749800",
+      "name": "iconfont-youhuiquan",
+      "font_class": "iconfontyouhuiquan",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
       "icon_id": "22894693",
       "name": "download",
       "font_class": "download",

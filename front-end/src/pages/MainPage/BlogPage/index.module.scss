@@ -42,11 +42,16 @@
   @include universal;
 
   .content {
-    width: 79vw;
+    width: 73vw;
   }
 
   .sider {
-    width: 21vw;
+    width: 27vw;
+    padding: {
+      top: 5vh;
+      left: 11vw;
+      right: 1vw;
+    }
   }
 
   .mobileMenu {

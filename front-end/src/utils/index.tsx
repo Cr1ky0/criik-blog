@@ -1,3 +1,4 @@
+import React from 'react';
 import { ReactElement } from 'react';
 
 // interface
@@ -248,7 +249,7 @@ export const getOneBlogFromMenu: (menu: SideMenuItem) => string = menu => {
 /**************** 列表生成 *****************/
 
 // 将SideMenuItem列表转化为MenuItem列表
-function getItem(label: string, key: React.Key, icon?: React.ReactNode, children?: MenuItem[]): MenuItem {
+function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, children?: MenuItem[]): MenuItem {
   return {
     key,
     icon,
@@ -266,7 +267,7 @@ export const getAntdMenus: (menus: SideMenuItem[], icons: AntdIcon[]) => MenuIte
     const newList: MenuItem[] = [];
     if (menu.blogs && menu.blogs.length) {
       menu.blogs.map(blog => {
-        newList.push(getItem(blog.title, blog.id));
+        newList.push(getItem(<span className="iconfont">&#xe627;&nbsp;{blog.title}</span>, blog.id));
       });
     }
     return getItem(

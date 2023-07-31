@@ -9,8 +9,9 @@ import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-
 // import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+// import { darcula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+
 // css
 import 'github-markdown-css';
 import './index.scss';
@@ -81,6 +82,7 @@ const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) 
           return !inline && match ? (
             <SyntaxHighlighter
               {...props}
+              showLineNumbers
               style={vscDarkPlus}
               language={match[1]}
               className="syntax-highlighter-wrapper"

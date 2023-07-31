@@ -39,6 +39,25 @@ body {
 }
 
 /***************** antd *******************/
+// Menu
+.ant-menu-submenu-title, .ant-menu-item {
+  height: 33px !important;
+  margin: 2px !important;
+
+  > span:first-child {
+    font-size: 14px !important;
+  }
+}
+
+// Anchor
+.ant-anchor-link, .ant-anchor-link-title {
+  color: rgba(0, 0, 0, .5) !important;
+}
+
+.ant-anchor-link-active, .ant-anchor-link-title-active {
+  color: $THEME_COLOR !important;
+}
+
 .ant-dropdown-menu-item {
   padding: 0 !important;
 }

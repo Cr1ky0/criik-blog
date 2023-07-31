@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-// css
-import style from './index.module.scss';
-
 // antd
 import { Anchor } from 'antd';
+
+// css
+import style from './index.module.scss';
 
 interface BlogTocProps {
   text: string;

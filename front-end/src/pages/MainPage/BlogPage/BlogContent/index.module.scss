@@ -37,7 +37,7 @@
         }
 
         .title {
-          font-size: 50px;
+          font-size: 35px;
           font-family: sans-serif;
         }
 
@@ -50,7 +50,7 @@
       }
 
       .blogEdit {
-        padding: 5vh 0;
+        padding: 40px 0;
         display: flex;
         justify-content: space-between;
 
@@ -60,19 +60,23 @@
 
           > div {
             cursor: pointer;
-            padding: 1vh 0;
+            padding: 3px 0;
             font: {
-              size: 1.2vw;
+              size: 14px;
             }
 
             .editPageBtn {
-              font-size: .9vw;
-              padding-left: .2vw;
+              font-size: 12px;
+              padding-left: 3px;
             }
 
             .delPageBtn {
-              font-size: 1.2vw;
+              font-size: 15px;
             }
+          }
+
+          > div:last-child > span:last-child {
+            padding-left: 2px;
           }
         }
 
@@ -81,10 +85,11 @@
           color: #526e89;
 
           > div {
+            text-align: end;
             font: {
-              size: 1.2vw;
+              size: 14px;
             }
-            padding: 1vh 0;
+            padding: 3px 0;
 
             span {
               color: $FONT_COLOR;
@@ -110,7 +115,7 @@
     }
 
     .blog {
-      width: 75%;
+      width: 65%;
     }
 
     .toc {
