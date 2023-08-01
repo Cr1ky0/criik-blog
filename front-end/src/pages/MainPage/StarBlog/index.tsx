@@ -9,7 +9,6 @@ import style from './index.module.scss';
 
 // comp
 import Footer from '@/components/Footer';
-import LoadingComp from '@/components/Universal/LoadingComp';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
@@ -31,6 +30,9 @@ const StarBlog = () => {
   const [curPage, setCurPage] = useState(1);
   const [collectNum, setCollectNum] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  // 可操作标志
+  const [isOpt, setIsOpt] = useState(true);
+
   // timer
   const [timer, setTimer] = useState<any>();
   const wrapper = useRef<HTMLDivElement>(null);
@@ -39,10 +41,7 @@ const StarBlog = () => {
     // 设置初始选中状态
     dispatch(setChosenList([false, false, true, false]));
     const now = document.getElementById(`blog-stars-btn-${chosen}`) as HTMLElement;
-    now.style.color = THEME_COLOR;
-    const bar = now.getElementsByTagName('div')[1] as HTMLElement;
-    bar.style.width = '100%';
-    bar.style.marginLeft = '0';
+    now.classList.add(style.optionsOnChosen);
     // 如果为收藏页，获取收藏总数
     if (chosen === 0) {
       getCollectedBlogsNum().then(res => setCollectNum(res));
@@ -60,27 +59,26 @@ const StarBlog = () => {
                 key={index}
                 onClick={e => {
                   // 动画
-                  if (chosen !== index) {
-                    if (timer) clearTimeout(timer);
-                    setIsLoading(true);
-                    setTimer(
+                  if (isOpt) {
+                    setIsOpt(false);
+                    if (chosen !== index) {
+                      setIsLoading(true);
                       setTimeout(() => {
+                        setIsOpt(true);
+                      }, 1000);
+                      // 导航样式变化
+                      const now = e.currentTarget;
+                      now.classList.add(style.optionsOnChosen);
+                      const last = document.getElementById(`blog-stars-btn-${chosen}`) as HTMLElement;
+                      last.classList.remove(style.optionsOnChosen);
+                      dispatch(setChosen(index));
+                      // 跳转
+                      setTimeout(() => {
+                        navigate(`/stars?filter=${index}&page=${1}`);
+                        setCurPage(1);
                         setIsLoading(false);
-                      }, 400)
-                    );
-                    const now = e.currentTarget;
-                    now.style.color = THEME_COLOR;
-                    const bar = now.getElementsByTagName('div')[1] as HTMLElement;
-                    bar.style.width = '100%';
-                    bar.style.marginLeft = '0';
-                    const last = document.getElementById(`blog-stars-btn-${chosen}`) as HTMLElement;
-                    last.style.color = FONT_COLOR;
-                    const lastBar = last.getElementsByTagName('div')[1] as HTMLElement;
-                    lastBar.style.width = '0';
-                    lastBar.style.marginLeft = '50%';
-                    dispatch(setChosen(index));
-                    navigate(`/stars?filter=${index}&page=${1}`);
-                    setCurPage(1);
+                      }, 500);
+                    }
                   }
                 }}
               >
@@ -111,12 +109,12 @@ const StarBlog = () => {
             setIsLoading(true);
             setTimer(
               setTimeout(() => {
+                setCurPage(page);
+                // 点击跳转
+                navigate(`?filter=${chosen}page=${page}`);
                 setIsLoading(false);
-              }, 400)
+              }, 500)
             );
-            setCurPage(page);
-            // 点击跳转
-            navigate(`?filter=${chosen}page=${page}`);
           }}
         />
       </div>

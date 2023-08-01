@@ -55,7 +55,7 @@ const BlogPage = () => {
     }, 50);
   }, []);
 
-  // TODO:TOC位置，进度条样式等修改
+  // TODO:初次加载bug
 
   return (
     <div className={`${style.wrapper} clearfix`}>

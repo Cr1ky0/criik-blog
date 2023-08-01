@@ -1,4 +1,5 @@
 const Blog = require('../models/blogModel');
+const Menu = require('../models/menuModel');
 const User = require('../models/userModel');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
@@ -9,6 +10,29 @@ exports.defaultParams = (req, res, next) => {
   req.query.limit = '10';
   next();
 };
+
+// 重置所有blog的sort值
+exports.resetAllSort = catchAsync(async (req, res) => {
+  for (let j = 1; j <= 3; j += 1) {
+    Menu.find({ grade: j }).then((menus) => {
+      for (let i = 0; i < menus.length; i += 1) {
+        Blog.find({ belongingMenu: menus[i].id })
+          .select('-contents')
+          .sort({ publishAt: 1 })
+          .then((data) => {
+            data.forEach((blog, index) => {
+              blog.sort = index;
+              blog.save();
+            });
+          });
+      }
+    });
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {},
+  });
+});
 
 // 根据idList排序
 exports.changeSort = catchAsync(async (req, res, next) => {

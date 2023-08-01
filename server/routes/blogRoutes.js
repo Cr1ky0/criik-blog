@@ -32,6 +32,8 @@ router.patch('/decreaseCommentCount/:id', blogController.decreaseCommentCount);
 
 router.use(authController.protect);
 router.use(authController.restrictTo('admin'));
+// reset sort
+router.patch('/resetAllSort', blogController.resetAllSort);
 
 // 根据idList排序
 router.patch('/changeSort', blogController.changeSort);
