@@ -35,7 +35,7 @@ const BlogList = () => {
         message.error(err.message);
       }
     );
-  }, []);
+  }, [page]);
 
   return <ShowBlogTagList blogs={blogs}></ShowBlogTagList>;
 };

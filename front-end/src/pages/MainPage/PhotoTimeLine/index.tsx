@@ -58,7 +58,7 @@ const generateTimeLine = (timeline: ImgObj[], handlePreview: (src: string) => vo
         children: (
           <div
             id={item._id}
-            className={style.itemWrapper}
+            className={`${style.itemWrapper} showAnime`}
             // click
             onClick={() => {
               handlePreview(item.url + item.filename);

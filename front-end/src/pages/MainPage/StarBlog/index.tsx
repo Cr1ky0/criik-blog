@@ -91,16 +91,9 @@ const StarBlog = () => {
           })}
         </div>
 
-        {/* loading状态 */}
-        {isLoading ? (
-          <LoadingComp styles={{ padding: '5vh' }} changeImg={true}></LoadingComp>
-        ) : (
-          <>
-            <div className={`${style.blogs} show-anime-no-delay`}>
-              <Outlet />
-            </div>
-          </>
-        )}
+        <div className={`${style.blogs} ${isLoading ? 'hideAnime' : 'showAnime'}`}>
+          <Outlet />
+        </div>
       </div>
       <div className={style.paginate}>
         <Pagination

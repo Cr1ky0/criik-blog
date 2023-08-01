@@ -21,7 +21,6 @@ import { setChosenList } from '@/redux/slices/chosenList';
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
 import BlogDetailBox from '@/components/HomePage/BlogDetailBox';
 import Footer from '@/components/Footer';
-import LoadingComp from '@/components/Universal/LoadingComp';
 
 // util
 import { setIsLoading } from '@/redux/slices/progressbar';
@@ -62,8 +61,6 @@ const HomePage = () => {
     }, 50);
   }, []);
 
-  // TODO:重构滚动
-
   return (
     <>
       <div className={`${style.wrapper} clearfix  show-anime-delay-1s`}>
@@ -80,39 +77,31 @@ const HomePage = () => {
         </div>
         <div className={style.main}>
           <div className={style.content}>
-            {/* loading状态 */}
-            {loading ? (
-              <LoadingComp styles={{ padding: '5vh' }}></LoadingComp>
-            ) : (
-              // 路由
-              <>
-                <div className={style.blogList}>
-                  <Outlet />
-                </div>
-                <div className={style.paginate}>
-                  <Pagination
-                    showSizeChanger={false}
-                    showQuickJumper
-                    pageSize={10}
-                    current={curPage}
-                    total={totalNum}
-                    onChange={page => {
-                      window.scrollTo({
-                        top: parseInt(window.getComputedStyle(homePhotoWrapper.current as HTMLDivElement).height),
-                        behavior: 'smooth',
-                      });
-                      setLoading(true);
-                      setTimeout(() => {
-                        setLoading(false);
-                      }, 400);
-                      // 点击跳转
-                      navigate(`?page=${page}`);
-                      setCurPage(page);
-                    }}
-                  />
-                </div>
-              </>
-            )}
+            <div className={`${style.blogList} ${loading ? 'hideAnime' : 'showAnime'}`}>
+              <Outlet />
+            </div>
+            <div className={style.paginate}>
+              <Pagination
+                showSizeChanger={false}
+                showQuickJumper
+                pageSize={10}
+                current={curPage}
+                total={totalNum}
+                onChange={page => {
+                  window.scrollTo({
+                    top: parseInt(window.getComputedStyle(homePhotoWrapper.current as HTMLDivElement).height),
+                    behavior: 'smooth',
+                  });
+                  setLoading(true);
+                  setTimeout(() => {
+                    // 点击跳转
+                    navigate(`?page=${page}`);
+                    setCurPage(page);
+                    setLoading(false);
+                  }, 500);
+                }}
+              />
+            </div>
           </div>
           {width > 1138 ? (
             <div className={style.sider}>
