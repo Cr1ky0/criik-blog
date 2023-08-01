@@ -7,7 +7,6 @@ import Cookies from 'universal-cookie';
 import BlogInfo from '@/components/Universal/BlogInfo';
 import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 import Comment from '@/components/Comment';
-import BlogToc2 from '@/components/BlogPage/BlogToc2';
 
 // antd
 import { Breadcrumb } from 'antd';
@@ -62,7 +61,6 @@ const BlogContent = () => {
 
   useEffect(() => {
     let timer: any;
-    // setLoading(true);
     getCurBlog(selectedId)
       .then(response => {
         // 加载一次热度+1
@@ -133,12 +131,7 @@ const BlogContent = () => {
 
   return (
     <>
-      <div
-        // className={`${style.main} clearfix ${
-        //   fadeOut ? 'animate__animated animate__fadeOut' : 'animate__animated animate__fadeIn animate__delay-1s'
-        // }`}
-        className={`${style.main} clearfix ${fadeOut ? 'hideAnime' : 'showAnime'}`}
-      >
+      <div className={`${style.main} clearfix ${fadeOut ? 'hideAnime' : 'showAnime'}`}>
         <div className="clearfix">
           <div className={style.blog}>
             <div className={style.breadCrumb}>

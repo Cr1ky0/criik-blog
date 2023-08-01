@@ -125,7 +125,10 @@ export const getOneBlogId: (menus: SideMenuItem[], curId?: string, menuId?: stri
       // 检查blogs
       if (menu.blogs && menu.blogs.length) {
         const blogs = menu.blogs.filter(blog => blog.id !== curId);
-        if (blogs.length) blogKey = blogs[0].id;
+        if (blogs.length) {
+          blogKey = blogs[0].id;
+          return;
+        }
       }
       // 进入子菜单
       if (menu.children) {
@@ -133,8 +136,23 @@ export const getOneBlogId: (menus: SideMenuItem[], curId?: string, menuId?: stri
           if (child.id !== menuId)
             if (child.blogs && child.blogs.length) {
               const blogs = child.blogs.filter(blog => blog.id !== curId);
-              if (blogs.length) blogKey = blogs[0].id;
+              if (blogs.length) {
+                blogKey = blogs[0].id;
+                return;
+              }
             }
+          if (child.children) {
+            child.children.forEach(grandChild => {
+              if (grandChild.id !== menuId)
+                if (grandChild.blogs && grandChild.blogs.length) {
+                  const blogs = grandChild.blogs.filter(blog => blog.id !== curId);
+                  if (blogs.length) {
+                    blogKey = blogs[0].id;
+                    return;
+                  }
+                }
+            });
+          }
         });
       }
     }
