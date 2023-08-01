@@ -15,9 +15,6 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 import { setChosenList } from '@/redux/slices/chosenList';
 import { setChosen } from '@/redux/slices/blog';
 
-// global
-import { THEME_COLOR, FONT_COLOR } from '@/global';
-
 // api
 import { getCollectedBlogsNum } from '@/api/blog';
 
@@ -31,13 +28,14 @@ const StarBlog = () => {
   const [collectNum, setCollectNum] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   // 可操作标志
-  const [isOpt, setIsOpt] = useState(true);
+  const [isOpt, setIsOpt] = useState<boolean>();
 
   // timer
   const [timer, setTimer] = useState<any>();
   const wrapper = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setIsOpt(true);
     // 设置初始选中状态
     dispatch(setChosenList([false, false, true, false]));
     const now = document.getElementById(`blog-stars-btn-${chosen}`) as HTMLElement;
@@ -65,7 +63,7 @@ const StarBlog = () => {
                       setIsLoading(true);
                       setTimeout(() => {
                         setIsOpt(true);
-                      }, 1000);
+                      }, 1300);
                       // 导航样式变化
                       const now = e.currentTarget;
                       now.classList.add(style.optionsOnChosen);

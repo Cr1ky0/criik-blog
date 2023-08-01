@@ -55,15 +55,17 @@
   .sider {
     position: fixed;
     width: 25vw;
-    height: 100vh;
+    height: 100%;
 
     > div {
+      overflow-y: auto;
       width: 240px;
       float: right;
+      height: 100%;
       padding: {
         right: 1vw;
         top: 2vh;
-        bottom: 2vh;
+        bottom: 10vh;
       }
     }
   }

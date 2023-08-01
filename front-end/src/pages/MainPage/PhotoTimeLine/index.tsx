@@ -168,6 +168,10 @@ const TimeLine = () => {
     );
   }, []);
 
+  useEffect(() => {
+    console.log(previewOpen);
+  }, [previewOpen]);
+
   /// 打开滚动条
   useEffect(() => {
     // 如果先前打开了滚动条要先关闭
@@ -195,7 +199,6 @@ const TimeLine = () => {
       <Footer></Footer>
       <Modal
         destroyOnClose
-        getContainer={false}
         open={previewOpen}
         title="Preview"
         footer={null}
