@@ -1,3 +1,4 @@
+@import '@/assets/css/index.scss';
 @import "@/pages/MainPage/mixin.scss";
 
 @include setContent();
@@ -5,8 +6,11 @@
 @mixin universal() {
   .main {
     opacity: 0;
+    width: 100%;
+    overflow: hidden;
 
     .blog {
+      width: 100%;
       min-height: 100vh;
       margin: {
         right: 20px;
@@ -112,30 +116,21 @@
   @include universal;
   .main {
     > div {
-      float: left;
+      > div {
+        float: left;
+      }
     }
 
-    .blog {
-      width: 65%;
-    }
-
-    .toc {
-      position: sticky;
-      top: 10vh;
-    }
   }
 
 }
 
 @media (max-width: 1000px) {
   @include universal;
-  .toc {
-    display: none;
-  }
-
   .main {
+    width: 100%;
+
     .blog {
-      width: 100%;
       padding: 0 2vw;
 
       .breadCrumb {

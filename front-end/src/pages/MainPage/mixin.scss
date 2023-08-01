@@ -20,13 +20,10 @@
   }
 }
 
-@mixin setWrapper($s_width:21vw,$c_width:79vw) {
+@mixin setWrapper() {
   background-color: #FFF;
-  overflow: hidden;
-  @include setScrollBar(5px);
-  > div {
-    float: left;
-  }
+  //overflow: hidden;
+  //@include setScrollBar(5px);
 }
 
 @mixin setSider() {

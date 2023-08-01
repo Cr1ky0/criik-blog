@@ -36,11 +36,9 @@ const generateAnchorItems = (textList: string[]) => {
 };
 const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
   const [tocList, setTocList] = useState<any>();
-  const [scrollWrapper, setScrollWrapper] = useState<HTMLDivElement>();
+
   useEffect(() => {
     const tocs = generateAnchorItems(getTitleList(text));
-    const scrollDiv = document.getElementById('blog-page-content-wrapper') as HTMLDivElement;
-    setScrollWrapper(scrollDiv);
     setTocList(tocs);
   }, [text]);
 
@@ -52,19 +50,15 @@ const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
       </div>
       <>
         <Anchor
-          offsetTop={60}
-          affix={true}
+          offsetTop={50}
           items={tocList}
           onClick={(e, link) => {
             e.preventDefault();
             const span = document.getElementById(String(link.title)) as HTMLSpanElement;
-            scrollWrapper!.scrollTo({
+            window.scrollTo({
               top: span.offsetTop,
               behavior: 'smooth',
             });
-          }}
-          getContainer={() => {
-            return document.getElementById('blog-page-content-wrapper') as HTMLDivElement;
           }}
         ></Anchor>
       </>

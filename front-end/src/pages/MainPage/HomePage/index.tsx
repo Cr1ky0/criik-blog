@@ -22,10 +22,8 @@ import IntroductionBox from '@/components/HomePage/IntroductionBox';
 import BlogDetailBox from '@/components/HomePage/BlogDetailBox';
 import Footer from '@/components/Footer';
 import LoadingComp from '@/components/Universal/LoadingComp';
-import BackToTopBtn from '@/components/Universal/BackToTopBtn';
 
 // util
-import { backToTop, throttle } from '@/utils/backToTopUtil';
 import { setIsLoading } from '@/redux/slices/progressbar';
 
 const HomePage = () => {
@@ -42,12 +40,6 @@ const HomePage = () => {
   // photo
   const [backgroundImage, setBackgroundImage] = useState(null);
 
-  // Back To Top
-  const wrapper = useRef<HTMLDivElement>(null);
-  const [scrollTop, setScrollTop] = useState<number>(0);
-  const [scrollHeight, setScrollHeight] = useState<number>(0);
-  const childRef = useRef<HTMLDivElement>(null);
-
   // 导入随机背景图片
   useEffect(() => {
     const randomNumber = Math.floor(Math.random() * 11) + 1;
@@ -58,30 +50,8 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    const current = wrapper.current as HTMLDivElement;
-    const child = childRef.current as HTMLDivElement;
-
-    // 初始化防止初始页面直接满进度
-    setScrollHeight(1);
-    setScrollTop(0);
-
-    // 节流函数
-    const throttleFunc = throttle(current, child, setScrollHeight, setScrollTop);
-    current.addEventListener('scroll', throttleFunc);
-    return () => {
-      current.removeEventListener('scroll', throttleFunc);
-    };
-  }, []);
-
-  useEffect(() => {
     dispatch(setChosenList([true, false, false, false]));
   }, []);
-
-  // 这里只会触发修改高度，其他组件不会重新渲染
-  useEffect(() => {
-    const div = wrapper.current as HTMLDivElement;
-    div.style.height = window.innerHeight + 'px';
-  }, [width, window.innerHeight]);
 
   // 打开滚动条
   useEffect(() => {
@@ -92,9 +62,11 @@ const HomePage = () => {
     }, 50);
   }, []);
 
+  // TODO:重构滚动
+
   return (
     <>
-      <div className={`${style.wrapper} clearfix  show-anime-delay-1s`} ref={wrapper}>
+      <div className={`${style.wrapper} clearfix  show-anime-delay-1s`}>
         <div
           className={`${style.backgroundPhoto} clearfix`}
           style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -125,7 +97,7 @@ const HomePage = () => {
                     current={curPage}
                     total={totalNum}
                     onChange={page => {
-                      (wrapper.current as HTMLDivElement).scrollTo({
+                      window.scrollTo({
                         top: parseInt(window.getComputedStyle(homePhotoWrapper.current as HTMLDivElement).height),
                         behavior: 'smooth',
                       });
@@ -167,14 +139,6 @@ const HomePage = () => {
         </Drawer>
         <Footer></Footer>
       </div>
-      <BackToTopBtn
-        ref={childRef}
-        scrollTop={scrollTop}
-        scrollHeight={scrollHeight}
-        onClick={() => {
-          backToTop(wrapper.current as HTMLDivElement);
-        }}
-      ></BackToTopBtn>
       <div
         className={style.mobileMenu}
         onClick={() => {

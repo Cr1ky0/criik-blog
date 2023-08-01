@@ -5,8 +5,9 @@
   .wrapper {
     height: 100%;
     @include setWrapper();
-    //@include setSider();
-    //@include setContent();
+    display: flex;
+    justify-content: flex-start;
+    
 
     .sider {
       overflow-y: auto;

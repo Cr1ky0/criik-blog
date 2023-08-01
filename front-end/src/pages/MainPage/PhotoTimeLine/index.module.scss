@@ -3,7 +3,7 @@
 
 @mixin universal() {
   .wrapper {
-    overflow-y: auto;
+    overflow: hidden;
 
     > div:not(:last-child) {
       margin: 40px auto;

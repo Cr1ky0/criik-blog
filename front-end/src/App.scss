@@ -6,9 +6,9 @@
 //  src: url('./assets/font/Smiley_Sans_Oblique.ttf');
 //}
 
-body {
-  overflow: hidden;
-}
+//body {
+//  overflow: hidden;
+//}
 
 // 根样式
 #root {
@@ -17,9 +17,9 @@ body {
 
 // 滚动条
 ::-webkit-scrollbar {
+  //width: 5px;
   width: 0;
-  //width: 0;
-  height: 10px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-thumb {

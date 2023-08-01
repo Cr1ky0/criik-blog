@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 
 // css
 import style from './index.module.scss';
@@ -9,15 +9,11 @@ import { THEME_COLOR, BREAK_POINT } from '@/global';
 // provider
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
-interface BackToTopBtnProps {
-  scrollTop: number;
-  scrollHeight: number;
-  onClick: () => void;
-}
-
-const BackToTopBtn = forwardRef<HTMLDivElement, BackToTopBtnProps>((props, ref) => {
-  const { scrollTop, scrollHeight, onClick } = props;
+const BackToTopBtn = () => {
   const { width } = useViewport();
+  const [scrollTop, setScrollTop] = useState(document.documentElement.scrollTop);
+  const [scrollHeight, setScrollHeight] = useState(document.documentElement.scrollHeight - window.innerHeight);
+  const thisRef = useRef<HTMLDivElement>(null);
   const radius = useMemo(() => {
     return width > BREAK_POINT ? 30 : 22.5;
   }, [width]);
@@ -27,8 +23,49 @@ const BackToTopBtn = forwardRef<HTMLDivElement, BackToTopBtnProps>((props, ref) 
   const strokeWidth = useMemo(() => {
     return width > BREAK_POINT ? 3 : 1.5;
   }, [width]);
+
+  useEffect(() => {
+    const throttle = () => {
+      let valid = true;
+      return () => {
+        if (valid) {
+          setTimeout(() => {
+            // 逻辑处理
+            // 总滚动大小 = 总滚动高度 - 视图大小
+            const current = thisRef.current as HTMLDivElement;
+            if (document.documentElement.scrollTop !== 0) {
+              current.style.visibility = 'visible';
+              current.style.opacity = '1';
+            } else {
+              current.style.visibility = 'hidden';
+              current.style.opacity = '0';
+            }
+            setScrollTop(document.documentElement.scrollTop);
+            setScrollHeight(document.documentElement.scrollHeight - window.innerHeight);
+            valid = true;
+          }, 500);
+          valid = false;
+        }
+      };
+    };
+    const throttleFunc = throttle();
+    window.addEventListener('scroll', throttleFunc);
+    return () => {
+      window.removeEventListener('scroll', throttleFunc);
+    };
+  }, [thisRef]);
+
   return (
-    <div className={style.wrapper} onClick={onClick} ref={ref}>
+    <div
+      className={style.wrapper}
+      onClick={() => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth', // 使用平滑滚动
+        });
+      }}
+      ref={thisRef}
+    >
       <svg width={radius * 2} height={radius * 2}>
         <circle
           className={style.circle}
@@ -45,7 +82,7 @@ const BackToTopBtn = forwardRef<HTMLDivElement, BackToTopBtnProps>((props, ref) 
       <div className={`${style.icon} iconfont`}>&#xe7d9;</div>
     </div>
   );
-});
+};
 
 BackToTopBtn.displayName = 'BackToTopBtn';
 export default BackToTopBtn;

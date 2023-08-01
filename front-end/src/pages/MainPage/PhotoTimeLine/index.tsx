@@ -23,7 +23,6 @@ import img from '@/assets/images/timeline.png';
 
 // provider
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
-import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // comp
 import TopDisplay from '@/components/TopDisplay';
@@ -86,7 +85,6 @@ const generateTimeLine = (timeline: ImgObj[], handlePreview: (src: string) => vo
 const TimeLine = () => {
   const dispatch = useAppDispatch();
   const message = useGlobalMessage();
-  const { width } = useViewport();
   const [photos, setPhotos] = useState<ImgObj[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -102,16 +100,15 @@ const TimeLine = () => {
   // 滚动事件
   useEffect(() => {
     // 防抖
-    const debounce = (delay: number, container: HTMLDivElement) => {
+    const debounce = (delay: number) => {
       let timer: any = null;
       // 参数放内层，因为是要用到点击事件的值，如果放在外层函数无法获取
       return () => {
         if (timer) clearTimeout(timer);
         timer = setTimeout(() => {
+          const cur = document.documentElement.scrollTop + window.innerHeight + 90;
           // 触发事件
-          const { scrollTop, clientHeight, scrollHeight } = container;
-          const threshold = scrollHeight - clientHeight - 90;
-          if (scrollTop >= threshold) {
+          if (cur >= document.documentElement.scrollHeight) {
             getPhotos(
               {
                 page: page + 1,
@@ -139,12 +136,11 @@ const TimeLine = () => {
       };
     };
 
-    const container = wrapper.current as HTMLDivElement;
-    const handleScroll = debounce(500, container);
-    container.addEventListener('scroll', handleScroll);
+    const handleScroll = debounce(500);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      container.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [page, photos]);
 
@@ -154,11 +150,6 @@ const TimeLine = () => {
     }, 1000);
     dispatch(setChosenList([false, false, false, true]));
   }, []);
-
-  useEffect(() => {
-    const div = wrapper.current as HTMLDivElement;
-    div.style.height = window.innerHeight - 50 + 'px';
-  }, [width, window.innerHeight]);
 
   useEffect(() => {
     getPhotos(

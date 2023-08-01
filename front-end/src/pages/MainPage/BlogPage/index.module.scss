@@ -1,11 +1,13 @@
 @import "@/assets/css/index.scss";
 @import "@/pages/MainPage/mixin.scss";
 
+
 @mixin universal() {
   .wrapper {
     @include setWrapper();
     @include setSider();
     @include setContent();
+    overflow: hidden;
 
     .loadingAnime {
       height: 100%;
@@ -14,22 +16,22 @@
     }
 
     .content {
-      overflow-y: auto;
-      overflow-x: hidden;
+      overflow: hidden;
     }
-
-
   }
 }
 
-
 @media (width <= $BREAK_POINT) {
   @include universal;
+  .toc {
+    display: none;
+  }
+
   .sider {
     display: none;
   }
   .content {
-    width: 100vw;
+    width: 100%;
     padding: 0 2vw;
   }
 
@@ -40,17 +42,38 @@
 
 @media (width > $BREAK_POINT) {
   @include universal;
-
-  .content {
-    width: 73vw;
+  .toc {
+    width: 10vw;
+    position: fixed;
+    // 注意计算部分必须全部卸载calc内部不然会出错
+    right: calc((100vw - $BREAK_POINT) * 0.45 - 11vw); // -11vw为自身容器大小，表示自身靠右的位置大小为content的{paddingRight-(自身width+1vw)}
+    transition: right 0.5s; /* 添加过渡效果 */
+    top: calc(50px + 5vh);
+    z-index: $GRADE_TOP;
   }
 
   .sider {
-    width: 27vw;
+    position: fixed;
+    width: 25vw;
+    height: 100vh;
+
+    > div {
+      width: 240px;
+      float: right;
+      padding: {
+        right: 1vw;
+        top: 2vh;
+        bottom: 2vh;
+      }
+    }
+  }
+
+  .content {
+    overflow-x: hidden;
+    transition: padding-right 0.5s; /* 添加过渡效果 */
     padding: {
-      top: 5vh;
-      left: 11vw;
-      right: 1vw;
+      left: 25vw;
+      right: calc((100vw - $BREAK_POINT) * 0.45); /* 初始 padding-right 值，以适应视窗宽度 */
     }
   }
 

@@ -67,16 +67,6 @@ const BlogManage = () => {
     dispatch(setSelectKey('blog'));
   }, []);
 
-  useEffect(() => {
-    // 初始化设置content和sider高度为视窗高度-TopHeader高度（为了设置滚动，且缩放时能看到全貌）
-    const content = document.getElementById('blog-manage-content-wrapper') as HTMLElement;
-    const sider = document.getElementById('blog-manage-sider-wrapper') as HTMLElement;
-    content.style.height = window.innerHeight - 50 + 'px';
-    if (sider) {
-      sider.style.height = window.innerHeight - 50 + 'px';
-    }
-  }, [width, window.innerHeight]);
-
   // 编辑状态菜单
   const items: MenuProps['items'] = [
     {

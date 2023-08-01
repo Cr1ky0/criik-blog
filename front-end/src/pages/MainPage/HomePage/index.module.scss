@@ -3,12 +3,8 @@
 
 @mixin universal() {
   .wrapper {
-    @include setScrollBar(.5vw);
     @include setTop();
-    overflow-x: hidden;
-    overflow-y: auto;
-    //height: 0;
-    //transition: height .5s;
+    overflow: hidden;
 
     .backgroundPhoto {
       width: 100%;

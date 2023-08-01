@@ -11,6 +11,7 @@ import style from './index.module.scss';
 // 组件
 import TopHeader from '@/components/TopHeader';
 import ProgressBar from '@/components/ProgressBar';
+import BackToTopBtn from '@/components/Universal/BackToTopBtn';
 
 const { Content } = Layout;
 
@@ -37,12 +38,14 @@ const MainPage = () => {
       <div className={style.progress}>
         <ProgressBar></ProgressBar>
       </div>
+
       {/* 如果是主页就取消Header，因为所有滚动都是在内部wrapper内，而不是body，背景调放在wrapper内才能有滚动 */}
       {/*{chosenList[0] ? undefined : <Header className={style.backWhite}></Header>}*/}
       <Header className={style.backWhite}></Header>
       <Layout>
         <Content>
           <React.StrictMode>
+            <BackToTopBtn></BackToTopBtn>
             <Outlet />
           </React.StrictMode>
         </Content>

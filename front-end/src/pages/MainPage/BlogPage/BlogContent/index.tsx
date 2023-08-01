@@ -18,7 +18,7 @@ import style from './index.module.scss';
 //redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setSelectedId, deleteMenu } from '@/redux/slices/blogMenu';
-import { initWriteContent, setAllContent, setCurEditId, setIsEdit } from '@/redux/slices/blog';
+import { initWriteContent, setAllContent, setCurBlogContent, setCurEditId, setIsEdit } from '@/redux/slices/blog';
 
 // utils
 import { filterLT, filterTitle, getBreadcrumbList, getOneBlogId, getSideMenuItem } from '@/utils';
@@ -33,6 +33,7 @@ import { deleteBlogAjax, getCurBlog, updateBlogViewAjax } from '@/api/blog';
 
 // interface
 import { SideMenuItem, BlogObj } from '@/interface';
+import Footer from '@/components/Footer';
 
 const BlogContent = () => {
   const icons = useIcons();
@@ -73,6 +74,7 @@ const BlogContent = () => {
         const contents = filterTitle(blog.contents);
         const newBlog = Object.assign({}, blog, { contents });
         setCurBlog(newBlog);
+        dispatch(setCurBlogContent(contents));
       })
       .catch(err => {
         message.error(err.message);
@@ -129,8 +131,6 @@ const BlogContent = () => {
     );
   };
 
-  // TODO:博客页面样式
-
   return (
     <>
       <div
@@ -139,99 +139,99 @@ const BlogContent = () => {
         // }`}
         className={`${style.main} clearfix ${fadeOut ? style.hideAnime : style.showAnime}`}
       >
-        <div className={style.blog}>
-          <div className={style.breadCrumb}>
-            <Breadcrumb
-              items={
-                breadcrumbList && breadcrumbList.length
-                  ? breadcrumbList.map(item => {
-                      return {
-                        title: (
-                          <>
-                            {item.icon} {item.title}
-                          </>
-                        ),
-                      };
-                    })
-                  : []
-              }
-            />
-          </div>
-          <div className={style.info}>
-            <div className={style.title}>{curBlog.title}</div>
-            <div className={style.blogInfo}>
-              {curBlog.id ? (
-                <BlogInfo
-                  statistics={{
-                    id: curBlog.id,
-                    author: curBlog.author as string,
-                    time: moment(curBlog.publishAt).format('YYYY-MM-DD'),
-                    views: curBlog.views as number,
-                    likes: curBlog.likes as number,
-                    belongingMenu: curBlog.belongingMenu,
-                    isCollected: curBlog.isCollected as boolean,
-                  }}
-                ></BlogInfo>
+        <div className="clearfix">
+          <div className={style.blog}>
+            <div className={style.breadCrumb}>
+              <Breadcrumb
+                items={
+                  breadcrumbList && breadcrumbList.length
+                    ? breadcrumbList.map(item => {
+                        return {
+                          title: (
+                            <>
+                              {item.icon} {item.title}
+                            </>
+                          ),
+                        };
+                      })
+                    : []
+                }
+              />
+            </div>
+            <div className={style.info}>
+              <div className={style.title}>{curBlog.title}</div>
+              <div className={style.blogInfo}>
+                {curBlog.id ? (
+                  <BlogInfo
+                    statistics={{
+                      id: curBlog.id,
+                      author: curBlog.author as string,
+                      time: moment(curBlog.publishAt).format('YYYY-MM-DD'),
+                      views: curBlog.views as number,
+                      likes: curBlog.likes as number,
+                      belongingMenu: curBlog.belongingMenu,
+                      isCollected: curBlog.isCollected as boolean,
+                    }}
+                  ></BlogInfo>
+                ) : undefined}
+              </div>
+            </div>
+            <div className={style.blogContent}>
+              <div className={style.text}>
+                <ReactMarkdownRender>{curBlog.contents as string}</ReactMarkdownRender>
+              </div>
+              {/* 博客编辑选项 */}
+              {user ? (
+                <div className={style.blogEdit}>
+                  <div>
+                    <div
+                      onClick={() => {
+                        modal.confirm({
+                          title: '提示',
+                          content: '编辑此页会覆盖正在编辑的博客，确定要这么做吗？',
+                          onOk: () => {
+                            handleEdit();
+                          },
+                        });
+                      }}
+                    >
+                      <span className={`${style.editPageBtn} iconfont`}>&#xe624;</span>
+                      &nbsp;
+                      <span>编辑此页</span>
+                    </div>
+                    <div
+                      onClick={() => {
+                        modal.confirm({
+                          title: '提示',
+                          content: '是否删除当前博客？',
+                          onOk: () => {
+                            handleDelete();
+                          },
+                        });
+                      }}
+                    >
+                      <span className={`${style.delPageBtn} iconfont`}>&#xe604;</span>
+                      &nbsp;
+                      <span>删除博客</span>
+                    </div>
+                  </div>
+                  <div>
+                    <div>
+                      上次编辑于：<span>{moment(curBlog.updateAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                    </div>
+                    <div>
+                      贡献者：<span>{curBlog.author}</span>
+                    </div>
+                  </div>
+                </div>
               ) : undefined}
             </div>
-          </div>
-          <div className={style.blogContent}>
-            <div className={style.text}>
-              <ReactMarkdownRender>{curBlog.contents as string}</ReactMarkdownRender>
+            <div className={style.comment}>
+              <Comment></Comment>
             </div>
-            {/* 博客编辑选项 */}
-            {user ? (
-              <div className={style.blogEdit}>
-                <div>
-                  <div
-                    onClick={() => {
-                      modal.confirm({
-                        title: '提示',
-                        content: '编辑此页会覆盖正在编辑的博客，确定要这么做吗？',
-                        onOk: () => {
-                          handleEdit();
-                        },
-                      });
-                    }}
-                  >
-                    <span className={`${style.editPageBtn} iconfont`}>&#xe624;</span>
-                    &nbsp;
-                    <span>编辑此页</span>
-                  </div>
-                  <div
-                    onClick={() => {
-                      modal.confirm({
-                        title: '提示',
-                        content: '是否删除当前博客？',
-                        onOk: () => {
-                          handleDelete();
-                        },
-                      });
-                    }}
-                  >
-                    <span className={`${style.delPageBtn} iconfont`}>&#xe604;</span>
-                    &nbsp;
-                    <span>删除博客</span>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    上次编辑于：<span>{moment(curBlog.updateAt).format('YYYY-MM-DD HH:mm:ss')}</span>
-                  </div>
-                  <div>
-                    贡献者：<span>{curBlog.author}</span>
-                  </div>
-                </div>
-              </div>
-            ) : undefined}
-          </div>
-          <div className={style.comment}>
-            <Comment></Comment>
           </div>
         </div>
-        <div className={style.toc}>
-          {curBlog.id ? <BlogToc2 text={curBlog.contents as string}></BlogToc2> : undefined}
-        </div>
+        <Footer></Footer>
       </div>
     </>
   );

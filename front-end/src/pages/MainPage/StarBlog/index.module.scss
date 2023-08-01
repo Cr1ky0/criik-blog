@@ -2,10 +2,8 @@
 
 @mixin universal() {
   .wrapper {
-    //height: 0;
-    //transition: height .5s;
-    overflow-y: auto;
     position: relative;
+    overflow: hidden;
 
     > div:first-child {
       min-height: 100vh;

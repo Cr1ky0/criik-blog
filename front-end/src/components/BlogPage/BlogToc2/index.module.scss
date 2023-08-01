@@ -3,8 +3,7 @@
 .tocHeader {
   @include unSelectable;
   margin: {
-    bottom: 10px;
-    left: 10px;
+    bottom: 2vh;
   }
 
   > span:first-child {

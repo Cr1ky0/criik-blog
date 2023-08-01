@@ -28,11 +28,13 @@ const ProgressBar = () => {
   }, [isLoading]);
 
   return (
-    <CSSTransition key={key} in={isLoading} timeout={1000} classNames="fade" unmountOnExit>
-      <div className={style.progressBar}>
-        <div className={style.progress}></div>
-      </div>
-    </CSSTransition>
+    <>
+      <CSSTransition key={key} in={isLoading} timeout={1000} classNames="fade" unmountOnExit>
+        <div className={style.progressBar}>
+          <div className={style.progress}></div>
+        </div>
+      </CSSTransition>
+    </>
   );
 };
 
