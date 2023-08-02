@@ -33,6 +33,8 @@ const HomePage = () => {
   const [curPage, setCurPage] = useState(1);
   const totalNum = useAppSelector(state => state.blog.blogsNum);
   const homePhotoWrapper = useRef<HTMLDivElement>(null);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
+
   // Mobile Menu Open State
   const [open, setOpen] = useState(false);
 
@@ -63,7 +65,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div className={`${style.wrapper} clearfix  show-anime-delay-1s`}>
+      <div className={`${style.wrapper} clearfix  show-anime-delay-1s ${themeMode === 'dark' ? 'dark' : ''}`}>
         <div
           className={`${style.backgroundPhoto} clearfix`}
           style={{ backgroundImage: `url(${backgroundImage})` }}

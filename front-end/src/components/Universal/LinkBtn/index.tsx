@@ -25,12 +25,13 @@ const LinkBtn: React.FC<LinkBtnProps> = props => {
   const { seq, icon, children, link, notAnimation, onClick } = props;
   // redux
   const { chosenList } = useAppSelector(state => state.chosenList);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
 
   const contentStyle = { color: THEME_COLOR };
   return (
     <div className={`${style.wrapper}`} onClick={onClick}>
       <Link
-        className={`${style.content} iconfont`}
+        className={`${style.content} iconfont ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}
         style={chosenList[seq] ? contentStyle : { color: '#666666' }}
         to={link}
       >

@@ -3,7 +3,6 @@
 @mixin universal() {
   .wrapper {
     @include unSelectable;
-    color: rgba(0, 0, 0, .5);
 
     > div {
       cursor: pointer;

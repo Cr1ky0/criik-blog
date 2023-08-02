@@ -14,7 +14,7 @@ import { getLimitString } from '@/utils';
 import { BlogTagBoxStatistic } from '@/interface';
 
 // redux
-import { useAppDispatch } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
 import { setSelectedId } from '@/redux/slices/blogMenu';
 
 // context
@@ -34,12 +34,13 @@ export interface BlogTagBoxProps {
 const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
   const { children, title, statistic, blogId } = props;
   const { author, time, views, belongingMenu, id, isCollected, likes } = statistic;
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const { width } = useViewport();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const limit = width > BREAK_POINT ? 400 : 200;
   return (
-    <div className={`${style.wrapper} clearfix`}>
+    <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark-2' : 'light'}`}>
       <div className={style.titleWrapper}>
         <div
           className={style.title}

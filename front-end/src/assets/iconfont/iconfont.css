@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4014265 */
-  src: url('iconfont.woff2?t=1690786247798') format('woff2'),
-       url('iconfont.woff?t=1690786247798') format('woff'),
-       url('iconfont.ttf?t=1690786247798') format('truetype');
+  src: url('iconfont.woff2?t=1690941328465') format('woff2'),
+       url('iconfont.woff?t=1690941328465') format('woff'),
+       url('iconfont.ttf?t=1690941328465') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-moon:before {
+  content: "\e62c";
+}
+
+.icon-sun:before {
+  content: "\e655";
 }
 
 .icon-iconfontyouhuiquan:before {

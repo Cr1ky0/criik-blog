@@ -5,8 +5,6 @@ $LINE_COLOR: rgba(0, 0, 0, 0.2);
 @mixin universal() {
   .wrapper {
     @include boxShadow;
-    color: $FONT_COLOR;
-    background-color: rgba(254, 254, 254);
     box-sizing: content-box;
     padding: 1vw;
     position: relative;

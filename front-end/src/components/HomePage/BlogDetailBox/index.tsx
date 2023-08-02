@@ -36,8 +36,22 @@ const BlogDetailBox: React.FC<BlogDetailBoxProps> = ({ isMobile }) => {
   const message = useGlobalMessage();
   const timeline = useAppSelector(state => state.blog.timeLine);
   const menus = useAppSelector(state => state.blogMenu.menuList);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const [curChosen, setCurChosen] = useState(0);
   const [collectNum, setCollectNum] = useState(0);
+
+  const handleClick = (index: number) => {
+    const last = document.getElementById(`blog-detail-box-btn-${curChosen}`) as HTMLElement;
+    const div = document.getElementById(`blog-detail-box-btn-${index}`) as HTMLElement;
+    const lastContent = document.getElementById(`blog-detail-box-content-${curChosen}`) as HTMLElement;
+    const nowContent = document.getElementById(`blog-detail-box-content-${index}`) as HTMLElement;
+    lastContent.style.display = 'none';
+    nowContent.style.display = 'block';
+    last.classList.remove(style.onChosen);
+    div.classList.add(style.onChosen);
+    setCurChosen(index);
+  };
+
   useEffect(() => {
     // 获取收藏数
     getCollectedBlogsNum().then(
@@ -50,32 +64,33 @@ const BlogDetailBox: React.FC<BlogDetailBoxProps> = ({ isMobile }) => {
     );
   }, []);
   return (
-    <div className={`${style.wrapper} clearfix ${isMobile ? '' : style.wrapperOnShadow}`}>
-      <div className={style.header}>
+    <div
+      className={`${style.wrapper} clearfix ${isMobile ? '' : style.wrapperOnShadow} ${
+        themeMode === 'dark' ? 'dark-2' : 'light'
+      }`}
+    >
+      <div className={`${style.header}`}>
         {names.map((name, index) => {
           return (
             <Tooltip title={name} trigger="hover" placement="top" key={index}>
-              <div
-                id={`blog-detail-box-btn-${index}`}
-                onClick={() => {
-                  const last = document.getElementById(`blog-detail-box-btn-${curChosen}`) as HTMLElement;
-                  const div = document.getElementById(`blog-detail-box-btn-${index}`) as HTMLElement;
-                  const lastContent = document.getElementById(`blog-detail-box-content-${curChosen}`) as HTMLElement;
-                  const nowContent = document.getElementById(`blog-detail-box-content-${index}`) as HTMLElement;
-                  lastContent.style.display = 'none';
-                  nowContent.style.display = 'block';
-                  last.style.backgroundColor = 'rgba(0,0,0,.1)';
-                  div.style.backgroundColor = THEME_COLOR;
-                  setCurChosen(index);
-                }}
-              >
-                {index === 0 ? (
-                  <span className="iconfont">&#xe86a;</span>
-                ) : index === 1 ? (
-                  <span className="iconfont">&#xe609;</span>
-                ) : (
-                  <span className="iconfont">&#xe8c5;</span>
-                )}
+              <div>
+                <div
+                  className={`${curChosen === index ? style.onChosen : ''} ${
+                    themeMode === 'dark' ? 'dark-3' : 'light-1'
+                  }`}
+                  id={`blog-detail-box-btn-${index}`}
+                  onClick={() => {
+                    handleClick(index);
+                  }}
+                >
+                  {index === 0 ? (
+                    <span className="iconfont">&#xe86a;</span>
+                  ) : index === 1 ? (
+                    <span className="iconfont">&#xe609;</span>
+                  ) : (
+                    <span className="iconfont">&#xe8c5;</span>
+                  )}
+                </div>
               </div>
             </Tooltip>
           );

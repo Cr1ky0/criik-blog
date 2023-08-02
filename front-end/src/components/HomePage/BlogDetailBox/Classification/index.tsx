@@ -12,7 +12,14 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 
 import { setSelectedId } from '@/redux/slices/blogMenu';
 //util
-import { getClassificationInfo, getOneBlogFromMenu, getSideMenuItem } from '@/utils';
+import {
+  getClassificationInfo,
+  getOneBlogFromMenu,
+  getSideMenuItem,
+  getColorRgb,
+  getColorHsl,
+  rgbToHsl,
+} from '@/utils';
 
 // interface
 import { SideMenuItem } from '@/interface';
@@ -20,39 +27,29 @@ import { SideMenuItem } from '@/interface';
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
-const getColorRgb = (primaryColor: string) => {
-  const color = primaryColor.split(',');
-  return color.map(item => {
-    return Number(item.replace('rgb(', '').replace(')', ''));
-  });
-};
 const Classification = () => {
   const navigate = useNavigate();
   const message = useGlobalMessage();
   const menus = useAppSelector(state => state.blogMenu.menuList);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const dispatch = useAppDispatch();
   const classInfoList = getClassificationInfo(menus);
-  const [primaryColors, setPrimaryColors] = useState([] as string[]);
-  const [hoverColors, setHoverColors] = useState([] as string[]);
 
   useEffect(() => {
-    const primColors =
-      classInfoList && classInfoList.length
-        ? classInfoList.map((_, index) => {
-            const div = document.getElementById(`classification-tag-${index}`) as HTMLElement;
-            return window.getComputedStyle(div).backgroundColor;
-          })
-        : [];
-    const hovColors =
-      primColors && primColors.length
-        ? primColors.map(color => {
-            const colorRgb = getColorRgb(color as string);
-            return `rgba(${colorRgb[0] - 10},${colorRgb[1] - 10},${colorRgb[2] - 10})`;
-          })
-        : [];
-    setHoverColors(hovColors);
-    setPrimaryColors(primColors);
-  }, []);
+    // 切换hover模式
+    classInfoList && classInfoList.length
+      ? classInfoList.forEach((_, index) => {
+          const div = document.getElementById(`classification-tag-${index}`) as HTMLElement;
+          if (themeMode === 'dark') {
+            div.classList.add('hoverDark');
+            div.classList.remove('hoverLight');
+          } else {
+            div.classList.add('hoverLight');
+            div.classList.remove('hoverDark');
+          }
+        })
+      : [];
+  }, [themeMode]);
 
   return (
     <div className="clearfix">
@@ -64,14 +61,8 @@ const Classification = () => {
                 key={index}
                 color={info.color}
                 className={style.tag}
-                style={{ marginRight: '15px' }}
-                onMouseEnter={e => {
-                  // 这里也不能直接减
-                  e.currentTarget.style.backgroundColor = hoverColors[index] as string;
-                }}
-                onMouseLeave={e => {
-                  // 这里不能直接加，有bug导致最终变白色，需要记录原来的颜色直接赋值
-                  e.currentTarget.style.backgroundColor = primaryColors[index] as string;
+                style={{
+                  marginRight: '15px',
                 }}
                 onClick={() => {
                   const item = getSideMenuItem(menus, info.id) as SideMenuItem;
@@ -93,5 +84,4 @@ const Classification = () => {
     </div>
   );
 };
-
 export default Classification;

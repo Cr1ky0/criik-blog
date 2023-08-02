@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7141649",
+      "name": "moon",
+      "font_class": "moon",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "11968839",
+      "name": "sun",
+      "font_class": "sun",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
       "icon_id": "749800",
       "name": "iconfont-youhuiquan",
       "font_class": "iconfontyouhuiquan",

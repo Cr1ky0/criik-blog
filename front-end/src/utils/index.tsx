@@ -15,6 +15,63 @@ import {
 // antd
 import type { DataNode } from 'antd/es/tree';
 
+// 颜色相关
+export const getColorRgb = (primaryColor: string) => {
+  const color = primaryColor.split(',');
+  return color.map(item => {
+    return Number(item.replace('rgb(', '').replace(')', ''));
+  });
+};
+
+export const getColorHsl = (hslColor: string) => {
+  const color = hslColor.split(',');
+  return color.map(item => {
+    return item.replace('hsl(', '').replace(')', '');
+  });
+};
+
+export const rgbToHsl = (rgbColor: string) => {
+  const rgbArray = rgbColor.match(/\d+/g)!.map(Number);
+  const r = rgbArray[0] / 255;
+  const g = rgbArray[1] / 255;
+  const b = rgbArray[2] / 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+
+  let h, s, l;
+
+  if (max === min) {
+    h = 0;
+  } else if (max === r) {
+    h = 60 * (0 + (g - b) / (max - min));
+  } else if (max === g) {
+    h = 60 * (2 + (b - r) / (max - min));
+  } else {
+    h = 60 * (4 + (r - g) / (max - min));
+  }
+
+  if (h < 0) {
+    h += 360;
+  }
+
+  l = (max + min) / 2;
+
+  if (max === min) {
+    s = 0;
+  } else if (l <= 0.5) {
+    s = (max - min) / (2 * l);
+  } else {
+    s = (max - min) / (2 - 2 * l);
+  }
+
+  h = Math.round(h);
+  s = Math.round(s * 100);
+  l = Math.round(l * 100);
+
+  return `hsl(${h}, ${s}%, ${l}%)`;
+};
+
 // Preview
 export const onPreview = (url: string) => {
   const src = url as string;
@@ -45,26 +102,6 @@ export const getAntdIcon: (name: string, antdIcons: AntdIcon[]) => ReactElement 
     return icon.name === name;
   })[0].icon;
 };
-
-// 生成SideMenuList对象
-// export const generateSideMenuItem = (
-//   id: string,
-//   title: string,
-//   grade?: number,
-//   icon?: string,
-//   color?: string,
-//   belongingMenu?: string
-// ) => {
-//   return {
-//     id,
-//     _id: id,
-//     belongingMenu,
-//     title,
-//     icon,
-//     color,
-//     grade,
-//   } as SideMenuItem;
-// };
 
 // 根据key获得其在SideMenuList对象
 export const getSideMenuItem: (menus: SideMenuItem[], key: string) => SideMenuItem | undefined = (menus, key) => {

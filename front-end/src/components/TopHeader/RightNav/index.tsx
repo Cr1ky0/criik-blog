@@ -20,9 +20,15 @@ import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 // gloabl
 import { BREAK_POINT } from '@/global';
 
+// redux
+import { useAppDispatch, useAppSelector } from '@/redux';
+import { setThemeMode } from '@/redux/slices/universal';
+
 const RightNav = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const message = useGlobalMessage();
+  const dispatch = useAppDispatch();
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const { width } = useViewport();
   const navigate = useNavigate();
   const cookies = new Cookies();
@@ -38,6 +44,15 @@ const RightNav = () => {
 
   return (
     <div className={style.rightNav}>
+      {/* 黑暗模式 */}
+      <div
+        className={`${style.themeMode} iconfont  ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}
+        onClick={() => {
+          dispatch(setThemeMode(themeMode === 'light' ? 'dark' : 'light'));
+        }}
+      >
+        {themeMode === 'light' ? <span>&#xe655;</span> : <span>&#xe62c;</span>}
+      </div>
       {/* 是否登录判断 */}
       {user ? (
         <>
@@ -56,13 +71,13 @@ const RightNav = () => {
       ) : (
         //   没登录显示登录
         <div className={style.signWrapper}>
-          <LinkBtn2
-            onClick={() => {
-              message.success('暂不开放注册~');
-            }}
-          >
-            Sing up
-          </LinkBtn2>
+          {/*<LinkBtn2*/}
+          {/*  onClick={() => {*/}
+          {/*    message.success('暂不开放注册~');*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  Sing up*/}
+          {/*</LinkBtn2>*/}
           <LinkBtn2
             onClick={() => {
               setModalOpen(true);

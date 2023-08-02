@@ -4,7 +4,6 @@
 @mixin universal() {
   .footer {
     height: $TOP_HEADER_H;
-    background-color: #FFF;
     @include unSelectable;
     display: flex;
     justify-content: space-evenly;

@@ -6,7 +6,6 @@
 
 .wrapper {
   border-radius: 5px;
-  background-color: #FFF;
   padding-bottom: 20px;
 
   .header {
@@ -14,9 +13,8 @@
     justify-content: center;
     padding: 20px 0;
 
-    > div {
+    > div > div {
       cursor: pointer;
-      background: rgba(0, 0, 0, .1);
       border-radius: 50%;
       width: 40px;
       height: 40px;
@@ -26,11 +24,8 @@
       transition: background-color .3s;
     }
 
-    > div:first-child {
-      background-color: $THEME_COLOR;
-    }
 
-    > div:not(:nth-child(2)) {
+    > div > div:not(:nth-child(2)) {
       > span {
         font-size: 18px;
       }
@@ -72,6 +67,11 @@
     }
   }
 }
+
+.onChosen {
+  background-color: $THEME_COLOR !important;
+}
+
 
 @keyframes anime {
   from {

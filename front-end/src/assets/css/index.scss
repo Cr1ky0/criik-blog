@@ -1,8 +1,86 @@
 $THEME_COLOR: #5c92d1;
+
+// 正常模式
 $FONT_COLOR: #2c3e50;
+$BACKGROUND_COLOR: #FFF;
+// 黑暗模式
+$FONT_COLOR_DARK: #9e9e9e;
+$BACKGROUND_COLOR_DARK: #0d1117;
+$BACKGROUND_COLOR_DARK_2: #161b22;
+$BACKGROUND_COLOR_DARK_3: #393d43;
+
+
+@mixin trans() {
+  transition-property: background-color, color;
+  transition-duration: .3s;
+}
+
+.dark {
+  @include trans();
+  background-color: $BACKGROUND_COLOR_DARK;
+  color: $FONT_COLOR_DARK;
+}
+
+.dark-2 {
+  @include trans();
+  background-color: $BACKGROUND_COLOR_DARK_2;
+  color: $FONT_COLOR_DARK;
+}
+
+.dark-3 {
+  @include trans();
+  background-color: $BACKGROUND_COLOR_DARK_3;
+  color: $FONT_COLOR_DARK;
+}
+
+.dark-3-onforce {
+  @include trans();
+  background-color: $BACKGROUND_COLOR_DARK_3 !important;
+  color: $FONT_COLOR_DARK !important;
+}
+
+.light {
+  @include trans();
+  background-color: $BACKGROUND_COLOR;
+  color: $FONT_COLOR;
+}
+
+.light-1 {
+  @include trans();
+  background-color: rgba(0, 0, 0, .1);
+  color: $FONT_COLOR;
+}
+
+.dark-font {
+  @include trans();
+  color: $FONT_COLOR_DARK;
+}
+
+.dark-back-2-onforce-no-trans {
+  //@include trans();
+  background-color: $BACKGROUND_COLOR_DARK_2 !important;
+}
+
+// hover时颜色加深或变亮
+.hoverDark {
+  &:hover {
+    filter: brightness(150%); // 变亮
+  }
+}
+
+.hoverLight {
+  &:hover {
+    filter: brightness(80%);
+  }
+}
+
+.light-font {
+  @include trans();
+  color: $FONT_COLOR;
+}
+
 $FONT_COLOR_2: rgba(0, 0, 0, .4);
 $TOP_HEADER_H: 50px;
-$BACKGROUND_COLOR: #FFF;
 $GRADE_TOP: 999;
 $GRADE_MIDDLE: 500;
 $GRADE_BOTTOM: 100;

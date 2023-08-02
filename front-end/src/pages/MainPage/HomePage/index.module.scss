@@ -4,7 +4,7 @@
 @mixin universal() {
   .wrapper {
     @include setTop();
-    overflow: hidden;
+    //overflow: hidden;
 
     .backgroundPhoto {
       width: 100%;

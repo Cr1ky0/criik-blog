@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Cookies from 'universal-cookie';
 
 // css
@@ -14,7 +14,7 @@ import { BlogTagBoxStatistic } from '@/interface';
 import { useAppDispatch, useAppSelector } from '@/redux';
 
 // util
-import { getSideMenuItem } from '@/utils';
+import { getColorHsl, getColorRgb, getSideMenuItem, rgbToHsl } from '@/utils';
 import { updateCollectOfBlogAjax, updateLikesOfBlogAjax } from '@/api/blog';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import { addLikeList, removeLikeList } from '@/redux/slices/blog';
@@ -30,6 +30,9 @@ const isLiked = (likeList: string[], id: string) => {
 const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
   const message = useGlobalMessage();
   const menus = useAppSelector(state => state.blogMenu.menuList);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
+  const tagRef = useRef(null);
+  const [darkColor, setDarkColor] = useState<string>('');
   // 点赞状态（游客也可以点赞，用redux管理（与评论类似））
   const likeList = useAppSelector(state => state.blog.likeList);
   const dispatch = useAppDispatch();
@@ -67,8 +70,15 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
     );
   };
 
+  useEffect(() => {
+    const rgb = window.getComputedStyle(tagRef.current!).backgroundColor;
+    const hsl = rgbToHsl(rgb);
+    const hslMap = getColorHsl(hsl);
+    setDarkColor(`hsl(${hslMap[0]},${hslMap[1]},20%)`);
+  }, []);
+
   return (
-    <div className={`${style.wrapper} clearfix`}>
+    <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}>
       <Tooltip title="作者信息" trigger="hover" placement="bottom">
         <div>
           <span className="iconfont">&#xe72e;</span>
@@ -90,7 +100,15 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
       <Tooltip title="分类标签" trigger="hover" placement="bottom">
         <div className={style.classification}>
           <span className="iconfont">&#xe623;</span>
-          <Tag className={style.tag} color={item ? item.color : undefined}>
+          <Tag
+            className={style.tag}
+            color={item ? item.color : undefined}
+            ref={tagRef}
+            style={{
+              backgroundColor: themeMode === 'dark' ? darkColor : undefined,
+              borderColor: themeMode === 'dark' ? darkColor : undefined,
+            }}
+          >
             {item ? item.title : undefined}
           </Tag>
         </div>

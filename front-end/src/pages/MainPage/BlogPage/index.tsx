@@ -21,23 +21,19 @@ import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 import { setIsLoading } from '@/redux/slices/progressbar';
 import BlogToc2 from '@/components/BlogPage/BlogToc2';
 
-// wrapper ref
-const divRef = createRef<HTMLDivElement>();
-
 const BlogPage = () => {
   const { width } = useViewport();
   const dispatch = useAppDispatch();
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const curBlogContent = useAppSelector(state => state.blog.curBlogContent);
+  const fadeOut = useAppSelector(state => state.progressbar.fadeOut);
   // Mobile Menu Open State
   const [open, setOpen] = useState(false);
 
   // 切换博客时滚动至top
   useEffect(() => {
-    const content = document.getElementById('blog-page-content-wrapper') as HTMLElement;
-    content.scrollTo({
+    window.scrollTo({
       top: 0,
-      behavior: 'smooth', // 使用平滑滚动
     });
   }, [selectedId]);
 
@@ -59,16 +55,19 @@ const BlogPage = () => {
 
   return (
     <div className={`${style.wrapper} clearfix`}>
-      <div id="blog-page-sider-wrapper" className={`${style.sider} showAnime`}>
+      <div className={`${style.sider} showAnime`}>
         <div>
           <SideMenu noEdit={true} page="blog"></SideMenu>
         </div>
       </div>
-      <div ref={divRef} id="blog-page-content-wrapper" className={`${style.content} clearfix`}>
+      <div className={`${style.content} clearfix`}>
         {/* 选中状态 */}
         {selectedId ? <Outlet /> : <div style={{ fontSize: '24px' }}>当前没有博客，请添加博客后访问！</div>}
       </div>
-      <div className={`${style.toc} showAnime`} style={width > 1100 ? undefined : { display: 'none' }}>
+      <div
+        className={`${style.toc} ${fadeOut ? 'hideAnime' : 'showAnime'}`}
+        style={width > 1100 ? undefined : { display: 'none' }}
+      >
         {selectedId ? <BlogToc2 text={curBlogContent}></BlogToc2> : undefined}
       </div>
       {/* Mobile Menu */}
@@ -103,7 +102,3 @@ const BlogPage = () => {
   );
 };
 export default BlogPage;
-
-export const useBlogPageContentWrapper = () => {
-  return useRef(divRef);
-};

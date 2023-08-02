@@ -93,7 +93,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
               } else {
                 // 触发事件
                 const item = getSideMenuItem(menus, e.key) as SideMenuItem;
-                if (!item.grade) {
+                if (!item.grade && e.key !== selectedId) {
                   // 操作标志置为false，不可继续操作
                   setOpt(false);
                   // 如果先前打开了滚动条要先关闭
@@ -101,10 +101,10 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
                   setTimeout(() => {
                     dispatch(setIsLoading(true));
                   }, 50);
-                  // .7s后打开FadeOut（FadeOut动画开始，持续时间ns）
+                  // .5s后打开FadeOut（FadeOut动画开始，持续时间ns）
                   setTimeout(() => {
                     dispatch(setFadeOut(true));
-                  }, 750);
+                  }, 350);
                   setTimeout(() => {
                     // 1.4s后执行操作（1+ns）并取消fadeOut（FadeIn动画执行）
                     dispatch(setFadeOut(false));
@@ -114,7 +114,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
                     if (page === 'blog') {
                       navigate(`/blog`);
                     }
-                  }, 1250);
+                  }, 1050);
                 }
                 if (closeMenu) closeMenu();
               }

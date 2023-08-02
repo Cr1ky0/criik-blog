@@ -33,7 +33,7 @@ const IntroductionBox: React.FC<IntroductionBoxProps> = props => {
   const message = useGlobalMessage();
   const blogsNum = useAppSelector(state => state.blog.blogsNum);
   const menus = useAppSelector(state => state.blogMenu.menuList);
-  const timeline = useAppSelector(state => state.blog.timeLine);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const dispatch = useAppDispatch();
   const [user, setUser] = useState({} as UserObj);
   const [avatar, setAvatar] = useState(useAvatar());
@@ -70,7 +70,10 @@ const IntroductionBox: React.FC<IntroductionBoxProps> = props => {
     }
   }, []);
   return (
-    <div className={style.wrapper} style={isMobile ? Object.assign({ boxShadow: 'none' }, styles) : styles}>
+    <div
+      className={`${style.wrapper} ${themeMode === 'dark' ? 'dark-2' : 'light'}`}
+      style={isMobile ? Object.assign({ boxShadow: 'none' }, styles) : styles}
+    >
       <div className={`${style.intro} clearfix`}>
         <div className={style.avatar} style={{ backgroundImage: `url(${curUser ? userAvatar : avatar})` }}></div>
         <div className={style.username}>{user.name ? user.name : undefined}</div>

@@ -5,6 +5,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  .themeMode {
+    cursor: pointer;
+    font-size: 24px;
+
+    > span {
+      transition: color .3s;
+    }
+
+    > span:hover {
+      color: $THEME_COLOR;
+    }
+  }
+
   .logOut {
     color: $THEME_COLOR;
     margin: {

@@ -3,8 +3,7 @@
 .backWhite {
   width: 100%;
   height: $TOP_HEADER_H + 2px;
-  opacity: 0;
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(255, 255, 255);
 }
 
 .progress {
@@ -13,8 +12,10 @@
   z-index: $GRADE_TOP;
   top: 0;
   height: 2px;
+
+  transition: background-color .3s;
   // 亚克力
   backdrop-filter: blur(8px); /* 背景模糊效果，需要浏览器支持 */
   -webkit-backdrop-filter: blur(8px); /* WebKit 浏览器兼容性 */
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2)); /* 应用线性渐变背景 */
+  background-color: rgba(255, 255, 255, .7);
 }

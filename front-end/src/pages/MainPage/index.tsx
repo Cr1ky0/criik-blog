@@ -16,14 +16,14 @@ import BackToTopBtn from '@/components/Universal/BackToTopBtn';
 const { Content } = Layout;
 
 // redux
-import { useAppDispatch } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
 import { setEmoji } from '@/redux/slices/emoji';
 import { setMenuList } from '@/redux/slices/blogMenu';
 import { setMyBlogsNum } from '@/redux/slices/blog';
 
 const MainPage = () => {
   const dispatch = useAppDispatch();
-  // const chosenList = useAppSelector(state => state.chosenList.chosenList);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   useEffect(() => {
     // 加载后先把emoji请求回来，后面不再请求了
     dispatch(setEmoji());
@@ -35,7 +35,12 @@ const MainPage = () => {
   return (
     <Layout>
       <TopHeader></TopHeader>
-      <div className={style.progress}>
+      <div
+        className={style.progress}
+        style={{
+          backgroundColor: themeMode === 'light' ? undefined : 'rgba(0, 0, 0, .7)',
+        }}
+      >
         <ProgressBar></ProgressBar>
       </div>
 

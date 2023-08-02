@@ -63,16 +63,14 @@ const BlogContent = () => {
     let timer: any;
     getCurBlog(selectedId)
       .then(response => {
-        // 加载一次热度+1
-        return updateBlogViewAjax(selectedId, response.data.blog.views + 1);
-      })
-      .then(data => {
-        const blog = data.data.updatedBlog;
+        const blog = response.data.blog;
         // 处理Title
         const contents = filterTitle(blog.contents);
         const newBlog = Object.assign({}, blog, { contents });
         setCurBlog(newBlog);
         dispatch(setCurBlogContent(contents));
+        // 加载一次热度+1
+        return updateBlogViewAjax(selectedId, response.data.blog.views + 1);
       })
       .catch(err => {
         message.error(err.message);
