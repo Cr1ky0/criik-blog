@@ -3,22 +3,22 @@
 .wrapper {
   @include unSelectable;
   display: block;
+  position: relative;
   color: $FONT_COLOR;
-  padding: {
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
-    top: 3px;
-  }
+  background-color: #FFF;
+  margin: 0 5px;
+  border-radius: 100%;
   width: 30px;
   height: 30px;
   perspective: 800px;
 
   > div {
     cursor: pointer;
+    position: absolute;
+    left: -1px;
     transition: transform 0.3s .1s;
     font: {
-      size: 25px;
+      size: 31px;
     }
 
     &:hover {

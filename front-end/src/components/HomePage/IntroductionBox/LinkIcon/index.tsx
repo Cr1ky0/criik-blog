@@ -5,7 +5,9 @@ import { Popover } from 'antd';
 
 // css
 import style from './index.module.scss';
-import { hr } from '@uiw/react-md-editor';
+
+// redux
+import { useAppSelector } from '@/redux';
 
 // interface
 export interface LinkIconProps {
@@ -17,6 +19,7 @@ export interface LinkIconProps {
 
 const LinkIcon: React.FC<LinkIconProps> = props => {
   const { icon, styles, content, href } = props;
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   return (
     <Popover content={content} placement="bottom">
       <a className={`${style.wrapper}`} href={href} rel="noreferrer" target="_blank">

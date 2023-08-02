@@ -91,7 +91,7 @@ const IntroductionBox: React.FC<IntroductionBoxProps> = props => {
       </div>
       <div className={`${style.linkBox} clearfix`}>
         <LinkIcon
-          icon="&#xea0a;"
+          icon="&#xe63b;"
           styles={{ color: '#2c3e50' }}
           content="Github"
           href="https://github.com/Creekyu"
