@@ -43,6 +43,7 @@ const WriteComment: React.FC<WriteCommentProps> = ({ belongingComment }) => {
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const curPage = useAppSelector(state => state.comments.curPage);
   const sort = useAppSelector(state => state.comments.sort);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const dispatch = useAppDispatch();
   // 向文本框内部添加表情
   const addEmoji: MouseEventHandler<HTMLLIElement> = useCallback(event => {
@@ -138,7 +139,7 @@ const WriteComment: React.FC<WriteCommentProps> = ({ belongingComment }) => {
   };
 
   return (
-    <div className={`${style.wrapper} clearfix`}>
+    <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? style.commentDark : style.commentLight}`}>
       <div className={style.infoInput}>
         <div>
           <Input className={style.input} placeholder="昵称" ref={userNameRef} />
@@ -147,7 +148,12 @@ const WriteComment: React.FC<WriteCommentProps> = ({ belongingComment }) => {
           <Input className={style.input} placeholder="个人签名" ref={userBriefRef} />
         </div>
       </div>
-      <textarea className={style.content} ref={commentRef} name="comment" placeholder="请输入评论" />
+      <textarea
+        className={`${style.content} ${themeMode === 'dark' ? 'dark' : 'light'}`}
+        ref={commentRef}
+        name="comment"
+        placeholder="请输入评论"
+      />
       <div className={`${style.funcBar} clearfix`}>
         <Popover
           placement="bottomLeft"
@@ -167,6 +173,7 @@ const WriteComment: React.FC<WriteCommentProps> = ({ belongingComment }) => {
 
         <div className={style.submit}>
           <Button
+            style={{ border: 'none' }}
             type="primary"
             size={width > BREAK_POINT ? 'middle' : 'small'}
             loading={isLoading}

@@ -29,15 +29,13 @@
     @include unSelectable;
 
     ul {
-      background-color: #FFF !important;
+      background-color: transparent !important;
     }
 
     li {
       font-size: 16px;
-      color: $FONT_COLOR;
 
       svg:first-child {
-        color: $FONT_COLOR;
         height: 12px;
         width: 12px;
       }
@@ -51,3 +49,5 @@
     line-height: 40px;
   }
 }
+
+

@@ -102,22 +102,6 @@ const BlogTimeLine = () => {
     dispatch(setTimeLine());
   }, []);
 
-  // 切换darkmode改变antd内一些样式
-  useEffect(() => {
-    const divs = document.getElementsByClassName('ant-timeline-item-head');
-    if (themeMode === 'dark') {
-      for (let i = 0; i < divs.length; i += 1) {
-        const div = divs[i];
-        div.classList.add('dark-back-2-onforce-no-trans');
-      }
-    } else {
-      for (let i = 0; i < divs.length; i += 1) {
-        const div = divs[i];
-        div.classList.remove('dark-back-2-onforce-no-trans');
-      }
-    }
-  }, [themeMode]);
-
   return (
     <div className={`${style.wrapper} clearfix`}>
       <Timeline

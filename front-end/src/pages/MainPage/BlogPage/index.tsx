@@ -27,6 +27,7 @@ const BlogPage = () => {
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const curBlogContent = useAppSelector(state => state.blog.curBlogContent);
   const fadeOut = useAppSelector(state => state.progressbar.fadeOut);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   // Mobile Menu Open State
   const [open, setOpen] = useState(false);
 
@@ -54,7 +55,7 @@ const BlogPage = () => {
   // TODO:初次加载bug
 
   return (
-    <div className={`${style.wrapper} clearfix`}>
+    <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark' : 'light'}`}>
       <div className={`${style.sider} showAnime`}>
         <div>
           <SideMenu noEdit={true} page="blog"></SideMenu>

@@ -8,9 +8,13 @@ import MobileMenu from './MoblieMenu';
 import RightNav from '@/components/TopHeader/RightNav';
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
+// redux
+import { useAppSelector } from '@/redux';
+
 const MobileNav = () => {
   const [isInit, setIsInit] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const { width } = useViewport();
 
   const handleClose = () => {
@@ -43,7 +47,9 @@ const MobileNav = () => {
         </div>
       </div>
       <MobileMenu isOpen={isOpen} close={handleClose}></MobileMenu>
-      {width > 300 ? <div className={style.middle}>Gezelligheid</div> : undefined}
+      {width > 300 ? (
+        <div className={`${style.middle} ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}>Gezelligheid</div>
+      ) : undefined}
       <RightNav></RightNav>
     </>
   );

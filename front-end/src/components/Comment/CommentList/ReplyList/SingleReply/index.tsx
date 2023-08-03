@@ -50,6 +50,7 @@ const SingleComment: React.FC<SingleReplyProps> = ({ reply, noLikes }) => {
   } = reply;
   // 利用likeList判断当前评论的id是否在其中来记录点赞状态
   const likeList = useAppSelector(state => state.comments.likeList);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const isChosen = isLike(likeList, id);
   const dispatch = useAppDispatch();
   const [avatar, setAvatar] = useState(img);
@@ -126,8 +127,12 @@ const SingleComment: React.FC<SingleReplyProps> = ({ reply, noLikes }) => {
   };
 
   return (
-    <div className={`${style.wrapper} clearfix`}>
-      <div className={`${style.infoWrapper} clearfix`}>
+    <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark' : 'light'}`}>
+      <div
+        className={`${style.infoWrapper} clearfix ${
+          themeMode === 'dark' ? style.infoWrapperDark : style.infoWrapperLight
+        }`}
+      >
         <div className={style.avatar} style={{ backgroundImage: `url(${avatar})` }}></div>
         <div className={style.info}>
           <div className={style.infoBox}>

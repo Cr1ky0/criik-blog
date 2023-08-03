@@ -9,10 +9,14 @@ import { THEME_COLOR, BREAK_POINT } from '@/global';
 // provider
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
+// redux
+import { useAppSelector } from '@/redux';
+
 const BackToTopBtn = () => {
   const { width } = useViewport();
   const [scrollTop, setScrollTop] = useState(document.documentElement.scrollTop);
   const [scrollHeight, setScrollHeight] = useState(document.documentElement.scrollHeight - window.innerHeight);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const thisRef = useRef<HTMLDivElement>(null);
   const radius = useMemo(() => {
     return width > BREAK_POINT ? 30 : 22.5;
@@ -57,6 +61,7 @@ const BackToTopBtn = () => {
 
   return (
     <div
+      // className={`${style.wrapper} ${themeMode === 'dark' ? style.dark : style.light}`}
       className={style.wrapper}
       onClick={() => {
         window.scrollTo({
@@ -66,7 +71,7 @@ const BackToTopBtn = () => {
       }}
       ref={thisRef}
     >
-      <svg width={radius * 2} height={radius * 2}>
+      <svg width={radius * 2} height={radius * 2} className={themeMode === 'dark' ? style.dark : style.light}>
         <circle
           className={style.circle}
           cx={radius}

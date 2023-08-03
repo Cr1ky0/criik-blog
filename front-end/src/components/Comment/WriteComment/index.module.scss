@@ -1,6 +1,19 @@
 @import '@/assets/css/index.scss';
 @import "@/components/Comment/var.scss";
 
+// comment
+
+.commentDark {
+  * {
+    border-color: $BORDER_COLOR_DARK !important;
+  }
+}
+
+.commentLight {
+  * {
+    border-color: $BORDER_COLOR_LIGHT !important;
+  }
+}
 
 @mixin universal() {
   .wrapper {
@@ -17,7 +30,7 @@
       display: flex;
       justify-content: space-evenly;
       border: {
-        bottom: 1px dashed $BORDER_COLOR;
+        bottom: 1px dashed;
         radius: 5px 5px 0 0;
       }
 
@@ -32,13 +45,12 @@
     }
 
     .content {
-      color: $FONT_COLOR;
       outline: none;
       box-sizing: border-box;
       width: 100%;
       font-size: 16px;
       line-height: 20px;
-      border: 1px solid $BORDER_COLOR;
+      border: 1px solid;
       padding: 2vh;
       resize: none;
       border-top: none;
@@ -47,7 +59,7 @@
 
     // 下面功能栏
     .funcBar {
-      border: 1px solid $BORDER_COLOR;
+      border: 1px solid;
       width: 100%;
       box-sizing: border-box;
       padding: 5px;
@@ -56,7 +68,7 @@
       }
       border: {
         radius: 0 0 1vh 1vh;
-        top: 1px dashed $BORDER_COLOR;
+        top: 1px dashed;
       };
 
       .emoji {

@@ -13,11 +13,32 @@
   }
 }
 
+// infoWrapper dark mode
+.infoWrapperLight {
+  .time {
+    color: $FONT_COLOR_2;
+  }
+
+  .signature {
+    color: $FONT_COLOR_2;
+  }
+}
+
+.infoWrapperDark {
+  .time {
+    color: $FONT_COLOR_DARK;
+  }
+
+  .signature {
+    color: $FONT_COLOR_DARK;
+  }
+}
+
+
 .wrapper {
   @include setScrollBar(0);
   list-style: none;
   width: 100%;
-  color: $FONT_COLOR;
   position: relative;
 
   .infoWrapper {
@@ -61,7 +82,6 @@
           float: left;
           line-height: 22px;
           font-size: 14px;
-          color: $FONT_COLOR_2;
         }
       }
 
@@ -123,7 +143,6 @@
       display: flex;
       line-height: 20px;
       font-size: 14px;
-      color: $FONT_COLOR_2;
       margin-top: 5px;
     }
   }

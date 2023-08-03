@@ -83,6 +83,16 @@
   }
 }
 
+.mobileMenuDark {
+  background-color: $BACKGROUND_COLOR_DARK_2;
+  color: $FONT_COLOR_DARK;;
+}
+
+.mobileMenuLight {
+  background-color: $BACKGROUND_COLOR;
+  color: $FONT_COLOR;;
+}
+
 @media (max-width: $BREAK_POINT) {
   @include universal;
   .backgroundPhoto {

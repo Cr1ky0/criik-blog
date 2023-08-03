@@ -12,7 +12,7 @@ import { useAppSelector } from '@/redux';
 const Footer = () => {
   const themeMode = useAppSelector(state => state.universal.themeMode);
   return (
-    <div className={`${style.footer} ${themeMode === 'dark' ? 'dark-2' : ''}`}>
+    <div className={`${style.footer} ${themeMode === 'dark' ? 'dark' : 'light'}`}>
       <div className={style.ICInfo}>
         <div className={style.PSIC}>
           <div className={style.ICIcon} style={{ backgroundImage: `url(${img})` }}></div>

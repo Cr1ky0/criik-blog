@@ -2,6 +2,78 @@
 
 $fontColor: rgba(0, 0, 0, .8);
 
+// 黑暗模式
+.markdown-render-dark {
+  @include trans();
+  background-color: $BACKGROUND_COLOR_DARK !important;
+  color: $FONT_COLOR_DARK !important;
+
+
+  pre {
+    .linenumber {
+      color: $FONT_COLOR_DARK !important;
+    }
+  }
+
+  blockquote {
+    background-color: #003100;
+    border: {
+      left: 5px solid #009400;
+    }
+  }
+}
+
+
+.markdown-render-light {
+  @include trans();
+  background-color: $BACKGROUND_COLOR !important;
+  color: $FONT_COLOR_LIGHT_3 !important;
+
+
+  pre {
+    * {
+      background-color: #fafafa !important;
+    }
+
+    .linenumber {
+      color: $FONT_COLOR_LIGHT_2 !important;
+    }
+  }
+
+  blockquote {
+    //background-color: #eef9fd;
+    background-color: #e6f6e6;
+    border: {
+      left: 5px solid #009400;
+    }
+  }
+}
+
+@mixin syntax-highlighter-code-language-uni {
+  @include unSelectable;
+  float: left;
+  font-size: 14px;
+  line-height: 30px;
+  height: 100%;
+  padding: {
+    right: 10px;
+    left: 5px;
+  }
+}
+
+@mixin syntax-highlighter-copy-btn-uni {
+  float: left;
+  width: 30px;
+  height: 100%;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  background-color: transparent;
+  border: {
+    radius: 5px;
+  }
+}
+
 @mixin universal() {
   // func-bar-wrapper
   .syntax-highlighter-func-bar-wrapper {
@@ -12,32 +84,20 @@ $fontColor: rgba(0, 0, 0, .8);
   }
 
   // 代码块语言标记
-  .syntax-highlighter-code-language {
-    @include unSelectable;
-    float: left;
-    font-size: 14px;
-    line-height: 30px;
-    height: 100%;
-    padding: {
-      right: 10px;
-      left: 5px;
-    }
+  .syntax-highlighter-code-language-light {
+    @include syntax-highlighter-code-language-uni;
     color: rgba(0, 0, 0, .4);
   }
 
+  .syntax-highlighter-code-language-dark {
+    @include syntax-highlighter-code-language-uni;
+    color: $FONT_COLOR_DARK;
+  }
+
   // copy btn
-  .syntax-highlighter-copy-btn {
-    float: left;
-    width: 30px;
-    height: 100%;
-    line-height: 30px;
-    text-align: center;
-    cursor: pointer;
-    transition: all .3s;
+  .syntax-highlighter-copy-btn-light {
+    @include syntax-highlighter-copy-btn-uni;
     color: rgba(0, 0, 0, .4);
-    border: {
-      radius: 5px;
-    }
 
     &:hover {
       background-color: #d8e9f6 !important;
@@ -45,9 +105,17 @@ $fontColor: rgba(0, 0, 0, .8);
     }
   }
 
+  .syntax-highlighter-copy-btn-dark {
+    @include syntax-highlighter-copy-btn-uni;
+    color: $FONT_COLOR_DARK;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, .2) !important;
+      color: $THEME_COLOR;
+    }
+  }
+
   .markdown-body {
-    background-color: #FFF !important;
-    color: $fontColor;
     line-height: 30px;
     font: {
       size: 17px;
@@ -62,16 +130,6 @@ $fontColor: rgba(0, 0, 0, .8);
       padding: 0;
       margin: 0;
       background-color: transparent;
-
-      * {
-        //background-color: #ecf4fa !important;
-        //background-color: #282c34 !important;
-        background-color: #fafafa !important;
-      }
-
-      .linenumber {
-        color: rgba(0, 0, 0, .4) !important;
-      }
     }
 
     h1, h2 {
@@ -113,8 +171,6 @@ $fontColor: rgba(0, 0, 0, .8);
     }
 
     blockquote {
-      //background-color: #eef9fd;
-      background-color: #e6f6e6;
       padding: {
         top: 10px;
         bottom: 10px;
@@ -122,8 +178,6 @@ $fontColor: rgba(0, 0, 0, .8);
         left: 15px;
       }
       border: {
-        //left: 5px solid #4cb3d4;
-        left: 5px solid #009400;
         radius: 5px;
       }
     }
@@ -173,7 +227,6 @@ $fontColor: rgba(0, 0, 0, .8);
     font-size: 14px;
   }
   .markdown-body {
-    background-color: #FFF;
     line-height: 18px;
     font: {
       size: 12px;

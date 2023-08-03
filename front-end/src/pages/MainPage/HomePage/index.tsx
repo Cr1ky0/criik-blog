@@ -131,7 +131,7 @@ const HomePage = () => {
         <Footer></Footer>
       </div>
       <div
-        className={style.mobileMenu}
+        className={`${style.mobileMenu} ${themeMode === 'dark' ? style.mobileMenuDark : style.mobileMenuLight}`}
         onClick={() => {
           setOpen(true);
         }}

@@ -37,7 +37,16 @@ const TopHeader = () => {
       <RightNav />
     </div>
   ) : (
-    <div id="top-header">
+    <div
+      id="top-header"
+      style={
+        themeMode === 'light'
+          ? undefined
+          : {
+              backgroundColor: 'rgba(0, 0, 0, .7)',
+            }
+      }
+    >
       <MobileNav />
     </div>
   );

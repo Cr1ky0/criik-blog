@@ -7,9 +7,8 @@ import { LoadingOutlined } from '@ant-design/icons';
 // css
 import style from './index.module.scss';
 
-// img
-import img1 from '@/assets/images/loading.jpg';
-import img2 from '@/assets/images/loading2.jpg';
+// redux
+import { useAppSelector } from '@/redux';
 
 const antIcon = <LoadingOutlined style={{ fontSize: '50px' }} spin />;
 
@@ -19,10 +18,9 @@ interface LoadingCompProps {
 }
 
 const LoadingComp: React.FC<LoadingCompProps> = ({ styles, changeImg }) => {
-  const img = changeImg ? img2 : img1;
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   return (
-    <div className={style.wrapper} style={styles}>
-      <div className={style.photo} style={{ backgroundImage: `url(${img})` }}></div>
+    <div className={`${style.wrapper} ${themeMode === 'dark' ? 'dark' : 'light'}`} style={styles}>
       <div className={style.tips}>Loading...</div>
       <div className={style.icon}>
         <Spin indicator={antIcon} />

@@ -1,9 +1,95 @@
 @import "@/assets/css/index.scss";
+// thead颜色
+$THEAD_COLOR_LIGHT: #fafafa;
+$THEAD_COLOR_DARK: $BACKGROUND_COLOR_DARK_2;
+// 底线颜色
+$BORDER_BOTTOM_COLOR_DARK: rgba(255, 255, 255, .3);
+$BORDER_BOTTOM_COLOR_LIGHT: rgba(0, 0, 0, .3);
+// 分隔线颜色
+$LINE_LIGHT: rgba(0, 0, 0, .05);
+$LINE_DARK: rgba(255, 255, 255, .05);
+@mixin trDarkUni {
+  @include trans;
+  background-color: $BACKGROUND_COLOR_DARK;
+  color: $FONT_COLOR_DARK;
+  > td {
+    @include trans;
+    background-color: $BACKGROUND_COLOR_DARK;
+  }
+  > td:not(:first-child) {
+    border-color: $THEAD_COLOR_DARK !important;
+  }
+}
 
-$BORDER_COLOR: #fafafa;
+@mixin trLightUni {
+  @include trans;
+  background-color: $BACKGROUND_COLOR;
+  color: $FONT_COLOR;
+  > td {
+    @include trans;
+    background-color: $BACKGROUND_COLOR;
+  }
+
+  > td:not(:first-child) {
+    border-color: $THEAD_COLOR_LIGHT !important;
+  }
+}
+
+
+// 黑暗模式
+.trDark {
+  @include trDarkUni;
+
+  &:hover {
+    background-color: $THEAD_COLOR_DARK;
+  }
+}
+
+.trLight {
+  @include trLightUni;
+
+  &:hover {
+    background-color: $THEAD_COLOR_LIGHT;
+  }
+}
+
+.trChildDark {
+  @include trDarkUni;
+}
+
+.trChildLight {
+  @include trLightUni;
+}
+
+.thDark {
+
+  > th {
+    @include trans;
+    background-color: $THEAD_COLOR_DARK;
+    color: $FONT_COLOR_DARK;
+  }
+
+  > th:not(:first-child):not(:nth-child(2))::before {
+    @include trans;
+    border-color: $LINE_DARK !important;
+  }
+}
+
+.thLight {
+
+  > th {
+    @include trans;
+    background-color: $THEAD_COLOR_LIGHT;
+    color: $FONT_COLOR;
+  }
+
+  > th:not(:first-child):not(:nth-child(2))::before {
+    @include trans;
+    border-color: $LINE_LIGHT !important;
+  }
+}
 
 @mixin trStyle() {
-  background-color: #FFF;
   width: 100%;
 
   > td:not(:first-child) {
@@ -11,7 +97,7 @@ $BORDER_COLOR: #fafafa;
     white-space: nowrap;
     text-overflow: ellipsis;
     vertical-align: center;
-    border-bottom: 1px solid $BORDER_COLOR;
+    border-bottom: 1px solid;
   }
 
   td {
@@ -29,7 +115,6 @@ $BORDER_COLOR: #fafafa;
     overflow: hidden;
 
     > th {
-      background-color: $BORDER_COLOR;
       padding: 16px;
       line-height: 22px;
       font-weight: bold;
@@ -46,7 +131,7 @@ $BORDER_COLOR: #fafafa;
     > th:not(:first-child):not(:nth-child(2))::before {
       content: '';
       height: 22.4px;
-      border-right: 1px solid rgba(0, 0, 0, .05);
+      border-right: 1px solid;
       position: absolute;
       left: -1px;
     }
@@ -54,11 +139,6 @@ $BORDER_COLOR: #fafafa;
 
   .tr {
     @include trStyle;
-    transition: background-color .3s;
-
-    &:hover {
-      background-color: $BORDER_COLOR;
-    }
   }
 
   .childTr {

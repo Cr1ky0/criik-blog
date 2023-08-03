@@ -8,7 +8,6 @@
 
   .themeMode {
     cursor: pointer;
-    font-size: 24px;
 
     > span {
       transition: color .3s;
@@ -21,18 +20,22 @@
 
   .logOut {
     color: $THEME_COLOR;
-    margin: {
-      left: 30px;
-    }
-
+    margin: 0 10px;
   }
 
   .signWrapper {
-    display: flex;
-    justify-content: space-between;
-    //align-items: center;
-    margin: {
-      right: 5px;
-    }
+    margin: 0 10px;
+  }
+}
+
+@media (width <= $BREAK_POINT) {
+  .themeMode {
+    font-size: 22px;
+  }
+}
+
+@media (width > $BREAK_POINT) {
+  .themeMode {
+    font-size: 24px;
   }
 }

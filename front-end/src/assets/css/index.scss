@@ -2,19 +2,26 @@ $THEME_COLOR: #5c92d1;
 
 // 正常模式
 $FONT_COLOR: #2c3e50;
+$FONT_COLOR_LIGHT_2: rgba(0, 0, 0, .4);
+$FONT_COLOR_LIGHT_3: rgba(0, 0, 0, .8);
 $BACKGROUND_COLOR: #FFF;
+
 // 黑暗模式
 $FONT_COLOR_DARK: #9e9e9e;
 $BACKGROUND_COLOR_DARK: #0d1117;
 $BACKGROUND_COLOR_DARK_2: #161b22;
 $BACKGROUND_COLOR_DARK_3: #393d43;
-
+$DARK_HOVER: #32363b;
+$BORDER_COLOR_LIGHT: rgba(0, 0, 0, .2);
+$BORDER_COLOR_DARK: #9e9e9e;
 
 @mixin trans() {
-  transition-property: background-color, color;
-  transition-duration: .3s;
+  transition-property: background-color, color, border-color !important;
+  transition-duration: .3s !important;
+  transition-delay: 0s !important;
 }
 
+// universal
 .dark {
   @include trans();
   background-color: $BACKGROUND_COLOR_DARK;
@@ -95,33 +102,34 @@ $MAX_WIDTH: 1100px;
 
 
 // 全局浮现动画效果
+@mixin animeMixin() {
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+}
+
 // anime
 .showAnime {
   opacity: 0;
   animation: showAnime .5s .5s;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease-out;
+  @include animeMixin;
 }
 
 .show-anime-delay-1s {
   opacity: 0;
   animation: showAnime 1s 1s;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease-out;
+  @include animeMixin;
 }
 
 .show-anime-no-delay {
   opacity: 0;
   animation: showAnime .7s;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease-out;
+  @include animeMixin;
 }
 
 .hideAnime {
   opacity: 1;
   animation: hideAnime .5s;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease-out;
+  @include animeMixin;
 }
 
 @keyframes showAnime {

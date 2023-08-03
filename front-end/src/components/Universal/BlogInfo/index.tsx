@@ -32,7 +32,6 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const themeMode = useAppSelector(state => state.universal.themeMode);
   const tagRef = useRef(null);
-  const [darkColor, setDarkColor] = useState<string>('');
   // 点赞状态（游客也可以点赞，用redux管理（与评论类似））
   const likeList = useAppSelector(state => state.blog.likeList);
   const dispatch = useAppDispatch();
@@ -70,13 +69,6 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
     );
   };
 
-  useEffect(() => {
-    const rgb = window.getComputedStyle(tagRef.current!).backgroundColor;
-    const hsl = rgbToHsl(rgb);
-    const hslMap = getColorHsl(hsl);
-    setDarkColor(`hsl(${hslMap[0]},${hslMap[1]},20%)`);
-  }, []);
-
   return (
     <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}>
       <Tooltip title="作者信息" trigger="hover" placement="bottom">
@@ -105,8 +97,7 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
             color={item ? item.color : undefined}
             ref={tagRef}
             style={{
-              backgroundColor: themeMode === 'dark' ? darkColor : undefined,
-              borderColor: themeMode === 'dark' ? darkColor : undefined,
+              border: themeMode === 'dark' ? 'none' : undefined,
             }}
           >
             {item ? item.title : undefined}

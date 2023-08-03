@@ -1,7 +1,10 @@
 .wrapper {
   width: 100vw;
   height: 100vh;
-  background-color: #FFF;
+
+  * {
+    transition-duration: 0s !important;
+  }
 
   > div {
     width: 300px;

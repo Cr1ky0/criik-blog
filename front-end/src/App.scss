@@ -1,20 +1,5 @@
 @import '@/assets/css/index.scss';
 
-// 字体设置
-//@font-face {
-//  font-family: 'Smiley_Sans_Oblique';
-//  src: url('./assets/font/Smiley_Sans_Oblique.ttf');
-//}
-
-//body {
-//  overflow: hidden;
-//}
-
-// 根样式
-//:root {
-//  color: $FONT_COLOR;
-//}
-
 // 滚动条
 ::-webkit-scrollbar {
   //width: 5px;
@@ -47,15 +32,6 @@
   > span:first-child {
     font-size: 14px !important;
   }
-}
-
-// Anchor
-.ant-anchor-link, .ant-anchor-link-title {
-  color: rgba(0, 0, 0, .5) !important;
-}
-
-.ant-anchor-link-active, .ant-anchor-link-title-active {
-  color: $THEME_COLOR !important;
 }
 
 .ant-dropdown-menu-item {

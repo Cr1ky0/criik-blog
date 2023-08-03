@@ -9,7 +9,12 @@
 
   .wrapper {
 
+    .sider {
+      @include trans;
+    }
+
     .content {
+      @include trans();
       overflow-y: auto;
     }
 

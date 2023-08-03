@@ -22,16 +22,12 @@
   .wmde-markdown-color {
     > pre {
       display: none !important;
-      //.code-line {
-      //  font-size: 20px !important;
-      //  height: 100% !important;
-      //  overflow-y: auto;
-      //}
     }
   }
 
   .w-md-editor-text-input {
-    -webkit-text-fill-color: rgba(0, 0, 0, .7);
+    //-webkit-text-fill-color: rgba(0, 0, 0, .7);
+    //-webkit-text-fill-color: rgba(0, 0, 0, .7);
     font-size: 20px !important;
     line-height: 24px !important;
     height: 100% !important;
@@ -40,3 +36,4 @@
 
   height: 100% !important;
 }
+

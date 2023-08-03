@@ -4,10 +4,9 @@
 @mixin universal() {
   .wrapper {
     height: 100%;
-    @include setWrapper();
     display: flex;
     justify-content: flex-start;
-    
+
 
     .sider {
       overflow-y: auto;

@@ -19,15 +19,20 @@ import './index.scss';
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
+// redux
+import { useAppSelector } from '@/redux';
+
 interface ReactMarkdownWrapperProps {
   children: string;
 }
 
 const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) => {
+  const themeMode = useAppSelector(state => state.universal.themeMode);
+
   let count = 0;
   return (
     <ReactMarkdown
-      className="markdown-body"
+      className={`markdown-body ${themeMode === 'dark' ? 'markdown-render-dark' : 'markdown-render-light'}`}
       remarkPlugins={[remarkMath, remarkGfm]}
       rehypePlugins={[rehypeKatex, rehypeRaw]}
       components={{
@@ -60,12 +65,12 @@ const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) 
               parent.insertAdjacentElement('afterbegin', wrapper);
               // code language
               const div = document.createElement('div');
-              div.className = 'syntax-highlighter-code-language';
+              div.className = `syntax-highlighter-code-language-${themeMode === 'dark' ? 'dark' : 'light'}`;
               div.innerHTML = match[1];
               wrapper.insertAdjacentElement('afterbegin', div);
               // copy btn
               const copyBtn = document.createElement('div');
-              copyBtn.className = 'iconfont syntax-highlighter-copy-btn';
+              copyBtn.className = `iconfont syntax-highlighter-copy-btn-${themeMode === 'dark' ? 'dark' : 'light'}`;
               copyBtn.innerHTML = '&#xe706;';
               copyBtn.addEventListener('click', handleClick);
               wrapper.insertAdjacentElement('afterbegin', copyBtn);

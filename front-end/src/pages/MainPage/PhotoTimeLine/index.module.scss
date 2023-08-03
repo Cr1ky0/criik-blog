@@ -5,6 +5,11 @@
   .wrapper {
     overflow: hidden;
 
+    * {
+      transition-delay: 0s !important;
+      transition-duration: .3s !important;
+    }
+
     > div:not(:last-child) {
       margin: 40px auto;
     }
@@ -22,14 +27,12 @@
     }
 
     .content {
-      background: #FFF;
       box-sizing: border-box;
       margin-bottom: 50px;
       opacity: 0;
 
 
       .year {
-        color: $FONT_COLOR;
         font: {
           size: 30px;
           weight: bold;

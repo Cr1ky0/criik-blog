@@ -3,6 +3,11 @@
 .wrapper {
   padding: 10px 10px;
 
+  * {
+    transition-delay: 0s !important;
+    transition-duration: .3s !important;
+  }
+
   .year {
     font: {
       size: 24px;

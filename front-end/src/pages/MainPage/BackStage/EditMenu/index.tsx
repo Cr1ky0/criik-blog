@@ -89,6 +89,7 @@ const BlogRow: React.FC<BlogRowProps> = ({ data }) => {
   const message = useGlobalMessage();
   const dispatch = useAppDispatch();
   const menus = useAppSelector(state => state.blogMenu.menuList);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
 
   // dnd
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -150,7 +151,13 @@ const BlogRow: React.FC<BlogRowProps> = ({ data }) => {
 
   // main
   return (
-    <tr ref={setNodeRef} className={style.tr} style={styles} {...attributes} {...listeners}>
+    <tr
+      ref={setNodeRef}
+      className={`${style.tr} ${themeMode === 'dark' ? style.trDark : style.trLight}`}
+      style={styles}
+      {...attributes}
+      {...listeners}
+    >
       <td></td>
       <td>{title}</td>
       <td>{sort || 0}</td>
@@ -205,6 +212,7 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
   const delKind = useAppSelector(state => state.blogMenu.delKind);
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const menus = useAppSelector(state => state.blogMenu.menuList);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const [menuData, setMenuData] = useState<MenuType[]>(
     child.map(item => {
       return generateMenuData(item);
@@ -419,7 +427,13 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
   return (
     <>
       {/* 父菜单内容 */}
-      <tr className={style.tr} ref={setNodeRef} style={styles} {...attributes} {...listeners}>
+      <tr
+        className={`${style.tr} ${themeMode === 'dark' ? style.trDark : style.trLight}`}
+        ref={setNodeRef}
+        style={styles}
+        {...attributes}
+        {...listeners}
+      >
         <td>
           {child.length || blogs.length ? (
             <div
@@ -547,7 +561,7 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
       </tr>
       {/* 单个父菜单的博客 */}
       {childOpen && blogData.length ? (
-        <tr className={style.childTr}>
+        <tr className={`${style.childTr} ${themeMode === 'dark' ? style.trChildDark : style.trChildLight}`}>
           <td colSpan={7} style={{ padding: 0, paddingLeft: 54 }}>
             <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEndOfBlog}>
               <SortableContext
@@ -557,13 +571,13 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
               >
                 <table className={style.table}>
                   <thead>
-                    <tr className={style.head}>
+                    <tr className={`${style.head} ${themeMode === 'dark' ? style.thDark : style.thLight}`}>
                       <th></th>
                       <th colSpan={3} style={{ textAlign: 'center' }}>
                         博客列表
                       </th>
                     </tr>
-                    <tr className={style.head}>
+                    <tr className={`${style.head} ${themeMode === 'dark' ? style.thDark : style.thLight}`}>
                       <th></th>
                       <th>博客标题</th>
                       <th>排序值</th>
@@ -583,7 +597,7 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
       ) : undefined}
       {/* 单个父菜单的子菜单 */}
       {childOpen && menuData.length && grade !== 3 ? (
-        <tr className={style.childTr}>
+        <tr className={`${style.childTr} ${themeMode === 'dark' ? style.trChildDark : style.trChildLight}`}>
           <td colSpan={7} style={{ padding: 0, paddingLeft: 54 }}>
             <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
               <SortableContext
@@ -593,13 +607,13 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
               >
                 <table className={style.table}>
                   <thead>
-                    <tr className={style.head}>
+                    <tr className={`${style.head} ${themeMode === 'dark' ? style.thDark : style.thLight}`}>
                       <th></th>
                       <th colSpan={6} style={{ textAlign: 'center' }}>
                         菜单列表
                       </th>
                     </tr>
-                    <tr className={style.head}>
+                    <tr className={`${style.head} ${themeMode === 'dark' ? style.thDark : style.thLight}`}>
                       <th></th>
                       <th>菜单标题</th>
                       <th>菜单层级</th>
@@ -629,7 +643,7 @@ const App: React.FC = () => {
   const msg = useGlobalMessage();
   const [menuData, setMenuData] = useState<MenuType[]>([]);
   const [isChange, setIsChange] = useState(false);
-
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const dispatch = useAppDispatch();
 
   const sensors = useSensors(
@@ -700,7 +714,7 @@ const App: React.FC = () => {
       >
         <table className={style.table} style={{ overflow: 'hidden', borderRadius: '8px 8px 0 0' }}>
           <thead>
-            <tr className={style.head}>
+            <tr className={`${style.head} ${themeMode === 'dark' ? style.thDark : style.thLight}`}>
               <th></th>
               <th>菜单标题</th>
               <th>菜单层级</th>

@@ -32,3 +32,34 @@
     }
   }
 }
+
+// 黑暗模式
+.textDark {
+  -webkit-text-fill-color: $FONT_COLOR_DARK !important;
+}
+
+.textLight {
+  -webkit-text-fill-color: $FONT_COLOR !important;
+}
+
+.toolbarDark {
+  background-color: $BACKGROUND_COLOR_DARK !important;
+
+  svg {
+    color: $FONT_COLOR_DARK !important;
+  }
+
+}
+
+.toolbarLight {
+  background-color: $BACKGROUND_COLOR !important;
+}
+
+
+.dark {
+  background-color: $BACKGROUND_COLOR_DARK !important;
+}
+
+.light {
+  background-color: $BACKGROUND_COLOR !important;
+}

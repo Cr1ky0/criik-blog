@@ -1,5 +1,58 @@
 @import "@/assets/css/index.scss";
 
+
+$BORDER_BOTTOM_COLOR: rgba(0, 0, 0, .2);
+$BORDER_BOTTOM_COLOR_DARK: rgba(255, 255, 255, .2);
+// 黑暗模式
+@mixin setBorderLight {
+  border: none;
+  border-bottom: 1px solid $BORDER_BOTTOM_COLOR;
+  background-color: $BACKGROUND_COLOR;
+  color: $FONT_COLOR;
+}
+
+@mixin setBorderDark {
+  border: none;
+  border-bottom: 1px solid $BORDER_BOTTOM_COLOR_DARK;
+  background-color: $BACKGROUND_COLOR_DARK;
+  color: $BORDER_COLOR_DARK;
+}
+
+.dark {
+  .mainInput {
+    > div, > input {
+      @include setBorderDark;
+    }
+  }
+
+  .otherInput {
+    > div {
+      > div, > input {
+        @include setBorderDark;
+      }
+    }
+
+  }
+}
+
+.light {
+  .mainInput {
+    > div, > input {
+      @include setBorderLight;
+    }
+  }
+
+  .otherInput {
+    > div {
+      > div, > input {
+        @include setBorderLight;
+      }
+    }
+
+  }
+}
+
+
 @mixin set {
   display: flex;
   justify-content: flex-start;
@@ -11,16 +64,15 @@
   }
 
   > div {
-    border-bottom: 1px solid rgba(0, 0, 0, .2);
+    @include trans();
   }
 
   > input {
+    @include trans();
     cursor: default;
     width: 100%;
     display: block;
     outline: none;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, .2);
     font: {
       size: 16px;
     }
@@ -46,6 +98,9 @@
   }
 
   .form {
+
+    @include trans();
+
     .mainInput {
       @include set;
     }
@@ -53,7 +108,7 @@
     .otherInput {
       height: 0;
       overflow: hidden;
-      transition: all .3s;
+      transition: height .3s;
 
       > div {
         @include set;

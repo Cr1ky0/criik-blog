@@ -71,13 +71,6 @@ const RightNav = () => {
       ) : (
         //   没登录显示登录
         <div className={style.signWrapper}>
-          {/*<LinkBtn2*/}
-          {/*  onClick={() => {*/}
-          {/*    message.success('暂不开放注册~');*/}
-          {/*  }}*/}
-          {/*>*/}
-          {/*  Sing up*/}
-          {/*</LinkBtn2>*/}
           <LinkBtn2
             onClick={() => {
               setModalOpen(true);

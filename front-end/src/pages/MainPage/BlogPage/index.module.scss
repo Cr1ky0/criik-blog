@@ -4,7 +4,6 @@
 
 @mixin universal() {
   .wrapper {
-    @include setWrapper();
     @include setSider();
     @include setContent();
     overflow: hidden;

@@ -10,7 +10,7 @@ import style from './index.module.scss';
 import './index.scss';
 
 // redux
-import { useAppDispatch } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
 
 // interface
 import { ImgObj } from '@/interface/imagesApi';
@@ -32,59 +32,10 @@ import Footer from '@/components/Footer';
 import { setChosenList } from '@/redux/slices/chosenList';
 import { setIsLoading } from '@/redux/slices/progressbar';
 
-// 生成带年份分类的时间轴对象
-const generateTimeLine = (timeline: ImgObj[], handlePreview: (src: string) => void) => {
-  // timeLine[] 已经按时间新到旧排序
-  if (timeline && timeline.length) {
-    const list = [];
-    timeline.map((item, index) => {
-      if (index < timeline.length - 1) {
-        const year1 = moment(item.photoTime).format('YYYY');
-        const year2 = moment(timeline[index + 1].photoTime).format('YYYY');
-        if (year1 !== year2) {
-          list.push({
-            dot: (
-              <div style={{ marginTop: '15px', marginLeft: '4px' }}>
-                <ClockCircleOutlined style={{ fontSize: '14px' }} />
-              </div>
-            ),
-            children: <div className={style.year}>{year2}</div>,
-          });
-        }
-      }
-      list.push({
-        label: moment(item.photoTime).format('M/DD'),
-        dot: <div className={style.dot}></div>,
-        children: (
-          <div
-            id={item._id}
-            className={`${style.itemWrapper} showAnime`}
-            // click
-            onClick={() => {
-              handlePreview(item.url + item.filename);
-            }}
-          >
-            <img src={item.url + item.filename} alt="photo" style={{ display: 'block' }} />
-          </div>
-        ),
-        color: 'gray',
-      });
-    });
-    list.unshift({
-      dot: (
-        <div style={{ marginTop: '15px', marginLeft: '4px' }}>
-          <ClockCircleOutlined style={{ fontSize: '14px' }} />
-        </div>
-      ),
-      children: <div className={style.year}>{moment(timeline[0].photoTime).format('YYYY')}</div>,
-    });
-    return list;
-  }
-  return [];
-};
 const TimeLine = () => {
   const dispatch = useAppDispatch();
   const message = useGlobalMessage();
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const [photos, setPhotos] = useState<ImgObj[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -95,6 +46,63 @@ const TimeLine = () => {
   const handlePreview = (src: string) => {
     setPreviewOpen(true);
     setPreviewImage(src);
+  };
+
+  // 生成带年份分类的时间轴对象
+  const generateTimeLine = (timeline: ImgObj[], handlePreview: (src: string) => void) => {
+    // timeLine[] 已经按时间新到旧排序
+    if (timeline && timeline.length) {
+      const list = [];
+      timeline.map((item, index) => {
+        if (index < timeline.length - 1) {
+          const year1 = moment(item.photoTime).format('YYYY');
+          const year2 = moment(timeline[index + 1].photoTime).format('YYYY');
+          if (year1 !== year2) {
+            list.push({
+              dot: (
+                <div style={{ marginTop: '15px', marginLeft: '4px' }}>
+                  <ClockCircleOutlined style={{ fontSize: '14px' }} />
+                </div>
+              ),
+              children: (
+                <div className={`${style.year} ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}>{year2}</div>
+              ),
+            });
+          }
+        }
+        list.push({
+          label: moment(item.photoTime).format('M/DD'),
+          dot: <div className={`${style.dot} ${themeMode === 'dark' ? 'dark-3-onforce' : ''}`}></div>,
+          children: (
+            <div
+              id={item._id}
+              className={`${style.itemWrapper} showAnime`}
+              // click
+              onClick={() => {
+                handlePreview(item.url + item.filename);
+              }}
+            >
+              <img src={item.url + item.filename} alt="photo" style={{ display: 'block' }} />
+            </div>
+          ),
+          color: 'gray',
+        });
+      });
+      list.unshift({
+        dot: (
+          <div style={{ marginTop: '15px', marginLeft: '4px' }}>
+            <ClockCircleOutlined style={{ fontSize: '14px' }} />
+          </div>
+        ),
+        children: (
+          <div className={`${style.year} ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}>
+            {moment(timeline[0].photoTime).format('YYYY')}
+          </div>
+        ),
+      });
+      return list;
+    }
+    return [];
   };
 
   // 滚动事件
@@ -168,10 +176,6 @@ const TimeLine = () => {
     );
   }, []);
 
-  useEffect(() => {
-    console.log(previewOpen);
-  }, [previewOpen]);
-
   /// 打开滚动条
   useEffect(() => {
     // 如果先前打开了滚动条要先关闭
@@ -184,7 +188,7 @@ const TimeLine = () => {
   return (
     <div className={`${style.wrapper} clearfix`} ref={wrapper}>
       <TopDisplay img={img}></TopDisplay>
-      <div className={`${style.content}`}>
+      <div className={`${style.content} ${themeMode === 'dark' ? 'dark-2' : 'light'}`}>
         <div className={loading ? 'loading-active' : 'loading-not-active'}>
           {photos.length ? (
             <Timeline mode="alternate" items={generateTimeLine(photos, handlePreview)} />

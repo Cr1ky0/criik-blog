@@ -8,6 +8,7 @@ import { Button } from 'antd';
 
 // global
 import { THEME_COLOR } from '@/global';
+import { useAppSelector } from '@/redux';
 
 interface ChangeFormBoxProps {
   placeHolder?: string;
@@ -26,6 +27,7 @@ interface ChangeFormBoxProps {
 
 // children必须是按照制定规范的块
 const ChangeFormBox = forwardRef<HTMLInputElement, ChangeFormBoxProps>((props, ref) => {
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const {
     placeHolder,
     title,
@@ -45,10 +47,16 @@ const ChangeFormBox = forwardRef<HTMLInputElement, ChangeFormBoxProps>((props, r
   return (
     <div
       className={style.wrapper}
-      style={{ border: isOpen[seq] ? '1px solid rgba(0,0,0,.2)' : '1px solid transparent' }}
+      style={{
+        border: isOpen[seq]
+          ? themeMode === 'light'
+            ? '1px solid rgba(0,0,0,.2)'
+            : '1px solid rgba(255,255,255,.2)'
+          : '1px solid transparent',
+      }}
     >
       <div className={style.title}>{title}</div>
-      <div className={style.form}>
+      <div className={`${style.form} ${themeMode === 'dark' ? style.dark : style.light}`}>
         <div
           className={style.mainInput}
           onClick={() => {

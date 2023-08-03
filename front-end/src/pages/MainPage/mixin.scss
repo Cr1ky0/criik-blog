@@ -6,7 +6,6 @@
   right: 50px;
   width: $width;
   height: $height;
-  background-color: rgba(255, 255, 255, .7);
   box-shadow: 0 0 5px rgba(0, 0, 0, .2);
   border: {
     radius: 50%;
@@ -18,12 +17,6 @@
     top: 11px;
     font-size: 24px;
   }
-}
-
-@mixin setWrapper() {
-  background-color: #FFF;
-  //overflow: hidden;
-  //@include setScrollBar(5px);
 }
 
 @mixin setSider() {

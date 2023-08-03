@@ -1,5 +1,16 @@
 @import "@/assets/css/index.scss";
 
+// 黑暗模式
+.dark {
+  background-color: $BACKGROUND_COLOR_DARK_2;
+  fill: $BACKGROUND_COLOR_DARK_2;
+}
+
+.light {
+  background-color: rgba(255, 255, 255, .7);
+  fill: rgba(255, 255, 255, .7);
+}
+
 @mixin universal() {
   .wrapper {
     position: fixed;
@@ -12,7 +23,6 @@
 
     > svg {
       box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-      fill: rgba(255, 255, 255, .7);
       border: {
         radius: 50%;
       };
@@ -25,6 +35,7 @@
 
 
     .icon {
+      @include unSelectable;
       position: absolute;
       color: $THEME_COLOR;
     }

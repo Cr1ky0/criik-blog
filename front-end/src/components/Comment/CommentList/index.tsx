@@ -9,12 +9,12 @@ import style from './index.module.scss';
 
 // comp
 import SingleComment from '@/components/Comment/CommentList/SingleComment';
+import LoadingComp from '@/components/Universal/LoadingComp';
+import ReplyList from '@/components/Comment/CommentList/ReplyList';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setComments, setCurPage, setIsLoading, setSort } from '@/redux/slices/comments';
-import LoadingComp from '@/components/Universal/LoadingComp';
-import ReplyList from '@/components/Comment/CommentList/ReplyList';
 
 const items: MenuProps['items'] = [
   {
@@ -34,6 +34,7 @@ const CommentList = () => {
   const curPage = useAppSelector(state => state.comments.curPage);
   const isLoading = useAppSelector(state => state.comments.isLoading);
   const length = useAppSelector(state => state.comments.length);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const dispatch = useAppDispatch();
   const onClick: MenuProps['onClick'] = e => {
     dispatch(setSort(e.key));
@@ -89,7 +90,7 @@ const CommentList = () => {
       {isLoading ? (
         <LoadingComp styles={{ marginTop: '5vh' }} changeImg></LoadingComp>
       ) : (
-        <div className={`${style.wrapper} clearfix`}>
+        <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark' : 'light'}`}>
           <div className={`${style.statistics} clearfix`}>
             <div className={style.counts}>{length} 评论</div>
             <Menu

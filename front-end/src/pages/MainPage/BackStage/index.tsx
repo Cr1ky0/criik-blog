@@ -46,7 +46,14 @@ const BackStage: React.FC = () => {
       <Layout>
         {/*<Header className={style.topBlank}></Header>*/}
         <Layout className={style.wrapper} ref={wrapper}>
-          <Sider trigger={null} collapsible collapsed={width < BREAK_POINT} width="15vw" theme="light">
+          <Sider
+            trigger={null}
+            collapsible
+            collapsed={width < BREAK_POINT}
+            width="15vw"
+            theme="light"
+            className={style.sider}
+          >
             <div className={style.logo}>
               <CodepenOutlined />
               Manage
