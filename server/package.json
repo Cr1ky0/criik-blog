@@ -12,6 +12,7 @@
   "author": "criiky0",
   "license": "ISC",
   "dependencies": {
+    "@elastic/elasticsearch": "^8.9.0",
     "ali-oss": "^6.17.1",
     "bcryptjs": "^2.4.3",
     "connect-mongo": "^5.0.0",

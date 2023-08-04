@@ -23,6 +23,7 @@ const replyCommentRouter = require('./routes/replyCommentRoutes');
 const OSSPolicyRoutes = require('./routes/OSSPolicyRoutes');
 const imagesRoutes = require('./routes/imagesRoutes');
 const emailRoutes = require('./routes/emailRoutes');
+const esRoutes = require('./routes/esRoutes');
 
 const app = express();
 
@@ -124,6 +125,7 @@ app.use('/api/reply', replyCommentRouter);
 app.use('/api/policy', OSSPolicyRoutes);
 app.use('/api/images', imagesRoutes);
 app.use('/api/email', emailRoutes);
+app.use('/api/es', esRoutes);
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
