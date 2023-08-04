@@ -11,7 +11,7 @@ import { Table } from 'antd';
 import style from './index.module.scss';
 
 // redux
-import { useAppDispatch } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
 import { setSelectKey } from '@/redux/slices/backstage';
 
 // api
@@ -61,6 +61,7 @@ const columns: TableColumnsType<DataType> = [
 ];
 
 const EditComment: React.FC = () => {
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const dispatch = useAppDispatch();
   const msg = useGlobalMessage();
   const navigate = useNavigate();
@@ -160,7 +161,7 @@ const EditComment: React.FC = () => {
       .reverse();
 
     return (
-      <div className={style.comments}>
+      <div className={`${style.comments} ${themeMode === 'dark' ? 'dark' : 'light'}`}>
         {commentsList.length
           ? commentsList.map((comment: CommentListObj) => {
               return (
@@ -222,7 +223,7 @@ const EditComment: React.FC = () => {
   }, [page]);
 
   return (
-    <div className={style.wrapper}>
+    <div className={`${style.wrapper} ${themeMode === 'dark' ? 'dark' : 'light'}`}>
       <Table
         columns={columns}
         expandable={{ expandedRowRender: BackStageCommentList }}

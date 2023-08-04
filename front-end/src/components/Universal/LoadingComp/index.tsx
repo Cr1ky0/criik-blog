@@ -14,10 +14,9 @@ const antIcon = <LoadingOutlined style={{ fontSize: '50px' }} spin />;
 
 interface LoadingCompProps {
   styles?: CSSProperties;
-  changeImg?: boolean;
 }
 
-const LoadingComp: React.FC<LoadingCompProps> = ({ styles, changeImg }) => {
+const LoadingComp: React.FC<LoadingCompProps> = ({ styles }) => {
   const themeMode = useAppSelector(state => state.universal.themeMode);
   return (
     <div className={`${style.wrapper} ${themeMode === 'dark' ? 'dark' : 'light'}`} style={styles}>

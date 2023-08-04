@@ -48,7 +48,7 @@
     right: calc((100vw - $BREAK_POINT) * 0.45 - 11vw); // -11vw为自身容器大小，表示自身靠右的位置大小为content的{paddingRight-(自身width+1vw)}
     transition: right 0.5s; /* 添加过渡效果 */
     top: calc(50px + 5vh);
-    z-index: $GRADE_TOP;
+    z-index: $GRADE_MIDDLE;
   }
 
   .sider {

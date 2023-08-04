@@ -88,7 +88,7 @@ const CommentList = () => {
     <>
       {/* 加载状态 */}
       {isLoading ? (
-        <LoadingComp styles={{ marginTop: '5vh' }} changeImg></LoadingComp>
+        <LoadingComp styles={{ marginTop: '5vh' }}></LoadingComp>
       ) : (
         <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark' : 'light'}`}>
           <div className={`${style.statistics} clearfix`}>

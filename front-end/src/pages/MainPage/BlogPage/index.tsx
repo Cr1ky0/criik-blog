@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router';
 
 // antd
@@ -6,6 +6,7 @@ import { Drawer } from 'antd';
 
 // comp
 import SideMenu from '@/components/SideMenu';
+import BlogToc2 from '@/components/BlogPage/BlogToc2';
 
 // css
 import style from './index.module.scss';
@@ -13,13 +14,13 @@ import style from './index.module.scss';
 // redux
 import { setChosenList } from '@/redux/slices/chosenList';
 import { useAppDispatch, useAppSelector } from '@/redux';
+import { setIsLoading } from '@/redux/slices/progressbar';
 
 // context
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
-// util
-import { setIsLoading } from '@/redux/slices/progressbar';
-import BlogToc2 from '@/components/BlogPage/BlogToc2';
+// global
+import { BACKGROUND_COLOR_DARK } from '@/global';
 
 const BlogPage = () => {
   const { width } = useViewport();
@@ -90,6 +91,8 @@ const BlogPage = () => {
         destroyOnClose={false}
         height="100%"
         rootStyle={{ border: 'none', outline: 'none' }}
+        bodyStyle={{ backgroundColor: themeMode === 'dark' ? BACKGROUND_COLOR_DARK : undefined }}
+        headerStyle={{ backgroundColor: themeMode === 'dark' ? BACKGROUND_COLOR_DARK : undefined }}
       >
         <SideMenu
           noEdit={true}

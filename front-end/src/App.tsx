@@ -62,6 +62,7 @@ const App = () => {
                 colorText: FONT_COLOR_DARK,
                 colorBgContainer: BACKGROUND_COLOR_DARK,
                 colorBgLayout: BACKGROUND_COLOR_DARK,
+                colorBgElevated: BACKGROUND_COLOR_DARK_2,
               }
             : {
                 colorPrimary: THEME_COLOR,

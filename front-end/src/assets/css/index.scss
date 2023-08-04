@@ -97,7 +97,7 @@ $MAX_WIDTH: 1100px;
 @mixin onHover {
   box-shadow: 0 0 20px rgba(0, 0, 0, .5);
   position: relative;
-  z-index: $GRADE_TOP;
+  z-index: $GRADE_MIDDLE;
 }
 
 
