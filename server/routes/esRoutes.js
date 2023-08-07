@@ -11,6 +11,7 @@ router.use(authController.protect, authController.restrictTo('admin'));
 router
   .route('/')
   .post(esController.createBlogIndex)
-  .patch(esController.initAllBlogsIndex);
+  .patch(esController.initAllBlogsIndex)
+  .delete(esController.deleteBlogIndex);
 
 module.exports = router;

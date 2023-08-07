@@ -32,9 +32,6 @@ export const improvedCatchAsync =
     fn(values)
       .then((response?: any) => {
         if (success) success(response ? response.data : null);
-        return new Promise(() => {
-          // 终止调用链
-        });
       })
       .catch((err: any) => {
         if (error) {
@@ -44,5 +41,8 @@ export const improvedCatchAsync =
       })
       .finally(() => {
         if (effect) effect();
+        return new Promise(() => {
+          // 终止调用链
+        });
       });
   };

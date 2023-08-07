@@ -8,6 +8,7 @@ import style from './index.module.scss';
 import LinkBtn2 from '@/components/Universal/LinkBtn2';
 import LoginForm from '@/components/TopHeader/LoginForm';
 import Avatar from '@/components/TopHeader/Avatar';
+import ElasticSearch from '@/components/ElasticSearch';
 
 // antd
 import { Modal, Popconfirm } from 'antd';
@@ -44,15 +45,24 @@ const RightNav = () => {
 
   return (
     <div className={style.rightNav}>
-      {/* 黑暗模式 */}
-      <div
-        className={`${style.themeMode} iconfont  ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}
-        onClick={() => {
-          dispatch(setThemeMode(themeMode === 'light' ? 'dark' : 'light'));
-        }}
-      >
-        {themeMode === 'light' ? <span>&#xe655;</span> : <span>&#xe62c;</span>}
-      </div>
+      {width > BREAK_POINT ? (
+        <>
+          {/* 全文搜索 */}
+          <div className={style.es}>
+            <ElasticSearch></ElasticSearch>
+          </div>
+          {/* 黑暗模式 */}
+          <div
+            className={`${style.themeMode} iconfont  ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}
+            onClick={() => {
+              dispatch(setThemeMode(themeMode === 'light' ? 'dark' : 'light'));
+            }}
+          >
+            {themeMode === 'light' ? <span>&#xe655;</span> : <span>&#xe62c;</span>}
+          </div>
+        </>
+      ) : undefined}
+
       {/* 是否登录判断 */}
       {user ? (
         <>

@@ -5,8 +5,8 @@
   float: right;
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
   flex-direction: column;
+  align-items: flex-end;
   cursor: pointer;
   height: 15px;
   width: 15px;
@@ -50,8 +50,24 @@
 
 .leftNavWrapper {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+
+  .es {
+    margin: 0 10px;
+  }
+
+  .themeMode {
+    cursor: pointer;
+
+    > span {
+      transition: color .3s;
+    }
+
+    > span:hover {
+      color: $THEME_COLOR;
+    }
+  }
 
   .leftNavActive {
     @include setBarWrapper;
@@ -165,5 +181,18 @@ $TOP: 7px;
     transform: rotateZ(315deg);
   }
   to {
+  }
+}
+
+
+@media (width <= $BREAK_POINT) {
+  .themeMode {
+    font-size: 22px;
+  }
+}
+
+@media (width > $BREAK_POINT) {
+  .themeMode {
+    font-size: 24px;
   }
 }

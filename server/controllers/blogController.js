@@ -1,6 +1,7 @@
 const Blog = require('../models/blogModel');
 const Menu = require('../models/menuModel');
 const User = require('../models/userModel');
+const client = require('../models/esModel');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -79,6 +80,21 @@ exports.addBlog = catchAsync(async (req, res, next) => {
     publishAt: Date.now(),
   });
 
+  // 添加es文档
+  const doc = await client.index({
+    index: 'blogs',
+    body: {
+      blog_id: newBlog.id,
+      title: title,
+      content: contents.replace(/\n/g, ''), // 去除所有换行符
+      belong_menu_id: belongingMenu,
+    },
+  });
+
+  // 保存文档id
+  newBlog.es_doc_id = doc._id;
+  await newBlog.save();
+
   res.status(201).json({
     status: 'success',
     data: {
@@ -106,6 +122,14 @@ exports.updateBlog = catchAsync(async (req, res, next) => {
       runValidators: true,
     }
   );
+  // 更新es doc
+  await client.update({
+    index: 'blogs',
+    id: updatedBlog.es_doc_id,
+    body: {
+      doc: { title: title, content: contents, belong_menu_id: belongingMenu },
+    },
+  });
 
   res.status(200).json({
     status: 'success',
@@ -195,6 +219,14 @@ exports.updateLikesOfBlog = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteBlog = catchAsync(async (req, res, next) => {
+  const blog = await Blog.findById(req.params.id);
+
+  // 删除blog文档
+  await client.delete({
+    index: 'blogs',
+    id: blog.es_doc_id,
+  });
+
   await Blog.findByIdAndUpdate(req.params.id, { active: false });
   res.status(204).json({
     status: 'success',

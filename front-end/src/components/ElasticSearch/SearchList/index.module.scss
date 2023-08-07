@@ -1,0 +1,125 @@
+@import "@/assets/css/index.scss";
+
+
+.wrapper {
+  width: 100%;
+
+  .header {
+    box-sizing: border-box;
+    height: 40px;
+    line-height: 32px;
+    font: {
+      size: 14.5px;
+      weight: 600;
+    }
+    color: $THEME_COLOR;
+    padding-top: 8px;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    .singleWrapper {
+      box-sizing: border-box;
+      cursor: pointer;
+      height: 56px;
+      border-radius: 5px;
+      font-size: 20px;
+      padding: 0 12px;
+      margin: 2px 0;
+      display: flex;
+      justify-content: flex-start;
+      @include trans();
+
+      &:hover {
+        background-color: $THEME_COLOR;
+      }
+
+      .mark {
+        color: $THEME_COLOR;
+      }
+
+
+      .info {
+        width: 92%;
+        padding: 0 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+
+        > div {
+          line-height: 20.4px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          font-weight: 500;
+        }
+
+        .title {
+          font-size: 12.75px;
+        }
+
+        .text {
+          font-size: 15.3px;
+        }
+      }
+
+      > div:not(:nth-child(2)) {
+        font-size: 20px;
+        line-height: 56px;
+      }
+    }
+  }
+}
+
+
+// 黑暗模式
+.listDark {
+  .singleWrapper {
+    background-color: $BACKGROUND_COLOR_DARK;
+    color: $FONT_COLOR_DARK;
+
+    > div:first-child {
+      color: $FONT_COLOR_DARK;
+    }
+
+    > div:last-child {
+      color: $BACKGROUND_COLOR_DARK;
+    }
+
+    &:hover {
+      color: $BACKGROUND_COLOR_DARK;
+    }
+
+    &:hover > div:first-child, &:hover .mark {
+      color: $BACKGROUND_COLOR_DARK;
+    }
+  }
+}
+
+.listLight {
+  .singleWrapper {
+    background-color: $BACKGROUND_COLOR;
+    color: $FONT_COLOR;
+
+    > div:first-child {
+      color: rgba(0, 0, 0, .4);
+    }
+
+    > div:last-child {
+      color: $BACKGROUND_COLOR;
+    }
+
+    &:hover {
+      color: #FFF;
+    }
+
+    &:hover > div:first-child, &:hover .mark {
+      color: #FFF;
+    }
+  }
+}
+
