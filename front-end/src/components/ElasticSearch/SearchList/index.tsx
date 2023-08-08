@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 // css
 import style from './index.module.scss';
@@ -10,38 +10,27 @@ import { SearchResultObj } from '@/interface/es';
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setSelectedId } from '@/redux/slices/blogMenu';
+import { setJumpFlag } from '@/redux/slices/universal';
+import { addHistory } from '@/redux/slices/es';
+
+// global
+import { DELAY_DISPATCH_TIME } from '@/global';
+
+// util
+import { getRenderNode } from '@/components/ElasticSearch/utils';
 
 interface SearchListProps {
   searchObj: SearchResultObj;
   match: string;
+  closeBox: () => void;
 }
 
-const getRenderNode = (str: string, match: string) => {
-  const list = str.split(match);
-  // 奇数项插入match（最大长度后面不插入）
-  const newList: string[] = [];
-  list.forEach((str, index) => {
-    newList.push(str);
-    if (index !== list.length - 1) {
-      newList.push(match);
-    }
-  });
-  return newList.map((str, index) => {
-    if (str === match) {
-      return (
-        <span key={index} className={style.mark}>
-          {str}
-        </span>
-      );
-    } else return <span key={index}>{str}</span>;
-  });
-};
-
-const SearchList: React.FC<SearchListProps> = ({ searchObj, match }) => {
+const SearchList: React.FC<SearchListProps> = ({ searchObj, match, closeBox }) => {
   const { menu_title, blogs } = searchObj;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const themeMode = useAppSelector(state => state.universal.themeMode);
+  const location = useLocation();
   return (
     <div className={style.wrapper}>
       <div className={style.header}>{menu_title}</div>
@@ -52,7 +41,17 @@ const SearchList: React.FC<SearchListProps> = ({ searchObj, match }) => {
               key={blog.blog_id}
               className={style.singleWrapper}
               onClick={() => {
-                dispatch(setSelectedId(blog.blog_id));
+                closeBox();
+                // 当前是blog页面则不设置标志，因为默认进入页面会加载动画
+                if (location.pathname === '/blog') {
+                  dispatch(setJumpFlag(true));
+                  setTimeout(() => {
+                    dispatch(setSelectedId(blog.blog_id));
+                  }, DELAY_DISPATCH_TIME);
+                } else {
+                  dispatch(setSelectedId(blog.blog_id));
+                }
+                dispatch(addHistory({ blog, match }));
                 navigate('/blog');
               }}
             >

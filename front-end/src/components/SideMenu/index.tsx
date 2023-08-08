@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 // antd
@@ -15,7 +15,7 @@ import EditMenu from '@/components/SideMenu/EditMenu';
 // redux
 import { useAppSelector, useAppDispatch } from '@/redux';
 import { setSelectedId } from '@/redux/slices/blogMenu';
-import { setFadeOut, setIsLoading } from '@/redux/slices/progressbar';
+import { setJumpFlag } from '@/redux/slices/universal';
 
 // context
 import { useIcons } from '../ContextProvider/IconStore';
@@ -97,18 +97,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
                 if (!item.grade && e.key !== selectedId) {
                   // 操作标志置为false，不可继续操作
                   setOpt(false);
-                  // 如果先前打开了滚动条要先关闭
-                  dispatch(setIsLoading(false));
+                  dispatch(setJumpFlag(true));
                   setTimeout(() => {
-                    dispatch(setIsLoading(true));
-                  }, 50);
-                  // .5s后打开FadeOut（FadeOut动画开始，持续时间ns）
-                  setTimeout(() => {
-                    dispatch(setFadeOut(true));
-                  }, 350);
-                  setTimeout(() => {
-                    // 1.4s后执行操作（1+ns）并取消fadeOut（FadeIn动画执行）
-                    dispatch(setFadeOut(false));
                     dispatch(setSelectedId(e.key));
                     // 重置可操作标志
                     setOpt(true);

@@ -14,13 +14,14 @@ import style from './index.module.scss';
 // redux
 import { setChosenList } from '@/redux/slices/chosenList';
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { setIsLoading } from '@/redux/slices/progressbar';
+import { setFadeOut, setIsLoading } from '@/redux/slices/progressbar';
 
 // context
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // global
-import { BACKGROUND_COLOR_DARK } from '@/global';
+import { BACKGROUND_COLOR_DARK, DELAY_DISPATCH_TIME } from '@/global';
+import { setJumpFlag } from '@/redux/slices/universal';
 
 const BlogPage = () => {
   const { width } = useViewport();
@@ -29,6 +30,7 @@ const BlogPage = () => {
   const curBlogContent = useAppSelector(state => state.blog.curBlogContent);
   const fadeOut = useAppSelector(state => state.progressbar.fadeOut);
   const themeMode = useAppSelector(state => state.universal.themeMode);
+  const jumpFlag = useAppSelector(state => state.universal.jumpFlag);
   // Mobile Menu Open State
   const [open, setOpen] = useState(false);
 
@@ -52,6 +54,26 @@ const BlogPage = () => {
       dispatch(setIsLoading(true));
     }, 50);
   }, []);
+
+  useEffect(() => {
+    if (jumpFlag) {
+      // 重置jumpFLag标志
+      dispatch(setJumpFlag(false));
+      // 如果先前打开了滚动条要先关闭
+      dispatch(setIsLoading(false));
+      setTimeout(() => {
+        dispatch(setIsLoading(true));
+      }, 50);
+      // 打开FadeOut（FadeOut动画开始，持续时间ns）
+      setTimeout(() => {
+        dispatch(setFadeOut(true));
+      }, 350);
+      setTimeout(() => {
+        // 执行操作并取消fadeOut（FadeIn动画执行）
+        dispatch(setFadeOut(false));
+      }, DELAY_DISPATCH_TIME);
+    }
+  }, [jumpFlag]);
 
   // TODO:初次加载bug
 

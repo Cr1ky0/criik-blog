@@ -95,6 +95,11 @@ $GRADE_BOTTOM: 100;
 $BREAK_POINT: 768px;
 $MAX_WIDTH: 1100px;
 
+// ES里的mark
+.mark {
+  color: $THEME_COLOR;
+}
+
 @mixin onHover {
   box-shadow: 0 0 20px rgba(0, 0, 0, .5);
   position: relative;

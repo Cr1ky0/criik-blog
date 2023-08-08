@@ -10,3 +10,8 @@ export interface SearchResultObj {
   menu_title: string;
   blogs: SearchBlogObj[];
 }
+
+export interface SearchHistoryObj {
+  blog: SearchBlogObj;
+  match: string;
+}

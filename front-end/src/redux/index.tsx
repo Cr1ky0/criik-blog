@@ -11,6 +11,7 @@ import blogMenu from '@/redux/slices/blogMenu';
 import user from '@/redux/slices/user';
 import backstage from '@/redux/slices/backstage';
 import progressbar from '@/redux/slices/progressbar';
+import es from '@/redux/slices/es';
 import universal from '@/redux/slices/universal';
 
 //持久存储
@@ -27,6 +28,7 @@ const reducers = combineReducers({
   backstage,
   progressbar,
   universal,
+  es,
 });
 
 const persistConfig = {

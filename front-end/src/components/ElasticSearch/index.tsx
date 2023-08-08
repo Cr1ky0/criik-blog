@@ -11,6 +11,7 @@ import { useAppSelector } from '@/redux';
 
 // comp
 import SearchList from '@/components/ElasticSearch/SearchList';
+import SearchHistory from '@/components/ElasticSearch/SearchHistory';
 
 // api
 import { searchDoc } from '@/api/es';
@@ -24,6 +25,7 @@ import { SearchResultObj } from '@/interface/es';
 const ElasticSearch = () => {
   const msg = useGlobalMessage();
   const themeMode = useAppSelector(state => state.universal.themeMode);
+  const searchHistory = useAppSelector(state => state.es.history);
   const [open, setOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -71,6 +73,11 @@ const ElasticSearch = () => {
     return debounce();
   }, []);
 
+  const deleteResult = () => {
+    setSearchContent('');
+    setShowResult(false);
+  };
+
   // TODO:适配移动
   return (
     <>
@@ -87,6 +94,7 @@ const ElasticSearch = () => {
         className={`${style.searcher} ${open ? style.open : style.close}`}
         onClick={() => {
           if (!isDragging) {
+            // 实际逻辑
             setOpen(false);
           }
           setIsDragging(false);
@@ -126,12 +134,7 @@ const ElasticSearch = () => {
               }}
             />
             {searchContent ? (
-              <div
-                onClick={() => {
-                  setSearchContent('');
-                  setShowResult(false);
-                }}
-              >
+              <div onClick={deleteResult}>
                 <CloseOutlined style={{ fontSize: 16 }} />
               </div>
             ) : undefined}
@@ -141,7 +144,16 @@ const ElasticSearch = () => {
               searchResult.length ? (
                 <>
                   {searchResult.map((searchObj, index) => {
-                    return <SearchList key={index} searchObj={searchObj} match={resultContent}></SearchList>;
+                    return (
+                      <SearchList
+                        key={index}
+                        searchObj={searchObj}
+                        match={resultContent}
+                        closeBox={() => {
+                          setOpen(false);
+                        }}
+                      ></SearchList>
+                    );
                   })}
                 </>
               ) : (
@@ -164,6 +176,8 @@ const ElasticSearch = () => {
                   </div>
                 </div>
               )
+            ) : searchHistory.length ? (
+              <SearchHistory closeBox={deleteResult}></SearchHistory>
             ) : (
               <div className={style.noContent}>
                 <div className={themeMode === 'dark' ? style.darkFont : style.lightFont}>没有搜索记录</div>
