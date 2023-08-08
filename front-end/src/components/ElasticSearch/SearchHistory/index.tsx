@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 
-// antd
-import { CloseOutlined } from '@ant-design/icons';
-
 // css
 import style from '@/components/ElasticSearch/SearchList/index.module.scss';
 

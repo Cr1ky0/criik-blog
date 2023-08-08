@@ -93,7 +93,7 @@
   color: $FONT_COLOR;;
 }
 
-@media (max-width: $BREAK_POINT) {
+@media (width <= $BREAK_POINT) {
   @include universal;
   .backgroundPhoto {
     height: 200px;
@@ -113,7 +113,7 @@
   }
 }
 
-@media (min-width: $BREAK_POINT) {
+@media (width > $BREAK_POINT) {
   @include universal;
   .backgroundPhoto {
     height: 95vh;

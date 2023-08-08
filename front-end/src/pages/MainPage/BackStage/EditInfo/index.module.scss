@@ -7,7 +7,7 @@
   }
 }
 
-@media (width < $BREAK_POINT) {
+@media (width <= $BREAK_POINT) {
   .wrapper {
     width: 90%;
     padding-top: 2vh;

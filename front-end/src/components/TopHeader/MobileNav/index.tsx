@@ -36,6 +36,7 @@ const MobileNav = () => {
   return (
     <>
       <div className={style.leftNavWrapper}>
+        {/* left-nav-btn */}
         <div
           className={isOpen ? style.leftNavActive : isInit ? style.leftNavInit : style.leftNavNotActive}
           onClick={() => {
@@ -48,10 +49,6 @@ const MobileNav = () => {
           <div></div>
           <div></div>
         </div>
-
-        <div className={style.es}>
-          <ElasticSearch></ElasticSearch>
-        </div>
         {/* 黑暗模式 */}
         <div
           className={`${style.themeMode} iconfont  ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}
@@ -60,6 +57,10 @@ const MobileNav = () => {
           }}
         >
           {themeMode === 'light' ? <span>&#xe655;</span> : <span>&#xe62c;</span>}
+        </div>
+        {/* es */}
+        <div className={style.es}>
+          <ElasticSearch></ElasticSearch>
         </div>
       </div>
       <MobileMenu isOpen={isOpen} close={handleClose}></MobileMenu>

@@ -29,7 +29,7 @@
   }
 }
 
-@media (width<$BREAK_POINT) {
+@media (width <= $BREAK_POINT) {
   .editBtn {
     margin: 10px 5px !important;
   }

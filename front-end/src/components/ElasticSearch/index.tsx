@@ -18,6 +18,10 @@ import { searchDoc } from '@/api/es';
 
 // provider
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
+
+//global
+import { BREAK_POINT } from '@/global';
 
 // interface
 import { SearchResultObj } from '@/interface/es';
@@ -26,6 +30,7 @@ const ElasticSearch = () => {
   const msg = useGlobalMessage();
   const themeMode = useAppSelector(state => state.universal.themeMode);
   const searchHistory = useAppSelector(state => state.es.history);
+  const { width } = useViewport();
   const [open, setOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -135,11 +140,11 @@ const ElasticSearch = () => {
             />
             {searchContent ? (
               <div onClick={deleteResult}>
-                <CloseOutlined style={{ fontSize: 16 }} />
+                <CloseOutlined style={{ fontSize: width > BREAK_POINT ? 18 : 14 }} />
               </div>
             ) : undefined}
           </div>
-          <div className={style.content}>
+          <div className={style.content} style={{ paddingBottom: showResult ? 15 : undefined }}>
             {showResult ? (
               searchResult.length ? (
                 <>
@@ -160,8 +165,8 @@ const ElasticSearch = () => {
                 <div className={style.noResult}>
                   <svg
                     className={themeMode === 'dark' ? style.darkFont : style.lightFont}
-                    width="40"
-                    height="40"
+                    width={width > BREAK_POINT ? 40 : 30}
+                    height={width > BREAK_POINT ? 40 : 30}
                     viewBox="0 0 20 20"
                     fill="none"
                     fillRule="evenodd"

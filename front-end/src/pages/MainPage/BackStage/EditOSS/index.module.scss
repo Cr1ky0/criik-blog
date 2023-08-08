@@ -1,15 +1,15 @@
 @import "@/assets/css/index.scss";
 
-@media (width> $BREAK_POINT) {
-  .form{
+@media (width > $BREAK_POINT) {
+  .form {
     max-width: 600px;
-    margin:200px auto;
+    margin: 200px auto;
   }
 }
 
-@media (width < $BREAK_POINT) {
-  .form{
+@media (width <= $BREAK_POINT) {
+  .form {
     max-width: 90%;
-    margin:100px auto;
+    margin: 100px auto;
   }
 }

@@ -52,12 +52,9 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-
-  .es {
-    margin: 0 10px;
-  }
-
+  
   .themeMode {
+    margin: 0 10px;
     cursor: pointer;
 
     > span {

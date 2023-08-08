@@ -12,7 +12,7 @@
   }
 }
 
-@media (width>$BREAK_POINT) {
+@media (width > $BREAK_POINT) {
   @include universal;
   .wrapper {
     .classSelect, .photoTime {
@@ -35,7 +35,7 @@
   }
 }
 
-@media (width<$BREAK_POINT) {
+@media (width <= $BREAK_POINT) {
   @include universal;
   .classSelect, .photoTime {
     width: 90%;
