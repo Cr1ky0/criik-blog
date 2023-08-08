@@ -94,10 +94,11 @@ exports.searchDoc = catchAsync(async (req, res) => {
     },
   });
   const list = response.hits.hits;
-
   // 搜索结果可能包含其他结果，需要进行进一步筛选出只包含匹配字符的博客
   const result = [];
-  const regex = new RegExp(match, 'gi');
+  // 在正则中一些特殊字符需要处理
+  const filterMatch = match.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(filterMatch, 'gi');
   for (let i = 0; i < list.length; i += 1) {
     const blog = list[i]._source;
     const contentResult = blog.content.search(regex);
