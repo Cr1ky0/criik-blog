@@ -83,7 +83,6 @@ const ElasticSearch = () => {
     setShowResult(false);
   };
 
-  // TODO:适配移动
   return (
     <>
       <div

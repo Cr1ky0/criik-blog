@@ -19,6 +19,7 @@
         padding: 0 12px;
 
         .info {
+          width: 92%;
           padding: 0 10px;
 
           > div {
@@ -43,6 +44,16 @@
     }
 
   }
+
+  .delHistory {
+    > div {
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
+      line-height: 20px;
+    }
+  }
+
 }
 
 
@@ -63,10 +74,11 @@
         height: 50px;
         border-radius: 3px;
         font-size: 16px;
-        padding: 0 9px;
+        padding: 0 8px;
 
         .info {
-          padding: 0 10px;
+          width: 88%;
+          padding: 0 5px;
 
           > div {
             line-height: 17px;
@@ -78,7 +90,7 @@
           }
 
           .text {
-            font-size: 14.5px;
+            font-size: 13px;
           }
         }
 
@@ -87,6 +99,15 @@
           line-height: 50px;
         }
       }
+    }
+  }
+
+  .delHistory {
+    > div {
+      width: 18px;
+      height: 18px;
+      font-size: 18px;
+      line-height: 18px;
     }
   }
 }
@@ -107,7 +128,6 @@
 
 
   .info {
-    width: 92%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -222,10 +242,6 @@
 
   > div {
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    font-size: 20px;
-    line-height: 20px;
 
     &:hover {
       background-color: rgba(255, 255, 255, .2);

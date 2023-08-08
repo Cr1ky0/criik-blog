@@ -118,13 +118,8 @@ $fontColor: rgba(0, 0, 0, .8);
   .markdown-body {
     line-height: 30px;
     font: {
-      size: 17px;
-      family: sans-serif;
+      family: Bitter, "Noto Serif SC", SimSun, Times New Roman, Times, serif, Segoe UI Emoji, Segoe UI Symbol, Apple Color Emoji, "Noto Serif CJK SC";
     };
-
-    p {
-      font-family: Bitter, "Noto Serif SC", SimSun, Times New Roman, Times, serif, Segoe UI Emoji, Segoe UI Symbol, Apple Color Emoji, "Noto Serif CJK SC";
-    }
 
     pre {
       padding: 0;
@@ -187,9 +182,7 @@ $fontColor: rgba(0, 0, 0, .8);
 @media (min-width: $BREAK_POINT) {
   @include universal;
   .markdown-body {
-    li::marker {
-      font-size: 18px;
-    }
+    font-size: 17px;;
 
     pre {
       ::-webkit-scrollbar {
@@ -232,9 +225,6 @@ $fontColor: rgba(0, 0, 0, .8);
       size: 12px;
     };
 
-    li::marker {
-      font-size: 12px;
-    }
 
     pre {
       ::-webkit-scrollbar {
