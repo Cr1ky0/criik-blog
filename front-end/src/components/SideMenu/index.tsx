@@ -80,6 +80,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
       {menus.length ? (
         <Menu
           className={style.menu}
+          inlineIndent={12}
           style={{ borderRadius: '0 0 5px 5px', border: 'none' }}
           defaultOpenKeys={getAllKeyOfSideMenu(menus)}
           expandIcon={<DownOutlined />}
