@@ -1,7 +1,7 @@
 const crypto = require('crypto');
+const svgCaptcha = require('svg-captcha');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
-
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -50,55 +50,64 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
+// 登录图片验证码
+exports.sendVerificationCode = catchAsync(async (req, res) => {
+  const captcha = svgCaptcha.create({ color: true, noise: 3, size: 5 });
+  req.session.captcha = captcha.text;
+  res.status(200).send(captcha.data);
+});
+
 // 发送验证码
-const sendCode = async (req, res, user, operation, next, isLink = false) => {
-  // 生成resetToken（验证码）
-  let code = user.createPasswordResetToken(isLink);
-  // 上面操作只是做了更改，还需要进行save操作才能保存到数据库
-  await user.save({ validateBeforeSave: false }); // 强制关闭验证器保存
+const sendCode = catchAsync(
+  async (req, res, user, operation, next, isLink = false) => {
+    // 生成resetToken（验证码）
+    let code = user.createPasswordResetToken(isLink);
+    // 上面操作只是做了更改，还需要进行save操作才能保存到数据库
+    await user.save({ validateBeforeSave: false }); // 强制关闭验证器保存
 
-  let message = `${operation}\n以下是验证码 \n${code}\n请勿将该邮件透露给其他任何人！\n如果你没有忘记密码，请忽略该邮件!`;
-  if (isLink) {
-    // 如果是重置邮箱，给新邮箱发送链接
-    code = crypto.createHash('sha256').update(code).digest('hex');
-    const resetURL = `${req.protocol}://${req.get(
-      'host'
-    )}/api/users/resetEmail/${code}`;
-    message = `这是你的邮箱重置链接，请点击验证:\n${resetURL}\n请妥善保管，勿将其发送给任何陌生人！`;
-  }
-
-  try {
-    if (process.env.NODE_ENV === 'development') console.log(message);
-    else {
-      //   await sendEmail({
-      //     email: user.email,
-      //     subject: '验证码-重置密码 (valid for 10 min)',
-      //     message,
-      //   });
-    }
-    if (!isLink) {
-      // 设置session
-      req.session.code = code;
-      req.session.user_id = user.id;
-    }
-
-    let sendMessage = '验证码已经发送至邮箱!';
-    if (isLink) sendMessage = '链接已经发送至邮箱，请前往确认！';
-    res.status(200).json({
-      status: 'success',
-      message: sendMessage,
-    });
-    // 发送链接后销毁之前的session
+    let message = `${operation}\n以下是验证码 \n${code}\n请勿将该邮件透露给其他任何人！\n如果你没有忘记密码，请忽略该邮件!`;
     if (isLink) {
-      req.session.destroy();
+      // 如果是重置邮箱，给新邮箱发送链接
+      code = crypto.createHash('sha256').update(code).digest('hex');
+      const resetURL = `${req.protocol}://${req.get(
+        'host'
+      )}/api/users/resetEmail/${code}`;
+      message = `这是你的邮箱重置链接，请点击验证:\n${resetURL}\n请妥善保管，勿将其发送给任何陌生人！`;
     }
-  } catch (err) {
-    user.passwordResetToken = undefined;
-    await user.save({ validateBeforeSave: false });
 
-    return next(new AppError('发送邮件出现了一个未知错误！请重试！!'), 500);
+    try {
+      if (process.env.NODE_ENV === 'development') console.log(message);
+      else {
+        //   await sendEmail({
+        //     email: user.email,
+        //     subject: '验证码-重置密码 (valid for 10 min)',
+        //     message,
+        //   });
+      }
+      if (!isLink) {
+        // 设置session
+        req.session.code = code;
+        req.session.user_id = user.id;
+      }
+
+      let sendMessage = '验证码已经发送至邮箱!';
+      if (isLink) sendMessage = '链接已经发送至邮箱，请前往确认！';
+      res.status(200).json({
+        status: 'success',
+        message: sendMessage,
+      });
+      // 发送链接后销毁之前的session
+      if (isLink) {
+        req.session.destroy();
+      }
+    } catch (err) {
+      user.passwordResetToken = undefined;
+      await user.save({ validateBeforeSave: false });
+
+      return next(new AppError('发送邮件出现了一个未知错误！请重试！!'), 500);
+    }
   }
-};
+);
 
 // 注册过程
 exports.signup = catchAsync(async (req, res, next) => {
@@ -114,7 +123,11 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 // 登录过程
 exports.login = catchAsync(async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, captcha } = req.body;
+
+  // 验证码
+  if (req.session.captcha.toUpperCase() !== captcha.toUpperCase())
+    return next(new AppError('验证码错误！', 401));
 
   // 验证字段
   if (!email || !password) {

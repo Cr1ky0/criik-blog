@@ -20,10 +20,12 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 import { setEmoji } from '@/redux/slices/emoji';
 import { setMenuList } from '@/redux/slices/blogMenu';
 import { setMyBlogsNum } from '@/redux/slices/blog';
+import LoginForm from '@/components/TopHeader/LoginForm';
 
 const MainPage = () => {
   const dispatch = useAppDispatch();
   const themeMode = useAppSelector(state => state.universal.themeMode);
+  const loginFormOpen = useAppSelector(state => state.universal.loginFormOpen);
   useEffect(() => {
     // 加载后先把emoji请求回来，后面不再请求了
     dispatch(setEmoji());
@@ -35,6 +37,8 @@ const MainPage = () => {
   return (
     <Layout>
       <TopHeader></TopHeader>
+      {/* Login界面，这里放这是因为css的backdrop-filter在使用了position:fixed以后只对其父元素生效 */}
+      {loginFormOpen ? <LoginForm></LoginForm> : undefined}
       <div
         className={style.progress}
         style={{

@@ -100,15 +100,15 @@ app.use(
     name: 'codeSession',
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     rolling: true, //在每次请求时强行设置 cookie，这将重置cookie过期时间（默认：false）
+    // 设置发送给前端的cookie属性
     store: MongoStore.create({
       mongoUrl: 'mongodb://criiky0:123456@127.0.0.1:27017/criik-blog', //数据库的地址
       ttl: 10 * 60,
     }),
-    // 设置发送给前端的cookie属性
     cookie: {
-      secure: false,
+      secure: process.env.NODE_ENV === 'production', // 注意这里表示仅HTTPS传输，如果开发环境不是HTTPS这里设为false
       httpOnly: true,
       path: '/api/users',
       maxAge: 1000 * 60 * 10,

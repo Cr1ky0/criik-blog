@@ -12,14 +12,7 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 
 import { setSelectedId } from '@/redux/slices/blogMenu';
 //util
-import {
-  getClassificationInfo,
-  getOneBlogFromMenu,
-  getSideMenuItem,
-  getColorRgb,
-  getColorHsl,
-  rgbToHsl,
-} from '@/utils';
+import { getClassificationInfo, getOneBlogFromMenu, getSideMenuItem } from '@/utils';
 
 // interface
 import { SideMenuItem } from '@/interface';

@@ -30,6 +30,7 @@ export interface BlogTagBoxProps {
   statistic: BlogTagBoxStatistic;
 }
 
+// TODO:修改内容以及ES内容
 // 主页的BlogBox组件
 const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
   const { children, title, statistic, blogId } = props;

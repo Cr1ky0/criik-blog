@@ -7,6 +7,7 @@ import type { MenuProps } from 'antd/es/menu';
 export interface LoginFormData {
   email: string;
   password: string;
+  captcha: string;
 }
 
 // userPswObj

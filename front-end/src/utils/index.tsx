@@ -15,6 +15,22 @@ import {
 // antd
 import type { DataNode } from 'antd/es/tree';
 
+// 节流
+export const trottle = (fn: any, delay: number) => {
+  let valid = true;
+  return () => {
+    if (valid) {
+      valid = false;
+      // 立即执行
+      fn();
+      // 每500ms执行一次
+      setTimeout(() => {
+        valid = true;
+      }, delay);
+    }
+  };
+};
+
 // 颜色相关
 export const getColorRgb = (primaryColor: string) => {
   const color = primaryColor.split(',');

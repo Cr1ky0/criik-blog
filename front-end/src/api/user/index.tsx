@@ -1,11 +1,11 @@
 import service from '@/utils/request';
 import Cookies from 'universal-cookie';
-import { catchAsync } from '@/api';
+import { catchAsync, improvedCatchAsync } from '@/api';
 
 // interface
 import { EmailObj, LoginFormData, UserUpdateObj, UserPswObj } from '@/interface';
 
-export const loginAjax = catchAsync(async (values: LoginFormData) => {
+export const loginAjax = improvedCatchAsync(async (values: LoginFormData) => {
   const response = await service.post('/api/users/login', values);
   return Promise.resolve(response);
 });
@@ -56,3 +56,8 @@ export const getMyInfo = async () => {
   const response = await service.get('/api/users/getMyInfo');
   return Promise.resolve(response.data);
 };
+
+export const sendCaptcha = improvedCatchAsync(async () => {
+  const response = await service.get('/api/users/send_captcha');
+  return Promise.resolve(response);
+});

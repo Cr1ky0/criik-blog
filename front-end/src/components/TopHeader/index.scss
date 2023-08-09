@@ -3,7 +3,6 @@
 #top-header {
   width: 100%;
   height: $TOP_HEADER_H;
-  //background-color: rgba(255, 255, 255, 0.9);
   position: fixed;
   z-index: $GRADE_TOP;
   top: 2px;
@@ -15,8 +14,8 @@
   @include unSelectable;
   transition: background-color .3s;
 
-  // 亚克力
-  backdrop-filter: blur(8px); /* 背景模糊效果，需要浏览器支持 */
-  -webkit-backdrop-filter: blur(8px); /* WebKit 浏览器兼容性 */
-  background-color: rgba(255, 255, 255, .7);
+  // 亚克力（注意backdrop-filter只作用于其后的内容）
+  backdrop-filter: saturate(2) blur(8px); /* 背景模糊效果，需要浏览器支持 */
+  -webkit-backdrop-filter: saturate(2) blur(8px); /* WebKit 浏览器兼容性 */
+  background-color: rgba(255, 255, 255, .8);
 }

@@ -7,6 +7,9 @@ const router = express.Router();
 // 登录
 router.post('/login', authController.login);
 
+// 图形验证码
+router.get('/send_captcha', authController.sendVerificationCode);
+
 // 注册
 // router.post('/signup', authController.signup);
 

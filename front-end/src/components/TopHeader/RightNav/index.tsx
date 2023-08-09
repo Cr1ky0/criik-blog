@@ -6,12 +6,11 @@ import style from './index.module.scss';
 
 // comp
 import LinkBtn2 from '@/components/Universal/LinkBtn2';
-import LoginForm from '@/components/TopHeader/LoginForm';
 import Avatar from '@/components/TopHeader/Avatar';
 import ElasticSearch from '@/components/ElasticSearch';
 
 // antd
-import { Modal, Popconfirm } from 'antd';
+import { Popconfirm } from 'antd';
 import { FrownTwoTone } from '@ant-design/icons';
 
 // context
@@ -23,10 +22,9 @@ import { BREAK_POINT } from '@/global';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { setThemeMode } from '@/redux/slices/universal';
+import { setLoginFormOpen, setThemeMode } from '@/redux/slices/universal';
 
 const RightNav = () => {
-  const [modalOpen, setModalOpen] = useState(false);
   const message = useGlobalMessage();
   const dispatch = useAppDispatch();
   const themeMode = useAppSelector(state => state.universal.themeMode);
@@ -83,30 +81,11 @@ const RightNav = () => {
         <div className={style.signWrapper}>
           <LinkBtn2
             onClick={() => {
-              setModalOpen(true);
+              dispatch(setLoginFormOpen(true));
             }}
           >
             Sign in
           </LinkBtn2>
-          {/* Login界面 */}
-          <Modal
-            centered
-            destroyOnClose
-            maskClosable={false}
-            width={width > BREAK_POINT ? '320px' : '60vw'}
-            footer=""
-            open={modalOpen}
-            onCancel={() => {
-              setModalOpen(false);
-            }}
-          >
-            <LoginForm
-              close={() => {
-                setModalOpen(false);
-                // setBodyScroll();
-              }}
-            ></LoginForm>
-          </Modal>
         </div>
       )}
       {/*  菜单栏选项 */}

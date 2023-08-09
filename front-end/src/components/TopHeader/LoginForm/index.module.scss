@@ -1,52 +1,250 @@
 @import "@/assets/css/index.scss";
 
+$LOGIN_COLOR: #119de4;
+$CONTENT_COLOR: rgba(0, 0, 0, .3);
+
+@mixin placeOut {
+  bottom: 28px;
+  color: $LOGIN_COLOR;
+  font-size: 12px;
+}
+
+@mixin placeIn {
+  bottom: 4px;
+  font-size: 16px;
+  color: $CONTENT_COLOR;
+}
+
+
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, .3);
+  z-index: $GRADE_TOP;
+}
+
+
 .wrapper {
-  width: 100%;
+  position: relative;
+  top: 200px;
+  width: 330px;
+  height: 370px;
+  margin: 0 auto;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+
+  // 亚克力
+  backdrop-filter: saturate(5) blur(8px);
+  -webkit-backdrop-filter: saturate(5) blur(8px);
+  background-color: rgba(255, 255, 255, .8);
+
+  .closeBtn {
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    color: rgba(0, 0, 0, .5);
+    font-size: 30px;
+    border-radius: 50%;
+    @include unSelectable;
+  }
 
   .header {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: flex-start;
     width: 100%;
+    padding: 20px;
+    @include unSelectable;
 
-    &::after {
-      content: '';
-      display: block;
-      width: 100%;
-      height: 1px;
-      margin: 25px 0;
-      background-color: rgba(0, 0, 0, .05);
+    .logo {
+      width: 45px;
+      height: 45px;
+      margin-right: 5px;
+      background-size: cover;
+      background-repeat: no-repeat;
     }
 
-    .logoBox {
-      height: 40px;
+    .login {
+      font-size: 28px;
+      color: $FONT_COLOR;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
 
-      .logo {
-        @include backgroundImgStyle(0);
-        float: left;
-        width: 40px;
-        height: 40px;
-        margin-right: 5px;
+      > div:last-child {
+        width: 80%;
+        align-self: center;
+        height: 3px;
+        margin-top: 2px;
+        background-color: $LOGIN_COLOR;
+        border-radius: 2px;
+        box-shadow: 0 0 2px $LOGIN_COLOR;
       }
+    }
+  }
 
-      .blogInfo {
-        float: left;
-        line-height: 40px;
-        font: {
-          family: "Sans Serif Collection";
-          size: 20px;
+  .form {
+    display: flex;
+    flex-direction: column;
+
+    .input {
+      position: relative;
+      margin: 0 10px;
+
+      > input {
+        color: $FONT_COLOR;
+        width: 100%;
+        background-color: transparent;
+        margin-top: 24px;
+        font-size: 16px;
+        height: 24px;
+        border: none;
+        outline: none;
+        border-bottom: 1px solid rgba(0, 0, 0, .2);
+
+        &:hover ~ div:last-child {
+          width: 100%;
         }
       }
-    }
 
-    .tips {
-      width: 100%;
-      text-align: center;
-      color: $FONT_COLOR_2;
-      font: {
-        family: "Sans Serif Collection";
-        size: 16px;
+      // 第二个input下的显示psw按钮
+      .isShowPsw {
+        color: rgba(0, 0, 0, .4);
+        font-size: 18px;
+        position: absolute;
+        right: 0;
+        bottom: 3px;
+        cursor: default;
+        @include unSelectable;
+      }
+
+      // placeHolder动画
+      .placeHolder {
+        @include unSelectable;
+        position: absolute;
+        pointer-events: none;
+        left: 3px;
+        bottom: 4px;
+        font-size: 16px;
+        color: $CONTENT_COLOR;
+      }
+
+      // 图形验证码区域
+      .captcha {
+        background-color: #FFF;
+        position: absolute;
+        cursor: pointer;
+        right: 0;
+        bottom: 4px;
+        height: 35px;
+        width: 35%;
+
+        > svg {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .placeHolderOut {
+        animation: titleTransOut .2s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: forwards;
+      }
+
+      .placeHolderIn {
+        animation: titleTransIn .2s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: forwards;
+      }
+
+      .blurColor {
+        color: $CONTENT_COLOR !important;
+      }
+
+      .placeHolderOutInit {
+        @include placeOut;
+      }
+
+      // 底部条动画
+      > div:last-child {
+        background-color: $LOGIN_COLOR;
+        transition: width .5s;
+        transition-timing-function: ease-out;
+        width: 0;
+        position: absolute;
+        border-radius: 1px;
+        bottom: 0;
+        height: 1.5px;
+      }
+
+      .barScroll {
+        width: 100% !important;
       }
     }
+  }
+
+  .func {
+    @include unSelectable;
+    padding: 15px 0;
+    color: rgba(0, 0, 0, .6);
+    margin: 0 10px;
+
+    label {
+      display: flex;
+      justify-content: flex-start;
+
+      div {
+        line-height: 17px;
+      }
+    }
+  }
+
+  .submit {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+
+    > div {
+      @include unSelectable;
+      cursor: pointer;
+      color: #FFF;
+      text-align: center;
+      width: 90%;
+      height: 36px;
+      line-height: 36px;
+      border-radius: 18px;
+      font-weight: 520;
+      background: linear-gradient(to right, rgba(89, 195, 251), rgba(42, 145, 247));
+
+      &:hover {
+        filter: brightness(104%);
+      }
+    }
+
+    .loading {
+
+    }
+  }
+}
+
+@keyframes titleTransIn {
+  from {
+    @include placeOut;
+  }
+  to {
+    @include placeIn;
+  }
+}
+
+@keyframes titleTransOut {
+  from {
+    @include placeIn;
+  }
+  to {
+    @include placeOut;
   }
 }
