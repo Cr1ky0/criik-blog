@@ -18,6 +18,7 @@ $LINE_COLOR: rgba(0, 0, 0, 0.2);
       justify-content: space-between;
 
       .title {
+        max-width: 280px;
         @include animationBar();
         font-family: $FONT_FAMILY_TITLE;
         cursor: pointer;
@@ -56,6 +57,11 @@ $LINE_COLOR: rgba(0, 0, 0, 0.2);
       @include unSelectable;
     }
   }
+}
+
+.light {
+  @include trans();
+  background-color: rgb(254, 254, 254);
 }
 
 

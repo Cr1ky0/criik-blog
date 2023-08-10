@@ -8,16 +8,23 @@ import style from './index.module.scss';
 import { Tag, Tooltip } from 'antd';
 
 // interface
-import { BlogTagBoxStatistic } from '@/interface';
+import { BlogTagBoxStatistic, BreadCrumbObj } from '@/interface';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
+import { addLikeList, removeLikeList } from '@/redux/slices/blog';
 
 // util
-import { getColorHsl, getColorRgb, getSideMenuItem, rgbToHsl } from '@/utils';
+import { getBreadcrumbList } from '@/utils';
+
+// api
 import { updateCollectOfBlogAjax, updateLikesOfBlogAjax } from '@/api/blog';
+
+// provider
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
-import { addLikeList, removeLikeList } from '@/redux/slices/blog';
+import { useIcons } from '@/components/ContextProvider/IconStore';
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
+import { BREAK_POINT } from '@/global';
 
 interface BlogInfoProps {
   statistics: BlogTagBoxStatistic;
@@ -28,20 +35,27 @@ const isLiked = (likeList: string[], id: string) => {
 };
 
 const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
+  const { width } = useViewport();
   const message = useGlobalMessage();
   const menus = useAppSelector(state => state.blogMenu.menuList);
+  const icons = useIcons();
   const themeMode = useAppSelector(state => state.universal.themeMode);
-  const tagRef = useRef(null);
   // 点赞状态（游客也可以点赞，用redux管理（与评论类似））
   const likeList = useAppSelector(state => state.blog.likeList);
   const dispatch = useAppDispatch();
-  const { author, time, views, belongingMenu, id, isCollected, likes } = statistics;
-  const item = getSideMenuItem(menus, belongingMenu);
+  const { author, time, views, id, isCollected, likes } = statistics;
   // 收藏状态
   const [collected, setCollected] = useState(isCollected);
   const [likesNum, setLikesNum] = useState(likes);
+  const [grandMenu, setGrandMenu] = useState<BreadCrumbObj[]>([]);
   const cookies = new Cookies();
   const user = cookies.get('user');
+
+  useEffect(() => {
+    const grand = getBreadcrumbList(menus, id, icons);
+    grand.pop();
+    setGrandMenu(grand);
+  }, []);
 
   // 收藏
   const handleCollect = () => {
@@ -93,16 +107,32 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
         <Tooltip title="分类标签" trigger="hover" placement="bottom">
           <div className={style.classification}>
             <span className="iconfont">&#xe623;</span>
-            <Tag
-              className={style.tag}
-              color={item ? item.color : undefined}
-              ref={tagRef}
-              style={{
-                border: themeMode === 'dark' ? 'none' : undefined,
-              }}
-            >
-              {item ? item.title : undefined}
-            </Tag>
+            {width > BREAK_POINT ? (
+              grandMenu.map((menu, index) => {
+                return (
+                  <Tag
+                    key={index}
+                    className={style.tag}
+                    color={menu.color}
+                    style={{
+                      border: themeMode === 'dark' ? 'none' : undefined,
+                    }}
+                  >
+                    {menu.title}
+                  </Tag>
+                );
+              })
+            ) : (
+              <Tag
+                className={style.tag}
+                color={grandMenu.length ? grandMenu[grandMenu.length - 1].color : undefined}
+                style={{
+                  border: themeMode === 'dark' ? 'none' : undefined,
+                }}
+              >
+                {grandMenu.length ? grandMenu[grandMenu.length - 1].title : undefined}
+              </Tag>
+            )}
           </div>
         </Tooltip>
       </div>

@@ -186,7 +186,11 @@ export const getBreadcrumbList: (
   list?: BreadCrumbObj[]
 ) => BreadCrumbObj[] = (menus, id, icons, list = []) => {
   const blog = getSideMenuItem(menus, id) as SideMenuItem;
-  list.unshift({ title: blog.title, icon: blog.icon ? getAntdIcon(blog.icon as string, icons) : undefined });
+  list.unshift({
+    title: blog.title,
+    icon: blog.icon ? getAntdIcon(blog.icon as string, icons) : undefined,
+    color: blog.color as string,
+  });
   if (blog.belongingMenu) {
     return getBreadcrumbList(menus, blog.belongingMenu, icons, list);
   }

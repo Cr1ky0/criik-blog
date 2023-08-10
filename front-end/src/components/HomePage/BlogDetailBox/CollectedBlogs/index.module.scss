@@ -1,10 +1,7 @@
 @import "@/assets/css/index.scss";
 
 .wrapper {
-  //display: flex;
-  //justify-content: flex-start;
-  //flex-direction: column;
-
+  
   .blogTitle {
     margin: 0 20px;
     display: flex;
@@ -15,7 +12,8 @@
     line-height: 50px;
     border-bottom: 1px solid rgba(0, 0, 0, .1);
     font: {
-      size: 20px;
+      size: 18px;
+      family: $FONT_FAMILY_TITLE;
     }
 
     > span:last-child {

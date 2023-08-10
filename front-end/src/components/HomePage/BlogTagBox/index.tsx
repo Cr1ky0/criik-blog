@@ -42,7 +42,7 @@ const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
   const limit = width > BREAK_POINT ? 200 : 100;
   const [str] = useState(getLimitString(limit, children));
   return (
-    <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark-2' : 'light'}`}>
+    <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark-2' : style.light}`}>
       <div className={style.titleWrapper}>
         <div
           className={style.title}

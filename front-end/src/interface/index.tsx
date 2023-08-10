@@ -251,6 +251,7 @@ export type noticeObj = {
 export interface BreadCrumbObj {
   icon?: React.ReactNode;
   title: string;
+  color?: string;
 }
 
 /*********** Classification **********/

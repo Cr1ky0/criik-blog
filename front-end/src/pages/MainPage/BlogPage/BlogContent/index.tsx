@@ -150,7 +150,10 @@ const BlogContent = () => {
               />
             </div>
             <div className={style.info}>
-              <div className={style.title}>{curBlog.title}</div>
+              <div className={style.title}>
+                <span className="iconfont">&#xe627;</span>
+                {curBlog.title}
+              </div>
               <div className={style.blogInfo}>
                 {curBlog.id ? (
                   <BlogInfo
