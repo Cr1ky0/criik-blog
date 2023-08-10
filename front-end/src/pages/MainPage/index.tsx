@@ -5,6 +5,8 @@ import { Outlet } from 'react-router';
 import { Layout } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 
+const { Content } = Layout;
+
 // css
 import style from './index.module.scss';
 
@@ -12,15 +14,14 @@ import style from './index.module.scss';
 import TopHeader from '@/components/TopHeader';
 import ProgressBar from '@/components/ProgressBar';
 import BackToTopBtn from '@/components/Universal/BackToTopBtn';
-
-const { Content } = Layout;
+import LoginForm from '@/components/TopHeader/LoginForm';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setEmoji } from '@/redux/slices/emoji';
 import { setMenuList } from '@/redux/slices/blogMenu';
 import { setMyBlogsNum } from '@/redux/slices/blog';
-import LoginForm from '@/components/TopHeader/LoginForm';
+import { setLoginFormOpen } from '@/redux/slices/universal';
 
 const MainPage = () => {
   const dispatch = useAppDispatch();
@@ -33,6 +34,7 @@ const MainPage = () => {
     dispatch(setMenuList());
     // 获取我的博客数
     dispatch(setMyBlogsNum());
+    dispatch(setLoginFormOpen(false));
   }, []);
   return (
     <Layout>
@@ -47,9 +49,6 @@ const MainPage = () => {
       >
         <ProgressBar></ProgressBar>
       </div>
-
-      {/* 如果是主页就取消Header，因为所有滚动都是在内部wrapper内，而不是body，背景调放在wrapper内才能有滚动 */}
-      {/*{chosenList[0] ? undefined : <Header className={style.backWhite}></Header>}*/}
       <Header className={style.backWhite}></Header>
       <Layout>
         <Content>

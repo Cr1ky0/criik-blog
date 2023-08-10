@@ -15,6 +15,36 @@ import {
 // antd
 import type { DataNode } from 'antd/es/tree';
 
+// 生成英文->花体的字典
+// export const generateDictOfChar = (str: string) => {
+//   let uppercase = '';
+//   for (let i = 65; i <= 90; i++) {
+//     uppercase += String.fromCharCode(i);
+//   }
+//
+//   // 生成小写字母 a-z 的字符串字典
+//   let lowercase = '';
+//   for (let i = 97; i <= 122; i++) {
+//     lowercase += String.fromCharCode(i);
+//   }
+//   const chars = uppercase + lowercase;
+//   const mapping = new Map();
+//   for (let i = 0; i < chars.length; i += 1) {
+//     console.log();
+//     mapping.set(chars[i], str[i]);
+//   }
+//   return mapping;
+// };
+//
+// 根据英文生成对应的花体英文
+// export const getMappingChar = (str: string) => {
+//   let cursive = '';
+//   for (let i = 0; i < str.length; i += 1) {
+//     cursive += CHAR_MAP.get(str[i]);
+//   }
+//   return cursive;
+// };
+
 // 节流
 export const trottle = (fn: any, delay: number) => {
   let valid = true;

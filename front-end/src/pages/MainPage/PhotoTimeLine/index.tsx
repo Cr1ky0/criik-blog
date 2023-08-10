@@ -64,9 +64,7 @@ const TimeLine = () => {
                   <ClockCircleOutlined style={{ fontSize: '14px' }} />
                 </div>
               ),
-              children: (
-                <div className={`${style.year} ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}>{year2}</div>
-              ),
+              children: <div className={style.year}>{year2}</div>,
             });
           }
         }
@@ -94,11 +92,7 @@ const TimeLine = () => {
             <ClockCircleOutlined style={{ fontSize: '14px' }} />
           </div>
         ),
-        children: (
-          <div className={`${style.year} ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}>
-            {moment(timeline[0].photoTime).format('YYYY')}
-          </div>
-        ),
+        children: <div className={style.year}>{moment(timeline[0].photoTime).format('YYYY')}</div>,
       });
       return list;
     }
@@ -197,7 +191,7 @@ const TimeLine = () => {
           )}
         </div>
         <div className={photoLoad ? style.load : style.loadHide}>
-          <Spin indicator={<LoadingOutlined style={{ fontSize: 70 }} spin />} />
+          <Spin indicator={<LoadingOutlined style={{ fontSize: 30 }} spin />} />
         </div>
       </div>
       <Footer></Footer>

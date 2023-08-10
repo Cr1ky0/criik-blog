@@ -16,14 +16,12 @@ import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setChosenList } from '@/redux/slices/chosenList';
+import { setIsLoading } from '@/redux/slices/progressbar';
 
 // comp
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
 import BlogDetailBox from '@/components/HomePage/BlogDetailBox';
 import Footer from '@/components/Footer';
-
-// util
-import { setIsLoading } from '@/redux/slices/progressbar';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -73,7 +71,7 @@ const HomePage = () => {
         >
           <div className={style.homeTagWrapper}>
             <div className={style.homeTagIcon} style={{ backgroundImage: `url(${img2})` }}></div>
-            <div className={style.homeTag}>Criiky0</div>
+            <div className={style.homeTag}>𝓒𝓻𝓲𝓲𝓴𝔂𝓞</div>
             <div>Always Be Yourself and Never Compromise to the Life</div>
           </div>
         </div>

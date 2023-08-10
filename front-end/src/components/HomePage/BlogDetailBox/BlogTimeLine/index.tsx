@@ -44,9 +44,7 @@ const BlogTimeLine = () => {
                   <ClockCircleOutlined style={{ fontSize: '14px' }} />
                 </div>
               ),
-              children: (
-                <div className={`${style.year} ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}>{year2}</div>
-              ),
+              children: <div className={style.year}>{year2}</div>,
             });
           }
         }
@@ -70,12 +68,8 @@ const BlogTimeLine = () => {
               // click
               onClick={handleClick}
             >
-              <span className={`${style.time} ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}>
-                {moment(item.publishAt).format('M/DD')}
-              </span>
-              <span className={`${style.title} ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}>
-                {item.title}
-              </span>
+              <span className={style.time}>{moment(item.publishAt).format('M/DD')}</span>
+              <span className={style.title}>{item.title}</span>
             </div>
           ),
           color: 'gray',
@@ -87,11 +81,7 @@ const BlogTimeLine = () => {
             <ClockCircleOutlined style={{ fontSize: '14px' }} />
           </div>
         ),
-        children: (
-          <div className={`${style.year} ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}>
-            {moment(timeline[0].publishAt).format('YYYY')}
-          </div>
-        ),
+        children: <div className={style.year}>{moment(timeline[0].publishAt).format('YYYY')}</div>,
       });
       return list;
     }

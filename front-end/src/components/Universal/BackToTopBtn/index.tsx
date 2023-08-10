@@ -36,13 +36,15 @@ const BackToTopBtn = () => {
           setTimeout(() => {
             // 逻辑处理
             // 总滚动大小 = 总滚动高度 - 视图大小
-            const current = thisRef.current as HTMLDivElement;
-            if (document.documentElement.scrollTop !== 0) {
-              current.style.visibility = 'visible';
-              current.style.opacity = '1';
-            } else {
-              current.style.visibility = 'hidden';
-              current.style.opacity = '0';
+            const current = thisRef.current;
+            if (current) {
+              if (document.documentElement.scrollTop !== 0) {
+                current.style.visibility = 'visible';
+                current.style.opacity = '1';
+              } else {
+                current.style.visibility = 'hidden';
+                current.style.opacity = '0';
+              }
             }
             setScrollTop(document.documentElement.scrollTop);
             setScrollHeight(document.documentElement.scrollHeight - window.innerHeight);

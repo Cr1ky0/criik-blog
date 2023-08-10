@@ -1,95 +1,132 @@
 @import "@/assets/css/index.scss";
 
-@mixin universal() {
-  .wrapper {
-    @include unSelectable;
+.wrapper {
+  background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
 
+  .leftWrapper, .rightWrapper {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+  }
+
+  .leftWrapper {
+    > div {
+      > span {
+        display: block;
+        float: left;
+      }
+    }
+  }
+
+  .rightWrapper {
     > div {
       cursor: pointer;
-      float: left;
-      padding: 3px;
 
-    }
-
-    .author {
-      transition: all 0.3s;
-
-      &:hover {
-        color: $THEME_COLOR;
+      > span {
+        display: block;
+        float: left;
       }
     }
-
-
-    .like {
-      float: right;
-      margin-right: 5px;
-    }
-
-    .collection {
-      float: right;
-    }
-
   }
 }
 
-@media (max-width: $BREAK_POINT) {
-  @include universal;
-  .wrapper {
-    font: {
-      size: 12px;
-    }
+.dark {
+  @include trans();
+  color: $FONT_COLOR_DARK;
+}
 
+.light {
+  @include trans();
+  color: #666;
+}
+
+
+@media (width > $BREAK_POINT) {
+  .leftWrapper {
     > div {
+      font-size: 16px;
+      line-height: 18px;
+      padding: 0 3px;
+
       > span {
-        font-size: 13px;
-      }
-    }
-
-    .classification {
-      padding: {
-        left: 2px;
-        right: 0;
-        bottom: 0;
-        top: 0;
-      }
-
-      .tag {
         height: 18px;
         line-height: 18px;
-        font-size: 13px;
+        font-size: 14px;
+        padding-right: 5px;
       }
     }
 
-    .like {
-      float: right;
-      margin-right: 5px;
+    .time {
+      > span {
+        font-size: 16px;
+      }
+    }
+  }
+
+
+  .rightWrapper {
+    > div {
+      > span {
+        padding: 0 2px;
+        height: 18px;
+        line-height: 18px;
+      }
+
+      > span:first-child {
+        font-size: 16px;
+      }
     }
 
     .collection {
-      float: right;
+      > span:last-child {
+        font-size: 13px;
+      }
     }
   }
 }
 
-@media (min-width: $BREAK_POINT) {
-  @include universal;
-  .wrapper {
-    font: {
-      size: 18px;
-    }
-
+@media (width <= $BREAK_POINT) {
+  .leftWrapper {
     > div {
+      font-size: 12px;
+      line-height: 14px;
+      padding: 0 2px;
+
       > span {
-        font-size: 18px;
-        margin-right: 6px;
+        height: 14px;
+        line-height: 14px;
+        font-size: 12px;
+        padding-right: 2px;
       }
     }
 
-    .classification {
-      .tag {
-        height: 20px;
-        line-height: 20px;
-        font-size: 14px;
+    .time {
+      > span {
+        font-size: 13px;
+      }
+    }
+  }
+
+
+  .rightWrapper {
+    > div {
+      > span {
+        padding: 0 2px;
+        height: 14px;
+        line-height: 14px;
+      }
+
+      > span:first-child {
+        font-size: 13px;
+      }
+    }
+
+    .collection {
+      > span:last-child {
+        font-size: 12px;
       }
     }
   }

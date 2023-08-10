@@ -70,85 +70,89 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
   };
 
   return (
-    <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark-font' : 'light-font'}`}>
-      <Tooltip title="作者信息" trigger="hover" placement="bottom">
-        <div>
-          <span className="iconfont">&#xe72e;</span>
-          <span className={style.author}>{author}</span>
-        </div>
-      </Tooltip>
-      <Tooltip title="发布时间" trigger="hover" placement="bottom">
-        <div className={style.time}>
-          <span className="iconfont">&#xe632;</span>
-          {time}
-        </div>
-      </Tooltip>
-      <Tooltip title="浏览量" trigger="hover" placement="bottom">
-        <div className={style.views}>
-          <span className="iconfont">&#xe66c;</span>
-          {views}
-        </div>
-      </Tooltip>
-      <Tooltip title="分类标签" trigger="hover" placement="bottom">
-        <div className={style.classification}>
-          <span className="iconfont">&#xe623;</span>
-          <Tag
-            className={style.tag}
-            color={item ? item.color : undefined}
-            ref={tagRef}
-            style={{
-              border: themeMode === 'dark' ? 'none' : undefined,
-            }}
-          >
-            {item ? item.title : undefined}
-          </Tag>
-        </div>
-      </Tooltip>
-      {/* 收藏标志 */}
-      {isLiked(likeList, id) ? (
-        <div
-          className={style.like}
-          onClick={() => {
-            handleLike('decrease');
-          }}
-        >
-          <span className="iconfont" style={{ color: '#FF0000' }}>
-            &#xeca2;
-          </span>
-          <span>{likesNum}</span>
-        </div>
-      ) : (
-        <div
-          className={style.like}
-          onClick={() => {
-            handleLike('add');
-          }}
-        >
-          <span className="iconfont">&#xeca1;</span>
-          <span>{likesNum}</span>
-        </div>
-      )}
-      {/* User在才能点赞 */}
-      {user ? (
-        <Tooltip title="收藏" trigger="hover" placement="bottom">
-          <div className={style.collection} onClick={handleCollect}>
-            {/* 收藏标志 */}
-            {collected ? (
-              <>
-                <span className="iconfont" style={{ color: 'gold' }}>
-                  &#xe86a;
-                </span>
-                <span>已收藏</span>
-              </>
-            ) : (
-              <>
-                <span className="iconfont">&#xe7df;</span>
-                <span>收藏</span>
-              </>
-            )}
+    <div className={`${style.wrapper} ${themeMode === 'dark' ? style.dark : style.light}`}>
+      <div className={style.leftWrapper}>
+        <Tooltip title="作者信息" trigger="hover" placement="bottom">
+          <div>
+            <span className="iconfont">&#xe72e;</span>
+            {author}
           </div>
         </Tooltip>
-      ) : undefined}
+        <Tooltip title="发布时间" trigger="hover" placement="bottom">
+          <div className={style.time}>
+            <span className="iconfont">&#xe632;</span>
+            {time}
+          </div>
+        </Tooltip>
+        <Tooltip title="浏览量" trigger="hover" placement="bottom">
+          <div className={style.views}>
+            <span className="iconfont">&#xe66c;</span>
+            {views}
+          </div>
+        </Tooltip>
+        <Tooltip title="分类标签" trigger="hover" placement="bottom">
+          <div className={style.classification}>
+            <span className="iconfont">&#xe623;</span>
+            <Tag
+              className={style.tag}
+              color={item ? item.color : undefined}
+              ref={tagRef}
+              style={{
+                border: themeMode === 'dark' ? 'none' : undefined,
+              }}
+            >
+              {item ? item.title : undefined}
+            </Tag>
+          </div>
+        </Tooltip>
+      </div>
+      <div className={style.rightWrapper}>
+        {/* 收藏标志 */}
+        {isLiked(likeList, id) ? (
+          <div
+            className={style.like}
+            onClick={() => {
+              handleLike('decrease');
+            }}
+          >
+            <span className="iconfont" style={{ color: '#FF0000' }}>
+              &#xeca2;
+            </span>
+            <span>{likesNum}</span>
+          </div>
+        ) : (
+          <div
+            className={style.like}
+            onClick={() => {
+              handleLike('add');
+            }}
+          >
+            <span className="iconfont">&#xeca1;</span>
+            <span>{likesNum}</span>
+          </div>
+        )}
+        {/* User在才能点赞 */}
+        {user ? (
+          <Tooltip title="收藏" trigger="hover" placement="bottom">
+            <div className={style.collection} onClick={handleCollect}>
+              {/* 收藏标志 */}
+              {collected ? (
+                <>
+                  <span className="iconfont" style={{ color: 'gold' }}>
+                    &#xe86a;
+                  </span>
+                  <span>已收藏</span>
+                </>
+              ) : (
+                <>
+                  <span className="iconfont">&#xe7df;</span>
+                  <span>收藏</span>
+                </>
+              )}
+            </div>
+          </Tooltip>
+        ) : undefined}
+      </div>
     </div>
   );
 };

@@ -1,17 +1,26 @@
 @import '@/assets/css/index.scss';
 
+
 .leftNav {
   min-width: 150px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+
+  &:hover {
+    .leftNavInfo {
+      color: $THEME_COLOR;
+    }
+  }
+
   // 图片
   .leftNavIcon {
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     margin: {
       left: 20px;
+      right: 10px;
     }
     border: {
       radius: 50%;
@@ -28,7 +37,7 @@
     text-align: center;
     font: {
       size: 22px;
-      weight: bolder;
+      weight: 500;
     }
   }
 }

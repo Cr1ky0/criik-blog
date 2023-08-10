@@ -69,12 +69,12 @@ const StarBlog = () => {
                       now.classList.add(style.optionsOnChosen);
                       const last = document.getElementById(`blog-stars-btn-${chosen}`) as HTMLElement;
                       last.classList.remove(style.optionsOnChosen);
-                      dispatch(setChosen(index));
                       // 跳转
                       setTimeout(() => {
-                        navigate(`/stars?filter=${index}&page=${1}`);
+                        dispatch(setChosen(index));
                         setCurPage(1);
                         setIsLoading(false);
+                        navigate(`/stars?filter=${index}&page=${1}`);
                       }, 500);
                     }
                   }

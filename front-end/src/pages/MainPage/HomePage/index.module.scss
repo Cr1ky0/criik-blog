@@ -20,19 +20,19 @@
         flex-direction: column;
         align-items: center;
         font: {
-          family: cursive;
+          family: $FONT_FAMILY_TITLE;
         }
 
         .homeTag {
           margin: 10px 0;
           font: {
-            size: 2.5vw;
+            size: 2.2vw;
             weight: bolder;
           }
         }
 
         > div:last-child {
-          font-size: 2vw;
+          font-size: 1.8vw;
         }
       }
 
@@ -50,7 +50,7 @@
 
       .content {
         margin: 0 20px;
-        width: 900px;
+        width: 800px;
 
         .paginate {
           animation: showAnime .7s;

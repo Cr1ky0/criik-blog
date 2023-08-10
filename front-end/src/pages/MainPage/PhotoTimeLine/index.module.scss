@@ -5,11 +5,6 @@
   .wrapper {
     overflow: hidden;
 
-    * {
-      transition-delay: 0s !important;
-      transition-duration: .3s !important;
-    }
-
     > div:not(:last-child) {
       margin: 40px auto;
     }

@@ -1,12 +1,12 @@
 @import "@/assets/css/index.scss";
 
+.dark {
+  color: $FONT_COLOR_DARK
+}
+
 .wrapper {
   padding: 10px 10px;
-
-  * {
-    transition-delay: 0s !important;
-    transition-duration: .3s !important;
-  }
+  overflow-x: hidden;
 
   .year {
     font: {
@@ -20,11 +20,13 @@
     height: 7px;
     background: rgba(0, 0, 0, .3);
     border-radius: 50%;
-    transition: background-color .5s;
   }
 
   .itemWrapper {
+    display: flex;
+    justify-content: flex-start;
     cursor: pointer;
+    width: 100%;
 
     &:hover {
       > span {
@@ -35,10 +37,17 @@
 
     .time {
       margin-right: 10px;
+      display: flex;
     }
 
     .title {
+      width: 80%;
       font-size: 16px;
+      display: block;
+      float: left;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
   }
 }

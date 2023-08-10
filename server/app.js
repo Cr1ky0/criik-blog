@@ -108,7 +108,7 @@ app.use(
       ttl: 10 * 60,
     }),
     cookie: {
-      secure: process.env.NODE_ENV === 'production', // 注意这里表示仅HTTPS传输，如果开发环境不是HTTPS这里设为false
+      secure: false, // 注意这里表示仅HTTPS传输，如果开发环境不是HTTPS这里设为false
       httpOnly: true,
       path: '/api/users',
       maxAge: 1000 * 60 * 10,

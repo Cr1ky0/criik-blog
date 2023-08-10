@@ -19,6 +19,7 @@ $LINE_COLOR: rgba(0, 0, 0, 0.2);
 
       .title {
         @include animationBar();
+        font-family: $FONT_FAMILY_TITLE;
         cursor: pointer;
         // 限制单行加...
         word-break: break-all;
@@ -40,6 +41,8 @@ $LINE_COLOR: rgba(0, 0, 0, 0.2);
     .text {
       word-break: break-all;
       overflow: hidden;
+      cursor: default;
+      font-family: $FONT_FAMILY_CONTENT;
     }
 
     .line {
@@ -67,12 +70,13 @@ $LINE_COLOR: rgba(0, 0, 0, 0.2);
     }
 
     .title {
-      font-size: 18px;
+      font-size: 16px;
+      line-height: 16px;
     }
   }
   .text {
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 12px;
+    line-height: 16px;
     padding: {
       top: 0;
       left: 5px;
@@ -85,16 +89,17 @@ $LINE_COLOR: rgba(0, 0, 0, 0.2);
 @media (min-width: $BREAK_POINT) {
   @include universal;
   .titleWrapper {
-    padding: 5px;
+    padding: 0 5px;
 
     .title {
-      font-size: 24px;
+      font-size: 21px;
+      line-height: 21px;
     }
   }
 
   .text {
     padding: 5px;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 24px;
   }
 }

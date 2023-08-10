@@ -118,7 +118,7 @@ $fontColor: rgba(0, 0, 0, .8);
   .markdown-body {
     line-height: 30px;
     font: {
-      family: Bitter, "Noto Serif SC", SimSun, Times New Roman, Times, serif, Segoe UI Emoji, Segoe UI Symbol, Apple Color Emoji, "Noto Serif CJK SC";
+      family: $FONT_FAMILY_RENDER;
     };
 
     pre {

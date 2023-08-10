@@ -11,9 +11,6 @@ import Classification from '@/components/HomePage/BlogDetailBox/Classification';
 import BlogTimeLine from '@/components/HomePage/BlogDetailBox/BlogTimeLine';
 import CollectedBlogs from '@/components/HomePage/BlogDetailBox/CollectedBlogs';
 
-// global
-import { THEME_COLOR } from '@/global';
-
 // redux
 import { useAppSelector } from '@/redux';
 

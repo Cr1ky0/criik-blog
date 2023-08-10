@@ -24,6 +24,11 @@
 }
 
 /***************** antd *******************/
+// TIMELINE
+.ant-timeline-item-head {
+  @include trans();
+}
+
 // Menu
 .ant-menu-submenu-title, .ant-menu-item {
   height: 33px !important;

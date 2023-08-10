@@ -26,7 +26,6 @@ interface ReactMarkdownWrapperProps {
   children: string;
 }
 
-// TODO:其他字号修改（序号等）
 const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) => {
   const themeMode = useAppSelector(state => state.universal.themeMode);
 

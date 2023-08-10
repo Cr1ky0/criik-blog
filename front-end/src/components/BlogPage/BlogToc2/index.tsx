@@ -38,8 +38,10 @@ const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
   const [tocList, setTocList] = useState<any>();
 
   useEffect(() => {
-    const tocs = generateAnchorItems(getTitleList(text));
-    setTocList(tocs);
+    if (text) {
+      const tocs = generateAnchorItems(getTitleList(text));
+      setTocList(tocs);
+    }
   }, [text]);
 
   return (

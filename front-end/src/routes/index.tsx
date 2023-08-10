@@ -96,10 +96,10 @@ const router: Routes[] = [
           },
         ],
       },
-      {
-        path: 'test',
-        element: lazy(() => import('@/pages/MainPage/TestPage')),
-      },
+      // {
+      //   path: 'test',
+      //   element: lazy(() => import('@/pages/MainPage/TestPage')),
+      // },
     ],
   },
   {

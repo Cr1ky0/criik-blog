@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 // css
@@ -6,6 +6,7 @@ import style from './index.module.scss';
 
 // comp
 import BlogInfo from '@/components/Universal/BlogInfo';
+import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 
 // util
 import { getLimitString } from '@/utils';
@@ -30,7 +31,6 @@ export interface BlogTagBoxProps {
   statistic: BlogTagBoxStatistic;
 }
 
-// TODO:修改内容以及ES内容
 // 主页的BlogBox组件
 const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
   const { children, title, statistic, blogId } = props;
@@ -39,7 +39,8 @@ const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
   const { width } = useViewport();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const limit = width > BREAK_POINT ? 400 : 200;
+  const limit = width > BREAK_POINT ? 200 : 100;
+  const [str] = useState(getLimitString(limit, children));
   return (
     <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark-2' : 'light'}`}>
       <div className={style.titleWrapper}>
@@ -55,7 +56,7 @@ const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
         </div>
         <div className={`${style.pin} iconfont`}>&#xe637;</div>
       </div>
-      <div className={style.text}>{getLimitString(limit, children)}</div>
+      <div className={style.text}>{str}</div>
       <div className={style.line}></div>
       <div className={`${style.statistics} clearfix`}>
         <BlogInfo statistics={{ author, time, views, belongingMenu, id, isCollected, likes }}></BlogInfo>
