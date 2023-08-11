@@ -21,6 +21,7 @@ import { UserObj } from '@/interface';
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setTimeLine } from '@/redux/slices/blog';
+import { useNavigate } from 'react-router';
 
 // interface
 export interface IntroductionBoxProps {
@@ -31,10 +32,11 @@ export interface IntroductionBoxProps {
 const IntroductionBox: React.FC<IntroductionBoxProps> = props => {
   const { isMobile, styles } = props;
   const message = useGlobalMessage();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const blogsNum = useAppSelector(state => state.blog.blogsNum);
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const themeMode = useAppSelector(state => state.universal.themeMode);
-  const dispatch = useAppDispatch();
   const [user, setUser] = useState({} as UserObj);
   const [avatar, setAvatar] = useState(useAvatar());
   // cookie
@@ -80,11 +82,19 @@ const IntroductionBox: React.FC<IntroductionBoxProps> = props => {
         <div className={style.signature}>{user.brief ? getLimitString(limit, user.brief) : undefined}</div>
       </div>
       <div className={style.blogInfo}>
-        <div>
+        <div
+          onClick={() => {
+            navigate('/blog');
+          }}
+        >
           <div>{getClassificationInfo(menus).length}</div>
           <div>分类</div>
         </div>
-        <div>
+        <div
+          onClick={() => {
+            navigate('/blog');
+          }}
+        >
           <div>{blogsNum}</div>
           <div>文章</div>
         </div>

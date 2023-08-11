@@ -55,7 +55,7 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
     const grand = getBreadcrumbList(menus, id, icons);
     grand.pop();
     setGrandMenu(grand);
-  }, []);
+  }, [menus]);
 
   // 收藏
   const handleCollect = () => {

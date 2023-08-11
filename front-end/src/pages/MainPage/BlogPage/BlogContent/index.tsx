@@ -7,6 +7,8 @@ import Cookies from 'universal-cookie';
 import BlogInfo from '@/components/Universal/BlogInfo';
 import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 import Comment from '@/components/Comment';
+import Footer from '@/components/Footer';
+import NextPage from '@/components/BlogPage/NextPage';
 
 // antd
 import { Breadcrumb } from 'antd';
@@ -32,7 +34,6 @@ import { deleteBlogAjax, getCurBlog, updateBlogViewAjax } from '@/api/blog';
 
 // interface
 import { SideMenuItem, BlogObj } from '@/interface';
-import Footer from '@/components/Footer';
 
 const BlogContent = () => {
   const icons = useIcons();
@@ -139,9 +140,10 @@ const BlogContent = () => {
                     ? breadcrumbList.map(item => {
                         return {
                           title: (
-                            <>
-                              {item.icon} {item.title}
-                            </>
+                            <div>
+                              <span className={style.crumbIcon}>{item.icon}</span>{' '}
+                              <span className={style.crumbTitle}>{item.title}</span>
+                            </div>
                           ),
                         };
                       })
@@ -220,6 +222,7 @@ const BlogContent = () => {
                 </div>
               ) : undefined}
             </div>
+            <NextPage></NextPage>
             <div className={style.comment}>
               <Comment></Comment>
             </div>
@@ -230,5 +233,4 @@ const BlogContent = () => {
     </>
   );
 };
-
 export default BlogContent;

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
 
 // antd
 import { Pagination } from 'antd';
@@ -17,6 +18,7 @@ import { setChosen } from '@/redux/slices/blog';
 
 // api
 import { getCollectedBlogsNum } from '@/api/blog';
+import { setStarBlogPage } from '@/redux/slices/universal';
 
 const choseList = ['收藏', '最多点赞', '最多浏览'];
 const StarBlog = () => {
@@ -24,7 +26,7 @@ const StarBlog = () => {
   const navigate = useNavigate();
   const chosen = useAppSelector(state => state.blog.chosen);
   const blogsNum = useAppSelector(state => state.blog.blogsNum);
-  const [curPage, setCurPage] = useState(1);
+  const curPage = useAppSelector(state => state.universal.starBlogPage);
   const [collectNum, setCollectNum] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   // 可操作标志
@@ -44,6 +46,13 @@ const StarBlog = () => {
     if (chosen === 0) {
       getCollectedBlogsNum().then(res => setCollectNum(res));
     }
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   }, []);
 
   return (
@@ -72,9 +81,9 @@ const StarBlog = () => {
                       // 跳转
                       setTimeout(() => {
                         dispatch(setChosen(index));
-                        setCurPage(1);
+                        dispatch(setStarBlogPage(1));
                         setIsLoading(false);
-                        navigate(`/stars?filter=${index}&page=${1}`);
+                        navigate(`/stars?filter=${index}`);
                       }, 500);
                     }
                   }
@@ -107,9 +116,9 @@ const StarBlog = () => {
             setIsLoading(true);
             setTimer(
               setTimeout(() => {
-                setCurPage(page);
+                dispatch(setStarBlogPage(page));
                 // 点击跳转
-                navigate(`?filter=${chosen}page=${page}`);
+                navigate(`?filter=${chosen}`);
                 setIsLoading(false);
               }, 500)
             );

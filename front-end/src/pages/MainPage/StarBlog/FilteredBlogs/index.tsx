@@ -21,16 +21,16 @@ const FilteredBlogs = () => {
   const message = useGlobalMessage();
   // params参数
   const [searchParams] = useSearchParams();
+  const page = useAppSelector(state => state.universal.starBlogPage);
   const chosen = useAppSelector(state => state.blog.chosen);
   const filter = searchParams.get('filter') ? searchParams.get('filter') : chosen;
   const option = parseInt(filter as string);
-  const page = searchParams.get('page') ? searchParams.get('page') : '1';
   const [blogs, setBlogs] = useState([] as BlogObj[]);
   // 请求参数
   const options = [
-    { page: page as string, limit: '10', fields: '', sort: '', options: 'isCollected=true' },
-    { page: page as string, limit: '10', fields: '', sort: '-likes' },
-    { page: page as string, limit: '10', fields: '', sort: '-views' },
+    { page: String(page), limit: '10', fields: '', sort: '', options: 'isCollected=true' },
+    { page: String(page), limit: '10', fields: '', sort: '-likes' },
+    { page: String(page), limit: '10', fields: '', sort: '-views' },
   ];
   useEffect(() => {
     getSelfBlogsOfCertain(options[option]).then(
@@ -46,7 +46,7 @@ const FilteredBlogs = () => {
         message.error(err.message);
       }
     );
-  }, [filter]);
+  }, [filter, page]);
   return <ShowBlogTagList blogs={blogs}></ShowBlogTagList>;
 };
 export default FilteredBlogs;

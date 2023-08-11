@@ -9,7 +9,7 @@ import BlogInfo from '@/components/Universal/BlogInfo';
 import ReactMarkdownRender from '@/components/ReactMarkdownRender';
 
 // util
-import { getLimitString } from '@/utils';
+import { filterMarkdown, getLimitString } from '@/utils';
 
 // interface
 import { BlogTagBoxStatistic } from '@/interface';
@@ -40,7 +40,7 @@ const BlogTagBox: React.FC<BlogTagBoxProps> = props => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const limit = width > BREAK_POINT ? 200 : 100;
-  const [str] = useState(getLimitString(limit, children));
+  const [str] = useState(getLimitString(limit, filterMarkdown(children)));
   return (
     <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark-2' : style.light}`}>
       <div className={style.titleWrapper}>

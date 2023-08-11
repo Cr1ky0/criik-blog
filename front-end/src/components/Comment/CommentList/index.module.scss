@@ -43,7 +43,12 @@
       width: 80%;
       margin: 30px auto;
       background-color: rgba(0, 0, 0, .03);
+    }
 
+    .noComments {
+      width: 100%;
+      padding: 50px;
+      text-align: center;
     }
   }
 
@@ -51,5 +56,17 @@
     display: flex;
     justify-content: center;
     padding-top: 5vh;
+  }
+}
+
+@media (width> $BREAK_POINT) {
+  .noComments {
+    font-size: 18px;
+  }
+}
+
+@media (width<=$BREAK_POINT) {
+  .noComments {
+    font-size: 14px;
   }
 }

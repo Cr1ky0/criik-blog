@@ -249,6 +249,7 @@ export type noticeObj = {
 
 /********* BlogPage *********/
 export interface BreadCrumbObj {
+  menu_id: string;
   icon?: React.ReactNode;
   title: string;
   color?: string;

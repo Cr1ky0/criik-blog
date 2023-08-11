@@ -104,16 +104,18 @@ const CommentList = () => {
             />
           </div>
           <div className={style.comments}>
-            {comments.length
-              ? comments.map(comment => {
-                  return (
-                    <div key={comment.id}>
-                      <SingleComment info={comment} />
-                      <ReplyList comment={comment}></ReplyList>
-                    </div>
-                  );
-                })
-              : undefined}
+            {comments.length ? (
+              comments.map(comment => {
+                return (
+                  <div key={comment.id}>
+                    <SingleComment info={comment} />
+                    <ReplyList comment={comment}></ReplyList>
+                  </div>
+                );
+              })
+            ) : (
+              <div className={style.noComments}>快来发评论吧~</div>
+            )}
           </div>
           <div className={style.paginate}>
             <Pagination current={curPage} defaultPageSize={5} total={length} onChange={onChange} />

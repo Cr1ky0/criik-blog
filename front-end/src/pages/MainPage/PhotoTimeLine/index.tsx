@@ -99,6 +99,13 @@ const TimeLine = () => {
     return [];
   };
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
+
   // 滚动事件
   useEffect(() => {
     // 防抖

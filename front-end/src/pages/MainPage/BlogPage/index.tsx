@@ -41,6 +41,13 @@ const BlogPage = () => {
     });
   }, [selectedId]);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
+
   // 导航按钮变色
   useEffect(() => {
     dispatch(setChosenList([false, true, false, false]));

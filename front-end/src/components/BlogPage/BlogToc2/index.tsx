@@ -50,7 +50,7 @@ const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
         <span>此页内容 </span>
         <span className="iconfont">&#xe640;</span>
       </div>
-      <>
+      {tocList && tocList.length ? (
         <Anchor
           offsetTop={50}
           items={tocList}
@@ -63,7 +63,9 @@ const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
             });
           }}
         ></Anchor>
-      </>
+      ) : (
+        <div>No Content</div>
+      )}
     </div>
   );
 };

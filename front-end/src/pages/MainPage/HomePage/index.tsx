@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Outlet, useNavigate } from 'react-router';
 
 // antd
@@ -27,11 +28,13 @@ const HomePage = () => {
   const navigate = useNavigate();
   const { width } = useViewport();
   const dispatch = useAppDispatch();
+  const [search] = useSearchParams();
   const [loading, setLoading] = useState(false);
-  const [curPage, setCurPage] = useState(1);
+  const [curPage, setCurPage] = useState(search.get('page') ? parseInt(search.get('page') as string) : 1);
   const totalNum = useAppSelector(state => state.blog.blogsNum);
-  const homePhotoWrapper = useRef<HTMLDivElement>(null);
   const themeMode = useAppSelector(state => state.universal.themeMode);
+  const homePhotoWrapper = useRef<HTMLDivElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
 
   // Mobile Menu Open State
   const [open, setOpen] = useState(false);
@@ -61,6 +64,13 @@ const HomePage = () => {
     }, 50);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
+
   return (
     <>
       <div className={`${style.wrapper} clearfix  show-anime-delay-1s ${themeMode === 'dark' ? 'dark' : ''}`}>
@@ -75,9 +85,9 @@ const HomePage = () => {
             <div>Always Be Yourself and Never Compromise to the Life</div>
           </div>
         </div>
-        <div className={style.main}>
-          <div className={style.content}>
-            <div className={`${style.blogList} ${loading ? 'hideAnime' : 'showAnime'}`}>
+        <div className={`${style.main} clearfix`} ref={divRef}>
+          <div className={`${style.content}  ${loading ? 'hideAnime' : 'showAnime'}`}>
+            <div className={style.blogList}>
               <Outlet />
             </div>
             <div className={style.paginate}>
@@ -88,6 +98,8 @@ const HomePage = () => {
                 current={curPage}
                 total={totalNum}
                 onChange={page => {
+                  // const div = divRef.current as HTMLDivElement;
+                  // div.style.minHeight = window.getComputedStyle(div).height;
                   window.scrollTo({
                     top: parseInt(window.getComputedStyle(homePhotoWrapper.current as HTMLDivElement).height),
                     behavior: 'smooth',

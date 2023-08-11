@@ -13,6 +13,8 @@
 * 游客支持点赞和评论(有敏感词过滤)。
 * 已适配移动端
 
+![](https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/preview.png)
+
 # Sever 端
 
 1. express实际上整体是以链式结构进行的，调用 next 实际是调用下一个中间件，每一个中间件都处于链条中的一环，是有先后顺序的

@@ -1,0 +1,150 @@
+@import "@/assets/css/index.scss";
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+
+  > div {
+    width: 45%;
+    box-sizing: content-box;
+
+    > div:last-child {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: $THEME_COLOR;
+    }
+
+
+  }
+
+  .last {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .next {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    cursor: pointer;
+
+    > div:last-child {
+      display: flex;
+      justify-content: flex-end;
+      text-align: end;
+
+      > span {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        height: 18px;
+        line-height: 18px;
+      }
+    }
+  }
+}
+
+
+.dark {
+  > div {
+    @include trans();
+    border: 1px solid rgba(255, 255, 255, .05);
+
+    &:hover {
+      background-color: rgba(0, 0, 0, .2);
+    }
+
+    > div:first-child {
+      color: $FONT_COLOR_DARK;
+    }
+  }
+}
+
+.light {
+
+  > div {
+    @include trans();
+    border: 1px solid rgba(0, 0, 0, .05);
+
+    &:hover {
+      background-color: rgba(0, 0, 0, .05);
+    }
+
+    > div:first-child {
+      color: rgba(0, 0, 0, .4)
+    }
+  }
+}
+
+@media (width > $BREAK_POINT) {
+  .wrapper {
+    > div {
+      height: 50px;
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+
+      > div {
+        padding: 5px 0;
+      }
+
+      > div:first-child {
+        font-size: 14px;
+      }
+
+      > div:last-child {
+        width: 50%;
+        font: {
+          size: 17px;
+        }
+      }
+    }
+
+    .next {
+      > span {
+        height: 18px;
+        line-height: 18px;
+      }
+    }
+  }
+}
+
+
+@media (width < $BREAK_POINT) {
+  .wrapper {
+
+    > div {
+      height: 40px;
+      padding: 8px;
+      margin: 5px;
+      border-radius: 5px;
+
+      > div {
+        padding: 3px 0;
+      }
+
+      > div:first-child {
+        font-size: 12px;
+      }
+
+      > div:last-child {
+        width: 80%;
+        font: {
+          size: 14px;
+        }
+      }
+    }
+
+    .next {
+      > span {
+        height: 15px;
+        line-height: 14px;
+      }
+    }
+  }
+}
+

@@ -33,6 +33,7 @@
           padding: 10px 0;
 
           > span {
+            @include unSelectable;
             color: $THEME_COLOR;
             padding-right: 10px;
           }
@@ -110,18 +111,20 @@
     .breadCrumb {
       padding: 20px 0;
 
-      li {
-        font-size: 16px;
-
-        svg {
-          height: 15px;
-          width: 15px;
+      .crumbIcon {
+        > span {
+          font-size: 14px !important;
         }
+      }
+
+      .crumbTitle {
+        font-size: 14px;
       }
     }
 
+
     .info {
-      padding-bottom: 20px;
+      padding-bottom: 30px;
     }
 
     .title {
@@ -141,25 +144,26 @@
   .main {
     width: 100%;
 
-    .blog {
-      padding: 0 2vw;
+    .breadCrumb {
+      padding: 10px 0;
 
-      .breadCrumb {
-        padding: 10px 0;
-
-        li {
-          font-size: 12px;
-
-          svg {
-            height: 12px;
-            width: 12px;
-          }
+      .crumbIcon {
+        > span {
+          font-size: 12px !important;
         }
       }
 
+      .crumbTitle {
+        font-size: 12px;
+      }
+    }
+
+    .blog {
+      padding: 0 2vw;
+
       .info {
         padding: {
-          bottom: 2vh;
+          bottom: 20px;
         }
 
         .title {

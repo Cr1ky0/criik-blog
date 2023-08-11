@@ -124,7 +124,7 @@ $FONT_FAMILY_RENDER: Bitter, "Noto Serif SC", SimSun, Times New Roman, Times, se
 
 .show-anime-delay-1s {
   opacity: 0;
-  animation: showAnime 1s 1s;
+  animation: showAnime .7s .7s;
   @include animeMixin;
 }
 
@@ -136,7 +136,7 @@ $FONT_FAMILY_RENDER: Bitter, "Noto Serif SC", SimSun, Times New Roman, Times, se
 
 .hideAnime {
   opacity: 1;
-  animation: hideAnime .5s;
+  animation: hideAnime .3s;
   @include animeMixin;
 }
 
@@ -161,7 +161,6 @@ $FONT_FAMILY_RENDER: Bitter, "Noto Serif SC", SimSun, Times New Roman, Times, se
   to {
     opacity: 0;
     transform: translateY(100px);
-    display: none;
   }
 }
 

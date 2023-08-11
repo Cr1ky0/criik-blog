@@ -105,7 +105,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
                     if (page === 'blog') {
                       navigate(`/blog`);
                     }
-                  }, 1050);
+                  }, 950);
                 }
                 if (closeMenu) closeMenu();
               }

@@ -15,35 +15,30 @@ import {
 // antd
 import type { DataNode } from 'antd/es/tree';
 
-// 生成英文->花体的字典
-// export const generateDictOfChar = (str: string) => {
-//   let uppercase = '';
-//   for (let i = 65; i <= 90; i++) {
-//     uppercase += String.fromCharCode(i);
-//   }
-//
-//   // 生成小写字母 a-z 的字符串字典
-//   let lowercase = '';
-//   for (let i = 97; i <= 122; i++) {
-//     lowercase += String.fromCharCode(i);
-//   }
-//   const chars = uppercase + lowercase;
-//   const mapping = new Map();
-//   for (let i = 0; i < chars.length; i += 1) {
-//     console.log();
-//     mapping.set(chars[i], str[i]);
-//   }
-//   return mapping;
-// };
-//
-// 根据英文生成对应的花体英文
-// export const getMappingChar = (str: string) => {
-//   let cursive = '';
-//   for (let i = 0; i < str.length; i += 1) {
-//     cursive += CHAR_MAP.get(str[i]);
-//   }
-//   return cursive;
-// };
+// 过滤掉所有Markdown字符
+export const filterMarkdown = (str: string) => {
+  // Step 1: 移除HTML标签及其内容
+  let result = str.replace(/<[^>]*>.*?<\/[^>]*>/g, '');
+
+  // Step 2: 移除Markdown修饰符
+  result = result
+    // 移除链接 [text](url)
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    // 移除图片 ![alt](url)
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '$1')
+    // 移除粗体、斜体等
+    .replace(/[*_]{1,2}([^*_]+)[*_]{1,2}/g, '$1')
+    // 代码块修饰符去除
+    .replace(/(```|~~~)([\s\S]*?)\1/g, '$2')
+    // 移除标题标识符
+    .replace(/^#+\s+/gm, '')
+    // 移除列表标识符
+    .replace(/^[-*+]\s+/gm, '')
+    // 移除引用块
+    .replace(/^>\s+/gm, '');
+
+  return result;
+};
 
 // 节流
 export const trottle = (fn: any, delay: number) => {
@@ -67,55 +62,6 @@ export const getColorRgb = (primaryColor: string) => {
   return color.map(item => {
     return Number(item.replace('rgb(', '').replace(')', ''));
   });
-};
-
-export const getColorHsl = (hslColor: string) => {
-  const color = hslColor.split(',');
-  return color.map(item => {
-    return item.replace('hsl(', '').replace(')', '');
-  });
-};
-
-export const rgbToHsl = (rgbColor: string) => {
-  const rgbArray = rgbColor.match(/\d+/g)!.map(Number);
-  const r = rgbArray[0] / 255;
-  const g = rgbArray[1] / 255;
-  const b = rgbArray[2] / 255;
-
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-
-  let h, s, l;
-
-  if (max === min) {
-    h = 0;
-  } else if (max === r) {
-    h = 60 * (0 + (g - b) / (max - min));
-  } else if (max === g) {
-    h = 60 * (2 + (b - r) / (max - min));
-  } else {
-    h = 60 * (4 + (r - g) / (max - min));
-  }
-
-  if (h < 0) {
-    h += 360;
-  }
-
-  l = (max + min) / 2;
-
-  if (max === min) {
-    s = 0;
-  } else if (l <= 0.5) {
-    s = (max - min) / (2 * l);
-  } else {
-    s = (max - min) / (2 - 2 * l);
-  }
-
-  h = Math.round(h);
-  s = Math.round(s * 100);
-  l = Math.round(l * 100);
-
-  return `hsl(${h}, ${s}%, ${l}%)`;
 };
 
 // Preview
@@ -185,16 +131,19 @@ export const getBreadcrumbList: (
   icons: AntdIcon[],
   list?: BreadCrumbObj[]
 ) => BreadCrumbObj[] = (menus, id, icons, list = []) => {
-  const blog = getSideMenuItem(menus, id) as SideMenuItem;
-  list.unshift({
-    title: blog.title,
-    icon: blog.icon ? getAntdIcon(blog.icon as string, icons) : undefined,
-    color: blog.color as string,
-  });
-  if (blog.belongingMenu) {
-    return getBreadcrumbList(menus, blog.belongingMenu, icons, list);
-  }
-  return list;
+  const blogOrMenu = getSideMenuItem(menus, id) as SideMenuItem;
+  if (blogOrMenu) {
+    list.unshift({
+      title: blogOrMenu.title,
+      icon: blogOrMenu.icon ? getAntdIcon(blogOrMenu.icon as string, icons) : undefined,
+      color: blogOrMenu.color as string,
+      menu_id: blogOrMenu.id,
+    });
+    if (blogOrMenu.belongingMenu) {
+      return getBreadcrumbList(menus, blogOrMenu.belongingMenu, icons, list);
+    }
+    return list;
+  } else return [];
 };
 
 // 从SideMenuList内获取一个blog key
@@ -455,17 +404,3 @@ export const getTreeSelectList: (menus: SideMenuItem[], icons: AntdIcon[], onlyP
     );
   });
 };
-
-// 设置开关滚动条
-// export const setBodyScroll = () => {
-//   if (!isNoScroll()) {
-//     document.body.style.overflow = 'hidden';
-//     // 解决抖动
-//     document.body.style.paddingRight = '0.5vw';
-//     (document.getElementById('top-header') as HTMLElement).style.paddingRight = '0.5vw';
-//   } else {
-//     document.body.style.overflow = 'auto';
-//     document.body.style.paddingRight = '0';
-//     (document.getElementById('top-header') as HTMLElement).style.paddingRight = '0';
-//   }
-// };

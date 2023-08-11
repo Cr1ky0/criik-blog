@@ -41,24 +41,14 @@
     .main {
       display: flex;
       justify-content: center;
-      min-height: 100vh;
 
       > div {
-        min-height: 100vh;
         padding: 5vh 0;
       }
 
       .content {
         margin: 0 20px;
         width: 800px;
-
-        .paginate {
-          animation: showAnime .7s;
-        }
-
-        .blogList {
-          min-height: 100vh;
-        }
 
         .paginate {
           display: flex;

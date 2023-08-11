@@ -1,6 +1,7 @@
 @import "@/assets/css/index.scss";
 
 .wrapper {
+  @include unSelectable;
   background-color: transparent;
   display: flex;
   justify-content: space-between;
@@ -21,7 +22,7 @@
     }
 
     .tag {
-      font-weight: 500;
+      font-weight: 600;
     }
   }
 
