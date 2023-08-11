@@ -62,7 +62,6 @@
       border: 1px solid;
       width: 100%;
       box-sizing: border-box;
-      padding: 5px;
       margin: {
         top: -2px;
       }
@@ -106,8 +105,19 @@
     }
 
     .emoji {
-      > span {
-        font-size: 32px;
+
+    }
+
+    .funcBar {
+      padding: 5px;
+      margin: {
+        top: -2px;
+      }
+
+      .emoji {
+        > span {
+          font-size: 32px;
+        }
       }
     }
   }
@@ -130,9 +140,13 @@
       min-height: 100px;
     }
 
-    .emoji {
-      > span {
-        font-size: 25px;
+    .funcBar {
+      padding: 1px;
+
+      .emoji {
+        > span {
+          font-size: 25px;
+        }
       }
     }
   }
