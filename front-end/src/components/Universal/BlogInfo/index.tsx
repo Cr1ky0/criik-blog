@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Cookies from 'universal-cookie';
 
 // css
 import style from './index.module.scss';
@@ -17,7 +18,7 @@ import { addLikeList, removeLikeList } from '@/redux/slices/blog';
 import { getBreadcrumbList } from '@/utils';
 
 // api
-import { updateLikesOfBlogAjax } from '@/api/blog';
+import { updateLikesOfBlogAjax, updateCollectOfBlogAjax } from '@/api/blog';
 
 // provider
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
@@ -27,13 +28,14 @@ import { BREAK_POINT } from '@/global';
 
 interface BlogInfoProps {
   statistics: BlogTagBoxStatistic;
+  showCollect?: boolean;
 }
 
 const isLiked = (likeList: string[], id: string) => {
   return likeList.some(likeId => likeId === id);
 };
-
-const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
+const BlogInfo: React.FC<BlogInfoProps> = ({ statistics, showCollect }) => {
+  const { author, time, views, id, isCollected, likes } = statistics;
   const { width } = useViewport();
   const message = useGlobalMessage();
   const menus = useAppSelector(state => state.blogMenu.menuList);
@@ -42,13 +44,12 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
   // 点赞状态（游客也可以点赞，用redux管理（与评论类似））
   const likeList = useAppSelector(state => state.blog.likeList);
   const dispatch = useAppDispatch();
-  const { author, time, views, id, isCollected, likes } = statistics;
   // 收藏状态
   const [collected, setCollected] = useState(isCollected);
   const [likesNum, setLikesNum] = useState(likes);
   const [grandMenu, setGrandMenu] = useState<BreadCrumbObj[]>([]);
-  // const cookies = new Cookies();
-  // const user = cookies.get('user');
+  const cookies = new Cookies();
+  const user = cookies.get('user');
 
   useEffect(() => {
     const grand = getBreadcrumbList(menus, id, icons);
@@ -56,17 +57,21 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
     setGrandMenu(grand);
   }, [menus]);
 
+  useEffect(() => {
+    setCollected(isCollected);
+  }, [isCollected]);
+
   // 收藏
-  // const handleCollect = () => {
-  //   updateCollectOfBlogAjax(id, !collected).then(
-  //     response => {
-  //       setCollected(response.data.updatedBlog.isCollected);
-  //     },
-  //     err => {
-  //       message.error(err);
-  //     }
-  //   );
-  // };
+  const handleCollect = () => {
+    updateCollectOfBlogAjax(id, !collected).then(
+      response => {
+        setCollected(response.data.updatedBlog.isCollected);
+      },
+      err => {
+        message.error(err);
+      }
+    );
+  };
 
   const handleLike = (state: 'add' | 'decrease') => {
     const isAdd = state === 'add';
@@ -161,26 +166,26 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics }) => {
           </div>
         )}
         {/* User在才能收藏 */}
-        {/*{user ? (*/}
-        {/*  <Tooltip title="收藏" trigger="hover" placement="bottom">*/}
-        {/*    <div className={style.collection} onClick={handleCollect}>*/}
-        {/*      /!* 收藏标志 *!/*/}
-        {/*      {collected ? (*/}
-        {/*        <>*/}
-        {/*          <span className="iconfont" style={{ color: 'gold' }}>*/}
-        {/*            &#xe86a;*/}
-        {/*          </span>*/}
-        {/*          <span>已收藏</span>*/}
-        {/*        </>*/}
-        {/*      ) : (*/}
-        {/*        <>*/}
-        {/*          <span className="iconfont">&#xe7df;</span>*/}
-        {/*          <span>收藏</span>*/}
-        {/*        </>*/}
-        {/*      )}*/}
-        {/*    </div>*/}
-        {/*  </Tooltip>*/}
-        {/*) : undefined}*/}
+        {user && showCollect ? (
+          <Tooltip title="收藏" trigger="hover" placement="bottom">
+            <div className={style.collection} onClick={handleCollect}>
+              {/* 收藏标志 */}
+              {collected ? (
+                <>
+                  <span className="iconfont" style={{ color: 'gold' }}>
+                    &#xe86a;
+                  </span>
+                  <span>已收藏</span>
+                </>
+              ) : (
+                <>
+                  <span className="iconfont">&#xe7df;</span>
+                  <span>收藏</span>
+                </>
+              )}
+            </div>
+          </Tooltip>
+        ) : undefined}
       </div>
     </div>
   );

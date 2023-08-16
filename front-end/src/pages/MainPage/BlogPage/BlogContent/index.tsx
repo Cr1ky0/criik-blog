@@ -168,6 +168,7 @@ const BlogContent = () => {
                       belongingMenu: curBlog.belongingMenu,
                       isCollected: curBlog.isCollected as boolean,
                     }}
+                    showCollect
                   ></BlogInfo>
                 ) : undefined}
               </div>
@@ -177,8 +178,8 @@ const BlogContent = () => {
                 <ReactMarkdownRender>{curBlog.contents as string}</ReactMarkdownRender>
               </div>
               {/* 博客编辑选项 */}
-              {user ? (
-                <div className={style.blogEdit}>
+              <div className={style.blogEdit}>
+                {user ? (
                   <div>
                     <div
                       onClick={() => {
@@ -211,16 +212,19 @@ const BlogContent = () => {
                       <span>删除博客</span>
                     </div>
                   </div>
+                ) : undefined}
+                <div>
                   <div>
-                    <div>
-                      上次编辑于：<span>{moment(curBlog.updateAt).format('YYYY-MM-DD HH:mm:ss')}</span>
-                    </div>
-                    <div>
-                      贡献者：<span>{curBlog.author}</span>
-                    </div>
+                    上次编辑于：<span>{moment(curBlog.updateAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                  </div>
+                  <div>
+                    贡献者：<span>{curBlog.author}</span>
                   </div>
                 </div>
-              ) : undefined}
+              </div>
+            </div>
+            <div className={style.partLine}>
+              <div></div>
             </div>
             <NextPage></NextPage>
             <div className={style.comment}>

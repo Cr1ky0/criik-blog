@@ -23,6 +23,7 @@ import { setMenuList } from '@/redux/slices/blogMenu';
 import { setMyBlogsNum } from '@/redux/slices/blog';
 import { setLoginFormOpen } from '@/redux/slices/universal';
 
+// TODO:后续可以做一个类似笔记的功能，选中的文本可以做标记等等
 const MainPage = () => {
   const dispatch = useAppDispatch();
   const themeMode = useAppSelector(state => state.universal.themeMode);

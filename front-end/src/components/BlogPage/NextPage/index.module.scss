@@ -1,11 +1,11 @@
 @import "@/assets/css/index.scss";
 
 .wrapper {
+  width: 100%;
   display: flex;
   justify-content: center;
 
   > div {
-    width: 45%;
     box-sizing: content-box;
 
     > div:last-child {
@@ -83,6 +83,7 @@
 @media (width > $BREAK_POINT) {
   .wrapper {
     > div {
+      width: 42%;
       height: 50px;
       padding: 10px;
       margin: 5px;
@@ -114,10 +115,11 @@
 }
 
 
-@media (width < $BREAK_POINT) {
+@media (width <= $BREAK_POINT) {
   .wrapper {
 
     > div {
+      width: 40%;
       height: 40px;
       padding: 8px;
       margin: 5px;

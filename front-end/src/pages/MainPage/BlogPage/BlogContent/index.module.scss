@@ -43,12 +43,11 @@
 
       .blogEdit {
         padding: 40px 0;
-        display: flex;
-        justify-content: space-between;
 
         // 左边编辑和删除
         > div:first-child {
           color: $THEME_COLOR;
+          float: left;
 
           > div {
             cursor: pointer;
@@ -75,6 +74,7 @@
         // 右边信息
         > div:last-child {
           color: #526e89;
+          float: right;
 
           > div {
             text-align: end;
@@ -87,6 +87,18 @@
               color: $FONT_COLOR;
             }
           }
+        }
+      }
+
+      .partLine {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        > div {
+          background-color: rgba(0, 0, 0, .02);
+          width: 100%;
+          height: 1px;
         }
       }
 
@@ -135,6 +147,11 @@
       }
     }
 
+    .partLine {
+      > div {
+        margin: 40px 0;
+      }
+    }
   }
 
 }
@@ -175,6 +192,12 @@
         }
       }
 
+    }
+
+    .partLine {
+      > div {
+        margin: 15px 0;
+      }
     }
   }
 }

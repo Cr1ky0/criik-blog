@@ -8,17 +8,18 @@
   background-color: #FFF;
   margin: 0 5px;
   border-radius: 100%;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   perspective: 800px;
 
   > div {
     cursor: pointer;
     position: absolute;
-    left: -1px;
+    top: -0.5px;
+    left: -0.5px;
     transition: transform 0.3s .1s;
     font: {
-      size: 31px;
+      size: 30px;
     }
 
     &:hover {

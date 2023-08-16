@@ -35,9 +35,9 @@ const RightNav = () => {
   // handle log out
   const handleLogout = useCallback(async () => {
     // await可以让按钮进入加载状态
-    await message.loadingSuccessAsync('登出中...', '成功退出登录！');
     cookies.remove('user');
     cookies.remove('token');
+    await message.loadingSuccessAsync('登出中...', '成功退出登录！');
     navigate(0);
   }, []);
 

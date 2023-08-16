@@ -82,8 +82,6 @@ const BlogPage = () => {
     }
   }, [jumpFlag]);
 
-  // TODO:初次加载bug
-
   return (
     <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark' : 'light'}`}>
       <div className={`${style.sider} showAnime`}>

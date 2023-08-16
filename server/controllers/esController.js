@@ -114,9 +114,9 @@ exports.searchDoc = catchAsync(async (req, res) => {
       let substr = '';
       if (contentResult) {
         // 只取包括自身的前10位和后10位
-        substr = truncateString(blog.content, contentResult, 12, 24);
+        substr = truncateString(blog.content, contentResult, 10, 20);
       } else {
-        substr = blog.content.substring(0, 24);
+        substr = blog.content.substring(0, 20);
       }
       result.push({
         blog_id: blog.blog_id,
