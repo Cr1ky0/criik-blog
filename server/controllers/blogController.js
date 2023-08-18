@@ -338,3 +338,25 @@ exports.syncCommentCount = catchAsync(async (req, res) => {
     data: {},
   });
 });
+
+exports.getCollectedBlogNum = catchAsync(async (req, res) => {
+  const count = await Blog.count({ isCollected: true });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      count,
+    },
+  });
+});
+
+exports.getCollectedBlog = catchAsync(async (req, res) => {
+  const blogs = await Blog.find({ isCollected: true })
+    .select('id title')
+    .sort('-_id');
+
+  res.status(200).json({
+    status: 'success',
+    data: blogs,
+  });
+});

@@ -50,7 +50,7 @@ const replyCommentSchema = new mongoose.Schema({
   },
 });
 
-replyCommentSchema.pre(/^(find)|(populate)/, function (next) {
+replyCommentSchema.pre(/^(find)|(populate)|(count)/, function (next) {
   this.find({ active: { $ne: false } }).select('-__v');
   next();
 });

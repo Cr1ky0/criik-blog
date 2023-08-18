@@ -173,6 +173,7 @@ const blogMenuSlice = createSlice({
     },
     editBlogMenu: (state, action) => {
       const { id, title, belongingMenu } = action.payload;
+      // 修正
       state.menuList = [
         ...state.menuList.map(menu => {
           if (menu.blogs)
@@ -207,6 +208,20 @@ const blogMenuSlice = createSlice({
           return menu;
         }),
       ];
+      // 过滤
+      // state.menuList = [
+      //   ...state.menuList.filter(menu => {
+      //     if (menu.children)
+      //       menu.children.filter(child => {
+      //         if (child.children)
+      //           child.children.filter(grand => {
+      //             return grand.id !== id;
+      //           });
+      //         return child.id !== id;
+      //       });
+      //     return menu.id !== id;
+      //   }),
+      // ];
     },
   },
   extraReducers(builder) {

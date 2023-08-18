@@ -151,7 +151,7 @@ userSchema.pre('save', function (next) {
 });
 
 // 筛掉一些不发送到前端的字段
-userSchema.pre(/^find/, function (next) {
+userSchema.pre(/^(find)|(populate)|(count)/, function (next) {
   this.find({
     active: { $ne: false },
   }).select('-passwordChangedAt -__v'); // select进一步筛选

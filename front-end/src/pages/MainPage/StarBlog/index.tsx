@@ -44,7 +44,9 @@ const StarBlog = () => {
     now.classList.add(style.optionsOnChosen);
     // 如果为收藏页，获取收藏总数
     if (chosen === 0) {
-      getCollectedBlogsNum().then(res => setCollectNum(res));
+      getCollectedBlogsNum().then(res => {
+        setCollectNum(res.data.count);
+      });
     }
   }, []);
 
@@ -84,7 +86,7 @@ const StarBlog = () => {
                         dispatch(setStarBlogPage(1));
                         setIsLoading(false);
                         navigate(`/stars?filter=${index}`);
-                      }, 500);
+                      }, 550);
                     }
                   }
                 }}
@@ -120,7 +122,7 @@ const StarBlog = () => {
                 // 点击跳转
                 navigate(`?filter=${chosen}`);
                 setIsLoading(false);
-              }, 500)
+              }, 550)
             );
           }}
         />

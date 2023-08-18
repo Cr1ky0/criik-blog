@@ -70,7 +70,7 @@ menuSchema.virtual('blogs', {
   localField: '_id',
 });
 
-menuSchema.pre(/^find/, function (next) {
+menuSchema.pre(/^(find)|(populate)|(count)/, function (next) {
   this.find({ active: { $ne: false } })
     // .populate({ path: 'children' })
     // .populate('blogs', '-contents -belongTo -likes -views')

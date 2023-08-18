@@ -11,6 +11,12 @@ router.get(
   blogController.getSelfBlogs
 );
 
+// 获取总收藏数
+router.get('/getCollectedBlogNum', blogController.getCollectedBlogNum);
+
+// 获取收藏博客
+router.get('/getCollectedBlog', blogController.getCollectedBlog);
+
 // 获取指定博客
 router.get('/getBlog/:id', blogController.getBlog);
 

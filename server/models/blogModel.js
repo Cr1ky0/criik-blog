@@ -90,7 +90,7 @@ blogSchema.virtual('comments', {
 });
 
 // 中间件
-blogSchema.pre(/^(find)|(populate)/, function (next) {
+blogSchema.pre(/^(find)|(populate)|(count)/, function (next) {
   this.find({ active: { $ne: false } }).select('-__v'); // 不能添加和其他表有关联的属性
   next();
 });

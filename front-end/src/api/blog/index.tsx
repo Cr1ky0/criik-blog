@@ -73,9 +73,14 @@ export const getBlogsWithCommentsCountAjax = catchAsync(async () => {
 });
 
 export const getCollectedBlogsNum = async () => {
-  const response = await service.get('/api/blogs/getSelfBlogs?fields=id&isCollected=true');
-  return Promise.resolve(response.data.data.blogs.length);
+  const response = await service.get('/api/blogs/getCollectedBlogNum');
+  return Promise.resolve(response.data);
 };
+
+export const getCollectedBlogs = improvedCatchAsync(async () => {
+  const response = await service.get('/api/blogs/getCollectedBlog');
+  return Promise.resolve(response.data);
+});
 
 export const getSelfBlogsOfCertain = async (option: ReqOptions) => {
   const { page, fields, sort, limit, options } = option;

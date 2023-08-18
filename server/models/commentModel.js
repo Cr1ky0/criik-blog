@@ -68,7 +68,7 @@ commentSchema.pre(/^find/, function (next) {
   this.find().populate('replys');
   next();
 });
-commentSchema.pre(/^(find)|(populate)/, function (next) {
+commentSchema.pre(/^(find)|(populate)|(count)/, function (next) {
   this.find({ active: { $ne: false } }).select('-__v');
   next();
 });

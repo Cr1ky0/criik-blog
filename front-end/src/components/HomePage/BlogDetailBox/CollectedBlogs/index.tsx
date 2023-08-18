@@ -4,16 +4,13 @@ import React, { useEffect, useState } from 'react';
 import style from './index.module.scss';
 
 // api
-import { getSelfBlogsOfCertain } from '@/api/blog';
+import { getCollectedBlogs } from '@/api/blog';
 
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import { useAppDispatch } from '@/redux';
 import { setSelectedId } from '@/redux/slices/blogMenu';
 import { useNavigate } from 'react-router';
-
-// util
-import { getLimitString } from '@/utils';
 
 interface showBlogObj {
   title: string;
@@ -53,12 +50,13 @@ const ShowBlogs = () => {
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState<showBlogObj[]>([]);
   useEffect(() => {
-    getSelfBlogsOfCertain({ page: '1', limit: '10', fields: 'id,title', sort: '', options: 'isCollected=true' }).then(
+    getCollectedBlogs(
+      '',
       response => {
-        setBlogs(response.data.blogs);
+        setBlogs(response);
       },
       err => {
-        message.error(err.message);
+        message.error(err);
       }
     );
   }, []);

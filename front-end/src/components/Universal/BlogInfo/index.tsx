@@ -166,7 +166,7 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics, showCollect }) => {
           </div>
         )}
         {/* User在才能收藏 */}
-        {user && showCollect ? (
+        {(user && width >= BREAK_POINT) || (user && showCollect) ? (
           <Tooltip title="收藏" trigger="hover" placement="bottom">
             <div className={style.collection} onClick={handleCollect}>
               {/* 收藏标志 */}

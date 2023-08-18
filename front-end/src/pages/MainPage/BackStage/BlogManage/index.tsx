@@ -171,7 +171,6 @@ const BlogManage = () => {
         );
         dispatch(setIsEdit(false));
         setIsLoading(false);
-        navigate(0);
       },
       content => {
         message.error(content);

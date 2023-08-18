@@ -53,13 +53,14 @@ const BlogDetailBox: React.FC<BlogDetailBoxProps> = ({ isMobile }) => {
     // 获取收藏数
     getCollectedBlogsNum().then(
       response => {
-        setCollectNum(response);
+        setCollectNum(response.data.count);
       },
       err => {
         message.error(err.message);
       }
     );
   }, []);
+
   return (
     <div
       className={`${style.wrapper} clearfix ${isMobile ? '' : style.wrapperOnShadow} ${
