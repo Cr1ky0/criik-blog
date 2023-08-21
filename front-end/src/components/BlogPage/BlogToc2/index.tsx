@@ -52,7 +52,7 @@ const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
       </div>
       {tocList && tocList.length ? (
         <Anchor
-          offsetTop={50}
+          offsetTop={70}
           items={tocList}
           onClick={(e, link) => {
             e.preventDefault();

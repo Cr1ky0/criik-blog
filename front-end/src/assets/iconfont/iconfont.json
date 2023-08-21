@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "5634350",
+      "name": "server",
+      "font_class": "server",
+      "unicode": "f0ac",
+      "unicode_decimal": 61612
+    },
+    {
+      "icon_id": "19450273",
+      "name": "codepen",
+      "font_class": "codepen",
+      "unicode": "eac1",
+      "unicode_decimal": 60097
+    },
+    {
+      "icon_id": "11992918",
+      "name": "java",
+      "font_class": "java",
+      "unicode": "e6e0",
+      "unicode_decimal": 59104
+    },
+    {
       "icon_id": "7239805",
       "name": "login",
       "font_class": "login",

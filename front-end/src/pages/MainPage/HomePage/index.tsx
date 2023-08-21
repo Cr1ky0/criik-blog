@@ -98,10 +98,8 @@ const HomePage = () => {
                 current={curPage}
                 total={totalNum}
                 onChange={page => {
-                  // const div = divRef.current as HTMLDivElement;
-                  // div.style.minHeight = window.getComputedStyle(div).height;
                   window.scrollTo({
-                    top: parseInt(window.getComputedStyle(homePhotoWrapper.current as HTMLDivElement).height),
+                    top: parseInt(window.getComputedStyle(homePhotoWrapper.current as HTMLDivElement).height) + 0.5,
                     behavior: 'smooth',
                   });
                   setLoading(true);

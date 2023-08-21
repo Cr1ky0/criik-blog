@@ -65,24 +65,48 @@ const IconStore: React.FC<IconStoreProps> = props => {
     { name: 'Picture', icon: <PictureFilled /> },
     { name: 'Signal', icon: <SignalFilled /> },
     { name: 'Function', icon: <FunctionOutlined /> },
-    { name: 'Hdd', icon: <HddFilled /> },
     { name: 'CheckCircle', icon: <CheckCircleFilled /> },
     { name: 'CloseCircle', icon: <CloseCircleFilled /> },
     { name: 'Windows', icon: <WindowsFilled /> },
     { name: 'Apple', icon: <AppleFilled /> },
+    { name: 'Hdd', icon: <HddFilled /> },
     { name: 'Github', icon: <GithubFilled /> },
     {
       name: '前端',
       icon: (
-        <span className="iconfont" style={{ fontSize: '16px' }}>
+        <span className="iconfont" style={{ fontSize: '14px' }}>
           &#xe625;
+        </span>
+      ),
+    },
+    {
+      name: '前端2',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '16px' }}>
+          &#xeac1;
+        </span>
+      ),
+    },
+    {
+      name: 'Server',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '14px' }}>
+          &#xf0ac;
+        </span>
+      ),
+    },
+    {
+      name: 'Java',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '18px' }}>
+          &#xe6e0;
         </span>
       ),
     },
     {
       name: 'Javascript',
       icon: (
-        <span className="iconfont" style={{ fontSize: '18px' }}>
+        <span className="iconfont" style={{ fontSize: '14px' }}>
           &#xe6f7;
         </span>
       ),
@@ -90,7 +114,7 @@ const IconStore: React.FC<IconStoreProps> = props => {
     {
       name: 'Typescript',
       icon: (
-        <span className="iconfont" style={{ fontSize: '18px' }}>
+        <span className="iconfont" style={{ fontSize: '14px' }}>
           &#xecef;
         </span>
       ),
@@ -98,7 +122,7 @@ const IconStore: React.FC<IconStoreProps> = props => {
     {
       name: 'HTML5',
       icon: (
-        <span className="iconfont" style={{ fontSize: '18px' }}>
+        <span className="iconfont" style={{ fontSize: '14px' }}>
           &#xe602;
         </span>
       ),
@@ -106,7 +130,7 @@ const IconStore: React.FC<IconStoreProps> = props => {
     {
       name: 'CSS3',
       icon: (
-        <span className="iconfont" style={{ fontSize: '18px' }}>
+        <span className="iconfont" style={{ fontSize: '14px' }}>
           &#xe6a8;
         </span>
       ),
@@ -114,7 +138,7 @@ const IconStore: React.FC<IconStoreProps> = props => {
     {
       name: 'Nodejs',
       icon: (
-        <span className="iconfont" style={{ fontSize: '18px' }}>
+        <span className="iconfont" style={{ fontSize: '16px' }}>
           &#xe989;
         </span>
       ),
@@ -122,7 +146,7 @@ const IconStore: React.FC<IconStoreProps> = props => {
     {
       name: 'Git',
       icon: (
-        <span className="iconfont" style={{ fontSize: '18px' }}>
+        <span className="iconfont" style={{ fontSize: '16px' }}>
           &#xe61b;
         </span>
       ),
@@ -130,7 +154,7 @@ const IconStore: React.FC<IconStoreProps> = props => {
     {
       name: 'React',
       icon: (
-        <span className="iconfont" style={{ fontSize: '18px' }}>
+        <span className="iconfont" style={{ fontSize: '16px' }}>
           &#xec77;
         </span>
       ),
@@ -138,7 +162,7 @@ const IconStore: React.FC<IconStoreProps> = props => {
     {
       name: 'Vue',
       icon: (
-        <span className="iconfont" style={{ fontSize: '18px' }}>
+        <span className="iconfont" style={{ fontSize: '16px' }}>
           &#xe69a;
         </span>
       ),
@@ -146,7 +170,7 @@ const IconStore: React.FC<IconStoreProps> = props => {
     {
       name: 'Webpack',
       icon: (
-        <span className="iconfont" style={{ fontSize: '18px' }}>
+        <span className="iconfont" style={{ fontSize: '16px' }}>
           &#xed0b;
         </span>
       ),
@@ -154,7 +178,7 @@ const IconStore: React.FC<IconStoreProps> = props => {
     {
       name: 'MongoDB',
       icon: (
-        <span className="iconfont" style={{ fontSize: '18px' }}>
+        <span className="iconfont" style={{ fontSize: '16px' }}>
           &#xe63f;
         </span>
       ),
@@ -162,7 +186,7 @@ const IconStore: React.FC<IconStoreProps> = props => {
     {
       name: '数组',
       icon: (
-        <span className="iconfont" style={{ fontSize: '18px' }}>
+        <span className="iconfont" style={{ fontSize: '16px' }}>
           &#x11ce7;
         </span>
       ),
@@ -170,7 +194,7 @@ const IconStore: React.FC<IconStoreProps> = props => {
     {
       name: '字符串',
       icon: (
-        <span className="iconfont" style={{ fontSize: '18px' }}>
+        <span className="iconfont" style={{ fontSize: '16px' }}>
           &#xe6bd;
         </span>
       ),
@@ -178,7 +202,7 @@ const IconStore: React.FC<IconStoreProps> = props => {
     {
       name: 'ML',
       icon: (
-        <span className="iconfont" style={{ fontSize: '18px' }}>
+        <span className="iconfont" style={{ fontSize: '14px' }}>
           &#xe65f;
         </span>
       ),

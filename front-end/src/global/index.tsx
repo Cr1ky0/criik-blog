@@ -13,9 +13,11 @@ export const FONT_COLOR_LIGHT = '#2c3e50';
 
 export const FONT_COLOR_LIGHT_2 = 'rgba(0,0,0,.4)';
 
-// TODO:toc滚动
-// export const BASE_URL = 'https://www.criiky0.top';
-export const BASE_URL = 'http://localhost:3002';
+// TODO:菜单管理界面添加子菜单功能
+// TODO:菜单管理界面的单个菜单所属位置修改（修改至总分类的处理）
+// TODO:hover时间轴样式问题
+export const BASE_URL = 'https://www.criiky0.top';
+// export const BASE_URL = 'http://localhost:3002';
 export const DELAY_DISPATCH_TIME = 1050; // 延迟跳转或dispatch时间（用于selectedID）
 
 // 颜色选项

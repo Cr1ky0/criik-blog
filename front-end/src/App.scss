@@ -34,9 +34,10 @@
   height: 33px !important;
   margin: 2px !important;
 
-  > span:first-child {
-    font-size: 14px !important;
-  }
+  //> span:first-child {
+  // line-height: 33px;
+  // font-size: 14px !important;
+  //}
 }
 
 .ant-dropdown-menu-item {
