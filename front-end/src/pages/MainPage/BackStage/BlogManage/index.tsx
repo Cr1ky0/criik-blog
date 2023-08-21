@@ -47,7 +47,6 @@ const BlogManage = () => {
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const modal = useGlobalModal();
   const message = useGlobalMessage();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { width } = useViewport();
   // text info

@@ -10,14 +10,14 @@ import { CSS } from '@dnd-kit/utilities';
 
 // antd
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { Tag, Tooltip, Input, Select } from 'antd';
+import { Tag, Tooltip, Input, Select, TreeSelect } from 'antd';
 
 // css
 import style from './index.module.scss';
 
 // api
 import { changeSort, deleteMenuAjax, getSelfMenu, updateMenuAjax } from '@/api/menu';
-import { changeSortOfBlog, deleteBlogAjax, deleteBlogOfMenuAjax, getCurBlog } from '@/api/blog';
+import { changeSortOfBlog, deleteBlogAjax, deleteBlogOfMenuAjax, getCurBlog, updateBelongOfBlogAjax } from '@/api/blog';
 
 //interface
 import { SideMenuItem, BlogObj } from '@/interface';
@@ -34,7 +34,7 @@ import { setAllContent, setCurEditId, setIsEdit } from '@/redux/slices/blog';
 import { deleteMenu, setDeleteKey, setDelKind, setSelectedId } from '@/redux/slices/blogMenu';
 
 // utils
-import { filterLT, getAntdIcon, getOneBlogId, getSideMenuItem } from '@/utils';
+import { filterLT, getAntdIcon, getOneBlogId, getSideMenuItem, getTreeSelectList } from '@/utils';
 
 // global
 import { colorChoseList } from '@/global';
@@ -54,6 +54,8 @@ interface BlogType {
   key: string;
   title: string;
   sort: number;
+  menuTitle: string;
+  menuIcon: string;
 }
 
 interface MenuRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
@@ -77,19 +79,25 @@ const generateMenuData = (data: SideMenuItem) => {
   } as MenuType;
 };
 
-const generateBlogData = (data: BlogObj) => {
-  return { key: data.id, title: data.title, sort: data.sort } as BlogType;
+const generateBlogData = (data: BlogObj, menuIcon: string, menuTitle: string) => {
+  return { key: data.id, title: data.title, sort: data.sort, menuIcon, menuTitle } as BlogType;
 };
 
 // 单个博客行
 const BlogRow: React.FC<BlogRowProps> = ({ data }) => {
-  const { key, title, sort } = data;
+  const { key, title, sort, menuTitle: mt, menuIcon: mi } = data;
   const navigate = useNavigate();
   const modal = useGlobalModal();
   const message = useGlobalMessage();
   const dispatch = useAppDispatch();
+  const icons = useIcons();
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const themeMode = useAppSelector(state => state.universal.themeMode);
+  const [menuIcon, setMenuIcon] = useState(mi);
+  const [menuTitle, setMenuTitle] = useState(mt);
+  const [antdMenus, setAntdMenus] = useState(getTreeSelectList(menus, icons, true));
+  // flag
+  const [showEdit, setShowEdit] = useState(false);
 
   // dnd
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -149,6 +157,10 @@ const BlogRow: React.FC<BlogRowProps> = ({ data }) => {
     );
   };
 
+  useEffect(() => {
+    setAntdMenus(getTreeSelectList(menus, icons, true));
+  }, [menus]);
+
   // main
   return (
     <tr
@@ -160,6 +172,47 @@ const BlogRow: React.FC<BlogRowProps> = ({ data }) => {
     >
       <td></td>
       <td>{title}</td>
+      <td>
+        {showEdit ? (
+          <TreeSelect
+            autoFocus
+            treeIcon
+            style={{ width: '100%' }}
+            placeholder="请选择分类"
+            treeLine={true}
+            treeData={antdMenus}
+            value={menuTitle}
+            onChange={id => {
+              updateBelongOfBlogAjax(key, id)
+                .then(res => {
+                  message.success('修改成功，刷新后重置菜单！');
+                  const menu = getSideMenuItem(menus, res.data.updatedBlog.belongingMenu) as SideMenuItem;
+                  setMenuIcon(menu.icon!);
+                  setMenuTitle(menu.title);
+                })
+                .catch(err => {
+                  message.error(err.data.message);
+                });
+            }}
+            onBlur={() => {
+              setShowEdit(false);
+            }}
+          />
+        ) : (
+          <>
+            {getAntdIcon(menuIcon, icons)}&nbsp;&nbsp;
+            {menuTitle}&nbsp;
+            <span
+              className={`${style.editBtn} iconfont`}
+              onClick={() => {
+                setShowEdit(true);
+              }}
+            >
+              &#xe601;
+            </span>
+          </>
+        )}
+      </td>
       <td>{sort || 0}</td>
       <td className={style.actionBtn}>
         <Tooltip title="删除" placement="top">
@@ -220,7 +273,7 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
   );
   const [blogData, setBlogData] = useState<BlogType[]>(
     blogs.map((blog: BlogObj) => {
-      return generateBlogData(blog);
+      return generateBlogData(blog, icon, title);
     })
   );
 
@@ -573,13 +626,14 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
                   <thead>
                     <tr className={`${style.head} ${themeMode === 'dark' ? style.thDark : style.thLight}`}>
                       <th></th>
-                      <th colSpan={3} style={{ textAlign: 'center' }}>
+                      <th colSpan={4} style={{ textAlign: 'center' }}>
                         博客列表
                       </th>
                     </tr>
                     <tr className={`${style.head} ${themeMode === 'dark' ? style.thDark : style.thLight}`}>
                       <th></th>
                       <th>博客标题</th>
+                      <th>所属菜单</th>
                       <th>排序值</th>
                       <th>操作</th>
                     </tr>

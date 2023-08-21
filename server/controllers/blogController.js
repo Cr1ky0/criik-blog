@@ -360,3 +360,31 @@ exports.getCollectedBlog = catchAsync(async (req, res) => {
     data: blogs,
   });
 });
+
+exports.updateBelongMenu = catchAsync(async (req, res) => {
+  const filteredBody = filterObj(req.body, 'belongingMenu', 'updateAt');
+  const { belongingMenu } = req.body;
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    req.params.id,
+    filteredBody,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  // 更新es doc
+  await client.update({
+    index: 'blogs',
+    id: updatedBlog.es_doc_id,
+    body: {
+      doc: { belong_menu_id: belongingMenu },
+    },
+  });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      updatedBlog,
+    },
+  });
+});

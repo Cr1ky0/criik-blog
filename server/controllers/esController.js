@@ -140,7 +140,7 @@ exports.searchDoc = catchAsync(async (req, res) => {
     Menu.findById(menu).then((data) => {
       final.push({
         menu_title: data.title,
-        blogs: result.filter((blog) => blog.belong_menu_id === menu),
+        blogs: result.filter((blog) => blog.belong_menu_id === menu).reverse(),
       });
     })
   );

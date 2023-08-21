@@ -50,15 +50,11 @@ router.patch('/syncCommentCount', blogController.syncCommentCount);
 // 更新收藏状态
 router.patch('/updateCollectOfBlog/:id', blogController.updateCollectOfBlog);
 
+// 更新博客所属菜单
+router.patch('/updateBelongOfBlog/:id', blogController.updateBelongMenu);
+
 // 删除对应menu下的blogs（单层）
 router.delete('/delBlogsOfMenu/:blogId', blogController.deleteBlogOfMenu);
-
-router.route('/').post(blogController.addBlog); // 新建博客
-
-router
-  .route('/:id')
-  .patch(blogController.updateBlog) // 更新博客
-  .delete(blogController.deleteBlog); // 删除博客
 
 // 获取有评论的博客
 router.get('/getBlogsWithComments', blogController.getBlogWithComments);
@@ -68,5 +64,12 @@ router.get(
   '/getBlogsWithCommentsCount',
   blogController.getBlogWithCommentsCount
 );
+
+router.route('/').post(blogController.addBlog); // 新建博客
+
+router
+  .route('/:id')
+  .patch(blogController.updateBlog) // 更新博客
+  .delete(blogController.deleteBlog); // 删除博客
 
 module.exports = router;

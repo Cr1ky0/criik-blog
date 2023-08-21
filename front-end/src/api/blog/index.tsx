@@ -45,6 +45,10 @@ export const updateLikesOfBlogAjax = async (id: string, likes: number) => {
   return Promise.resolve(response.data);
 };
 
+export const updateBelongOfBlogAjax = async (id: string, belongingMenu: string) => {
+  const response = await service.patch(`/api/blogs/updateBelongOfBlog/${id}`, { belongingMenu });
+  return Promise.resolve(response.data);
+};
 export const plusCommentCountAjax = async (id: string) => {
   const response = await service.patch(`/api/blogs/plusCommentCount/${id}`);
   return Promise.resolve(response.data);
