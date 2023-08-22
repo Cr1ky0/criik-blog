@@ -362,8 +362,21 @@ exports.getCollectedBlog = catchAsync(async (req, res) => {
 });
 
 exports.updateBelongMenu = catchAsync(async (req, res) => {
-  const filteredBody = filterObj(req.body, 'belongingMenu', 'updateAt');
+  const filteredBody = filterObj(req.body, 'belongingMenu');
   const { belongingMenu } = req.body;
+
+  const last = await Blog.findById(req.params.id);
+  // change sort
+  if (last.belongingMenu !== belongingMenu) {
+    const belong = await Menu.findById(belongingMenu).populate({
+      path: 'blogs',
+      select: '_id',
+    });
+    last.sort = belong.blogs.length;
+    last.save();
+  }
+
+  // update
   const updatedBlog = await Blog.findByIdAndUpdate(
     req.params.id,
     filteredBody,
@@ -372,6 +385,7 @@ exports.updateBelongMenu = catchAsync(async (req, res) => {
       runValidators: true,
     }
   );
+
   // 更新es doc
   await client.update({
     index: 'blogs',

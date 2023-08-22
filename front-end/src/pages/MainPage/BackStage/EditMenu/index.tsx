@@ -10,17 +10,25 @@ import { CSS } from '@dnd-kit/utilities';
 
 // antd
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { Tag, Tooltip, Input, Select, TreeSelect } from 'antd';
+import { Tag, Tooltip, Input, Select, TreeSelect, Modal, Button } from 'antd';
 
 // css
 import style from './index.module.scss';
 
 // api
-import { changeSort, deleteMenuAjax, getSelfMenu, updateMenuAjax } from '@/api/menu';
+import {
+  addMenuAjax,
+  changeSort,
+  deleteMenuAjax,
+  getMenuAjax,
+  getSelfMenu,
+  updateBelong,
+  updateMenuAjax,
+} from '@/api/menu';
 import { changeSortOfBlog, deleteBlogAjax, deleteBlogOfMenuAjax, getCurBlog, updateBelongOfBlogAjax } from '@/api/blog';
 
 //interface
-import { SideMenuItem, BlogObj } from '@/interface';
+import { SideMenuItem, BlogObj, TreeSelectItem } from '@/interface';
 
 // provider
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
@@ -34,7 +42,15 @@ import { setAllContent, setCurEditId, setIsEdit } from '@/redux/slices/blog';
 import { deleteMenu, setDeleteKey, setDelKind, setSelectedId } from '@/redux/slices/blogMenu';
 
 // utils
-import { filterLT, getAntdIcon, getOneBlogId, getSideMenuItem, getTreeSelectList } from '@/utils';
+import {
+  filterLT,
+  getAntdIcon,
+  getAntdMenus,
+  getEditBelongMenuTree,
+  getOneBlogId,
+  getSideMenuItem,
+  getTreeSelectList,
+} from '@/utils';
 
 // global
 import { colorChoseList } from '@/global';
@@ -60,6 +76,9 @@ interface BlogType {
 
 interface MenuRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
   data: MenuType;
+  parentIcon?: string;
+  parentTitle?: string;
+  parentId?: string;
 }
 
 interface BlogRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
@@ -95,7 +114,7 @@ const BlogRow: React.FC<BlogRowProps> = ({ data }) => {
   const themeMode = useAppSelector(state => state.universal.themeMode);
   const [menuIcon, setMenuIcon] = useState(mi);
   const [menuTitle, setMenuTitle] = useState(mt);
-  const [antdMenus, setAntdMenus] = useState(getTreeSelectList(menus, icons, true));
+  const antdMenus = getTreeSelectList(menus, icons, true);
   // flag
   const [showEdit, setShowEdit] = useState(false);
 
@@ -156,10 +175,6 @@ const BlogRow: React.FC<BlogRowProps> = ({ data }) => {
       }
     );
   };
-
-  useEffect(() => {
-    setAntdMenus(getTreeSelectList(menus, icons, true));
-  }, [menus]);
 
   // main
   return (
@@ -255,27 +270,50 @@ const BlogRow: React.FC<BlogRowProps> = ({ data }) => {
 };
 
 // 单个菜单行
-const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
+const MenuRow: React.FC<MenuRowProps> = ({ data, parentTitle, parentId, parentIcon }) => {
   const icons = useIcons();
   const msg = useGlobalMessage();
   const modal = useGlobalModal();
-  const { key, title, grade, color, sort, icon, child, blogs } = data;
+  const { key, title, grade, color, icon, child, blogs } = data;
   const dispatch = useAppDispatch();
   const deleteKey = useAppSelector(state => state.blogMenu.deleteKey);
   const delKind = useAppSelector(state => state.blogMenu.delKind);
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const themeMode = useAppSelector(state => state.universal.themeMode);
+  const [pTitle, setPTitle] = useState(parentTitle);
+  const [pIcon, setPIcon] = useState(parentIcon);
+  const [pId, setPId] = useState(parentId);
   const [menuData, setMenuData] = useState<MenuType[]>(
     child.map(item => {
       return generateMenuData(item);
-    })
+    }) || []
   );
   const [blogData, setBlogData] = useState<BlogType[]>(
     blogs.map((blog: BlogObj) => {
       return generateBlogData(blog, icon, title);
-    })
+    }) || []
   );
+
+  // 选择图标的下拉菜单列表
+  const selectIconList = useState(
+    icons.map(icon => ({
+      value: icon.name,
+      label: (
+        <>
+          {icon.icon} {icon.name}
+        </>
+      ),
+    })) || []
+  );
+
+  // 建立子菜单的选择颜色、icon和菜单标题
+  const [selectIcon, setSelectIcon] = useState<string>();
+  const [selectColor, setSelectColor] = useState<string>();
+  const [createTitle, setCreateTitle] = useState<string>();
+
+  // 展开添加子菜单Modal
+  const [showAddModal, setShowAddModal] = useState(false);
 
   // 是否更改拖动排序
   const [isChange, setIsChange] = useState(false);
@@ -349,9 +387,23 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
     setShowIconEdit(false);
   };
 
+  // BelongMenu部分
+  const antdMenus = [
+    {
+      value: '主菜单',
+      title: '主菜单',
+      children: getEditBelongMenuTree(getTreeSelectList(menus, icons, true), key),
+    },
+  ];
+
+  const [showEditBelong, setShowEditBelong] = useState(false);
+  const [selectBelong, setSelectBelong] = useState<string>(parentId || '主菜单');
+
   // dnd
+  const [draggable, setDraggable] = useState(true);
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: key,
+    disabled: !draggable,
   });
   const styles: React.CSSProperties = {
     transform: CSS.Transform.toString(transform && { ...transform, scaleY: 1 }),
@@ -488,7 +540,7 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
         {...listeners}
       >
         <td>
-          {child.length || blogs.length ? (
+          {menuData.length || blogData.length ? (
             <div
               className={style.expandBtn}
               onClick={() => {
@@ -563,14 +615,7 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
               value={iconValue}
               style={{ width: 150 }}
               optionLabelProp="value" //使用 optionLabelProp 指定回填到选择框的 Option 属性。
-              options={icons.map(icon => ({
-                value: icon.name,
-                label: (
-                  <>
-                    {icon.icon} {icon.name}
-                  </>
-                ),
-              }))}
+              options={selectIconList[0]}
               onChange={value => {
                 setIconValue(value);
               }}
@@ -591,7 +636,63 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
             </div>
           )}
         </td>
-        <td>{sort || 0}</td>
+        {/* 菜单编辑 */}
+        <td>
+          {showEditBelong ? (
+            <TreeSelect
+              autoFocus
+              treeIcon
+              style={{ width: '100%' }}
+              placeholder="请选择分类"
+              treeLine={true}
+              treeData={antdMenus}
+              value={selectBelong}
+              onChange={async value => {
+                setSelectBelong(value);
+                try {
+                  if (value === '主菜单') {
+                    await updateBelong({ id: key, belongingMenu: value, isMain: true });
+                    setPId(undefined);
+                    setPIcon(undefined);
+                    setPTitle('主菜单');
+                  } else {
+                    await updateBelong({ id: key, belongingMenu: value });
+                    const res = await getMenuAjax(value);
+                    const parent = res.data.data.menu;
+                    setPTitle(parent.title);
+                    setPIcon(parent.icon);
+                  }
+                  msg.success('修改成功，刷新列表后重置！');
+                } catch (err: any) {
+                  msg.error(err.data.message);
+                }
+              }}
+              onBlur={() => {
+                setShowEditBelong(false);
+              }}
+            />
+          ) : (
+            <>
+              {pId ? (
+                <>
+                  <span>{getAntdIcon(pIcon as string, icons)}</span>&nbsp;
+                  <span>{pTitle}</span>
+                </>
+              ) : (
+                '主菜单'
+              )}
+              &nbsp;
+              <span
+                className={`${style.editBtn} iconfont`}
+                onClick={() => {
+                  setShowEditBelong(true);
+                }}
+              >
+                &#xe601;
+              </span>
+            </>
+          )}
+        </td>
         <td className={style.actionBtn}>
           <Tooltip title="删除" placement="top">
             <div
@@ -610,6 +711,95 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
               &#xe604;
             </div>
           </Tooltip>
+          {grade !== 3 ? (
+            <>
+              <Tooltip title="添加子菜单" placement="top">
+                <div
+                  className="iconfont"
+                  onClick={() => {
+                    setShowAddModal(true);
+                    setDraggable(false);
+                  }}
+                >
+                  &#xe603;
+                </div>
+              </Tooltip>
+              {/* 添加菜单Modal */}
+              <Modal
+                title="添加子菜单"
+                width={400}
+                okText="创建"
+                cancelText="取消"
+                open={showAddModal}
+                onCancel={() => {
+                  setDraggable(true);
+                  setShowAddModal(false);
+                }}
+                onOk={() => {
+                  addMenuAjax(
+                    {
+                      title: createTitle,
+                      grade: grade + 1,
+                      icon: selectIcon,
+                      color: selectColor,
+                      parentId: key,
+                    },
+                    res => {
+                      msg.success('创建成功!');
+                      const menu = res.body.menu;
+                      menu.children = [];
+                      menu.blogs = [];
+                      setMenuData([generateMenuData(menu), ...menuData]);
+                      setCreateTitle(undefined);
+                      setSelectIcon(undefined);
+                      setSelectColor(undefined);
+                    },
+                    err => {
+                      msg.error(err);
+                    }
+                  );
+                }}
+              >
+                <div className={style.selectInput}>
+                  <div>选择图标：</div>
+                  <Select
+                    value={selectIcon}
+                    style={{ width: 200 }}
+                    optionLabelProp="value" //使用 optionLabelProp 指定回填到选择框的 Option 属性。
+                    options={selectIconList[0]}
+                    onChange={value => {
+                      setSelectIcon(value);
+                    }}
+                    placeholder="请选择图标"
+                  />
+                </div>
+                <div className={style.selectInput}>
+                  <div>标签颜色：</div>
+                  <Select
+                    value={selectColor}
+                    style={{ width: 200 }}
+                    optionLabelProp="value" //使用 optionLabelProp 指定回填到选择框的 Option 属性。
+                    options={colorChoseList}
+                    onChange={value => {
+                      setSelectColor(value);
+                    }}
+                    placeholder="请选择颜色"
+                  />
+                </div>
+                <div className={style.selectInput}>
+                  <div>菜单标题：</div>
+                  <Input
+                    placeholder="请输入菜单标题"
+                    style={{ width: 200 }}
+                    value={createTitle}
+                    onChange={e => {
+                      setCreateTitle(e.currentTarget.value);
+                    }}
+                  ></Input>
+                </div>
+              </Modal>
+            </>
+          ) : undefined}
         </td>
       </tr>
       {/* 单个父菜单的博客 */}
@@ -673,13 +863,21 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
                       <th>菜单层级</th>
                       <th>标签颜色</th>
                       <th>菜单图标</th>
-                      <th>排序值</th>
+                      <th>所属菜单</th>
                       <th>操作</th>
                     </tr>
                   </thead>
                   <tbody>
                     {menuData.map(item => {
-                      return <MenuRow key={item.key} data={item}></MenuRow>;
+                      return (
+                        <MenuRow
+                          key={item.key}
+                          data={item}
+                          parentIcon={icon}
+                          parentTitle={title}
+                          parentId={key}
+                        ></MenuRow>
+                      );
                     })}
                   </tbody>
                 </table>
@@ -695,10 +893,30 @@ const MenuRow: React.FC<MenuRowProps> = ({ data }) => {
 // 总组件
 const App: React.FC = () => {
   const msg = useGlobalMessage();
+  const dispatch = useAppDispatch();
+  const icons = useIcons();
+  const themeMode = useAppSelector(state => state.universal.themeMode);
+  const delKind = useAppSelector(state => state.blogMenu.delKind);
+  const deleteKey = useAppSelector(state => state.blogMenu.deleteKey);
   const [menuData, setMenuData] = useState<MenuType[]>([]);
   const [isChange, setIsChange] = useState(false);
-  const themeMode = useAppSelector(state => state.universal.themeMode);
-  const dispatch = useAppDispatch();
+  const [modalOpen, setModalOpen] = useState(false);
+  // 建立主菜单的选择颜色、icon和菜单标题
+  const [selectIcon, setSelectIcon] = useState<string>();
+  const [selectColor, setSelectColor] = useState<string>();
+  const [createTitle, setCreateTitle] = useState<string>();
+
+  // 选择图标的下拉菜单列表
+  const selectIconList = useState(
+    icons.map(icon => ({
+      value: icon.name,
+      label: (
+        <>
+          {icon.icon} {icon.name}
+        </>
+      ),
+    })) || []
+  );
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -723,6 +941,13 @@ const App: React.FC = () => {
   useEffect(() => {
     dispatch(setSelectKey('editmenu'));
   }, []);
+
+  // 博客或菜单被删后修改State
+  useEffect(() => {
+    if (delKind === 'menu') {
+      setMenuData(menuData.filter(menu => menu.key !== deleteKey));
+    }
+  }, [deleteKey]);
 
   // 顺序改变后进行操作
   useEffect(() => {
@@ -760,32 +985,116 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
-      <SortableContext
-        // rowKey array
-        items={menuData.map(i => i.key)}
-        strategy={verticalListSortingStrategy}
+    <>
+      <Tooltip title="添加主菜单">
+        <Button
+          className={`iconfont ${style.addMain}`}
+          onClick={() => {
+            setModalOpen(true);
+          }}
+        >
+          &#xe603;
+        </Button>
+      </Tooltip>
+      {/* 添加菜单Modal */}
+      <Modal
+        title="添加子菜单"
+        width={400}
+        okText="创建"
+        cancelText="取消"
+        open={modalOpen}
+        onCancel={() => {
+          setModalOpen(false);
+        }}
+        onOk={() => {
+          addMenuAjax(
+            {
+              title: createTitle,
+              grade: 1,
+              icon: selectIcon,
+              color: selectColor,
+            },
+            res => {
+              msg.success('创建成功!');
+              const menu = res.body.menu;
+              menu.children = [];
+              menu.blogs = [];
+              setMenuData([...menuData, generateMenuData(menu)]);
+              setCreateTitle(undefined);
+              setSelectIcon(undefined);
+              setSelectColor(undefined);
+            },
+            err => {
+              msg.error(err);
+            }
+          );
+        }}
       >
-        <table className={style.table} style={{ overflow: 'hidden', borderRadius: '8px 8px 0 0' }}>
-          <thead>
-            <tr className={`${style.head} ${themeMode === 'dark' ? style.thDark : style.thLight}`}>
-              <th></th>
-              <th>菜单标题</th>
-              <th>菜单层级</th>
-              <th>标签颜色</th>
-              <th>菜单图标</th>
-              <th>排序值</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            {menuData.map(item => {
-              return <MenuRow key={item.key} data={item}></MenuRow>;
-            })}
-          </tbody>
-        </table>
-      </SortableContext>
-    </DndContext>
+        <div className={style.selectInput}>
+          <div>选择图标：</div>
+          <Select
+            value={selectIcon}
+            style={{ width: 200 }}
+            optionLabelProp="value" //使用 optionLabelProp 指定回填到选择框的 Option 属性。
+            options={selectIconList[0]}
+            onChange={value => {
+              setSelectIcon(value);
+            }}
+            placeholder="请选择图标"
+          />
+        </div>
+        <div className={style.selectInput}>
+          <div>标签颜色：</div>
+          <Select
+            value={selectColor}
+            style={{ width: 200 }}
+            optionLabelProp="value" //使用 optionLabelProp 指定回填到选择框的 Option 属性。
+            options={colorChoseList}
+            onChange={value => {
+              setSelectColor(value);
+            }}
+            placeholder="请选择颜色"
+          />
+        </div>
+        <div className={style.selectInput}>
+          <div>菜单标题：</div>
+          <Input
+            placeholder="请输入菜单标题"
+            style={{ width: 200 }}
+            value={createTitle}
+            onChange={e => {
+              setCreateTitle(e.currentTarget.value);
+            }}
+          ></Input>
+        </div>
+      </Modal>
+      <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
+        <SortableContext
+          // rowKey array
+          items={menuData.map(i => i.key)}
+          strategy={verticalListSortingStrategy}
+        >
+          <table className={style.table} style={{ overflow: 'hidden', borderRadius: '8px 8px 0 0' }}>
+            <thead>
+              <tr className={`${style.head} ${themeMode === 'dark' ? style.thDark : style.thLight}`}>
+                <th></th>
+                <th>菜单标题</th>
+                <th>菜单层级</th>
+                <th>标签颜色</th>
+                <th>菜单图标</th>
+                <th>所属菜单</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              {menuData.map(item => {
+                return <MenuRow key={item.key} data={item}></MenuRow>;
+              })}
+            </tbody>
+          </table>
+        </SortableContext>
+      </DndContext>
+    </>
   );
 };
 

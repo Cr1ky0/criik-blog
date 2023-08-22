@@ -21,11 +21,14 @@ router.patch('/initCreateAt', menuController.initCreateAtOfMenu);
 router.patch('/changeSort', menuController.changeSort);
 
 // router.route('/getAllMenus').get(menuController.getMenus);
-router.route('/').post(menuController.addMenu);
 
 // 获取指定id的Menu
 router.get('/getMenuById/:id', menuController.getMenuById);
 
+// 更新MenuBelong
+router.patch('/updateBelong/:id', menuController.updateBelong);
+
+router.route('/').post(menuController.addMenu);
 router
   .route('/:id')
   // .get(menuController.getMenusOfUser)

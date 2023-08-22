@@ -38,13 +38,12 @@ const BackStage: React.FC = () => {
   // 设置初始高度
   useEffect(() => {
     const div = wrapper.current;
-    div.style.height = window.innerHeight - 50 + 'px';
+    div.style.height = window.innerHeight - 52 + 'px';
   }, [width, window.innerHeight]);
 
   return (
     <>
       <Layout>
-        {/*<Header className={style.topBlank}></Header>*/}
         <Layout className={style.wrapper} ref={wrapper}>
           <Sider
             trigger={null}

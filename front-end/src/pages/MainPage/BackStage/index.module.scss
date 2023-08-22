@@ -8,6 +8,7 @@
   }
 
   .wrapper {
+    overflow-y: hidden;
 
     .sider {
       @include trans;

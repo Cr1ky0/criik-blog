@@ -404,3 +404,13 @@ export const getTreeSelectList: (menus: SideMenuItem[], icons: AntdIcon[], onlyP
     );
   });
 };
+
+export const getEditBelongMenuTree = (menus: TreeSelectItem[], selfId: string) => {
+  return menus.filter(menu => {
+    menu.children = menu.children?.filter(child => {
+      child.children = [];
+      return child.value !== selfId;
+    });
+    return menu.value !== selfId;
+  });
+};

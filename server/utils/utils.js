@@ -19,4 +19,22 @@ const truncateString = (str, index, maxLength, maxTotalLength) => {
   return truncatedString;
 };
 
-module.exports = { truncateString };
+// 获取菜单最大深度
+const getMaxDepth = (menu) => {
+  let maxDepth = 1;
+  const child = menu.children;
+  if (child) {
+    for (let i = 0; i < child.length; i += 1) {
+      if (maxDepth < 2) maxDepth = 2;
+      const grand = child[i].children;
+      if (grand) {
+        for (let j = 0; j < grand.length; j += 1) {
+          if (maxDepth < 3) maxDepth = 3;
+        }
+      }
+    }
+  }
+  return maxDepth;
+};
+
+module.exports = { truncateString, getMaxDepth };

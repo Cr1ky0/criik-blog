@@ -3,6 +3,12 @@ import { NotificationPlacement } from 'antd/es/notification/interface';
 import type { MenuProps } from 'antd/es/menu';
 
 /******** Ajax ********/
+export interface UpdateMenuBelongFormData {
+  id: string;
+  belongingMenu: string;
+  isMain?: boolean;
+}
+
 // LoginForm
 export interface LoginFormData {
   email: string;

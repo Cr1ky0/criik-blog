@@ -2,7 +2,7 @@ import service from '@/utils/request';
 import { catchAsync, improvedCatchAsync } from '@/api';
 
 // interface
-import { AddMenuObj, UpdateMenuObj } from '@/interface';
+import { AddMenuObj, UpdateMenuBelongFormData, UpdateMenuObj } from '@/interface';
 
 export const addMenuAjax = catchAsync(async (values: AddMenuObj) => {
   const response = await service.post(`/api/menus/`, values);
@@ -34,3 +34,11 @@ export const changeSort = improvedCatchAsync(async (idList: string[]) => {
   const response = await service.patch(`/api/menus/changeSort`, { idList });
   return Promise.resolve(response);
 });
+
+export const updateBelong = async (data: UpdateMenuBelongFormData) => {
+  const response = await service.patch(`/api/menus/updateBelong/${data.id}`, {
+    belongingMenu: data.belongingMenu,
+    isMain: data.isMain,
+  });
+  return Promise.resolve(response.data);
+};

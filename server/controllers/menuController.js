@@ -3,6 +3,7 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const filterObj = require('../utils/filterObj');
 const User = require('../models/userModel');
+const { getMaxDepth } = require('../utils/utils');
 
 // 初始化menu的createAt字段
 exports.initCreateAtOfMenu = catchAsync(async (req, res) => {
@@ -188,6 +189,88 @@ exports.getSelfMenu = catchAsync(async (req, res, next) => {
     status: 'success',
     body: {
       menus,
+    },
+  });
+});
+
+exports.updateBelong = catchAsync(async (req, res, next) => {
+  const { isMain, belongingMenu } = req.body;
+  const filteredBody = filterObj(req.body, 'belongingMenu');
+  const self = await Menu.findById(req.params.id).populate({
+    path: 'children',
+    populate: [
+      {
+        path: 'children',
+        populate: [{ path: 'children' }],
+      },
+    ],
+  });
+  // 不能修改为自身
+  if (belongingMenu === req.params.id) {
+    return next(new AppError('不能修改为自身!', 403));
+  }
+
+  if (belongingMenu !== '主菜单') {
+    // 不能修改为grade=3的
+    const belong = await Menu.findById(belongingMenu).populate({
+      path: 'children',
+      populate: [
+        {
+          path: 'children',
+          populate: [{ path: 'children' }],
+        },
+      ],
+    });
+    if (belong.grade === 3)
+      return next(new AppError('不能修改为最底层菜单的子菜单！', 403));
+
+    // 不能修改为自身的后代
+    const { children } = self;
+    let isChild = false;
+    children.forEach((child) => {
+      if (child.id === belongingMenu) isChild = true;
+      child.children.forEach((grand) => {
+        if (grand.id === belongingMenu) isChild = true;
+      });
+    });
+    if (isChild) return next(new AppError('不能修改为自身的后代', 403));
+
+    // 当前菜单深度与目标菜单深度之和超出限制则不能修改
+    const selfDepth = getMaxDepth(self);
+    if (belong.grade === 2 && selfDepth > 1) {
+      return next(new AppError('最大深度限制3，无法移动！', 403));
+    }
+    if (belong.grade === 1 && selfDepth > 2)
+      return next(new AppError('最大深度限制3，无法移动！', 403));
+  }
+
+  // change sort && filter
+  if (self.belongingMenu !== belongingMenu) {
+    if (isMain) {
+      const main = await Menu.find({ grade: 1 });
+      // 去掉belongingMenu
+      filteredBody.belongingMenu = undefined;
+      self.belongingMenu = undefined;
+      filteredBody.grade = 1;
+      self.sort = main.length;
+    } else {
+      const belong = await Menu.findById(belongingMenu);
+      filteredBody.grade = belong.grade + 1;
+      self.sort = belong.length;
+    }
+    self.save();
+  }
+
+  // update
+  const newMenu = await Menu.findByIdAndUpdate(req.params.id, filteredBody, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      newMenu,
     },
   });
 });

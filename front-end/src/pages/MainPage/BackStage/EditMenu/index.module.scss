@@ -109,6 +109,7 @@ $LINE_DARK: rgba(255, 255, 255, .05);
 .table {
   width: 100%;
   table-layout: fixed;
+  @include unSelectable;
 
   .head {
     border-radius: 10px 10px 0 0;
@@ -192,4 +193,17 @@ $LINE_DARK: rgba(255, 255, 255, .05);
   &:hover {
     color: $THEME_COLOR;
   }
+}
+
+
+.selectInput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.addMain {
+  margin: 10px 0;
+  width: 100px;
 }
