@@ -5,12 +5,12 @@
   background-color: transparent;
   display: flex;
   justify-content: space-between;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 
   .leftWrapper, .rightWrapper {
     display: flex;
     justify-content: flex-start;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
   }
 
   .leftWrapper {

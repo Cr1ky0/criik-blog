@@ -6,14 +6,17 @@ import style from './index.module.scss';
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setSelectedId } from '@/redux/slices/blogMenu';
+import { setFadeOut } from '@/redux/slices/progressbar';
+import { setJumpFlag } from '@/redux/slices/universal';
 
 // util
 import { getSideMenuItem } from '@/utils';
 
 // interface
 import { BlogObj, SideMenuItem } from '@/interface';
-import { setIsLoading } from '@/redux/slices/progressbar';
-import { setJumpFlag } from '@/redux/slices/universal';
+
+// global
+import { ANIME_HIDE_TIME } from '@/global';
 
 interface ContextObj {
   title: string;
@@ -66,9 +69,10 @@ const NextPage = () => {
 
   const handleClick = (id: string) => {
     dispatch(setJumpFlag(true));
-    setTimeout(() => {
-      dispatch(setSelectedId(id));
-    }, 950);
+    setTimeout(async () => {
+      await dispatch(setFadeOut(false));
+      await dispatch(setSelectedId(id));
+    }, ANIME_HIDE_TIME);
   };
 
   useEffect(() => {
