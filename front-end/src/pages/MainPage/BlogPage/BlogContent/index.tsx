@@ -226,7 +226,7 @@ const BlogContent = () => {
             <div className={style.partLine}>
               <div></div>
             </div>
-            <NextPage></NextPage>
+            {selectedId ? <NextPage></NextPage> : undefined}
             <div className={style.comment}>
               <Comment></Comment>
             </div>

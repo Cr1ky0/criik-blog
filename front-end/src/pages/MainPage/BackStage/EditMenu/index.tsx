@@ -551,6 +551,7 @@ const MenuRow: React.FC<MenuRowProps> = ({ data, parentTitle, parentId, parentIc
             </div>
           ) : undefined}
         </td>
+        <td>{grade}</td>
         {/* title编辑 */}
         <td>
           {showTitleEdit ? (
@@ -578,7 +579,6 @@ const MenuRow: React.FC<MenuRowProps> = ({ data, parentTitle, parentId, parentIc
             </div>
           )}
         </td>
-        <td>{grade}</td>
         {/* 标签编辑 */}
         <td>
           {showColorEdit ? (
@@ -659,6 +659,7 @@ const MenuRow: React.FC<MenuRowProps> = ({ data, parentTitle, parentId, parentIc
                     await updateBelong({ id: key, belongingMenu: value });
                     const res = await getMenuAjax(value);
                     const parent = res.data.data.menu;
+                    setPId(parent.id);
                     setPTitle(parent.title);
                     setPIcon(parent.icon);
                   }
@@ -859,8 +860,8 @@ const MenuRow: React.FC<MenuRowProps> = ({ data, parentTitle, parentId, parentIc
                     </tr>
                     <tr className={`${style.head} ${themeMode === 'dark' ? style.thDark : style.thLight}`}>
                       <th></th>
-                      <th>菜单标题</th>
                       <th>菜单层级</th>
+                      <th>菜单标题</th>
                       <th>标签颜色</th>
                       <th>菜单图标</th>
                       <th>所属菜单</th>
@@ -1076,10 +1077,13 @@ const App: React.FC = () => {
         >
           <table className={style.table} style={{ overflow: 'hidden', borderRadius: '8px 8px 0 0' }}>
             <thead>
-              <tr className={`${style.head} ${themeMode === 'dark' ? style.thDark : style.thLight}`}>
+              <tr
+                className={`${style.head} ${themeMode === 'dark' ? style.thDark : style.thLight}`}
+                style={{ width: '100%' }}
+              >
                 <th></th>
-                <th>菜单标题</th>
                 <th>菜单层级</th>
+                <th>菜单标题</th>
                 <th>标签颜色</th>
                 <th>菜单图标</th>
                 <th>所属菜单</th>

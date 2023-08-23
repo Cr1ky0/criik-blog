@@ -55,10 +55,22 @@ $LINE_DARK: rgba(255, 255, 255, .05);
 
 .trChildDark {
   @include trDarkUni;
+
+  > td:first-child {
+    &::before {
+      background-color: rgba(255, 255, 255, .1);
+    }
+  }
 }
 
 .trChildLight {
   @include trLightUni;
+
+  > td:first-child {
+    &::before {
+      background-color: rgba(0, 0, 0, .1);
+    }
+  }
 }
 
 .thDark {
@@ -144,6 +156,20 @@ $LINE_DARK: rgba(255, 255, 255, .05);
 
   .childTr {
     @include trStyle;
+
+    > td:first-child {
+      position: relative;
+
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 27px;
+        width: .5px;
+        height: 100%;
+        float: left;
+      }
+    }
   }
 
   .expandBtn {

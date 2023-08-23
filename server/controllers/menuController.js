@@ -201,7 +201,6 @@ exports.updateBelong = catchAsync(async (req, res, next) => {
     populate: [
       {
         path: 'children',
-        populate: [{ path: 'children' }],
       },
     ],
   });
@@ -217,7 +216,6 @@ exports.updateBelong = catchAsync(async (req, res, next) => {
       populate: [
         {
           path: 'children',
-          populate: [{ path: 'children' }],
         },
       ],
     });
@@ -259,6 +257,15 @@ exports.updateBelong = catchAsync(async (req, res, next) => {
       self.sort = belong.length;
     }
     self.save();
+    // 修改子菜单grade
+    self.children.forEach((child) => {
+      child.grade = filteredBody.grade + 1;
+      child.save();
+      child.children.forEach((grand) => {
+        grand.grade = filteredBody.grade + 2;
+        grand.save();
+      });
+    });
   }
 
   // update

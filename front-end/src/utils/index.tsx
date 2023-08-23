@@ -145,7 +145,7 @@ export const getBreadcrumbList: (
     return list;
   } else return [];
 };
-
+``;
 // 从SideMenuList内获取一个blog key
 export const getOneBlogId: (menus: SideMenuItem[], curId?: string, menuId?: string) => string | void = (
   menus,
@@ -228,6 +228,19 @@ export const getOneMenuId: (menus: SideMenuItem[]) => string = menus => {
   else {
     return '';
   }
+};
+
+// 检测菜单中是否有该博客
+export const hasBlogOfId: (menus: SideMenuItem[], id: string) => boolean = (menus, id) => {
+  let flag = false;
+  menus.forEach(menu => {
+    menu.blogs?.forEach(blog => {
+      if (blog.id === id) flag = true;
+    });
+    if (menu.children && !flag) flag = hasBlogOfId(menu.children, id);
+  });
+
+  return flag;
 };
 
 // 通过likeList判断该评论是否已被点赞

@@ -40,9 +40,9 @@ service.interceptors.response.use(
         // 清除本地token和清空vuex中token对象
         // 跳转登录页面
         case 403: {
-          const cookies = new Cookies();
-          cookies.remove('user');
-          cookies.remove('token');
+          // const cookies = new Cookies();
+          // cookies.remove('user');
+          // cookies.remove('token');
           break;
         }
         // 404请求不存在

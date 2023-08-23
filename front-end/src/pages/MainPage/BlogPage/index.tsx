@@ -22,17 +22,27 @@ import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 // global
 import { BACKGROUND_COLOR_DARK, DELAY_DISPATCH_TIME } from '@/global';
 import { setJumpFlag } from '@/redux/slices/universal';
+import { getOneBlogId, hasBlogOfId } from '@/utils';
+import { setSelectedId } from '@/redux/slices/blogMenu';
 
 const BlogPage = () => {
   const { width } = useViewport();
   const dispatch = useAppDispatch();
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const curBlogContent = useAppSelector(state => state.blog.curBlogContent);
+  const menus = useAppSelector(state => state.blogMenu.menuList);
   const fadeOut = useAppSelector(state => state.progressbar.fadeOut);
   const themeMode = useAppSelector(state => state.universal.themeMode);
   const jumpFlag = useAppSelector(state => state.universal.jumpFlag);
   // Mobile Menu Open State
   const [open, setOpen] = useState(false);
+
+  // 如果当前select不存在则重新选择
+  useEffect(() => {
+    if (!hasBlogOfId(menus, selectedId)) {
+      dispatch(setSelectedId(getOneBlogId(menus)));
+    }
+  }, []);
 
   // 切换博客时滚动至top
   useEffect(() => {

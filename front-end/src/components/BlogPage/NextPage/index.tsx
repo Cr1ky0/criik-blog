@@ -29,7 +29,7 @@ interface ContextRelation {
 const getState: (menus: SideMenuItem[], blogId: string) => ContextRelation = (menus, blogId) => {
   const blog = getSideMenuItem(menus, blogId) as BlogObj;
   const menu = getSideMenuItem(menus, blog?.belongingMenu) as SideMenuItem;
-  const blogs = menu.blogs as BlogObj[];
+  const blogs = menu ? (menu.blogs as BlogObj[]) : [];
   const last = {} as ContextObj;
   const next = {} as ContextObj;
   blogs.forEach((blog, index) => {
