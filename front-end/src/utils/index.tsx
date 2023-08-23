@@ -15,6 +15,20 @@ import {
 // antd
 import type { DataNode } from 'antd/es/tree';
 
+// 获取某个元素相对于document.body的定位（left,top）
+export const getOffset = (elem: HTMLElement) => {
+  let offsetLeft = 0;
+  let offsetTop = 0;
+
+  while (elem) {
+    offsetLeft += elem.offsetLeft;
+    offsetTop += elem.offsetTop;
+    elem = elem.offsetParent as HTMLElement;
+  }
+
+  return { left: offsetLeft, top: offsetTop };
+};
+
 // 过滤掉所有Markdown字符
 export const filterMarkdown = (str: string) => {
   // Step 1: 移除HTML标签及其内容

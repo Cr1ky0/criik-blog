@@ -77,10 +77,8 @@ $fontColor: rgba(0, 0, 0, .8);
 @mixin universal() {
   // func-bar-wrapper
   .syntax-highlighter-func-bar-wrapper {
-    height: 30px;
     position: absolute;
-    top: 17px;
-    right: 0;
+    height: 30px;
   }
 
   // 代码块语言标记
@@ -252,6 +250,16 @@ $fontColor: rgba(0, 0, 0, .8);
   }
 }
 
+.showCodeClass {
+  opacity: 0;
+  animation: showAnime .5s .4s;
+  @include animeMixin;
+}
 
+.hideCodeClass {
+  opacity: 1;
+  animation: hideAnime .3s;
+  @include animeMixin;
+}
 
 

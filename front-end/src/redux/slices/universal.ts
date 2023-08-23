@@ -5,6 +5,7 @@ interface UniInitState {
   jumpFlag: boolean;
   loginFormOpen: boolean;
   starBlogPage: number;
+  codeRenderCount: number;
 }
 
 const initialState = {

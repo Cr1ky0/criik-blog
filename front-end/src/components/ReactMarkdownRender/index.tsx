@@ -1,4 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { nanoid } from 'nanoid';
+
+// util
+import { getOffset } from '@/utils';
 
 // markdown
 import ReactMarkdown from 'react-markdown';
@@ -11,7 +16,6 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 // import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 // import { darcula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-
 // css
 import 'github-markdown-css';
 import './index.scss';
@@ -28,8 +32,7 @@ interface ReactMarkdownWrapperProps {
 
 const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) => {
   const themeMode = useAppSelector(state => state.universal.themeMode);
-
-  let count = 0;
+  const fadeOut = useAppSelector(state => state.progressbar.fadeOut);
   return (
     <ReactMarkdown
       className={`markdown-body ${themeMode === 'dark' ? 'markdown-render-dark' : 'markdown-render-light'}`}
@@ -37,8 +40,10 @@ const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) 
       rehypePlugins={[rehypeKatex, rehypeRaw]}
       components={{
         code({ node, inline, className, children, ...props }) {
-          const match = /language-(\w+)/.exec(className || '');
+          const [match, setMatch] = useState(/language-(\w+)/.exec(className || ''));
           const message = useGlobalMessage();
+          const [unique] = useState(nanoid());
+          const ref = useRef<HTMLDivElement>(null);
           // copy点击事件
           const handleClick = () => {
             // 复制到粘贴板
@@ -53,47 +58,56 @@ const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) 
               }
             );
           };
-          // 这里利用原生js在代码块右上角插入一个代码所用语言的提示块和copy btn
+
           useEffect(() => {
-            const codeBox = document.getElementsByClassName('syntax-highlighter-wrapper');
-            if (codeBox[count] && match) {
-              const parent = codeBox[count].parentElement as HTMLElement;
-              parent.style.position = 'relative';
-              // wrapper
-              const wrapper = document.createElement('div');
-              wrapper.className = 'syntax-highlighter-func-bar-wrapper';
-              parent.insertAdjacentElement('afterbegin', wrapper);
-              // code language
-              const div = document.createElement('div');
-              div.className = `syntax-highlighter-code-language-${themeMode === 'dark' ? 'dark' : 'light'}`;
-              div.innerHTML = match[1];
-              wrapper.insertAdjacentElement('afterbegin', div);
-              // copy btn
-              const copyBtn = document.createElement('div');
-              copyBtn.className = `iconfont syntax-highlighter-copy-btn-${themeMode === 'dark' ? 'dark' : 'light'}`;
-              copyBtn.innerHTML = '&#xe706;';
-              copyBtn.addEventListener('click', handleClick);
-              wrapper.insertAdjacentElement('afterbegin', copyBtn);
-              // 修改一般字体颜色
-              const child = codeBox[count].getElementsByTagName('code')[0];
-              child.style.color = 'rgb(150,150,150)';
-              count += 1;
+            // 当前的wrapper
+            const div = document.getElementsByClassName(unique)[0];
+            // 当前的funcbar
+            const funcBar = ref ? (ref.current as HTMLElement) : undefined;
+            const parent = div ? (div.parentElement as HTMLElement) : undefined;
+            if (funcBar && parent) {
+              const { left, top } = getOffset(parent);
+              const parentWidth = parseFloat(window.getComputedStyle(parent).width);
+              const selfWidth = parseFloat(window.getComputedStyle(funcBar).width);
+              funcBar.style.left = parentWidth + left - selfWidth + 'px';
+              funcBar.style.top = top + 15 + 'px';
             }
-            return () => {
-              removeEventListener('click', handleClick);
-            };
           }, []);
 
+          useEffect(() => {
+            const newMatch = /language-(\w+)/.exec(className || '');
+            setMatch(newMatch);
+          }, [className]);
+
           return !inline && match ? (
-            <SyntaxHighlighter
-              {...props}
-              showLineNumbers
-              style={vscDarkPlus}
-              language={match[1]}
-              className="syntax-highlighter-wrapper"
-            >
-              {String(children).replace(/\n$/, '')}
-            </SyntaxHighlighter>
+            <>
+              <SyntaxHighlighter
+                {...props}
+                showLineNumbers
+                style={vscDarkPlus}
+                language={match[1]}
+                className={`syntax-highlighter-wrapper ${unique}`}
+              >
+                {String(children).replace(/\n$/, '')}
+              </SyntaxHighlighter>
+              {createPortal(
+                <div
+                  className={`syntax-highlighter-func-bar-wrapper ${fadeOut ? 'hideCodeClass' : 'showCodeClass'}`}
+                  ref={ref}
+                >
+                  <div
+                    className={`iconfont syntax-highlighter-copy-btn-${themeMode === 'dark' ? 'dark' : 'light'}`}
+                    onClick={handleClick}
+                  >
+                    &#xe706;
+                  </div>
+                  <div className={`syntax-highlighter-code-language-${themeMode === 'dark' ? 'dark' : 'light'}`}>
+                    {match[1]}
+                  </div>
+                </div>,
+                document.body
+              )}
+            </>
           ) : (
             <code {...props} className={className}>
               {children}
@@ -106,5 +120,4 @@ const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) 
     </ReactMarkdown>
   );
 };
-
 export default ReactMarkdownRender;
