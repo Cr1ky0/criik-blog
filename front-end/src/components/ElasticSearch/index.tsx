@@ -181,7 +181,11 @@ const ElasticSearch = () => {
                 </div>
               )
             ) : searchHistory.length ? (
-              <SearchHistory closeBox={deleteResult}></SearchHistory>
+              <SearchHistory
+                closeBox={() => {
+                  setOpen(false);
+                }}
+              ></SearchHistory>
             ) : (
               <div className={style.noContent}>
                 <div className={themeMode === 'dark' ? style.darkFont : style.lightFont}>没有搜索记录</div>

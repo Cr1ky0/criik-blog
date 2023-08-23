@@ -19,6 +19,7 @@ import { setChosen } from '@/redux/slices/blog';
 // api
 import { getCollectedBlogsNum } from '@/api/blog';
 import { setStarBlogPage } from '@/redux/slices/universal';
+import { ANIME_HIDE_TIME } from '@/global';
 
 const choseList = ['收藏', '最多点赞', '最多浏览'];
 const StarBlog = () => {
@@ -74,19 +75,19 @@ const StarBlog = () => {
                       setIsLoading(true);
                       setTimeout(() => {
                         setIsOpt(true);
-                      }, 1300);
+                      }, 1200);
                       // 导航样式变化
                       const now = e.currentTarget;
                       now.classList.add(style.optionsOnChosen);
                       const last = document.getElementById(`blog-stars-btn-${chosen}`) as HTMLElement;
                       last.classList.remove(style.optionsOnChosen);
                       // 跳转
-                      setTimeout(() => {
-                        dispatch(setChosen(index));
-                        dispatch(setStarBlogPage(1));
-                        setIsLoading(false);
+                      setTimeout(async () => {
+                        await setIsLoading(false);
+                        await dispatch(setChosen(index));
+                        await dispatch(setStarBlogPage(1));
                         navigate(`/stars?filter=${index}`);
-                      }, 550);
+                      }, ANIME_HIDE_TIME);
                     }
                   }
                 }}
@@ -117,12 +118,12 @@ const StarBlog = () => {
             if (timer) clearTimeout(timer);
             setIsLoading(true);
             setTimer(
-              setTimeout(() => {
-                dispatch(setStarBlogPage(page));
+              setTimeout(async () => {
+                await setIsLoading(false);
+                await dispatch(setStarBlogPage(page));
                 // 点击跳转
                 navigate(`?filter=${chosen}`);
-                setIsLoading(false);
-              }, 550)
+              }, ANIME_HIDE_TIME)
             );
           }}
         />

@@ -16,6 +16,7 @@ import EditMenu from '@/components/SideMenu/EditMenu';
 import { useAppSelector, useAppDispatch } from '@/redux';
 import { setSelectedId } from '@/redux/slices/blogMenu';
 import { setJumpFlag } from '@/redux/slices/universal';
+import { setFadeOut } from '@/redux/slices/progressbar';
 
 // context
 import { useIcons } from '../ContextProvider/IconStore';
@@ -25,6 +26,7 @@ import { getAntdMenus, getAllKeyOfSideMenu, getSideMenuItem } from '@/utils';
 
 // interface
 import { SideMenuItem } from '@/interface';
+import { ANIME_HIDE_TIME } from '@/global';
 
 interface SideMenuProps {
   styles?: CSSProperties;
@@ -98,14 +100,17 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
                   // 操作标志置为false，不可继续操作
                   setOpt(false);
                   dispatch(setJumpFlag(true));
-                  setTimeout(() => {
-                    dispatch(setSelectedId(e.key));
-                    // 重置可操作标志
-                    setOpt(true);
+                  setTimeout(async () => {
+                    await dispatch(setFadeOut(false));
+                    await dispatch(setSelectedId(e.key));
                     if (page === 'blog') {
                       navigate(`/blog`);
                     }
-                  }, 950);
+                  }, ANIME_HIDE_TIME);
+                  setTimeout(() => {
+                    // 重置可操作标志
+                    setOpt(true);
+                  }, 1200);
                 }
                 if (closeMenu) closeMenu();
               }

@@ -9,9 +9,7 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 import { setJumpFlag } from '@/redux/slices/universal';
 import { setSelectedId } from '@/redux/slices/blogMenu';
 import { delHistory } from '@/redux/slices/es';
-
-// global
-import { DELAY_DISPATCH_TIME } from '@/global';
+import { ANIME_HIDE_TIME } from '@/global';
 
 interface SearchHistoryProps {
   closeBox: () => void;
@@ -43,7 +41,7 @@ const SearchHistory: React.FC<SearchHistoryProps> = ({ closeBox }) => {
                     dispatch(setJumpFlag(true));
                     setTimeout(() => {
                       dispatch(setSelectedId(blog.blog_id));
-                    }, DELAY_DISPATCH_TIME);
+                    }, ANIME_HIDE_TIME);
                   } else {
                     dispatch(setSelectedId(blog.blog_id));
                   }

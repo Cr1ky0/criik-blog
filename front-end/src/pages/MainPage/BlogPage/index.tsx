@@ -20,7 +20,7 @@ import { setFadeOut, setIsLoading } from '@/redux/slices/progressbar';
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // global
-import { BACKGROUND_COLOR_DARK, DELAY_DISPATCH_TIME } from '@/global';
+import { ANIME_HIDE_TIME, BACKGROUND_COLOR_DARK } from '@/global';
 import { setJumpFlag } from '@/redux/slices/universal';
 import { getOneBlogId, hasBlogOfId } from '@/utils';
 import { setSelectedId } from '@/redux/slices/blogMenu';
@@ -73,22 +73,27 @@ const BlogPage = () => {
   }, []);
 
   useEffect(() => {
+    dispatch(setFadeOut(false));
+  }, []);
+
+  useEffect(() => {
     if (jumpFlag) {
       // 重置jumpFLag标志
       dispatch(setJumpFlag(false));
-      // 如果先前打开了滚动条要先关闭
-      dispatch(setIsLoading(false));
+      dispatch(setFadeOut(true));
       setTimeout(() => {
-        dispatch(setIsLoading(true));
-      }, 50);
-      // 打开FadeOut（FadeOut动画开始，持续时间ns）
-      setTimeout(() => {
-        dispatch(setFadeOut(true));
-      }, 350);
-      setTimeout(() => {
-        // 执行操作并取消fadeOut（FadeIn动画执行）
         dispatch(setFadeOut(false));
-      }, DELAY_DISPATCH_TIME);
+      }, ANIME_HIDE_TIME);
+      // 如果先前打开了滚动条要先关闭
+      // dispatch(setIsLoading(false));
+      // setTimeout(() => {
+      //   dispatch(setIsLoading(true));
+      // }, 50);
+      // 打开FadeOut（FadeOut动画开始，持续时间ns）
+      // setTimeout(() => {
+      //   // 执行操作并取消fadeOut（FadeIn动画执行）
+      //   dispatch(setFadeOut(false));
+      // }, DELAY_DISPATCH_TIME);
     }
   }, [jumpFlag]);
 

@@ -13,11 +13,9 @@ import { setSelectedId } from '@/redux/slices/blogMenu';
 import { setJumpFlag } from '@/redux/slices/universal';
 import { addHistory } from '@/redux/slices/es';
 
-// global
-import { DELAY_DISPATCH_TIME } from '@/global';
-
 // util
 import { getRenderNode } from '@/components/ElasticSearch/utils';
+import { ANIME_HIDE_TIME } from '@/global';
 
 interface SearchListProps {
   searchObj: SearchResultObj;
@@ -47,7 +45,7 @@ const SearchList: React.FC<SearchListProps> = ({ searchObj, match, closeBox }) =
                   dispatch(setJumpFlag(true));
                   setTimeout(() => {
                     dispatch(setSelectedId(blog.blog_id));
-                  }, DELAY_DISPATCH_TIME);
+                  }, ANIME_HIDE_TIME);
                 } else {
                   dispatch(setSelectedId(blog.blog_id));
                 }
