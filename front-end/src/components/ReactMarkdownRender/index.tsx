@@ -59,8 +59,10 @@ const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) 
             // 当前的wrapper
             const div = document.getElementsByClassName(unique)[0];
             const parent = div ? (div.parentElement as HTMLElement) : undefined;
-            if (parent) {
+            const child = div ? (div.firstElementChild as HTMLElement) : undefined;
+            if (parent && child) {
               parent.style.position = 'relative';
+              child.style.color = 'rgb(150, 150, 150)';
             }
           }, []);
 

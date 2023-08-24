@@ -83,7 +83,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
           inlineIndent={12}
           style={{ borderRadius: '0 0 5px 5px', border: 'none' }}
           defaultOpenKeys={getAllKeyOfSideMenu(menus)}
-          expandIcon={<DownOutlined />}
           mode="inline"
           items={antdMenus}
           selectedKeys={[selectedId]}
