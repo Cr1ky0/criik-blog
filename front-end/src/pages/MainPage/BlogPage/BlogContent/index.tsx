@@ -74,9 +74,10 @@ const BlogContent = () => {
         const contents = filterTitle(blog.contents);
         const newBlog = Object.assign({}, blog, { contents });
         setCurBlog(newBlog);
-        await dispatch(setCurBlogContent(contents));
         // 更新完毕后关闭FadeOut并打开Opt标志
+        await dispatch(setCurBlogContent(contents));
         await dispatch(setFadeOut(false));
+
         // 关闭mobileMenu
         setTimeout(() => {
           dispatch(setMobileMenuOpen(false));

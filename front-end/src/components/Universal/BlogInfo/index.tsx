@@ -36,6 +36,7 @@ const isLiked = (likeList: string[], id: string) => {
 };
 const BlogInfo: React.FC<BlogInfoProps> = ({ statistics, showCollect }) => {
   const { author, time, views, id, isCollected, likes } = statistics;
+  console.log(statistics);
   const { width } = useViewport();
   const message = useGlobalMessage();
   const menus = useAppSelector(state => state.blogMenu.menuList);
@@ -55,7 +56,7 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics, showCollect }) => {
     const grand = getBreadcrumbList(menus, id, icons);
     grand.pop();
     setGrandMenu(grand);
-  }, [menus]);
+  }, [id]);
 
   useEffect(() => {
     setCollected(isCollected);
