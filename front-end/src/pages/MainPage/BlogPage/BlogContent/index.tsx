@@ -77,10 +77,8 @@ const BlogContent = () => {
         // 更新完毕后关闭FadeOut并打开Opt标志
         await dispatch(setCurBlogContent(contents));
         await dispatch(setFadeOut(false));
-
         // 关闭mobileMenu
         setTimeout(() => {
-          dispatch(setMobileMenuOpen(false));
           dispatch(setOpt(true));
         }, ANIME_SHOW_TITME);
         // 加载一次热度+1

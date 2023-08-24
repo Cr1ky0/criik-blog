@@ -15,6 +15,31 @@ import {
 // antd
 import type { DataNode } from 'antd/es/tree';
 
+// 获取某个博客的父菜单链条
+export const getParentListOfBlog: (menus: SideMenuItem[], icons: AntdIcon[], id: string) => string[] = (
+  menus,
+  icons,
+  id
+) => {
+  const list = getBreadcrumbList(menus, id, icons).map(item => {
+    return item.menu_id;
+  });
+  list.pop();
+  return list;
+};
+
+// 获取某个博客的父菜单
+export const getParentOfBlog: (menus: SideMenuItem[], blogId: string) => string | undefined = (menus, blogId) => {
+  let parent: string | undefined = '';
+  menus.forEach(menu => {
+    menu.blogs?.forEach(blog => {
+      if (blog.id === blogId) parent = menu.id;
+    });
+    if (!parent && menu.children) parent = getParentOfBlog(menu.children, blogId);
+  });
+  if (parent) return parent;
+};
+
 // 获取某个元素相对于document.body的定位（left,top）
 export const getOffset = (elem: HTMLElement) => {
   let offsetLeft = 0;

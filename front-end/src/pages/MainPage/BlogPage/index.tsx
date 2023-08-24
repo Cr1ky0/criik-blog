@@ -46,8 +46,9 @@ const BlogPage = () => {
   useEffect(() => {
     window.scrollTo({
       top: 0,
+      behavior: 'smooth',
     });
-  }, [selectedId]);
+  }, [selectedId, jumpFlag]);
 
   useEffect(() => {
     window.scrollTo({
@@ -104,7 +105,13 @@ const BlogPage = () => {
           backgroundColor: themeMode === 'dark' ? BACKGROUND_COLOR_DARK : '#FFF',
         }}
       >
-        <SideMenu noEdit={true} page="blog"></SideMenu>
+        <SideMenu
+          noEdit={true}
+          page="blog"
+          closeMenu={() => {
+            dispatch(setMobileMenuOpen(false));
+          }}
+        ></SideMenu>
       </MobileTopBtn>
     </div>
   );

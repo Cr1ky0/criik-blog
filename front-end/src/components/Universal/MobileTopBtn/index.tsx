@@ -18,7 +18,7 @@ const MobileTopBtn: React.FC<MobileTopBtnProps> = ({ children, styles }) => {
   const open = useAppSelector(state => state.universal.moblieMenuOpen);
   return (
     <>
-      <div className={`${style.content} ${open ? style.contentActive : style.contentHide}`} style={styles}>
+      <div className={`${style.content} ${open ? style.contentActive : ''}`} style={styles}>
         {children}
       </div>
       <div

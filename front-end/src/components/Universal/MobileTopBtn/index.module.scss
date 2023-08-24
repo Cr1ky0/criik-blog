@@ -64,7 +64,7 @@ $CONTENT_WIDTH: 270px;
 
 
 .contentActive {
-  right: 10px;
+  transform: translateX(-$CONTENT_WIDTH - 10px);
 }
 
 .contentHide {

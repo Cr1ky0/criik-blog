@@ -1,9 +1,8 @@
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 // antd
 import { Menu, Modal } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
 
 // css
 import style from './index.module.scss';
@@ -21,7 +20,7 @@ import { setJumpFlag } from '@/redux/slices/universal';
 import { useIcons } from '../ContextProvider/IconStore';
 
 // utils
-import { getAntdMenus, getAllKeyOfSideMenu, getSideMenuItem } from '@/utils';
+import { getAntdMenus, getSideMenuItem, getParentListOfBlog } from '@/utils';
 
 // interface
 import { SideMenuItem } from '@/interface';
@@ -41,10 +40,10 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const menus = useAppSelector(state => state.blogMenu.menuList);
+  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const opt = useAppSelector(state => state.blogMenu.opt);
   const antdMenus = getAntdMenus(menus, icons);
-  // 当前选中的左边菜单栏目
-  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
+  const [parentKey] = useState(getParentListOfBlog(menus, icons, selectedId));
   // 预览展开state
   const [open, setOpen] = useState(false);
 
@@ -82,7 +81,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
           className={style.menu}
           inlineIndent={12}
           style={{ borderRadius: '0 0 5px 5px', border: 'none' }}
-          defaultOpenKeys={getAllKeyOfSideMenu(menus)}
+          defaultOpenKeys={parentKey}
           mode="inline"
           items={antdMenus}
           selectedKeys={[selectedId]}
