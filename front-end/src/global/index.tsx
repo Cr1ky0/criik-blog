@@ -13,9 +13,10 @@ export const FONT_COLOR_LIGHT = '#2c3e50';
 
 export const FONT_COLOR_LIGHT_2 = 'rgba(0,0,0,.4)';
 
-// export const BASE_URL = 'https://www.criiky0.top';
-export const BASE_URL = 'http://localhost:3002';
+export const BASE_URL = 'https://www.criiky0.top';
+// export const BASE_URL = 'http://localhost:3002';
 export const ANIME_HIDE_TIME = 300; // 延迟跳转或dispatch时间（用于selectedID）
+export const ANIME_SHOW_TITME = 1000; // show anime time
 
 // 颜色选项
 export const colorList = [

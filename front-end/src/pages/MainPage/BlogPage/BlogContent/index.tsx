@@ -18,8 +18,9 @@ import style from './index.module.scss';
 
 //redux
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { setSelectedId, deleteMenu } from '@/redux/slices/blogMenu';
+import { setSelectedId, deleteMenu, setOpt } from '@/redux/slices/blogMenu';
 import { initWriteContent, setAllContent, setCurBlogContent, setCurEditId, setIsEdit } from '@/redux/slices/blog';
+import { setFadeOut } from '@/redux/slices/progressbar';
 
 // utils
 import { filterLT, filterTitle, getBreadcrumbList, getOneBlogId, getSideMenuItem } from '@/utils';
@@ -34,6 +35,7 @@ import { deleteBlogAjax, getCurBlog, updateBlogViewAjax } from '@/api/blog';
 
 // interface
 import { SideMenuItem, BlogObj } from '@/interface';
+import { ANIME_SHOW_TITME } from '@/global';
 
 const BlogContent = () => {
   const icons = useIcons();
@@ -63,13 +65,18 @@ const BlogContent = () => {
   useEffect(() => {
     let timer: any;
     getCurBlog(selectedId)
-      .then(response => {
+      .then(async response => {
         const blog = response.data.blog;
         // 处理Title
         const contents = filterTitle(blog.contents);
         const newBlog = Object.assign({}, blog, { contents });
         setCurBlog(newBlog);
-        dispatch(setCurBlogContent(contents));
+        await dispatch(setCurBlogContent(contents));
+        // 更新完毕后关闭FadeOut并打开Opt标志
+        await dispatch(setFadeOut(false));
+        setTimeout(() => {
+          dispatch(setOpt(true));
+        }, ANIME_SHOW_TITME);
         // 加载一次热度+1
         return updateBlogViewAjax(selectedId, response.data.blog.views + 1);
       })

@@ -14,9 +14,8 @@ import EditMenu from '@/components/SideMenu/EditMenu';
 
 // redux
 import { useAppSelector, useAppDispatch } from '@/redux';
-import { setSelectedId } from '@/redux/slices/blogMenu';
+import { setSelectedId, setOpt } from '@/redux/slices/blogMenu';
 import { setJumpFlag } from '@/redux/slices/universal';
-import { setFadeOut } from '@/redux/slices/progressbar';
 
 // context
 import { useIcons } from '../ContextProvider/IconStore';
@@ -26,6 +25,8 @@ import { getAntdMenus, getAllKeyOfSideMenu, getSideMenuItem } from '@/utils';
 
 // interface
 import { SideMenuItem } from '@/interface';
+
+// global
 import { ANIME_HIDE_TIME } from '@/global';
 
 interface SideMenuProps {
@@ -40,14 +41,12 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const menus = useAppSelector(state => state.blogMenu.menuList);
+  const opt = useAppSelector(state => state.blogMenu.opt);
   const antdMenus = getAntdMenus(menus, icons);
   // 当前选中的左边菜单栏目
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   // 预览展开state
   const [open, setOpen] = useState(false);
-
-  // 可操作标志
-  const [opt, setOpt] = useState(true);
 
   return (
     <div className={style.wrapper} style={styles}>
@@ -98,19 +97,14 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
                 const item = getSideMenuItem(menus, e.key) as SideMenuItem;
                 if (!item.grade && e.key !== selectedId) {
                   // 操作标志置为false，不可继续操作
-                  setOpt(false);
+                  dispatch(setOpt(false));
                   dispatch(setJumpFlag(true));
                   setTimeout(async () => {
-                    await dispatch(setFadeOut(false));
                     await dispatch(setSelectedId(e.key));
                     if (page === 'blog') {
                       navigate(`/blog`);
                     }
                   }, ANIME_HIDE_TIME);
-                  setTimeout(() => {
-                    // 重置可操作标志
-                    setOpt(true);
-                  }, 1200);
                 }
                 if (closeMenu) closeMenu();
               }

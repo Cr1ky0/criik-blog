@@ -70,7 +70,6 @@ const NextPage = () => {
   const handleClick = (id: string) => {
     dispatch(setJumpFlag(true));
     setTimeout(async () => {
-      await dispatch(setFadeOut(false));
       await dispatch(setSelectedId(id));
     }, ANIME_HIDE_TIME);
   };
