@@ -5,7 +5,7 @@ interface UniInitState {
   jumpFlag: boolean;
   loginFormOpen: boolean;
   starBlogPage: number;
-  codeRenderCount: number;
+  moblieMenuOpen: boolean;
 }
 
 const initialState = {
@@ -13,12 +13,16 @@ const initialState = {
   jumpFlag: false, // 跳转标志，用来表示页面是否处于跳转（作为useEffect依赖使用）
   loginFormOpen: false, // 登录页面打开标志
   starBlogPage: 1, // starBlog页面分页的当前页
+  moblieMenuOpen: false, // mobileMenu
 } as UniInitState;
 
 const uniSlice = createSlice({
   name: 'universal',
   initialState,
   reducers: {
+    setMobileMenuOpen: (state, action) => {
+      state.moblieMenuOpen = action.payload;
+    },
     setThemeMode: (state, action) => {
       state.themeMode = action.payload;
     },
@@ -33,5 +37,5 @@ const uniSlice = createSlice({
     },
   },
 });
-export const { setThemeMode, setJumpFlag, setLoginFormOpen, setStarBlogPage } = uniSlice.actions;
+export const { setMobileMenuOpen, setThemeMode, setJumpFlag, setLoginFormOpen, setStarBlogPage } = uniSlice.actions;
 export default uniSlice.reducer;

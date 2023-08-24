@@ -19,6 +19,7 @@ import { SideMenuItem } from '@/interface';
 
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+import { setMobileMenuOpen } from '@/redux/slices/universal';
 
 const Classification = () => {
   const navigate = useNavigate();
@@ -62,6 +63,7 @@ const Classification = () => {
                   const blogId = getOneBlogFromMenu(item);
                   if (blogId) {
                     dispatch(setSelectedId(blogId));
+                    dispatch(setMobileMenuOpen(false));
                     navigate('/blog');
                   } else {
                     message.success('当前分类下暂时没有博客哦~');

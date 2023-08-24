@@ -11,6 +11,7 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import { useAppDispatch } from '@/redux';
 import { setSelectedId } from '@/redux/slices/blogMenu';
 import { useNavigate } from 'react-router';
+import { setMobileMenuOpen } from '@/redux/slices/universal';
 
 interface showBlogObj {
   title: string;
@@ -70,6 +71,7 @@ const ShowBlogs = () => {
                 className={style.blogTitle}
                 onClick={() => {
                   dispatch(setSelectedId(blog.id));
+                  dispatch(setMobileMenuOpen(false));
                   navigate('/blog');
                 }}
               >

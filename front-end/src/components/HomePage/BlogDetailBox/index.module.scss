@@ -72,6 +72,15 @@
   background-color: $THEME_COLOR !important;
 }
 
+.mobileWrapper {
+  .content {
+    > div {
+      > div:last-child {
+        height: 250px !important;
+      }
+    }
+  }
+}
 
 @keyframes anime {
   from {

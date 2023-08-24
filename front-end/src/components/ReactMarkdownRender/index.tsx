@@ -27,6 +27,72 @@ interface ReactMarkdownWrapperProps {
   children: string;
 }
 
+// code渲染器
+const code = ({ node, inline, className, children, ...props }: any) => {
+  const themeMode = useAppSelector(state => state.universal.themeMode);
+  const [match, setMatch] = useState(/language-(\w+)/.exec(className || ''));
+  const message = useGlobalMessage();
+  const [unique] = useState(nanoid());
+  const ref = useRef<HTMLDivElement>(null);
+  // copy点击事件
+  const handleClick = () => {
+    // 复制到粘贴板
+    const clipboardObj = navigator.clipboard;
+    const value = String(children).replace(/\n$/, '');
+    clipboardObj.writeText(value).then(
+      () => {
+        message.success('已粘贴到粘贴板');
+      },
+      () => {
+        message.error('粘贴失败');
+      }
+    );
+  };
+
+  useEffect(() => {
+    // 当前的wrapper
+    const div = document.getElementsByClassName(unique)[0];
+    const parent = div ? (div.parentElement as HTMLElement) : undefined;
+    const child = div ? (div.firstElementChild as HTMLElement) : undefined;
+    if (parent && child) {
+      parent.style.position = 'relative';
+      child.style.color = 'rgb(150, 150, 150)';
+    }
+  }, []);
+
+  useEffect(() => {
+    const newMatch = /language-(\w+)/.exec(className || '');
+    setMatch(newMatch);
+  }, [className]);
+
+  return !inline && match ? (
+    <>
+      <div className={`syntax-highlighter-func-bar-wrapper`} ref={ref}>
+        <div
+          className={`iconfont syntax-highlighter-copy-btn-${themeMode === 'dark' ? 'dark' : 'light'}`}
+          onClick={handleClick}
+        >
+          &#xe706;
+        </div>
+        <div className={`syntax-highlighter-code-language-${themeMode === 'dark' ? 'dark' : 'light'}`}>{match[1]}</div>
+      </div>
+      <SyntaxHighlighter
+        {...props}
+        showLineNumbers
+        style={vscDarkPlus}
+        language={match[1]}
+        className={`syntax-highlighter-wrapper ${unique}`}
+      >
+        {String(children).replace(/\n$/, '')}
+      </SyntaxHighlighter>
+    </>
+  ) : (
+    <code {...props} className={className}>
+      {children}
+    </code>
+  );
+};
+
 const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) => {
   const themeMode = useAppSelector(state => state.universal.themeMode);
   return (
@@ -34,73 +100,7 @@ const ReactMarkdownRender: React.FC<ReactMarkdownWrapperProps> = ({ children }) 
       className={`markdown-body ${themeMode === 'dark' ? 'markdown-render-dark' : 'markdown-render-light'}`}
       remarkPlugins={[remarkMath, remarkGfm]}
       rehypePlugins={[rehypeKatex, rehypeRaw]}
-      components={{
-        code({ node, inline, className, children, ...props }) {
-          const [match, setMatch] = useState(/language-(\w+)/.exec(className || ''));
-          const message = useGlobalMessage();
-          const [unique] = useState(nanoid());
-          const ref = useRef<HTMLDivElement>(null);
-          // copy点击事件
-          const handleClick = () => {
-            // 复制到粘贴板
-            const clipboardObj = navigator.clipboard;
-            const value = String(children).replace(/\n$/, '');
-            clipboardObj.writeText(value).then(
-              () => {
-                message.success('已粘贴到粘贴板');
-              },
-              () => {
-                message.error('粘贴失败');
-              }
-            );
-          };
-
-          useEffect(() => {
-            // 当前的wrapper
-            const div = document.getElementsByClassName(unique)[0];
-            const parent = div ? (div.parentElement as HTMLElement) : undefined;
-            const child = div ? (div.firstElementChild as HTMLElement) : undefined;
-            if (parent && child) {
-              parent.style.position = 'relative';
-              child.style.color = 'rgb(150, 150, 150)';
-            }
-          }, []);
-
-          useEffect(() => {
-            const newMatch = /language-(\w+)/.exec(className || '');
-            setMatch(newMatch);
-          }, [className]);
-
-          return !inline && match ? (
-            <>
-              <div className={`syntax-highlighter-func-bar-wrapper`} ref={ref}>
-                <div
-                  className={`iconfont syntax-highlighter-copy-btn-${themeMode === 'dark' ? 'dark' : 'light'}`}
-                  onClick={handleClick}
-                >
-                  &#xe706;
-                </div>
-                <div className={`syntax-highlighter-code-language-${themeMode === 'dark' ? 'dark' : 'light'}`}>
-                  {match[1]}
-                </div>
-              </div>
-              <SyntaxHighlighter
-                {...props}
-                showLineNumbers
-                style={vscDarkPlus}
-                language={match[1]}
-                className={`syntax-highlighter-wrapper ${unique}`}
-              >
-                {String(children).replace(/\n$/, '')}
-              </SyntaxHighlighter>
-            </>
-          ) : (
-            <code {...props} className={className}>
-              {children}
-            </code>
-          );
-        },
-      }}
+      components={{ code }}
     >
       {children}
     </ReactMarkdown>

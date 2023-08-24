@@ -2,13 +2,13 @@
 
 // 黑暗模式
 .dark {
-  background-color: $BACKGROUND_COLOR_DARK_2;
-  fill: $BACKGROUND_COLOR_DARK_2;
+  background-color: rgba(75, 75, 75, .4);
+  fill: rgba(75, 75, 75, .4);
 }
 
 .light {
-  background-color: rgba(255, 255, 255, .7);
-  fill: rgba(255, 255, 255, .7);
+  background-color: rgba(255, 255, 255, .4);
+  fill: rgba(255, 255, 255, .4);
 }
 
 @mixin universal() {
@@ -18,18 +18,26 @@
     cursor: pointer;
     opacity: 0;
     visibility: hidden;
-    transition: all .5s;
+    transition: opacity .5s;
     z-index: $GRADE_TOP;
+    border-radius: 50%;
 
+    // 背景模糊
+    backdrop-filter: saturate(2) blur(4px); /* 背景模糊效果，需要浏览器支持 */
+    -webkit-backdrop-filter: saturate(2) blur(4px); /* WebKit 浏览器兼容性 */
     > svg {
       box-shadow: 0 0 10px rgba(0, 0, 0, .2);
       border: {
         radius: 50%;
       };
+
+      // 背景模糊
+      backdrop-filter: saturate(2) blur(8px); /* 背景模糊效果，需要浏览器支持 */
+      -webkit-backdrop-filter: saturate(2) blur(8px); /* WebKit 浏览器兼容性 */
     }
 
     .circle {
-      transition: all .5s;
+      transition: stroke-dasharray .3s;
       transform: rotateZ(-90deg);
     }
 
@@ -76,7 +84,7 @@
       font-size: 25px;
     }
 
-    bottom: 120px;
+    bottom: 50px;
     right: 50px;
 
   }

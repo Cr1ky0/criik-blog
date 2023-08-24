@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router';
 
-// antd
-import { Drawer } from 'antd';
-
 // comp
 import SideMenu from '@/components/SideMenu';
 import BlogToc2 from '@/components/BlogPage/BlogToc2';
+import MobileTopBtn from '@/components/Universal/MobileTopBtn';
 
 // css
 import style from './index.module.scss';
@@ -15,15 +13,17 @@ import style from './index.module.scss';
 import { setChosenList } from '@/redux/slices/chosenList';
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { setFadeOut, setIsLoading } from '@/redux/slices/progressbar';
+import { setJumpFlag, setMobileMenuOpen } from '@/redux/slices/universal';
+import { setSelectedId } from '@/redux/slices/blogMenu';
 
 // context
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // global
 import { BACKGROUND_COLOR_DARK } from '@/global';
-import { setJumpFlag } from '@/redux/slices/universal';
+
+// utils
 import { getOneBlogId, hasBlogOfId } from '@/utils';
-import { setSelectedId } from '@/redux/slices/blogMenu';
 
 const BlogPage = () => {
   const { width } = useViewport();
@@ -34,8 +34,6 @@ const BlogPage = () => {
   const fadeOut = useAppSelector(state => state.progressbar.fadeOut);
   const themeMode = useAppSelector(state => state.universal.themeMode);
   const jumpFlag = useAppSelector(state => state.universal.jumpFlag);
-  // Mobile Menu Open State
-  const [open, setOpen] = useState(false);
 
   // 如果当前select不存在则重新选择
   useEffect(() => {
@@ -98,35 +96,16 @@ const BlogPage = () => {
         {selectedId ? <BlogToc2 text={curBlogContent}></BlogToc2> : undefined}
       </div>
       {/* Mobile Menu */}
-      <div
-        className={style.mobileMenu}
-        onClick={() => {
-          setOpen(true);
+      <MobileTopBtn
+        styles={{
+          height: 350,
+          width: 250,
+          padding: 10,
+          backgroundColor: themeMode === 'dark' ? BACKGROUND_COLOR_DARK : '#FFF',
         }}
       >
-        <div className="iconfont">&#xe7f4;</div>
-      </div>
-      <Drawer
-        placement="top"
-        open={open}
-        maskClosable={true}
-        onClose={() => {
-          setOpen(false);
-        }}
-        destroyOnClose={false}
-        height="100%"
-        rootStyle={{ border: 'none', outline: 'none' }}
-        bodyStyle={{ backgroundColor: themeMode === 'dark' ? BACKGROUND_COLOR_DARK : undefined }}
-        headerStyle={{ backgroundColor: themeMode === 'dark' ? BACKGROUND_COLOR_DARK : undefined }}
-      >
-        <SideMenu
-          noEdit={true}
-          page="blog"
-          closeMenu={() => {
-            setOpen(false);
-          }}
-        ></SideMenu>
-      </Drawer>
+        <SideMenu noEdit={true} page="blog"></SideMenu>
+      </MobileTopBtn>
     </div>
   );
 };

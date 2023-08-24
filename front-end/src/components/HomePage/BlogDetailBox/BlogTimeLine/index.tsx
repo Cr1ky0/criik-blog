@@ -17,6 +17,7 @@ import { setSelectedId } from '@/redux/slices/blogMenu';
 
 // interface
 import { TimeLineObj } from '@/interface';
+import { setMobileMenuOpen } from '@/redux/slices/universal';
 
 const BlogTimeLine = () => {
   const timeline = useAppSelector(state => state.blog.timeLine);
@@ -98,6 +99,7 @@ const BlogTimeLine = () => {
         mode="left"
         items={generateTimeLine(timeline, e => {
           dispatch(setSelectedId((e.currentTarget as HTMLElement).id));
+          dispatch(setMobileMenuOpen(false));
           navigate('/blog');
         })}
       />

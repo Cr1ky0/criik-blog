@@ -63,7 +63,7 @@ const BlogDetailBox: React.FC<BlogDetailBoxProps> = ({ isMobile }) => {
 
   return (
     <div
-      className={`${style.wrapper} clearfix ${isMobile ? '' : style.wrapperOnShadow} ${
+      className={`${style.wrapper} clearfix ${isMobile ? style.mobileWrapper : style.wrapperOnShadow} ${
         themeMode === 'dark' ? 'dark-2' : 'light'
       }`}
     >

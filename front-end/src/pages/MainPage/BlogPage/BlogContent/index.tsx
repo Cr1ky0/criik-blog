@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 import { setSelectedId, deleteMenu, setOpt } from '@/redux/slices/blogMenu';
 import { initWriteContent, setAllContent, setCurBlogContent, setCurEditId, setIsEdit } from '@/redux/slices/blog';
 import { setFadeOut } from '@/redux/slices/progressbar';
+import { setMobileMenuOpen } from '@/redux/slices/universal';
 
 // utils
 import { filterLT, filterTitle, getBreadcrumbList, getOneBlogId, getSideMenuItem } from '@/utils';
@@ -35,6 +36,8 @@ import { deleteBlogAjax, getCurBlog, updateBlogViewAjax } from '@/api/blog';
 
 // interface
 import { SideMenuItem, BlogObj } from '@/interface';
+
+// global
 import { ANIME_SHOW_TITME } from '@/global';
 
 const BlogContent = () => {
@@ -74,7 +77,9 @@ const BlogContent = () => {
         await dispatch(setCurBlogContent(contents));
         // 更新完毕后关闭FadeOut并打开Opt标志
         await dispatch(setFadeOut(false));
+        // 关闭mobileMenu
         setTimeout(() => {
+          dispatch(setMobileMenuOpen(false));
           dispatch(setOpt(true));
         }, ANIME_SHOW_TITME);
         // 加载一次热度+1

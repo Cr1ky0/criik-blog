@@ -1,0 +1,72 @@
+@import "@/assets/css/index.scss";
+
+$CONTENT_WIDTH: 300px;
+
+.mobileMenuDark {
+  @include trans;
+  background-color: rgba(75, 75, 75, .4);
+  color: #bfbfbf;
+}
+
+.mobileMenuLight {
+  @include trans;
+  background-color: rgba(255, 255, 255, .4);
+  color: #acacac;;
+}
+
+@media (width <= $BREAK_POINT) {
+  .content {
+    @include trans();
+    box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+    //transition: right .2s !important;
+    //transition-timing-function: ease-out;
+    width: $CONTENT_WIDTH;
+    border-radius: 5px;
+    overflow-y: auto;
+    position: fixed;
+    right: -$CONTENT_WIDTH;
+    bottom: 170px;
+  }
+  .mobileMenu {
+    position: fixed;
+    bottom: 100px;
+    right: 50px;
+    width: 45px;
+    height: 45px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+    border: {
+      radius: 50%;
+    };
+
+    > div:first-child {
+      position: absolute;
+      left: 11px;
+      top: 11px;
+      font-size: 24px;
+    }
+
+    // 背景模糊
+    backdrop-filter: saturate(2) blur(8px); /* 背景模糊效果，需要浏览器支持 */
+    -webkit-backdrop-filter: saturate(2) blur(8px); /* WebKit 浏览器兼容性 */
+  }
+}
+
+@media (width > $BREAK_POINT) {
+
+  .content {
+    display: none;
+  }
+
+  .mobileMenu {
+    display: none;
+  }
+}
+
+
+.contentActive {
+  right: 10px;
+}
+
+.contentHide {
+  right: -$CONTENT_WIDTH;
+}

@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Outlet, useNavigate } from 'react-router';
 
 // antd
-import { Drawer, Pagination } from 'antd';
+import { Pagination } from 'antd';
 
 // css
 import style from './index.module.scss';
@@ -23,6 +23,8 @@ import { setIsLoading } from '@/redux/slices/progressbar';
 import IntroductionBox from '@/components/HomePage/IntroductionBox';
 import BlogDetailBox from '@/components/HomePage/BlogDetailBox';
 import Footer from '@/components/Footer';
+import MobileTopBtn from '@/components/Universal/MobileTopBtn';
+import { setMobileMenuOpen } from '@/redux/slices/universal';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -36,11 +38,13 @@ const HomePage = () => {
   const homePhotoWrapper = useRef<HTMLDivElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
 
-  // Mobile Menu Open State
-  const [open, setOpen] = useState(false);
-
   // photo
   const [backgroundImage, setBackgroundImage] = useState(null);
+
+  // 重置mobile open
+  useEffect(() => {
+    dispatch(setMobileMenuOpen(false));
+  }, []);
 
   // 导入随机背景图片
   useEffect(() => {
@@ -122,30 +126,12 @@ const HomePage = () => {
             </div>
           ) : undefined}
         </div>
-        {/* Mobile Menu */}
-        <Drawer
-          placement="top"
-          open={open}
-          maskClosable={true}
-          onClose={() => {
-            setOpen(false);
-          }}
-          destroyOnClose={false}
-          height="100%"
-          rootStyle={{ border: 'none', outline: 'none' }}
-        >
-          <BlogDetailBox isMobile></BlogDetailBox>
-        </Drawer>
         <Footer></Footer>
       </div>
-      <div
-        className={`${style.mobileMenu} ${themeMode === 'dark' ? style.mobileMenuDark : style.mobileMenuLight}`}
-        onClick={() => {
-          setOpen(true);
-        }}
-      >
-        <div className="iconfont">&#xe7f4;</div>
-      </div>
+      {/* Mobile Menu */}
+      <MobileTopBtn>
+        <BlogDetailBox isMobile></BlogDetailBox>
+      </MobileTopBtn>
     </>
   );
 };

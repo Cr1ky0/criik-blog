@@ -63,7 +63,6 @@ const BackToTopBtn = () => {
 
   return (
     <div
-      // className={`${style.wrapper} ${themeMode === 'dark' ? style.dark : style.light}`}
       className={style.wrapper}
       onClick={() => {
         window.scrollTo({
