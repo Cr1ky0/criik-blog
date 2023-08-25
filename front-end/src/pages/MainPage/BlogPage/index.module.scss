@@ -53,6 +53,7 @@
 
   .sider {
     position: fixed;
+    z-index: $GRADE_TOP;
     width: 25vw;
     height: 100%;
 

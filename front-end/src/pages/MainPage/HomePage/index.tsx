@@ -90,7 +90,7 @@ const HomePage = () => {
           </div>
         </div>
         <div className={`${style.main} clearfix`} ref={divRef}>
-          <div className={`${style.content}  ${loading ? 'hideAnime' : 'showAnime'}`}>
+          <div className={`${style.content} transBase ${loading ? 'transHide' : ''}`}>
             <div className={style.blogList}>
               <Outlet />
             </div>

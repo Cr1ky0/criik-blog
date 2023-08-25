@@ -20,7 +20,7 @@ import { setSelectedId } from '@/redux/slices/blogMenu';
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // global
-import { BACKGROUND_COLOR_DARK } from '@/global';
+import { ANIME_HIDE_TIME, BACKGROUND_COLOR_DARK } from '@/global';
 
 // utils
 import { getOneBlogId, hasBlogOfId } from '@/utils';
@@ -86,14 +86,11 @@ const BlogPage = () => {
           <SideMenu noEdit={true} page="blog"></SideMenu>
         </div>
       </div>
-      <div className={`${style.content} clearfix`}>
+      <div className={`${style.content} clearfix showAnime`}>
         {/* 选中状态 */}
         {selectedId ? <Outlet /> : <div style={{ fontSize: '24px' }}>当前没有博客，请添加博客后访问！</div>}
       </div>
-      <div
-        className={`${style.toc} ${fadeOut ? 'hideAnime' : 'showAnime'}`}
-        style={width > 1100 ? undefined : { display: 'none' }}
-      >
+      <div className={`${style.toc} showAnime`} style={width > 1100 ? undefined : { display: 'none' }}>
         {selectedId ? <BlogToc2 text={curBlogContent}></BlogToc2> : undefined}
       </div>
       {/* Mobile Menu */}

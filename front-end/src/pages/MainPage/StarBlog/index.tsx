@@ -59,7 +59,7 @@ const StarBlog = () => {
   }, []);
 
   return (
-    <div className={`${style.wrapper} clearfix`} ref={wrapper}>
+    <div className={`${style.wrapper} clearfix showAnime`} ref={wrapper}>
       <div>
         <div className={style.options}>
           {choseList.map((choice, index) => {
@@ -99,7 +99,7 @@ const StarBlog = () => {
           })}
         </div>
 
-        <div className={`${style.blogs} ${isLoading ? 'hideAnime' : 'showAnime'}`}>
+        <div className={`${style.blogs} transBase ${isLoading ? 'transHide' : ''}`}>
           <Outlet />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import moment from 'moment';
 import Cookies from 'universal-cookie';
@@ -38,7 +38,7 @@ import { deleteBlogAjax, getCurBlog, updateBlogViewAjax } from '@/api/blog';
 import { SideMenuItem, BlogObj } from '@/interface';
 
 // global
-import { ANIME_SHOW_TITME } from '@/global';
+import { ANIME_SHOW_TIME } from '@/global';
 
 const BlogContent = () => {
   const icons = useIcons();
@@ -49,7 +49,6 @@ const BlogContent = () => {
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const fadeOut = useAppSelector(state => state.progressbar.fadeOut);
-
   // 获取面包屑列表
   const breadcrumbList = selectedId ? getBreadcrumbList(menus, selectedId, icons) : [];
 
@@ -80,7 +79,7 @@ const BlogContent = () => {
         // 关闭mobileMenu
         setTimeout(() => {
           dispatch(setOpt(true));
-        }, ANIME_SHOW_TITME);
+        }, ANIME_SHOW_TIME);
         // 加载一次热度+1
         return updateBlogViewAjax(selectedId, response.data.blog.views + 1);
       })
@@ -141,7 +140,8 @@ const BlogContent = () => {
 
   return (
     <>
-      <div className={`${style.main} clearfix ${fadeOut ? 'hideAnime' : 'showAnime'}`}>
+      {/*<div className={`${style.main} clearfix ${fadeOut ? 'hideAnime' : 'showAnime'}`}>*/}
+      <div className={`${style.main} transBase clearfix ${fadeOut ? 'transHide' : ''}`}>
         <div className="clearfix">
           <div className={style.blog}>
             <div className={style.breadCrumb}>

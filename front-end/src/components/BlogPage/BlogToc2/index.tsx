@@ -6,6 +6,9 @@ import { Anchor } from 'antd';
 // css
 import style from './index.module.scss';
 
+// redux
+import { useAppSelector } from '@/redux';
+
 interface BlogTocProps {
   text: string;
 }
@@ -35,6 +38,7 @@ const generateAnchorItems = (textList: string[]) => {
   });
 };
 const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
+  const fadeOut = useAppSelector(state => state.progressbar.fadeOut);
   const [tocList, setTocList] = useState<any>();
 
   useEffect(() => {
@@ -45,7 +49,7 @@ const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
   }, [text]);
 
   return (
-    <div className={`${style.wrapper} clearfix`}>
+    <div className={`${style.wrapper} clearfix  transBase ${fadeOut ? 'transHide' : ''}`}>
       <div className={style.tocHeader}>
         <span>此页内容 </span>
         <span className="iconfont">&#xe640;</span>
