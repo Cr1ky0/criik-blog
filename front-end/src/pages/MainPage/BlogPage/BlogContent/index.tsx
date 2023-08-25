@@ -140,8 +140,7 @@ const BlogContent = () => {
 
   return (
     <>
-      {/*<div className={`${style.main} clearfix ${fadeOut ? 'hideAnime' : 'showAnime'}`}>*/}
-      <div className={`${style.main} transBase clearfix ${fadeOut ? 'transHide' : ''}`}>
+      <div className={`${style.main} showAnime`}>
         <div className="clearfix">
           <div className={style.blog}>
             <div className={style.breadCrumb}>

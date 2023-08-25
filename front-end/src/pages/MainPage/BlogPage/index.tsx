@@ -43,12 +43,12 @@ const BlogPage = () => {
   }, []);
 
   // 切换博客时滚动至top
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  }, [selectedId, jumpFlag]);
+  // useEffect(() => {
+  //   window.scrollTo({
+  //     top: 0,
+  //     behavior: 'smooth',
+  //   });
+  // }, [selectedId, jumpFlag]);
 
   useEffect(() => {
     window.scrollTo({
@@ -76,6 +76,12 @@ const BlogPage = () => {
       // 重置jumpFLag标志
       dispatch(setJumpFlag(false));
       dispatch(setFadeOut(true));
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      }, ANIME_HIDE_TIME);
     }
   }, [jumpFlag]);
 
@@ -86,7 +92,7 @@ const BlogPage = () => {
           <SideMenu noEdit={true} page="blog"></SideMenu>
         </div>
       </div>
-      <div className={`${style.content} clearfix showAnime`}>
+      <div className={`${style.content} clearfix transBase ${fadeOut ? 'transHide' : ''}`}>
         {/* 选中状态 */}
         {selectedId ? <Outlet /> : <div style={{ fontSize: '24px' }}>当前没有博客，请添加博客后访问！</div>}
       </div>
