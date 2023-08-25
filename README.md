@@ -16,4 +16,4 @@
 * 游客支持点赞和评论(有敏感词过滤)。
 * 已适配移动端
 
-![](https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/preview.png)
+![](./preview.png)

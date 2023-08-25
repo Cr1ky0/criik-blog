@@ -50,7 +50,7 @@ const MainPage = () => {
       >
         <ProgressBar></ProgressBar>
       </div>
-      <Header className={style.backWhite}></Header>
+      <Header className={`${style.backWhite} ${themeMode === 'dark' ? style.dark : style.light}`}></Header>
       <Layout>
         <Content>
           <React.StrictMode>

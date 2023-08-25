@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import moment from 'moment';
 import Cookies from 'universal-cookie';
@@ -21,7 +21,6 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 import { setSelectedId, deleteMenu, setOpt } from '@/redux/slices/blogMenu';
 import { initWriteContent, setAllContent, setCurBlogContent, setCurEditId, setIsEdit } from '@/redux/slices/blog';
 import { setFadeOut } from '@/redux/slices/progressbar';
-import { setMobileMenuOpen } from '@/redux/slices/universal';
 
 // utils
 import { filterLT, filterTitle, getBreadcrumbList, getOneBlogId, getSideMenuItem } from '@/utils';
@@ -48,7 +47,6 @@ const BlogContent = () => {
   const dispatch = useAppDispatch();
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
-  const fadeOut = useAppSelector(state => state.progressbar.fadeOut);
   // 获取面包屑列表
   const breadcrumbList = selectedId ? getBreadcrumbList(menus, selectedId, icons) : [];
 

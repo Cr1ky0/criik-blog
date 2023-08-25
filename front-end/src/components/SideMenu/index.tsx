@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 // antd
@@ -47,6 +47,14 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
   // 预览展开state
   const [open, setOpen] = useState(false);
 
+  // openKeys
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
+
+  useEffect(() => {
+    const parentList = getParentListOfBlog(menus, icons, selectedId);
+    setOpenKeys([...openKeys, ...parentList]);
+  }, [selectedId]);
+
   return (
     <div className={style.wrapper} style={styles}>
       {noEdit ? undefined : (
@@ -82,9 +90,13 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
           inlineIndent={12}
           style={{ borderRadius: '0 0 5px 5px', border: 'none' }}
           defaultOpenKeys={parentKey}
+          openKeys={openKeys}
           mode="inline"
           items={antdMenus}
           selectedKeys={[selectedId]}
+          onOpenChange={(cur: any) => {
+            setOpenKeys(cur);
+          }}
           // handle select
           onClick={e => {
             if (opt) {

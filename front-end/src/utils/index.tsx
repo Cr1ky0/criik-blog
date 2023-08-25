@@ -56,19 +56,17 @@ export const getOffset = (elem: HTMLElement) => {
 
 // 过滤掉所有Markdown字符
 export const filterMarkdown = (str: string) => {
-  // Step 1: 移除HTML标签及其内容
-  let result = str.replace(/<[^>]*>.*?<\/[^>]*>/g, '');
+  // Step 1: 移除HTML标签及其内容（class包含dont-del的除外）
+  let result = str.replace(/<(\w+)(?!.*?class='dont-del'.*?).*?>[\s\S]*?<\/\1>/g, '').replace(/<\/?[^>]+>/g, '');
 
   // Step 2: 移除Markdown修饰符
   result = result
-    // 移除链接 [text](url)
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
     // 移除图片 ![alt](url)
-    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '$1')
+    .replace(/!\[.*?\]\(.*?\)/g, '')
     // 移除粗体、斜体等
-    .replace(/[*_]{1,2}([^*_]+)[*_]{1,2}/g, '$1')
+    .replace(/[*_]{1,2}([^*_]+)[*_]{1,2}/g, '')
     // 代码块修饰符去除
-    .replace(/(```|~~~)([\s\S]*?)\1/g, '$2')
+    .replace(/(```|~~~)([\s\S]*?)\1/g, '')
     // 移除标题标识符
     .replace(/^#+\s+/gm, '')
     // 移除列表标识符
