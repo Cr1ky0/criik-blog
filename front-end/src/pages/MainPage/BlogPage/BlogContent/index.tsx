@@ -65,19 +65,19 @@ const BlogContent = () => {
   useEffect(() => {
     let timer: any;
     getCurBlog(selectedId)
-      .then(async response => {
+      .then(response => {
         const blog = response.data.blog;
         // 处理Title
         const contents = filterTitle(blog.contents);
         const newBlog = Object.assign({}, blog, { contents });
         setCurBlog(newBlog);
         // 更新完毕后关闭FadeOut并打开Opt标志
-        await dispatch(setCurBlogContent(contents));
-        await dispatch(setFadeOut(false));
+        dispatch(setCurBlogContent(contents));
+        dispatch(setFadeOut(false));
         // 关闭mobileMenu
         setTimeout(() => {
           dispatch(setOpt(true));
-        }, ANIME_SHOW_TIME);
+        }, ANIME_SHOW_TIME + 150);
         // 加载一次热度+1
         return updateBlogViewAjax(selectedId, response.data.blog.views + 1);
       })

@@ -19,6 +19,7 @@ const SearchHistory: React.FC<SearchHistoryProps> = ({ closeBox }) => {
   const dispatch = useAppDispatch();
   const themeMode = useAppSelector(state => state.universal.themeMode);
   const searchHistory = useAppSelector(state => state.es.history);
+  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const navigate = useNavigate();
   const [isDragging, setIsDragging] = useState(false);
   return (
@@ -36,16 +37,17 @@ const SearchHistory: React.FC<SearchHistoryProps> = ({ closeBox }) => {
               onClick={() => {
                 if (!isDragging) {
                   closeBox();
-                  // 当前是blog页面则不设置标志，因为默认进入页面会加载动画
-                  if (location.pathname === '/blog') {
-                    dispatch(setJumpFlag(true));
-                    setTimeout(() => {
+                  if (blog.blog_id !== selectedId) {
+                    if (location.pathname === '/blog') {
+                      dispatch(setJumpFlag(true));
+                      setTimeout(() => {
+                        dispatch(setSelectedId(blog.blog_id));
+                      }, ANIME_HIDE_TIME);
+                    } else {
                       dispatch(setSelectedId(blog.blog_id));
-                    }, ANIME_HIDE_TIME);
-                  } else {
-                    dispatch(setSelectedId(blog.blog_id));
+                    }
+                    navigate('/blog');
                   }
-                  navigate('/blog');
                 }
               }}
             >

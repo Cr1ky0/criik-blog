@@ -5,20 +5,21 @@
   background-color: transparent;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
 
   .leftWrapper, .rightWrapper {
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     flex-wrap: wrap;
   }
 
   .leftWrapper {
     > div {
-      > span {
-        display: block;
-        float: left;
-      }
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
     }
 
     .tag {
@@ -110,6 +111,11 @@
         font-size: 12px;
         padding-right: 2px;
       }
+
+      > span:nth-child(2) {
+        font-size: 12px;
+        height: 16px;
+      }
     }
 
     .time {
@@ -118,7 +124,6 @@
       }
     }
   }
-
 
   .rightWrapper {
     > div {

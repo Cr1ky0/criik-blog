@@ -20,7 +20,7 @@ import { setSelectedId } from '@/redux/slices/blogMenu';
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // global
-import { ANIME_HIDE_TIME, BACKGROUND_COLOR_DARK } from '@/global';
+import { ANIME_HIDE_TIME, ANIME_SHOW_TIME, BACKGROUND_COLOR_DARK } from '@/global';
 
 // utils
 import { getOneBlogId, hasBlogOfId } from '@/utils';
@@ -41,14 +41,6 @@ const BlogPage = () => {
       dispatch(setSelectedId(getOneBlogId(menus)));
     }
   }, []);
-
-  // 切换博客时滚动至top
-  // useEffect(() => {
-  //   window.scrollTo({
-  //     top: 0,
-  //     behavior: 'smooth',
-  //   });
-  // }, [selectedId, jumpFlag]);
 
   useEffect(() => {
     window.scrollTo({

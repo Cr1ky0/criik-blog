@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1305046",
+      "name": "网络系统",
+      "font_class": "wangluoxitong",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "21053808",
+      "name": "操作系统",
+      "font_class": "caozuoxitong",
+      "unicode": "e687",
+      "unicode_decimal": 59015
+    },
+    {
+      "icon_id": "15660507",
+      "name": "数据结构-01",
+      "font_class": "shujujiegou-01",
+      "unicode": "eac2",
+      "unicode_decimal": 60098
+    },
+    {
+      "icon_id": "5203236",
+      "name": "电脑",
+      "font_class": "diannao",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
       "icon_id": "5634350",
       "name": "server",
       "font_class": "server",

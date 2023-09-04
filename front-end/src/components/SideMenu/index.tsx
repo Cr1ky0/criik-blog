@@ -110,7 +110,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ styles, noEdit, page, closeMenu }) 
                   dispatch(setOpt(false));
                   dispatch(setJumpFlag(true));
                   setTimeout(async () => {
-                    await dispatch(setSelectedId(e.key));
+                    dispatch(setSelectedId(e.key));
                     if (page === 'blog') {
                       navigate(`/blog`);
                     }

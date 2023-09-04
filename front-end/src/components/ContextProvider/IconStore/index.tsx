@@ -207,6 +207,38 @@ const IconStore: React.FC<IconStoreProps> = props => {
         </span>
       ),
     },
+    {
+      name: '电脑',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '16px' }}>
+          &#xe61e;
+        </span>
+      ),
+    },
+    {
+      name: '计算机网络',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '16px' }}>
+          &#xe62e;
+        </span>
+      ),
+    },
+    {
+      name: '操作系统',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '16px' }}>
+          &#xe687;
+        </span>
+      ),
+    },
+    {
+      name: '数据结构',
+      icon: (
+        <span className="iconfont" style={{ fontSize: '16px' }}>
+          &#xeac2;
+        </span>
+      ),
+    },
   ]);
   return <iconStoreContext.Provider value={iconList}>{children}</iconStoreContext.Provider>;
 };

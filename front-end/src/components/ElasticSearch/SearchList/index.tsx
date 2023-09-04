@@ -28,6 +28,7 @@ const SearchList: React.FC<SearchListProps> = ({ searchObj, match, closeBox }) =
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const themeMode = useAppSelector(state => state.universal.themeMode);
+  const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const location = useLocation();
   return (
     <div className={style.wrapper}>
@@ -40,17 +41,18 @@ const SearchList: React.FC<SearchListProps> = ({ searchObj, match, closeBox }) =
               className={style.singleWrapper}
               onClick={() => {
                 closeBox();
-                // 当前是blog页面则不设置标志，因为默认进入页面会加载动画
-                if (location.pathname === '/blog') {
-                  dispatch(setJumpFlag(true));
-                  setTimeout(() => {
+                if (blog.blog_id !== selectedId) {
+                  if (location.pathname === '/blog') {
+                    dispatch(setJumpFlag(true));
+                    setTimeout(() => {
+                      dispatch(setSelectedId(blog.blog_id));
+                    }, ANIME_HIDE_TIME);
+                  } else {
                     dispatch(setSelectedId(blog.blog_id));
-                  }, ANIME_HIDE_TIME);
-                } else {
-                  dispatch(setSelectedId(blog.blog_id));
+                  }
+                  dispatch(addHistory({ blog, match }));
+                  navigate('/blog');
                 }
-                dispatch(addHistory({ blog, match }));
-                navigate('/blog');
               }}
             >
               <div className="iconfont">&#xe774;</div>

@@ -4,7 +4,7 @@ const truncateString = (str, index, maxLength, maxTotalLength) => {
   }
 
   const startIndex = Math.max(0, index - maxLength);
-  const endIndex = Math.min(str.length, index + maxLength);
+  const endIndex = Math.min(str.length, index + maxTotalLength - maxLength);
 
   let truncatedString = str.substring(startIndex, endIndex);
 
