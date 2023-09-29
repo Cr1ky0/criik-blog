@@ -49,7 +49,6 @@ const BlogContent = () => {
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   // 获取面包屑列表
   const breadcrumbList = selectedId ? getBreadcrumbList(menus, selectedId, icons) : [];
-
   // cookie
   const cookies = new Cookies();
   const user = cookies.get('user');

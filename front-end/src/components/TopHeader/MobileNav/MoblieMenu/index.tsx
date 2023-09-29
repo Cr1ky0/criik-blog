@@ -33,7 +33,9 @@ const MobileMenu: React.FC<MobileMenuProps> = props => {
   return (
     <div
       id="mobile-menu-wrapper"
-      className={`${isOpen ? style.menuOnOpen : style.menuOnClose} ${themeMode === 'dark' ? 'dark-2' : 'light'}`}
+      className={`${style.menu} ${isOpen ? style.menuOnOpen : style.menuOnClose} ${
+        themeMode === 'dark' ? style.menuDark : style.menuLight
+      }`}
     >
       <div className={style.wrapper}>
         <div className={style.menuWrapper}>

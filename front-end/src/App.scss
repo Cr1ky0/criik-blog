@@ -24,9 +24,12 @@
 }
 
 /***************** antd *******************/
-// TIMELINE
-.ant-timeline-item-head {
-  @include trans();
+
+// 修改antd,transition时间
+.ant-timeline-item-head, .ant-pagination-item,
+.ant-pagination-options-quick-jumper > input,
+.ant-scroll-number, .ant-tag, .ant-input {
+  @include transOnForce();
 }
 
 // Menu

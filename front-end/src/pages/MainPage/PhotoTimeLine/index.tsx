@@ -187,7 +187,7 @@ const TimeLine = () => {
   }, []);
 
   return (
-    <div className={`${style.wrapper} clearfix`} ref={wrapper}>
+    <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark' : style.wrapperLight}`} ref={wrapper}>
       <TopDisplay img={img}></TopDisplay>
       <div className={`${style.content} ${themeMode === 'dark' ? 'dark-2' : 'light'}`}>
         <div className={loading ? 'loading-active' : 'loading-not-active'}>

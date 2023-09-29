@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
-import { useSearchParams } from 'react-router-dom';
 
 // antd
 import { Pagination } from 'antd';
@@ -27,6 +26,7 @@ const StarBlog = () => {
   const navigate = useNavigate();
   const chosen = useAppSelector(state => state.blog.chosen);
   const blogsNum = useAppSelector(state => state.blog.blogsNum);
+  const themeMode = useAppSelector(state => state.universal.themeMode);
   const curPage = useAppSelector(state => state.universal.starBlogPage);
   const [collectNum, setCollectNum] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -59,8 +59,8 @@ const StarBlog = () => {
   }, []);
 
   return (
-    <div className={`${style.wrapper} clearfix showAnime`} ref={wrapper}>
-      <div>
+    <div className={`${style.wrapper} clearfix ${themeMode === 'dark' ? 'dark' : style.wrapperLight}`} ref={wrapper}>
+      <div className="showAnime">
         <div className={style.options}>
           {choseList.map((choice, index) => {
             return (
@@ -103,7 +103,7 @@ const StarBlog = () => {
           <Outlet />
         </div>
       </div>
-      <div className={style.paginate}>
+      <div className={`${style.paginate} showAnime`}>
         <Pagination
           showSizeChanger={false}
           showQuickJumper

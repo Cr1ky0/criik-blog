@@ -2,9 +2,11 @@
 
 $LINE_COLOR: rgba(0, 0, 0, 0.2);
 
+
 @mixin universal() {
   .wrapper {
     @include boxShadow;
+    @include transWithBoxShadow;
     box-sizing: content-box;
     padding: 1vw;
     position: relative;
@@ -59,9 +61,13 @@ $LINE_COLOR: rgba(0, 0, 0, 0.2);
   }
 }
 
-.light {
-  @include trans();
+.tagLight {
   background-color: rgb(254, 254, 254);
+}
+
+.tagDark {
+  background-color: $BACKGROUND_COLOR_DARK_2;
+  color: $FONT_COLOR_DARK;
 }
 
 

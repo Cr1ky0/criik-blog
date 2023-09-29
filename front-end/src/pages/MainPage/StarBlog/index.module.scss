@@ -2,6 +2,7 @@
 
 @mixin universal() {
   .wrapper {
+    @include trans();
     position: relative;
     overflow: hidden;
 
@@ -19,12 +20,7 @@
           width: 60px;
           margin: 0 20px;
           cursor: pointer;
-          transition: all .3s;
           text-align: center;
-
-          &:hover {
-            color: $THEME_COLOR;
-          }
 
           @include animationBar();
         }
@@ -53,6 +49,10 @@
       margin-left: 0 !important;
     }
   }
+}
+
+.wrapperLight {
+  background-color: #f5f5f5;
 }
 
 // <

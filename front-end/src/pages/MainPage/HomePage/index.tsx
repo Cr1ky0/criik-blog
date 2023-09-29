@@ -77,7 +77,11 @@ const HomePage = () => {
 
   return (
     <>
-      <div className={`${style.wrapper} clearfix  show-anime-delay-1s ${themeMode === 'dark' ? 'dark' : ''}`}>
+      <div
+        className={`${style.wrapper} clearfix  show-anime-delay-1s ${
+          themeMode === 'dark' ? 'dark' : style.wrapperLight
+        }`}
+      >
         <div
           className={`${style.backgroundPhoto} clearfix`}
           style={{ backgroundImage: `url(${backgroundImage})` }}

@@ -118,9 +118,9 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics, showCollect }) => {
                     key={index}
                     className={style.tag}
                     color={menu.color}
-                    style={{
-                      border: themeMode === 'dark' ? 'none' : undefined,
-                    }}
+                    // style={{
+                    //   border: themeMode === 'dark' ? 'none' : undefined,
+                    // }}
                   >
                     {menu.title}
                   </Tag>
@@ -130,9 +130,9 @@ const BlogInfo: React.FC<BlogInfoProps> = ({ statistics, showCollect }) => {
               <Tag
                 className={style.tag}
                 color={grandMenu.length ? grandMenu[grandMenu.length - 1].color : undefined}
-                style={{
-                  border: themeMode === 'dark' ? 'none' : undefined,
-                }}
+                // style={{
+                //   border: themeMode === 'dark' ? 'none' : undefined,
+                // }}
               >
                 {grandMenu.length ? grandMenu[grandMenu.length - 1].title : undefined}
               </Tag>

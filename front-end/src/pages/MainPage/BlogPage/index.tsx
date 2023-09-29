@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router';
 
 // comp
@@ -20,7 +20,7 @@ import { setSelectedId } from '@/redux/slices/blogMenu';
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // global
-import { ANIME_HIDE_TIME, ANIME_SHOW_TIME, BACKGROUND_COLOR_DARK } from '@/global';
+import { ANIME_HIDE_TIME, BACKGROUND_COLOR_DARK } from '@/global';
 
 // utils
 import { getOneBlogId, hasBlogOfId } from '@/utils';
@@ -34,6 +34,11 @@ const BlogPage = () => {
   const fadeOut = useAppSelector(state => state.progressbar.fadeOut);
   const themeMode = useAppSelector(state => state.universal.themeMode);
   const jumpFlag = useAppSelector(state => state.universal.jumpFlag);
+
+  // 重置mobile open
+  useEffect(() => {
+    dispatch(setMobileMenuOpen(false));
+  }, []);
 
   // 如果当前select不存在则重新选择
   useEffect(() => {
@@ -71,7 +76,6 @@ const BlogPage = () => {
       setTimeout(() => {
         window.scrollTo({
           top: 0,
-          behavior: 'smooth',
         });
       }, ANIME_HIDE_TIME);
     }

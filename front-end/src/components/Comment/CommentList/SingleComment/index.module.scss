@@ -3,13 +3,11 @@
 
 @mixin likesUni {
   @include unSelectable;
+  height: 100%;
   cursor: pointer;
   float: left;
   margin: {
     right: 2px;
-  }
-  font: {
-    size: 22px;
   }
 }
 
@@ -92,7 +90,9 @@
         justify-content: center;
 
         .likesWrapper {
-          min-width: 40px;
+          display: flex;
+          flex-wrap: nowrap;
+          height: 100%;
 
           .likes {
             @include likesUni;
@@ -113,16 +113,11 @@
             margin: {
               right: 2px;
             }
-            font: {
-              size: 20px;
-            }
           }
         }
 
         .delComment {
-          font-size: 20px;
-          line-height: 22px;
-          margin-right: 5px;
+          margin-right: 2px;
           cursor: pointer;
           transition: all .3s;
 
@@ -168,6 +163,72 @@
   .writeComment {
     padding-top: 20px;
     overflow: hidden;
+  }
+
+}
+
+@media (width > $BREAK_POINT) {
+
+  .likesWrapper {
+
+    .likes {
+      font-size: 19px;
+      line-height: 23px;
+    }
+
+    .likesOnChosen {
+      font-size: 20px;
+    }
+
+    .likesNum {
+      font: {
+        size: 20px;
+      }
+    }
+  }
+
+  .delComment {
+    line-height: 22px;
+    font-size: 17px;
+  }
+
+  .replyComment {
+    line-height: 21px !important;
+    font-size: 19px !important;
+  }
+
+}
+
+@media (width <= $BREAK_POINT) {
+
+
+  .delComment {
+    line-height: 22px;
+    font-size: 16px;
+  }
+
+  .likesWrapper {
+    line-height: 21px;
+
+    .likes {
+      font-size: 18px;
+    }
+
+    .likesOnChosen {
+      font-size: 18px;
+    }
+
+    .likesNum {
+      font: {
+        size: 18px;
+      }
+    }
+  }
+
+
+  .replyComment {
+    line-height: 21px !important;
+    font-size: 18px !important;
   }
 
 }

@@ -18,7 +18,6 @@ const MobileNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
   const themeMode = useAppSelector(state => state.universal.themeMode);
-  const { width } = useViewport();
 
   const handleClose = () => {
     const div = document.getElementById('mobile-menu-wrapper') as HTMLElement;

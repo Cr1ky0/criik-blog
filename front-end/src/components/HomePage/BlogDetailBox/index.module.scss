@@ -5,6 +5,7 @@
 }
 
 .wrapper {
+  @include transWithBoxShadow;
   border-radius: 5px;
   padding-bottom: 20px;
 

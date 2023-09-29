@@ -16,20 +16,19 @@ $CONTENT_WIDTH: 270px;
 
 @media (width <= $BREAK_POINT) {
   .content {
-    @include trans();
     box-shadow: 0 0 5px rgba(0, 0, 0, .2);
-    //transition: right .2s !important;
+    transition: transform .2s;
     //transition-timing-function: ease-out;
     width: $CONTENT_WIDTH;
     border-radius: 5px;
     overflow-y: auto;
     position: fixed;
     right: -$CONTENT_WIDTH;
-    bottom: 175px;
+    bottom: 240px;
   }
   .mobileMenu {
     position: fixed;
-    bottom: 105px;
+    bottom: 175px;
     right: 50px;
     width: 45px;
     height: 45px;

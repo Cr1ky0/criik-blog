@@ -16,9 +16,9 @@ $fontColor: rgba(0, 0, 0, .8);
   }
 
   blockquote {
-    background-color: #003100;
+    //background-color: #003100;
     border: {
-      left: 5px solid #009400;
+      left: 2px solid #474d54;
     }
   }
 }
@@ -42,9 +42,10 @@ $fontColor: rgba(0, 0, 0, .8);
 
   blockquote {
     //background-color: #eef9fd;
-    background-color: #e6f6e6;
+    //background-color: #e6f6e6;
     border: {
-      left: 5px solid #009400;
+      //left: 2px solid #009400;
+      left: 2px solid rgba(0, 0, 0, .1);
     }
   }
 }
@@ -130,9 +131,13 @@ $fontColor: rgba(0, 0, 0, .8);
       padding: 0;
       margin: 0;
       background-color: transparent;
+
+      //* {
+      //  @include trans();
+      //}
     }
 
-    h1, h2 {
+    h1, h2, h3, h4 {
       &::before {
         content: '';
         display: block;
@@ -171,15 +176,8 @@ $fontColor: rgba(0, 0, 0, .8);
     }
 
     blockquote {
-      padding: {
-        top: 10px;
-        bottom: 10px;
-        right: 10px;
-        left: 15px;
-      }
-      border: {
-        radius: 5px;
-      }
+      @include trans();
+      margin: 1vh 2vw;
     }
   }
 }

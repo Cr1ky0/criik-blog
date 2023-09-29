@@ -17,9 +17,21 @@ $BORDER_COLOR_DARK: #9e9e9e;
 
 @mixin trans() {
   backface-visibility: hidden; // 开启硬件加速
+  transition-property: background-color, color;
+  transition-duration: 0.3s;
+  transition-delay: 0s;
+}
+
+@mixin transOnForce() {
+  backface-visibility: hidden; // 开启硬件加速
   transition-property: all !important;
   transition-duration: 0.3s !important;
   transition-delay: 0s !important;
+}
+
+@mixin transWithBoxShadow {
+  @include trans();
+  transition-property: background-color, color, box-shadow;
 }
 
 // universal
@@ -231,7 +243,7 @@ $FONT_FAMILY_RENDER: Bitter, "Noto Serif SC", SimSun, Times New Roman, Times, se
       top: 5px;
       left: 50%; // 设一个margin-left，让其也随着过渡，这样就能保证从中间开始过渡
     }
-    transition-property: width, margin-left;
+    transition-property: width, margin-left, color;
     transition-duration: 0.3s;
   }
 }

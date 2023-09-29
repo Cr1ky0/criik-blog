@@ -1,12 +1,10 @@
 @import '@/assets/css/index.scss';
 
-@mixin total($overflow) {
-  overflow: $overflow;
+@mixin total() {
   height: 0;
   width: 100%;
   position: fixed;
   top: $TOP_HEADER_H;
-  transition: height .2s;
   > div {
     width: 50%;
     margin: 0 auto;
@@ -38,12 +36,29 @@
   background-color: rgba(0, 0, 0, .1);
 }
 
-// 菜单
-.menuOnOpen {
-  @include total(auto);
+.menuDark {
+  background-color: $BACKGROUND_COLOR_DARK_2;
+  color: $FONT_COLOR_DARK;
+}
 
+.menuLight {
+  background-color: $BACKGROUND_COLOR;
+  color: $FONT_COLOR;
+}
+
+// 菜单
+.menu {
+  backface-visibility: hidden;
+  transition-property: height, background-color, color;
+  transition-duration: .3s;
+  transition-delay: 0s;
+  @include total();
+}
+
+.menuOnOpen {
+  overflow: auto;
 }
 
 .menuOnClose {
-  @include total(hidden);
+  overflow: hidden;
 }

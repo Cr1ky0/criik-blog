@@ -42,14 +42,16 @@ const BackToTopBtn = () => {
                 current.style.visibility = 'visible';
                 current.style.opacity = '1';
               } else {
-                current.style.visibility = 'hidden';
+                setTimeout(() => {
+                  current.style.visibility = 'hidden';
+                }, 300);
                 current.style.opacity = '0';
               }
             }
             setScrollTop(document.documentElement.scrollTop);
             setScrollHeight(document.documentElement.scrollHeight - window.innerHeight);
             valid = true;
-          }, 500);
+          }, 300);
           valid = false;
         }
       };
@@ -72,7 +74,11 @@ const BackToTopBtn = () => {
       }}
       ref={thisRef}
     >
-      <svg width={radius * 2} height={radius * 2} className={themeMode === 'dark' ? style.dark : style.light}>
+      <svg
+        width={radius * 2}
+        height={radius * 2}
+        className={themeMode === 'dark' ? style.wrapperDark : style.wrapperLight}
+      >
         <circle
           className={style.circle}
           cx={radius}
@@ -90,5 +96,4 @@ const BackToTopBtn = () => {
   );
 };
 
-BackToTopBtn.displayName = 'BackToTopBtn';
 export default BackToTopBtn;
