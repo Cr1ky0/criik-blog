@@ -3,13 +3,13 @@ import service from '@/utils/request';
 import { AddReplyObj, UpdateCommentObj } from '@/interface';
 
 export const addReplyAjax = catchAsync(async (obj: AddReplyObj) => {
-  const response = service.post('/api/reply', obj);
+  const response = service.post('/api/reply/post/reply', obj);
   return Promise.resolve(response);
 });
 
 export const updateReplyAjax = catchAsync(async (data: UpdateCommentObj) => {
   const { id, likes } = data;
-  const response = service.patch(`/api/reply/${id}`, { likes });
+  const response = service.patch(`/api/reply/update/like/${id}`, { likes });
   return Promise.resolve(response);
 });
 

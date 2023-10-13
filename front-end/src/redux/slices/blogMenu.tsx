@@ -25,7 +25,7 @@ const initialState: blogMenuInitObj = {
 };
 
 export const setMenuList = createAsyncThunk('blogMenu/setMenuList', async () => {
-  const response = await service.get(`/api/menus`);
+  const response = await service.get(`/api/menus/my`);
   const menus = response.data.body.menus;
   // 设置一个初始选中项
   let blogId = getOneBlogId(menus) || '';

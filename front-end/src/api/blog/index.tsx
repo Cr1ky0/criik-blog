@@ -21,12 +21,12 @@ export const deleteBlogAjax = catchAsync(async (blogId: string) => {
 });
 
 export const deleteBlogOfMenuAjax = catchAsync(async (blogId: string) => {
-  const response = await service.delete(`/api/blogs//delete/blogs/${blogId}`);
+  const response = await service.delete(`/api/blogs/delete/blogs/${blogId}`);
   return Promise.resolve(response);
 });
 
 export const getCurBlog = async (id: string) => {
-  const response = await service.get(`/api/blogs/${id}`);
+  const response = await service.get(`/api/blogs/get/blog/${id}`);
   return Promise.resolve(response.data);
 };
 
@@ -89,7 +89,7 @@ export const getCollectedBlogs = improvedCatchAsync(async () => {
 export const getSelfBlogsOfCertain = async (option: ReqOptions) => {
   const { page, fields, sort, limit, options } = option;
   const response = await service.get(
-    '/api/blogs?' +
+    '/api/blogs/get/blogs?' +
       (page ? `page=${page}&` : '') +
       (fields ? `fields=${fields}&` : '') +
       (sort ? `sort=${sort}&` : '') +

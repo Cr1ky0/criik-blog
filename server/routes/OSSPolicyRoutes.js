@@ -8,7 +8,7 @@ router.get('/getConfig', OSSPolicyController.getConfig);
 router.post('/setConfig', OSSPolicyController.setConfig);
 // policy
 
-router.get('/', OSSPolicyController.getPolicy);
 router.post('/result', OSSPolicyController.getResult);
+router.get('/', OSSPolicyController.getPolicy);
 
 module.exports = router;

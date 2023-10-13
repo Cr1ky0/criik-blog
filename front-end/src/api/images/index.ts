@@ -11,7 +11,7 @@ export const addPhotos = improvedCatchAsync(async (imgList: AddImageObj[]) => {
 export const getPhotos = improvedCatchAsync(async (features: ApiFeatures) => {
   const { page, limit, fields, sort, options } = features;
   const response = await service.get(
-    '/api/images?' +
+    '/api/images/photos?' +
       (page ? `page=${page}&` : '') +
       (limit ? `limit=${limit}&` : '') +
       (fields ? `fields=${fields}&` : '') +
@@ -24,7 +24,7 @@ export const getPhotos = improvedCatchAsync(async (features: ApiFeatures) => {
 export const getSelfPhotos = improvedCatchAsync(async (features: ApiFeatures) => {
   const { page, limit, fields, sort, options } = features;
   const response = await service.get(
-    '/api/images/photos?' +
+    '/api/images/self/photos?' +
       (page ? `page=${page}&` : '') +
       (limit ? `limit=${limit}&` : '') +
       (fields ? `fields=${fields}&` : '') +

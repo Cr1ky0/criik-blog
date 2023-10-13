@@ -10,9 +10,15 @@ const router = express.Router();
 //   blogController.defaultParams,
 //   blogController.getSelfBlogs
 // );
-router.get('/', blogController.defaultParams, blogController.getSelfBlogs);
+router.get(
+  '/get/blogs',
+  blogController.defaultParams,
+  blogController.getSelfBlogs
+);
 
-// router.get('/blogs', blogController.defaultParams, blogController.getSelfBlogs);
+// 获取指定博客
+// router.get('/getBlog/:id', blogController.getBlog);
+router.route('/get/blog/:id').get(blogController.getBlog); // 获取指定博客
 
 // 获取总收藏数
 // router.get('/getCollectedBlogNum', blogController.getCollectedBlogNum);
@@ -89,9 +95,6 @@ router.route('/').post(blogController.addBlog); // 新建博客
 
 router
   .route('/:id')
-  // 获取指定博客
-  // router.get('/getBlog/:id', blogController.getBlog);
-  .get(blogController.getBlog) // 获取指定博客
   .patch(blogController.updateBlog) // 更新博客
   .delete(blogController.deleteBlog); // 删除博客
 

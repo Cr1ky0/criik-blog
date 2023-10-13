@@ -26,7 +26,7 @@ export const getMenuAjax = async (id: string) => {
 };
 
 export const getSelfMenu = improvedCatchAsync(async () => {
-  const response = await service.get(`/api/menus`);
+  const response = await service.get(`/api/menus/my`);
   return Promise.resolve(response);
 });
 

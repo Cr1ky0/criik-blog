@@ -5,14 +5,13 @@ const authController = require('../controllers/authController');
 const router = express.Router();
 
 // 回复评论
-router.route('/').post(replyCommentController.addReply);
+router.route('/post/reply').post(replyCommentController.addReply);
 
 // 更新likes
-router.route('/:id').patch(replyCommentController.updateComment);
+router.route('/update/like/:id').patch(replyCommentController.updateComment);
 
 // del
 router.use(authController.protect, authController.restrictTo('admin'));
-router.route('/:id').delete(replyCommentController.deleteComment);
 
 // 删除对应评论下的reply，id为所属评论的id
 // router.delete(
@@ -20,5 +19,7 @@ router.route('/:id').delete(replyCommentController.deleteComment);
 //   replyCommentController.delReplysOfComment
 // );
 router.delete('/delete/replys/:id', replyCommentController.delReplysOfComment);
+
+router.route('/:id').delete(replyCommentController.deleteComment);
 
 module.exports = router;

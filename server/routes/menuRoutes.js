@@ -6,7 +6,7 @@ const router = express.Router();
 
 // 获取我的menu
 // router.route('/getSelfMenu').get(menuController.getSelfMenu);
-router.route('/').get(menuController.getSelfMenu);
+router.route('/my').get(menuController.getSelfMenu);
 
 // 权限
 router.use(authController.protect);
