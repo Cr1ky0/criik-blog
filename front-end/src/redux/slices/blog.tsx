@@ -30,12 +30,12 @@ const initialState: blogInitObj = {
 };
 
 export const setTimeLine = createAsyncThunk('blog/setTimeLine', async () => {
-  const response = await service.get('/api/blogs/getSelfTimeLine');
+  const response = await service.get('/api/blogs/timeline');
   return response.data;
 });
 
 export const setMyBlogsNum = createAsyncThunk('blog/getMyBlogsNum', async () => {
-  const response = await service.get('/api/blogs/getSelfBlogNum');
+  const response = await service.get('/api/blogs/counts');
   return response.data;
 });
 

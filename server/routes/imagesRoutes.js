@@ -12,8 +12,11 @@ router
   .post(imageController.addPhotos)
   .patch(imageController.updateClass)
   .delete(imageController.delSingle);
-router.get('/getSelfPhotos', imageController.getSelfPhotos);
-router.delete('/delMany', imageController.delMany);
-router.get('/getCount', imageController.getCount);
+// router.get('/getSelfPhotos', imageController.getSelfPhotos);
+router.get('/photos', imageController.getSelfPhotos);
+// router.delete('/delMany', imageController.delMany);
+router.delete('/delete/many', imageController.delMany);
+// router.get('/getCount', imageController.getCount);
+router.get('/counts', imageController.getCount);
 
 module.exports = router;

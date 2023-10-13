@@ -28,7 +28,7 @@ export const avatarAjax = catchAsync(async (values: string) => {
 
 // 通过UserId获取avatar
 export const getAvatarOfUser = catchAsync(async (id: string) => {
-  const response = await service.get(`/api/users/getUserAvatar/${id}`);
+  const response = await service.get(`/api/users/avatar/${id}`);
   return Promise.resolve(response);
 });
 
@@ -48,12 +48,12 @@ export const updateEmailAjax = catchAsync(async (values: EmailObj) => {
 });
 
 export const updateMeAjax = catchAsync(async (values: UserUpdateObj) => {
-  const response = await service.patch('/api/users/updateMe', values);
+  const response = await service.patch('/api/users/update/me', values);
   return Promise.resolve(response);
 });
 
 export const getMyInfo = async () => {
-  const response = await service.get('/api/users/getMyInfo');
+  const response = await service.get('/api/users/info');
   return Promise.resolve(response.data);
 };
 

@@ -24,7 +24,7 @@ export const getPhotos = improvedCatchAsync(async (features: ApiFeatures) => {
 export const getSelfPhotos = improvedCatchAsync(async (features: ApiFeatures) => {
   const { page, limit, fields, sort, options } = features;
   const response = await service.get(
-    '/api/images/getSelfPhotos?' +
+    '/api/images/photos?' +
       (page ? `page=${page}&` : '') +
       (limit ? `limit=${limit}&` : '') +
       (fields ? `fields=${fields}&` : '') +
@@ -40,14 +40,14 @@ export const delSingle = improvedCatchAsync(async (filename: string) => {
 });
 
 export const delMany = improvedCatchAsync(async (fileList: string[]) => {
-  const response = service.delete('/api/images/delMany', {
+  const response = service.delete('/api/images/delete/many', {
     data: { fileList },
   });
   return Promise.resolve(response);
 });
 
 export const getCount = improvedCatchAsync(async (classification: string) => {
-  const response = service.get(`/api/images/getCount?classification=${classification}`);
+  const response = service.get(`/api/images/counts?classification=${classification}`);
   return Promise.resolve(response);
 });
 

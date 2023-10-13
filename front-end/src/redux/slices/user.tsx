@@ -11,7 +11,7 @@ const initialState: userInitObj = {
 };
 
 export const setMyUser = createAsyncThunk('user/setMyUser', async () => {
-  const response = await service.get('/api/users/getMyInfo');
+  const response = await service.get('/api/users/info');
   return Promise.resolve(response.data);
 });
 

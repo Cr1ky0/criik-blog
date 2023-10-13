@@ -21,22 +21,22 @@ export const updateMenuAjax = catchAsync(async (values: UpdateMenuObj) => {
 });
 
 export const getMenuAjax = async (id: string) => {
-  const response = await service.get(`/api/menus/getMenuById/${id}`);
+  const response = await service.get(`/api/menus/menu/${id}`);
   return Promise.resolve(response);
 };
 
 export const getSelfMenu = improvedCatchAsync(async () => {
-  const response = await service.get(`/api/menus/getSelfMenu`);
+  const response = await service.get(`/api/menus`);
   return Promise.resolve(response);
 });
 
 export const changeSort = improvedCatchAsync(async (idList: string[]) => {
-  const response = await service.patch(`/api/menus/changeSort`, { idList });
+  const response = await service.patch(`/api/menus/sort/change`, { idList });
   return Promise.resolve(response);
 });
 
 export const updateBelong = async (data: UpdateMenuBelongFormData) => {
-  const response = await service.patch(`/api/menus/updateBelong/${data.id}`, {
+  const response = await service.patch(`/api/menus/update/belong/${data.id}`, {
     belongingMenu: data.belongingMenu,
     isMain: data.isMain,
   });

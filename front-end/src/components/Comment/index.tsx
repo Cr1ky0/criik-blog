@@ -14,11 +14,13 @@ import { setComments, setCurPage, setLength } from '@/redux/slices/comments';
 const Comment = () => {
   const selectedId = useAppSelector(state => state.blogMenu.selectedId);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(setComments({ id: selectedId, page: 1 }));
     dispatch(setCurPage(1));
     dispatch(setLength(selectedId));
   }, [selectedId]);
+
   return (
     <div className={style.wrapper}>
       <WriteComment></WriteComment>

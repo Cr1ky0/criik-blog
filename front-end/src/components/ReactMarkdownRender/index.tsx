@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { nanoid } from 'nanoid';
 
 // markdown
@@ -30,7 +30,7 @@ interface ReactMarkdownWrapperProps {
 // code渲染器
 const code = ({ node, inline, className, children, ...props }: any) => {
   const themeMode = useAppSelector(state => state.universal.themeMode);
-  const [match, setMatch] = useState(/language-(\w+)/.exec(className || ''));
+  const match = useMemo(() => /language-(\w+)/.exec(className || ''), [className]);
   const message = useGlobalMessage();
   const [unique] = useState(nanoid());
   const ref = useRef<HTMLDivElement>(null);
@@ -59,11 +59,6 @@ const code = ({ node, inline, className, children, ...props }: any) => {
       child.style.color = 'rgb(150, 150, 150)';
     }
   }, []);
-
-  useEffect(() => {
-    const newMatch = /language-(\w+)/.exec(className || '');
-    setMatch(newMatch);
-  }, [className]);
 
   return !inline && match ? (
     <>

@@ -19,6 +19,6 @@ export const deleteReplyAjax = catchAsync(async (id: string) => {
 });
 
 export const delReplysOfCommentAjax = catchAsync(async (id: string) => {
-  const response = service.delete(`/api/reply/delReplysOfComment/${id}`);
+  const response = service.delete(`/api/reply/delete/replys/${id}`);
   return Promise.resolve(response);
 });

@@ -18,14 +18,17 @@ router.get('/send_captcha', authController.sendVerificationCode);
 // router.patch('/resetPassword', authController.resetPassword);
 
 // 获取头像
-router.get('/getUserAvatar/:id', userController.getUserAvatar);
+// router.get('/getUserAvatar/:id', userController.getUserAvatar);
+router.get('/avatar/:id', userController.getUserAvatar);
 
 // 获取我的信息
-router.get('/getMyInfo', userController.getMyInfo);
+// router.get('/getMyInfo', userController.getMyInfo);
+router.get('/info', userController.getMyInfo);
 
 // 更新个人信息
 router.patch(
-  '/updateMe',
+  // '/updateMe',
+  '/update/me',
   authController.protect,
   authController.restrictTo('admin', 'user'),
   userController.resizeUserAvatar,
@@ -47,7 +50,8 @@ router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/updateLoginState', userController.updateLoginState);
 
 // 删除用户
-router.delete('/deleteMe', userController.deleteMe);
+// router.delete('/deleteMe', userController.deleteMe);
+router.delete('/delete/me', userController.deleteMe);
 
 router.route('/').get(userController.getAllUsers); // 获取所有用户信息
 

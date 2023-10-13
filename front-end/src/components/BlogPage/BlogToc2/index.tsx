@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 
 // antd
 import { Anchor } from 'antd';
@@ -39,14 +39,7 @@ const generateAnchorItems = (textList: string[]) => {
 };
 const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
   const fadeOut = useAppSelector(state => state.progressbar.fadeOut);
-  const [tocList, setTocList] = useState<any>();
-
-  useEffect(() => {
-    if (text) {
-      const tocs = generateAnchorItems(getTitleList(text));
-      setTocList(tocs);
-    }
-  }, [text]);
+  const tocList = useMemo(() => generateAnchorItems(getTitleList(text)), [text]);
 
   return (
     <div className={`${style.wrapper} clearfix  transBase ${fadeOut ? 'transHide' : ''}`}>

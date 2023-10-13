@@ -28,7 +28,7 @@ export const setComments = createAsyncThunk('comments/setComments', async (optio
 });
 
 export const setLength = createAsyncThunk('comments/setLength', async (blogId: string) => {
-  const response = await service.get(`/api/comments/getCommentsNum/${blogId}`);
+  const response = await service.get(`/api/comments/counts/${blogId}`);
   return response.data;
 });
 

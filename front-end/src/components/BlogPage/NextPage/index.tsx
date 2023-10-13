@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 // css
 import style from './index.module.scss';
@@ -65,7 +65,7 @@ const NextPage = () => {
   const menus = useAppSelector(state => state.blogMenu.menuList);
   const themeMode = useAppSelector(state => state.universal.themeMode);
   const dispatch = useAppDispatch();
-  const [relation, setRelation] = useState<ContextRelation>(getState(menus, selectedId));
+  const relation = useMemo(() => getState(menus, selectedId), [menus, selectedId]);
 
   const handleClick = (id: string) => {
     dispatch(setJumpFlag(true));
@@ -74,9 +74,6 @@ const NextPage = () => {
     }, ANIME_HIDE_TIME);
   };
 
-  useEffect(() => {
-    setRelation(getState(menus, selectedId));
-  }, [selectedId]);
   return (
     <div className={`${style.wrapper} ${themeMode === 'dark' ? style.dark : style.light}`}>
       {Object.keys(relation.last).length !== 0 ? (

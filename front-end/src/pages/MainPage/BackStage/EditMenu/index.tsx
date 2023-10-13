@@ -28,7 +28,7 @@ import {
 import { changeSortOfBlog, deleteBlogAjax, deleteBlogOfMenuAjax, getCurBlog, updateBelongOfBlogAjax } from '@/api/blog';
 
 //interface
-import { SideMenuItem, BlogObj, TreeSelectItem } from '@/interface';
+import { SideMenuItem, BlogObj } from '@/interface';
 
 // provider
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';

@@ -7,7 +7,8 @@ const authController = require('../controllers/authController');
 const router = express.Router();
 
 // 统计评论数
-router.get('/getCommentsNum/:blogId', commentController.getCommentNum);
+// router.get('/getCommentsNum/:blogId', commentController.getCommentNum);
+router.get('/counts/:blogId', commentController.getCommentNum);
 
 // 添加评论
 router.route('/').post(commentController.addComment);
