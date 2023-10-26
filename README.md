@@ -9,6 +9,7 @@
 
 # 说明
 
+* 前端写得一坨，打算重构，后端用java重构。
 * 网址：https://www.criiky0.top
 * 仿 VuePress Theme Hope 主题风格
 * 技术栈：ts + React + antd + nodejs + mongodb

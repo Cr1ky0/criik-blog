@@ -39,7 +39,7 @@ const generateAnchorItems = (textList: string[]) => {
 };
 const BlogToc: React.FC<BlogTocProps> = ({ text }) => {
   const fadeOut = useAppSelector(state => state.progressbar.fadeOut);
-  const tocList = useMemo(() => generateAnchorItems(getTitleList(text)), [text]);
+  const tocList = useMemo(() => (text ? generateAnchorItems(getTitleList(text)) : []), [text]);
 
   return (
     <div className={`${style.wrapper} clearfix  transBase ${fadeOut ? 'transHide' : ''}`}>
